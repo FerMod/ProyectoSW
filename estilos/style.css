@@ -31,9 +31,16 @@ nav span             				{ margin: 0px 10px 0px 0px;
 
 #fpreguntas fieldset {
 	background: #FFFF99;
+	text-align: center;
+	text-align: center;
+	border: 2px dashed #999;
 }
 
+
+
 #fpreguntas legend {
+	color: white;
+	background: #999;
 	text-align: left;
 }
 

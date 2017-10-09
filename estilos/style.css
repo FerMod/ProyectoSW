@@ -1,19 +1,50 @@
 @charset "utf-8";
-* 						{margin: 0; padding: 0;}
-body						{font: 16px Georgia, serif;}
 
-#page-wrap				{margin: 2% auto; color: white;}
-#page-wrap >.main 		{border: 1px solid #999; padding: 1%;
-						 margin-bottom: 1px; color: black;}
+* {
+	margin: 0;
+	padding: 0;
+}
 
-section > div				{padding: 20px;}
-header, nav, section		{background: #eee; text-align: center;}
-footer					{background: #eee; text-align: center;}
-nav span             				{ margin: 0px 10px 0px 0px;
-						width: 100%;
-						display: inline-block;}
+body {
+	font: 16px Georgia, serif;
+}
 
-#ErrorMsgs          		 { color: #f61; font-size: smaller}
+#page-wrap {
+	margin: 2% auto;
+	color: white;
+}
+
+#page-wrap > .main {
+	border: 1px solid #999;
+	padding: 1%;
+	margin-bottom: 1px;
+	color: black;
+}
+
+section > div {
+	padding: 20px;
+}
+
+header, nav, section {
+	background: #eee;
+	text-align: center;
+}
+
+footer {
+	background: #eee;
+	text-align: center;
+}
+
+nav span {
+	margin: 0px 10px 0px 0px;
+	width: 100%;
+	display: inline-block;
+}
+
+#ErrorMsgs {
+	color: #f61;
+	font-size: smaller
+}
 
 #tablaAutores {
 	margin: 0px auto;
@@ -35,8 +66,6 @@ nav span             				{ margin: 0px 10px 0px 0px;
 	text-align: center;
 	border: 2px dashed #999;
 }
-
-
 
 #fpreguntas legend {
 	color: white;

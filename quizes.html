@@ -3,15 +3,20 @@
 	<head>
 		<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
 		<title>Preguntas</title>
-		<link rel='stylesheet' type='text/css' href='estilos/style.css' />
+		<link rel='stylesheet' type='text/css' href='css/style.css' />
 		<link rel='stylesheet' 
 			type='text/css' 
 			media='only screen and (min-width: 530px) and (min-device-width: 481px)'
-			href='estilos/wide.css' />
+			href='css/wide.css' />
 		<link rel='stylesheet' 
 			type='text/css' 
 			media='only screen and (max-width: 480px)'
-			href='estilos/smartphone.css' />
+			href='css/smartphone.css' />	
+		<script
+			src="https://code.jquery.com/jquery-3.2.1.js"
+			integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+			crossorigin="anonymous"></script>
+		<script src="js/script.js"></script>
 	</head>
 	<body>
 		<div id='page-wrap'>
@@ -27,53 +32,45 @@
 				<span><a href='creditos.html'>Creditos</a></span>
 			</nav>
 			<section class="main" id="s1">
-				<form action="prueba.php" method="post" id='fpreguntas' name='fpreguntas'>
+
+				<form id="fpreguntas" name="fpreguntas" method="POST" action="prueba.php">
 					<fieldset>
 						<legend>DATOS DE LA PREGUNTA</legend>
-						 
-  	<div>
-    	<label for="email">Email*:</label>
-    	<input type="text" id="email" name="email"/>
-  	</div>
- 
-  	<div>
-    	<label for="enunciado">Enunciado de la pregunta*:</label>
-    	<input type="text" id="enunciado" size="35" name="enunciado"/>
-  	</div>
-
-  	<div>
-    	<label for="respuestacorrecta">Respuesta correcta*:</label>
-    	<input type="text" id="respuestacorrecta" size="35" name="respuestacorrecta" />
-  	</div>
-
-  	<div>
-    	<label for="respuestaincorrecta">Respuesta incorrecta*:</label>
-    	<input type="text" id="respuestaincorrecta" size="35" name="respuestaincorrecta"/>
-  	</div>
-
-  	<div>
-    	<label for="respuestaincorrecta1">Respuesta incorrecta*:</label>
-    	<input type="text" id="respuestaincorrecta1" size="35" name="respuestaincorrecta1"/>
-  	</div>
-
-  	<div>
-    	<label for="respuestaincorrecta2">Respuesta incorrecta*:</label>
-    	<input type="text" id="respuestaincorrecta2" size="35" name="respuestaincorrecta2"/>
-  	</div>
-
-  	<div>
-    	<label for="complejidad">Complejidad (1..5)*:</label>
-    	<input type="text" id="complejidad" size="10" name="complejidad"/>
-  	</div>
-
-  	<div>
-    	<label for="tema">Tema (subject)*:</label>
-    	<input type="text" id="tema" size="10" name="tema"/>
-  	</div>
-
-  	<div>
-    	<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>
-  	</div>
+						<div>
+							<label for="email">Email*:</label>
+							<input type="text" id="email" name="email"/>
+						</div>
+						<div>
+							<label for="enunciado">Enunciado de la pregunta*:</label>
+							<input type="text" id="enunciado" name="enunciado" size="35" />
+						</div>
+						<div>
+							<label for="respuestacorrecta">Respuesta correcta*:</label>
+							<input type="text" id="respuestacorrecta" name="respuestacorrecta" size="35" />
+						</div>
+						<div>
+							<label for="respuestaincorrecta">Respuesta incorrecta*:</label>
+							<input type="text" id="respuestaincorrecta" name="respuestaincorrecta" size="35" />
+						</div>
+						<div>
+							<label for="respuestaincorrecta1">Respuesta incorrecta*:</label>
+							<input type="text" id="respuestaincorrecta1" name="respuestaincorrecta1" size="35" />
+						</div>
+						<div>
+							<label for="respuestaincorrecta2">Respuesta incorrecta*:</label>
+							<input type="text" id="respuestaincorrecta2" name="respuestaincorrecta2" size="35" />
+						</div>
+						<div>
+							<label for="complejidad">Complejidad (1..5)*:</label>
+							<input type="text" id="complejidad" name="complejidad" size="10" />
+						</div>
+						<div>
+							<label for="tema">Tema (subject)*:</label>
+							<input type="text" id="tema" name="tema" size="10" />
+						</div>
+						<div>
+							<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>
+						</div>
 					</fieldset>
 				</form>
 			</section>
@@ -83,5 +80,6 @@
 			</footer>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="/js/code.js"></script>
 	</body>
 </html>

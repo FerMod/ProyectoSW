@@ -13,12 +13,16 @@ $(document).ready(function() {
 		var tema = $("#tema").val();
 
 		if(email != "" && enunciado != "" && respuestacor != "" && respuestaincor != "" && respuestaincor1 != "" && respuestaincor2 != "" && com != "" && tema != "") {
-			if(!emailcomp.test(email)) {
-				if(parseInt(com) >= 1 && parseInt(com) <= 5) {
-					//Envía datos
-					return true;
+			if(emailcomp.test(email)) {
+				if(isNan(com)) {
+					if(parseInt(com) >= 1 && parseInt(com) <= 5) {
+						//Envía datos
+						return true;
+					} else {
+						alert("El número de complejidad debe situarse entre 1 y 5.");
+					}
 				} else {
-					alert("El número de complejidad debe situarse entre 1 y 5.");
+					alert("El campo de complejidad debe tener un número.");
 				}
 			} else {
 				alert("La dirección de email introducida no es válida.");

@@ -13,7 +13,7 @@ $(document).ready(function() {
 		var tema = $("#tema").val();
 
 		if(email != "" && enunciado != "" && respuestacor != "" && respuestaincor != "" && respuestaincor1 != "" && respuestaincor2 != "" && com != "" && tema != "") {
-			if(!emailcomp.test(email)) {
+			if(emailcomp.test(email)) {
 				if(parseInt(com) >= 1 && parseInt(com) <= 5) {
 					//Envía datos
 					return true;
@@ -26,6 +26,7 @@ $(document).ready(function() {
 		} else {
 			alert("No debe dejar ningún campo vacío.");
 		}
+		
 		return false;
 
 	});

@@ -19,15 +19,12 @@ $(document).ready(function() {
 					return true;
 				} else {
 					alert("El número de complejidad debe situarse entre 1 y 5.");
-					return false;
 				}
 			} else {
 				alert("La dirección de email introducida no es válida.");
-				return false;
 			}
 		} else {
 			alert("No debe dejar ningún campo vacío.");
-			return false;
 		}
 		return false;
 

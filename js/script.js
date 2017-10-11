@@ -15,7 +15,7 @@ $(document).ready(function() {
 
 		if(email != "" && enunciado != "" && respuestacor != "" && respuestaincor != "" && respuestaincor1 != "" && respuestaincor2 != "" && com != "" && tema != "") {
 			if(emailExp.test(email)) {
-				if(isNan(com)) {
+				if(isNaN(com)) {
 					if(parseInt(com) >= 1 && parseInt(com) <= 5) {
 						//Envía datos
 						return true;

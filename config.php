@@ -11,7 +11,7 @@ if($local) {
 	$servername = "";
 	$username = "";
 	$password = "";
-	$database = "";
+	$database = "quiz";
 }
 
 ?>

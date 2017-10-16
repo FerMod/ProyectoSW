@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+- phpMyAdmin XML Dump
+- version 4.6.4
+- https://www.phpmyadmin.net
+-
+- Host: 127.0.0.1
+- Generation Time: Oct 16, 2017 at 04:06 PM
+- Server version: 5.7.14
+- PHP Version: 7.0.10
+-->
+
+<pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
+    <!--
+    - Structure schemas
+    -->
+    <pma:structure_schemas>
+        <pma:database name="quiz" collation="utf8_unicode_ci" charset="utf8">
+            <pma:table name="preguntas">
+                CREATE TABLE `preguntas` (
+                  `id` int(4) NOT NULL AUTO_INCREMENT COMMENT 'Id de la pregunta',
+                  `enunciado` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Enunciado de la pregunta',
+                  `respuesta_correcta` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta correcta a la pregunta',
+                  `respuesta_incorrecta_1` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
+                  `respuesta_incorrecta_2` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
+                  `respuesta_incorrecta_3` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
+                  `complejidad` int(1) NOT NULL COMMENT 'Complejidad de la pregunta (1-5)',
+                  `tema` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tema de la pregunta',
+                  `imagen` varchar(300) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen opcional de la pregunta',
+                  PRIMARY KEY (`id`)
+                ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+            </pma:table>
+        </pma:database>
+    </pma:structure_schemas>
+
+    <!--
+    - Database: 'quiz'
+    -->
+    <database name="quiz">
+        <!-- Table preguntas -->
+    </database>
+</pma_xml_export>

@@ -17,26 +17,25 @@
 			integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
 			crossorigin="anonymous"></script>
 		<script src="js/script.js"></script>
+
 		<?php
 
-			include: "prueba.php";
-			include: "config.php";
+			include "prueba.php";
+			include "config.php";
 
 			// Create connection
-			$conn = mysqli_connect($servername, $username, $password, $database);
-
-			if(!$conn) {
-				echo "Error: Unable to connect to MySQL." . PHP_EOL;
-			    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
-			    echo "Debugging error: " . mysqli_connect_error() . PHP_EOL;
-			    exit;
+			$conn = new mysqli($servername, $username, $password, $database);
+ 
+			// Check connection
+			if ($conn->connect_error) {
+			 	trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
+			} else {
+				console.log("Connection success." . PHP_EOL); // PHP_EOL The correct 'End Of Line' symbol for this platform
+				console.log("Host information: " . $conn->host_info . PHP_EOL);
 			}
 
-			echo "Success: A proper connection to MySQL was made! The my_db database is great." . PHP_EOL;
-			echo "Host information: " . mysqli_get_host_info($conn) . PHP_EOL;
-
 			// Close connection
-			mysqli_close($conn);
+			$conn->close();
 
 		?>
 
@@ -51,7 +50,7 @@
 			</header>
 			<nav class='main' id='n1' role='navigation'>
 				<span><a href='layout.html'>Inicio</a></span>
-				<span><a href='quizes.html'>Preguntas</a></span>
+				<span><a href='quizes.php'>Preguntas</a></span>
 				<span><a href='creditos.html'>Creditos</a></span>
 			</nav>
 			<section class="main" id="s1">

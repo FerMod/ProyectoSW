@@ -5,7 +5,7 @@
 - https://www.phpmyadmin.net
 -
 - Servidor: 127.0.0.1:3306
-- Tiempo de generación: 18-10-2017 a las 08:55:37
+- Tiempo de generación: 18-10-2017 a las 10:05:13
 - Versión del servidor: 5.7.19
 - Versión de PHP: 7.1.9
 -->
@@ -18,16 +18,16 @@
         <pma:database name="quiz" collation="utf8_unicode_ci" charset="utf8">
             <pma:table name="preguntas">
                 CREATE TABLE `preguntas` (
-                  `id` int(4) NOT NULL AUTO_INCREMENT COMMENT 'Id de la pregunta',
-                  `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Correo del autor de la pregunta',
-                  `enunciado` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Enunciado de la pregunta',
-                  `respuesta_correcta` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta correcta a la pregunta',
-                  `respuesta_incorrecta_1` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
-                  `respuesta_incorrecta_2` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
-                  `respuesta_incorrecta_3` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
+                  `id` int(4) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id de la pregunta',
+                  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Correo del autor de la pregunta',
+                  `enunciado` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Enunciado de la pregunta',
+                  `respuesta_correcta` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta correcta a la pregunta',
+                  `respuesta_incorrecta_1` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
+                  `respuesta_incorrecta_2` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
+                  `respuesta_incorrecta_3` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
                   `complejidad` int(1) NOT NULL COMMENT 'Complejidad de la pregunta (1-5)',
                   `tema` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tema de la pregunta',
-                  `imagen` varchar(300) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen opcional de la pregunta',
+                  `imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen opcional de la pregunta',
                   PRIMARY KEY (`id`)
                 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             </pma:table>

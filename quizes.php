@@ -55,7 +55,7 @@
 			</nav>
 			<section class="main" id="s1">
 
-				<form id="fpreguntas" name="fpreguntas" method="POST" action="prueba.php">
+				<form id="fpreguntas" name="fpreguntas" method="POST" action="InsertarPregunta.php">
 					<fieldset>
 						<legend>DATOS DE LA PREGUNTA</legend>
 						<div>

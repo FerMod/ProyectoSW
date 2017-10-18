@@ -9,7 +9,7 @@ body {
 nav {
 	float: left;
 	width: 15%;
-	height: 200px;
+	height: 75vh; 
 }
 
 nav span {
@@ -19,7 +19,7 @@ nav span {
 section {
 	float: right;
 	width: 80%;
-	height: 200px; /*TODO: Make web height*/
+	height: 75vh;
 }
 
 footer {

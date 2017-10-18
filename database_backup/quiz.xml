@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 - phpMyAdmin XML Dump
-- version 4.6.4
+- version 4.7.4
 - https://www.phpmyadmin.net
 -
-- Host: 127.0.0.1
-- Generation Time: Oct 16, 2017 at 04:06 PM
-- Server version: 5.7.14
-- PHP Version: 7.0.10
+- Servidor: 127.0.0.1:3306
+- Tiempo de generación: 18-10-2017 a las 08:55:37
+- Versión del servidor: 5.7.19
+- Versión de PHP: 7.1.9
 -->
 
 <pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
@@ -19,6 +19,7 @@
             <pma:table name="preguntas">
                 CREATE TABLE `preguntas` (
                   `id` int(4) NOT NULL AUTO_INCREMENT COMMENT 'Id de la pregunta',
+                  `email` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Correo del autor de la pregunta',
                   `enunciado` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Enunciado de la pregunta',
                   `respuesta_correcta` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta correcta a la pregunta',
                   `respuesta_incorrecta_1` varchar(300) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
@@ -34,9 +35,9 @@
     </pma:structure_schemas>
 
     <!--
-    - Database: 'quiz'
+    - Base de datos: 'quiz'
     -->
     <database name="quiz">
-        <!-- Table preguntas -->
+        <!-- Tabla preguntas -->
     </database>
 </pma_xml_export>

@@ -28,6 +28,7 @@
 				echo "Host information: " . $conn->host_info . PHP_EOL;
 			}
 			
+			//Insert data of quizes.php
 			$email = formatInput($_POST['email']) ?? '';
 			$enunciado = formatInput($_POST['enunciado']) ?? '';
 			$respuestaCorrecta = formatInput($_POST['respuestacorrecta']) ?? '';
@@ -42,16 +43,13 @@
 			
 			if (!$result = $conn->query($sql)) {
 				// Oh no! The query failed. 
-				$controlc = "La pregunta no se ha insertado correctamente debido a un error con la base de datos. Inténtelo de nuevo.";
-				
-				#echo "Sorry, the website is experiencing problems." . PHP_EOL;
-				#echo "Error: Our query failed to execute and here is why: " . PHP_EOL;
-				#echo "Query: " . $sql . PHP_EOL;
-				#echo "Errno: " . $conn->errno . PHP_EOL;
-				#echo "Error: " . $conn->error . PHP_EOL;
+				$controli = "La pregunta no se ha insertado correctamente debido a un error con la base de datos. Inténtelo de nuevo.";
 			} else {
-				$controli = "La pregunta se ha insertado correctamente. Para verla haga click ";
-				$urlid = "../VerPreguntas.php?id=";
+				$sql = "SELECT id FROM preguntas WHERE preguntas.enunciado='$enunciado'";
+				$result = $conn->query($sql);
+				$row = $result->fetch_assoc();
+				$controlc = "La pregunta se ha insertado correctamente. Para verla haga click ";
+				$urlid = "/VerPreguntas.php?id=" . $row["id"];
 			}
             
 
@@ -94,7 +92,9 @@
 				</label>
 				<a href=
 				<?php
-				
+					if($result) { 
+						echo $urlid;
+					}
 				?>
 				target="_blank">
 				<?php

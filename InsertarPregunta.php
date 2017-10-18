@@ -28,6 +28,7 @@
 				echo "Host information: " . $conn->host_info . PHP_EOL;
 			}
 			
+			//Insert data of quizes.php
 			$email = formatInput($_POST['email']) ?? '';
 			$enunciado = formatInput($_POST['enunciado']) ?? '';
 			$respuestaCorrecta = formatInput($_POST['respuestacorrecta']) ?? '';

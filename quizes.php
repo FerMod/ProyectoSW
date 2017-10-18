@@ -30,8 +30,8 @@
 			if ($conn->connect_error) {
 			 	trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
 			} else {
-				console.log("Connection success." . PHP_EOL); // PHP_EOL The correct 'End Of Line' symbol for this platform
-				console.log("Host information: " . $conn->host_info . PHP_EOL);
+				echo "Connection success." . PHP_EOL; // PHP_EOL The correct 'End Of Line' symbol for this platform
+				echo "Host information: " . $conn->host_info . PHP_EOL;
 			}
 
 			// Close connection
@@ -55,7 +55,7 @@
 			</nav>
 			<section class="main" id="s1">
 
-				<form id="fpreguntas" name="fpreguntas" method="POST" action="prueba.php">
+				<form id="fpreguntas" name="fpreguntas" method="POST" action="InsertarPregunta.php">
 					<fieldset>
 						<legend>DATOS DE LA PREGUNTA</legend>
 						<div>

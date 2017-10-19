@@ -103,7 +103,7 @@
 			</div>
 			</section>
 			<footer class='main' id='f1'>
-				<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
+				<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_self">¿Qué es un Quiz?</a></p>
 				<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 			</footer>
 		</div>

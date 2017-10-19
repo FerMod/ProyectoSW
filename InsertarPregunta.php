@@ -43,10 +43,10 @@
 			
 			if (!$result = $conn->query($sql)) {
 				// Oh no! The query failed. 
-				$controli = "La pregunta no se ha insertado correctamente debido a un error con la base de datos. Inténtelo de nuevo.";
+				$control = "La pregunta no se ha insertado correctamente debido a un error con la base de datos. Presione el botón de volver e inténtelo de nuevo.";
 			} else {
 				$last_id = $conn->insert_id;
-				$controlc = "La pregunta se ha insertado correctamente. Para verla haga click ";
+				$control = "La pregunta se ha insertado correctamente. Para verla haga click ";
 				$urlid = "VerPreguntas.php?id=" . $last_id;
 			}
             
@@ -81,11 +81,7 @@
 			<div>
 				<label>
 				<?php
-					if($result) {
-						echo $controlc;
-					} else {
-						echo $controli;
-					}
+					echo $control;
 				?>
 				</label>
 				<a href=
@@ -101,6 +97,9 @@
 					}
 				?>
 				</a>
+			</div>
+			<div>
+				<input type="button" value="Volver" style="height: 20px; width: 41px;" onClick="javascript:history.go(-1)"/>
 			</div>
 			</section>
 			<footer class='main' id='f1'>

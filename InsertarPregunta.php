@@ -47,7 +47,7 @@
 			} else {
 				$last_id = $conn->insert_id;
 				$controlc = "La pregunta se ha insertado correctamente. Para verla haga click ";
-				$urlid = "/ProyectoSW/VerPreguntas.php?id=" . $last_id;
+				$urlid = "VerPreguntas.php?id=" . $last_id;
 			}
             
 

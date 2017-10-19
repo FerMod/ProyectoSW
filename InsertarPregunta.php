@@ -45,11 +45,9 @@
 				// Oh no! The query failed. 
 				$controli = "La pregunta no se ha insertado correctamente debido a un error con la base de datos. Inténtelo de nuevo.";
 			} else {
-				$sql = "SELECT id FROM preguntas WHERE preguntas.enunciado='$enunciado'";
-				$result = $conn->query($sql);
-				$row = $result->fetch_assoc();
+				$last_id = $conn->insert_id;
 				$controlc = "La pregunta se ha insertado correctamente. Para verla haga click ";
-				$urlid = "/VerPreguntas.php?id=" . $row["id"];
+				$urlid = "/ProyectoSW/VerPreguntas.php?id=" . $last_id;
 			}
             
 

@@ -33,36 +33,93 @@
 				echo "Host information: " . $conn->host_info . PHP_EOL;
 			}
 
-			if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-			    $id = (int) $_GET['id'];
+			if(isset($_GET['id'])) {
+
+				if (is_numeric($_GET['id'])) {
+			    	$id = (int) $_GET['id'];
+			    } else {
+		    		echo "Error geting the question id." . PHP_EOL;
+			    }
+				// Perform an SQL query
+				$sql = "SELECT id, email, enunciado, respuesta_correcta, respuesta_incorrecta_1, respuesta_incorrecta_2, respuesta_incorrecta_3, complejidad, tema
+					FROM preguntas
+					WHERE id = $id";
+
+				if (!$result = $conn->query($sql)) {
+				    // Oh no! The query failed. 
+				    echo "Sorry, the website is experiencing problems.";
+
+				    // Again, do not do this on a public site, but we'll show you how
+				    // to get the error information
+				    echo "Error: Our query failed to execute and here is why: \n";
+				    echo "Query: " . $sql . "\n";
+				    echo "Errno: " . $conn->errno . "\n";
+				    echo "Error: " . $conn->error . "\n";
+				}
+
+				if ($result->num_rows === 0) {
+				    echo "We could not find a match for ID $id, sorry about that.";
+				}
+
 			} else {
-				echo "Error geting the question id." . PHP_EOL;
+
+				// Perform an SQL query
+				$sql = "SELECT *
+					FROM preguntas";
+
+				if (!$result = $conn->query($sql)) {
+				    
+				    echo "Sorry, the website is experiencing problems.";
+
+				    // Again, do not do this on a public site, but we'll show you how
+				    // to get the error information
+				    echo "Error: Our query failed to execute and here is why: \n";
+				    echo "Query: " . $sql . "\n";
+				    echo "Errno: " . $conn->errno . "\n";
+				    echo "Error: " . $conn->error . "\n";
+				} else {
+
+					if ($result->num_rows != 0) {
+
+						echo "<table>";
+						echo "<tr>";
+						echo "<th>id</th>";
+						echo "<th>email</th>";
+						echo "<th>enunciado</th>";
+						echo "<th>respuesta_correcta</th>";
+						echo "<th>respuesta_incorrecta_1</th>";
+						echo "<th>respuesta_incorrecta_2</th>";
+						echo "<th>respuesta_incorrecta_3</th>";
+						echo "<th>complejidad</th>";
+						echo "<th>tema</th>";
+						echo "<th>imagen</th>";
+						echo "</tr>";
+
+						while ($question = $result->fetch_assoc()) {
+							echo "<tr>";
+						    echo "<td>$question[id]</td>";
+						    echo "<td>$question[email]</td>";
+						    echo "<td>$question[enunciado]</td>";
+						    echo "<td>$question[respuesta_correcta]</td>";
+						    echo "<td>$question[respuesta_incorrecta_1]</td>";
+						    echo "<td>$question[respuesta_incorrecta_2]</td>";
+						    echo "<td>$question[respuesta_incorrecta_3]</td>";
+						    echo "<td>$question[complejidad]</td>";
+						    echo "<td>$question[tema]</td>";
+						    echo "<td>$question[imagen]</td>";
+						  	echo "</tr>";
+						}
+						echo "</table>\n";
+					} else {
+						echo "We could not find any values, sorry about that.";
+					}
+
+				}
+
 			}
-
-			// Perform an SQL query
-			$sql = "SELECT id, email, enunciado, respuesta_correcta, respuesta_incorrecta_1, respuesta_incorrecta_2, respuesta_incorrecta_3, complejidad, tema
-				FROM preguntas
-				WHERE id = $id";
-
-			if (!$result = $conn->query($sql)) {
-			    // Oh no! The query failed. 
-			    echo "Sorry, the website is experiencing problems.";
-
-			    // Again, do not do this on a public site, but we'll show you how
-			    // to get the error information
-			    echo "Error: Our query failed to execute and here is why: \n";
-			    echo "Query: " . $sql . "\n";
-			    echo "Errno: " . $conn->errno . "\n";
-			    echo "Error: " . $conn->error . "\n";
-			}
-
-			if ($result->num_rows === 0) {
-			    echo "We could not find a match for ID $id, sorry about that.";
-			}
-
-			$question = $result->fetch_assoc();
 
 			// Close connection
+			$result->free();
 			$conn->close();
 
 		?>

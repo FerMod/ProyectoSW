@@ -24,8 +24,8 @@
 			if ($conn->connect_error) {
 			 	trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
 			} else {
-				echo "Connection success." . PHP_EOL; // PHP_EOL The correct 'End Of Line' symbol for this platform
-				echo "Host information: " . $conn->host_info . PHP_EOL;
+				//echo "Connection success." . PHP_EOL; // PHP_EOL The correct 'End Of Line' symbol for this platform
+				//echo "Host information: " . $conn->host_info . PHP_EOL; //OK
 			}
 			
 			//Insert data of quizes.php
@@ -78,11 +78,11 @@
 			</nav>
 			<section class="main" id="s1">
 			<div>
+				<label>
 				<?php
-					if($result) { 
-						echo $control;
-					}
+					echo $control;
 				?>
+				</label>
 			</div>
 			<div>
 				<input type="button" value="Volver" style="height: 20px; width: 41px;" onClick="javascript:history.go(-1)"/>

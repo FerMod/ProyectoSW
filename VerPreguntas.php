@@ -20,48 +20,20 @@
 
 		<?php
 
-			include "config.php";
+			function createQuestionTable() {
 
-			// Create connection
-			$conn = new mysqli($servername, $username, $password, $database);
- 
-			// Check connection
-			if ($conn->connect_error) {
-			 	trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
-			} else {
-				echo "Connection success." . PHP_EOL; // PHP_EOL The correct 'End Of Line' symbol for this platform
-				echo "Host information: " . $conn->host_info . PHP_EOL;
-			}
+				include "config.php";
 
-			if(isset($_GET['id'])) {
-
-				if (is_numeric($_GET['id'])) {
-			    	$id = (int) $_GET['id'];
-			    } else {
-		    		echo "Error geting the question id." . PHP_EOL;
-			    }
-				// Perform an SQL query
-				$sql = "SELECT id, email, enunciado, respuesta_correcta, respuesta_incorrecta_1, respuesta_incorrecta_2, respuesta_incorrecta_3, complejidad, tema
-					FROM preguntas
-					WHERE id = $id";
-
-				if (!$result = $conn->query($sql)) {
-				    // Oh no! The query failed. 
-				    echo "Sorry, the website is experiencing problems.";
-
-				    // Again, do not do this on a public site, but we'll show you how
-				    // to get the error information
-				    echo "Error: Our query failed to execute and here is why: \n";
-				    echo "Query: " . $sql . "\n";
-				    echo "Errno: " . $conn->errno . "\n";
-				    echo "Error: " . $conn->error . "\n";
+				// Create connection
+				$conn = new mysqli($servername, $username, $password, $database);
+	 
+				// Check connection
+				if ($conn->connect_error) {
+				 	trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
+				} else {
+					echo "Connection success." . PHP_EOL; // PHP_EOL The correct 'End Of Line' symbol for this platform
+					echo "Host information: " . $conn->host_info . PHP_EOL;
 				}
-
-				if ($result->num_rows === 0) {
-				    echo "We could not find a match for ID $id, sorry about that.";
-				}
-
-			} else {
 
 				// Perform an SQL query
 				$sql = "SELECT *
@@ -110,17 +82,17 @@
 						  	echo "</tr>";
 						}
 						echo "</table>\n";
+						$result->free();
 					} else {
 						echo "We could not find any values, sorry about that.";
 					}
 
 				}
 
-			}
+				// Close connection
+				$conn->close();
 
-			// Close connection
-			$result->free();
-			$conn->close();
+			}
 
 		?>
 
@@ -144,29 +116,7 @@
 					<fieldset>
 						<legend>DATOS DE LA PREGUNTA</legend>
 						<div>
-							<label for="email">Email: <?php echo $question['email'] ?></label>
-						</div>
-						<div>
-							<label for="enunciado">Enunciado de la pregunta: <?php echo $question['enunciado'] ?></label>
-							<label type="text" id="enunciado" name="enunciado" size="35" />
-						</div>
-						<div>
-							<label for="respuestacorrecta">Respuesta correcta: <?php echo $question['respuesta_correcta'] ?></label>
-						</div>
-						<div>
-							<label for="respuestaincorrecta">Respuesta incorrecta: <?php echo $question['respuesta_incorrecta_1'] ?></label>
-						</div>
-						<div>
-							<label for="respuestaincorrecta1">Respuesta incorrecta: <?php echo $question['respuesta_incorrecta_2'] ?></label>
-						</div>
-						<div>
-							<label for="respuestaincorrecta2">Respuesta incorrecta:  <?php echo $question['respuesta_incorrecta_3'] ?></label>
-						</div>
-						<div>
-							<label for="complejidad">Complejidad: <?php echo $question['complejidad'] ?></label>
-						</div>
-						<div>
-							<label for="tema">Tema:  <?php echo $question['tema'] ?></label>
+							<label for="question_table"><?php createQuestionTable()?></label>
 						</div>
 						<div>
 							<input type="button" id="volver" name="volver" value="Volver" onClick="javascript:history.go(-1)"/>

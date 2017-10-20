@@ -84,7 +84,7 @@ nav span {
 	margin-bottom: 5px;
 }
 
-#fpreguntas input[type="submit"] {
+#fpreguntas input[type="submit"], input[type="button"] {
 	width: 30%;
 	text-align: center;
 	display: inline-block;

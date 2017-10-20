@@ -92,6 +92,7 @@
 						</div>
 						<div>
 							<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>
+							<input type="button" id="ver preguntas" value="Ver preguntas ya realizadas" OnClick="window.location='VerPreguntas.php';"/>
 						</div>
 					</fieldset>
 				</form>

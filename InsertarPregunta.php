@@ -78,20 +78,11 @@
 			</nav>
 			<section class="main" id="s1">
 			<div>
-
 				<label>
 				<?php
 					echo $control;
 				?>
 				</label>
-				<a href=
-				<?php
-					if($result) { 
-						echo $urlid;
-					}
-				?>
-				target="_self">
-				
 			</div>
 			<div>
 				<input type="button" value="Volver" style="height: 20px; width: 41px;" onClick="javascript:history.go(-1)"/>

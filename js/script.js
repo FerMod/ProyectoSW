@@ -1,7 +1,8 @@
 $(document).ready(function() {
 	$("#fpreguntas").on("submit", function() {
-
-		var emailcomp = new RegExp('/^[a-zA-Z]+\d{3}@ikasle\.ehu\.(eus|es)$/');
+		
+		var emailExp = new RegExp("^[a-zA-Z]+\\d{3}@ikasle\.ehu\.(eus|es)$");
+		// Test: Correo123@ikasle.ehu.eus
 
 		var email = $("#email").val();
 		var enunciado = $("#enunciado").val();
@@ -13,8 +14,8 @@ $(document).ready(function() {
 		var tema = $("#tema").val();
 
 		if(email != "" && enunciado != "" && respuestacor != "" && respuestaincor != "" && respuestaincor1 != "" && respuestaincor2 != "" && com != "" && tema != "") {
-			if(emailcomp.test(email)) {
-				if(isNan(com)) {
+			if(emailExp.test(email)) {
+				if(isNumber(com)) {
 					if(parseInt(com) >= 1 && parseInt(com) <= 5) {
 						//Envía datos
 						return true;
@@ -34,4 +35,9 @@ $(document).ready(function() {
 		return false;
 
 	});
+
+	function isNumber(n) {
+		return !isNaN(parseFloat(n)) && isFinite(n);
+	}
+	
 });

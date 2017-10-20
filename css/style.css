@@ -21,6 +21,10 @@ body {
 	color: black;
 }
 
+section {
+	overflow: auto;
+}
+
 section > div {
 	padding: 20px;
 }
@@ -59,16 +63,31 @@ nav span {
 	margin-right: 10px;
 	margin-left: 10px;
 }
-
 #fpreguntas fieldset {
 	background: #FFFF99;
 	text-align: center;
 	text-align: center;
 	border: 2px dashed #999;
+	padding: 15px;
 }
 
 #fpreguntas legend {
 	color: white;
 	background: #999;
 	text-align: left;
+}
+
+#fpreguntas label, input:not([type="submit"]) {
+	width: 90%;
+	text-align: left;
+	display: inline-block;
+	margin-bottom: 5px;
+}
+
+#fpreguntas input[type="submit"], input[type="button"] {
+	width: 30%;
+	text-align: center;
+	display: inline-block;
+	margin-bottom: 10px;
+	margin-top: 20px;
 }

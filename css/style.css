@@ -7,11 +7,20 @@
 
 body {
 	font: 16px Georgia, serif;
+	display: flex;
+  	flex: 1;
 }
 
 #page-wrap {
-	margin: 2% auto;
+	margin: auto;
 	color: white;
+	width: 100%;
+	min-height: 100vh;
+	flex-wrap: wrap;
+}
+
+header, footer {
+	flex: none;	
 }
 
 #page-wrap > .main {

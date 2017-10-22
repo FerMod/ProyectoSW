@@ -21,7 +21,7 @@ $(document).ready(function() {
 						//Envía datos
 						return true;
 					} else {
-						alert("El número de complejidad debe situarse entre 1 y 5.");
+						alert("El número de complejidad debe estar entre 1 y 5, ambos inclusive.");
 					}
 				} else {
 					alert("El campo de complejidad debe tener un número.");

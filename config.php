@@ -14,4 +14,6 @@ if($local) {
 	$database = "quiz";
 }
 
+$imagePath = "img/uploads/";
+
 ?>

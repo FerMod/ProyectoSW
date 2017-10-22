@@ -78,7 +78,13 @@
 						    echo "<td>$question[respuesta_incorrecta_3]</td>";
 						    echo "<td>$question[complejidad]</td>";
 						    echo "<td>$question[tema]</td>";
-						    echo "<td><img src='$question[imagen]'style='max-width: 100%; height: auto; object-fit: cover;'></td>";
+
+						    $image = "img/no_image_available.gif";
+						    if (file_exists($question["imagen"])) {
+						    	$image = $question["imagen"];
+						    }
+
+						    echo "<td><img src='$image'style='max-width: 100%; height: auto; object-fit: cover;'></td>";
 						  	echo "</tr>";
 						}
 						echo "</table>\n";

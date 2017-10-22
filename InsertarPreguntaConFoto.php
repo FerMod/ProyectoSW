@@ -56,7 +56,7 @@
 				$control = "La pregunta no se ha insertado correctamente debido a un error con la base de datos. <br>Presione el botón de volver e inténtelo de nuevo.";
 			} else {
 				//$last_id = $conn->insert_id;
-				$control = "La pregunta se ha insertado correctamente. <br>Para verla haga click <a href='VerPreguntas.php' target='_self'>aquí</a>";
+				$control = "La pregunta se ha insertado correctamente. <br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>";
 			}
             
 
@@ -77,17 +77,14 @@
 				$uploadOk = 1;
 				$imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
 
-				// Check if image file is a actual image or fake image
-				// if(isset($_POST["subirImagen"])) {
-				    $check = getimagesize($imageFile["tmp_name"]);
-				    if($check !== false) {
-				        echo "File is an image - " . $check["mime"] . ".";
-				        $uploadOk = 1;
-				    } else {
-				        echo "File is not an image.";
-				        $uploadOk = 0;
-				    }
-				// }
+			    $check = getimagesize($imageFile["tmp_name"]);
+			    if($check !== false) {
+			        echo "File is an image - " . $check["mime"] . ".";
+			        $uploadOk = 1;
+			    } else {
+			        echo "File is not an image.";
+			        $uploadOk = 0;
+			    }
 
 				// Check if file already exists
 				if (file_exists($target_file)) {

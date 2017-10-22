@@ -78,7 +78,7 @@
 						    echo "<td>$question[respuesta_incorrecta_3]</td>";
 						    echo "<td>$question[complejidad]</td>";
 						    echo "<td>$question[tema]</td>";
-						    echo "<td>$question[imagen]</td>";
+						    echo "<td><img src='$question[imagen]'style='max-width: 100%; height: auto; object-fit: cover;'></td>";
 						  	echo "</tr>";
 						}
 						echo "</table>\n";

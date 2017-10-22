@@ -55,7 +55,7 @@
 			</nav>
 			<section class="main" id="s1">
 
-				<form id="fpreguntas" name="fpreguntas" method="POST" action="InsertarPregunta.php">
+				<form id="fpreguntas" name="fpreguntas" method="post" action="InsertarPregunta.php" enctype="multipart/form-data">
 					<fieldset>
 						<legend>DATOS DE LA PREGUNTA</legend>
 						<div>
@@ -89,6 +89,11 @@
 						<div>
 							<label for="tema">Tema (subject)*:</label>
 							<input type="text" id="tema" name="tema" size="10" />
+						</div>
+						<div>
+							<label for="imagen">Subir imagen:</label>
+							<input type="file" name="imagen" id="imagen">
+    						<!-- <input type="button" value="Subir Imagen" name="subirImagen"> -->
 						</div>
 						<div>
 							<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>

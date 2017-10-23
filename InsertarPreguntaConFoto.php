@@ -38,28 +38,100 @@
 			$complejidad = formatInput($_POST['complejidad']) ?? '';
 			$tema = formatInput($_POST['tema']) ?? '';
 
+			$operationMessage = "";
+			$uploadOk = true;
 			$imagenPregunta = null;
-			if (!empty($_FILES['imagen']['name']) && !empty($_FILES['image']['tmp_name'])) {
-				$image = $_FILES['imagen'] ?? '';
 
-				uploadImage($imagePath, $image);
-				$imagenPregunta = $imagePath . $image["name"];
-			}		
+			try {
+				 
+			    // Undefined | Multiple Files | $_FILES Corruption Attack
+			    // If this request falls under any of them, treat it invalid.
+			    if (!isset($_FILES['imagen']['error']) || is_array($_FILES['imagen']['error'])) {
+			        throw new RuntimeException('Parametros inválidos.');
+			    }
 
-			$sql = "INSERT INTO preguntas(email, enunciado, respuesta_correcta, respuesta_incorrecta_1, respuesta_incorrecta_2, respuesta_incorrecta_3, complejidad, tema, imagen)
-				VALUES('$email', '$enunciado', '$respuestaCorrecta', '$respuestaIncorrecta', '$respuestaIncorrecta1', '$respuestaIncorrecta2', $complejidad, '$tema',  '$imagenPregunta')";
-			
-			if (!$result = $conn->query($sql)) {
-				// Oh no! The query failed. 
-				$control = "La pregunta no se ha insertado correctamente debido a un error con la base de datos. <br>Presione el botón de volver e inténtelo de nuevo.";
-			} else {
-				//$last_id = $conn->insert_id;
-				$control = "La pregunta se ha insertado correctamente. <br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>";
+			    $containsImage = false;
+
+			    // Check $_FILES['imagen']['error'] value.
+			    switch ($_FILES['imagen']['error']) {
+			        case UPLOAD_ERR_OK:
+			        	$containsImage = true;
+			        case UPLOAD_ERR_NO_FILE:
+			        	//Nothing to do here, the file upload is optional
+			        	break;
+			        case UPLOAD_ERR_INI_SIZE:
+			        case UPLOAD_ERR_FORM_SIZE:
+			            throw new RuntimeException('Tamaño de archivo excedido.');
+			        default:
+			            throw new RuntimeException('Error desconocido.');
+			    }
+
+			    if($containsImage) {
+
+				    // You should also check filesize here. 
+				    if ($_FILES['imagen']['size'] > 1000000) {
+				       throw new RuntimeException('Tamaño de archivo excedido.');
+				    }
+
+				    // DO NOT TRUST $_FILES['imagen']['mime'] VALUE !!
+				    // Check MIME Type by yourself.
+				    $finfo = new finfo(FILEINFO_MIME_TYPE);
+				    if (false === $ext = array_search(
+				        $finfo->file($_FILES['imagen']['tmp_name']),
+				        array(
+				            'jpg' => 'image/jpeg',
+				            'png' => 'image/png',
+				            'gif' => 'image/gif',
+				        ),
+				        true
+				    )) {
+			        	throw new RuntimeException('Formato de archivo inválido.');
+				    }
+
+				    // You should name it uniquely.
+				    // DO NOT USE $_FILES['imagen']['name'] WITHOUT ANY VALIDATION !!
+				    // On this example, obtain safe unique name from its binary data.
+				    if (!move_uploaded_file(
+				        $_FILES['imagen']['tmp_name'],
+				        sprintf($imageUploadFolder . '%s.%s',
+				            sha1_file($_FILES['imagen']['tmp_name']),
+				            $ext
+				        )
+				    )) {
+				        throw new RuntimeException('Fallo al mover el archivo.');
+				    }
+
+				    $imagenPregunta = sprintf($imageUploadFolder . '%s.%s', sha1_file($_FILES['imagen']['name']), $ext);
+				    $operationMessage .= 'Archivo subido de forma correcta.';
+
+				}
+
+			} catch (RuntimeException $e) {
+
+				$uploadOk = false;
+			    $operationMessage .= $e->getMessage();
+
 			}
-            
 
-			// Close connection
-			$conn->close();
+			if($uploadOk) {
+				$sql = "INSERT INTO preguntas(email, enunciado, respuesta_correcta, respuesta_incorrecta_1, respuesta_incorrecta_2, respuesta_incorrecta_3, complejidad, tema, imagen)
+					VALUES('$email', '$enunciado', '$respuestaCorrecta', '$respuestaIncorrecta', '$respuestaIncorrecta1', '$respuestaIncorrecta2', $complejidad, '$tema',  '$imagenPregunta')";
+				
+				if (!$result = $conn->query($sql)) {
+					// Oh no! The query failed. 
+					$operationMessage .= "<br>La pregunta no se ha insertado correctamente debido a un error con la base de datos. <br>Presione el botón de volver e inténtelo de nuevo.";
+				} else {
+					//$last_id = $conn->insert_id;
+					$operationMessage .= "<br>La pregunta se ha insertado correctamente. <br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>";
+				}
+
+				// Close connection
+				$conn->close();
+
+			} else {
+				$operationMessage .= "<br>Presione el botón de volver e inténtelo de nuevo.";
+			}
+
 			
 			// Format the input for security reasons
 			function formatInput($data) {
@@ -67,54 +139,6 @@
 				$data = stripslashes($data);
 				$data = htmlspecialchars($data);
 				return $data;
-			}
-
-			function uploadImage($target_dir, $imageFile) {
-
-				$target_file = $target_dir . basename($imageFile["name"]);
-				$uploadOk = true;
-				$imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-
-				// Check if image file is a actual image or fake image
-			    $check = getimagesize($imageFile["tmp_name"]);
-			    if($check !== false) {
-			        echo "File is an image - " . $check["mime"] . ".";
-			        $uploadOk = true;
-			    } else {
-			        echo "File is not an image.";
-			        $uploadOk = false;
-			    }
-
-				// Check if file already exists
-				if (file_exists($target_file)) {
-				    echo "Sorry, file already exists.";
-				    $uploadOk = false;
-				}
-
-				// Check file size
-				if ($imageFile["size"] > 500000) {
-				    echo "Sorry, your file is too large.";
-				    $uploadOk = false;
-				}
-
-				// Allow certain file formats
-				if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
-				    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-				    $uploadOk = false;
-				}
-
-				// Check if $uploadOk is set to false by an error
-				if (!$uploadOk) {
-				    echo "Sorry, your file was not uploaded.";
-				// if everything is ok, try to upload file
-				} else {
-				    if (move_uploaded_file($imageFile["tmp_name"], $target_file)) {
-				        echo "The file ". basename($imageFile["name"]). " has been uploaded.";
-				    } else {
-				        echo "Sorry, there was an error uploading your file.";
-				    }
-				}
-
 			}
 
 		?>
@@ -136,7 +160,7 @@
 			<div>
 				<label>
 				<?php
-					echo $control;
+					echo $operationMessage;
 				?>
 				</label>
 			</div>

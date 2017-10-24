@@ -31,8 +31,8 @@
 				if ($conn->connect_error) {
 				 	trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
 				} else {
-					echo "Connection success." . PHP_EOL; // PHP_EOL The correct 'End Of Line' symbol for this platform
-					echo "Host information: " . $conn->host_info . PHP_EOL;
+					//echo "Connection success." . PHP_EOL; // PHP_EOL The correct 'End Of Line' symbol for this platform
+					//echo "Host information: " . $conn->host_info . PHP_EOL;
 				}
 
 				// Perform an SQL query
@@ -78,7 +78,13 @@
 						    echo "<td>$question[respuesta_incorrecta_3]</td>";
 						    echo "<td>$question[complejidad]</td>";
 						    echo "<td>$question[tema]</td>";
-						    echo "<td>$question[imagen]</td>";
+
+						    $image = "img/no_image_available.gif";
+						    if (file_exists($question["imagen"])) {
+						    	$image = $question["imagen"];
+						    }
+
+						    echo "<td><img src='$image'style='max-width: 100%; height: auto; object-fit: cover;'></td>";
 						  	echo "</tr>";
 						}
 						echo "</table>\n";
@@ -116,7 +122,7 @@
 					<fieldset>
 						<legend>DATOS DE LA PREGUNTA</legend>
 						<div>
-							<label for="question_table"><?php createQuestionTable()?></label>
+							<?php createQuestionTable()?>
 						</div>
 						<div>
 							<input type="button" id="volver" name="volver" value="Volver" onClick="javascript:history.go(-1)"/>

@@ -91,17 +91,19 @@
 				    // You should name it uniquely.
 				    // DO NOT USE $_FILES['imagen']['name'] WITHOUT ANY VALIDATION !!
 				    // On this example, obtain safe unique name from its binary data.
+				    $sha1Name = sha1_file($_FILES['imagen']['tmp_name']);
 				    if (!move_uploaded_file(
 				        $_FILES['imagen']['tmp_name'],
-				        sprintf($imageUploadFolder . '%s.%s',
-				            sha1_file($_FILES['imagen']['tmp_name']),
+				        sprintf('%s%s.%s',
+				        	$imageUploadFolder,
+				            $sha1Name,
 				            $ext
 				        )
 				    )) {
 				        throw new RuntimeException('Fallo al mover el archivo.');
 				    }
 
-				    $imagenPregunta = sprintf($imageUploadFolder . '%s.%s', sha1_file($_FILES['imagen']['name']), $ext);
+				    $imagenPregunta = sprintf('%s%s.%s', $imageUploadFolder, $sha1Name, $ext);
 				    $operationMessage .= 'Archivo subido de forma correcta.';
 
 				}

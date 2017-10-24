@@ -14,6 +14,12 @@ if($local) {
 	$database = "quiz";
 }
 
-$imagePath = "img/uploads/";
+
+$imageUploadFolder = './img/uploads/';
+
+if (!file_exists($imageUploadFolder)) {
+    mkdir($imageUploadFolder, 0777, true);
+}
+
 
 ?>

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
 	$("#fpreguntas").on("submit", function() {
 		
 		var emailExp = new RegExp("^[a-zA-Z]+\\d{3}@ikasle\.ehu\.(eus|es)$");
@@ -20,7 +21,7 @@ $(document).ready(function() {
 						//Envía datos
 						return true;
 					} else {
-						alert("El número de complejidad debe situarse entre 1 y 5.");
+						alert("El número de complejidad debe estar entre 1 y 5, ambos inclusive.");
 					}
 				} else {
 					alert("El campo de complejidad debe tener un número.");
@@ -39,5 +40,73 @@ $(document).ready(function() {
 	function isNumber(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
+
+	$("#imagen").on("change", function(){
+
+		if($("#imagen").val()) {
+
+			// Create element if does not exist
+			if (!$("#quitarImagen").length) {
+				
+				$buttonElement = "<input type='button' id='quitarImagen' value='Quitar Imagen' style='width: auto; display: block; margin-left: 5%; margin-right: auto;'/>";
+				
+				$(this).after($buttonElement);
+
+				$("#quitarImagen").on("click", function() {
+
+					$("#imagen").val('');
+
+					$("#previewImage").remove();
+
+					$("#quitarImagen").remove();
+
+				});
+
+			}
+
+			if (!$("#previewImage").length) { //If does not exist
+				
+				//Create the image preview
+				$imageElement =  "<img id='previewImage' src='#' style='width: 20%; height: auto; object-fit: contain; display: block; margin-left: 5%; margin-right: auto;'/>";
+				
+				$(this).after($imageElement);
+
+			}
+
+			previewImage(this, $("#previewImage"));
+
+		} else {
+
+			if ($("#quitarImagen").length) {
+				$("#quitarImagen").remove();
+			}
+
+			if ($("#previewImage").length) {
+				$("#previewImage").remove();
+			}
+
+		}
+
+	});
+
+	function previewImage(input, imgElement) {
+
+		if (input.files && input.files[0]) {
+
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				imgElement.attr('src', e.target.result);
+			}
+
+			reader.readAsDataURL(input.files[0]);
+
+		} else if (imgElement.length) {
+			imgElement.remove();
+		}
+
+	}
+
+	
 	
 });

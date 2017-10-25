@@ -50,3 +50,7 @@ local.properties
 .worksheet
 
 .project
+
+# Ignore Sublime Text 3 proyect and workspace files
+.sublime-workspace
+.sublime-project

@@ -52,5 +52,5 @@ local.properties
 .project
 
 # Ignore Sublime Text 3 proyect and workspace files
-.sublime-workspace
-.sublime-project
+*.sublime-workspace
+*.sublime-project

@@ -1,0 +1,103 @@
+@charset "utf-8";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font: 16px Georgia, serif;
+	display: flex;
+  	flex: 1;
+}
+
+#page-wrap {
+	margin: auto;
+	color: white;
+	width: 100%;
+	min-height: 100vh;
+	flex-wrap: wrap;
+}
+
+header, footer {
+	flex: none;	
+}
+
+#page-wrap > .main {
+	border: 1px solid #999;
+	padding: 1%;
+	margin-bottom: 1px;
+	color: black;
+}
+
+section {
+	overflow: auto;
+}
+
+section > div {
+	padding: 20px;
+}
+
+header, nav, section {
+	background: #eee;
+	text-align: center;
+}
+
+footer {
+	background: #eee;
+	text-align: center;
+}
+
+nav span {
+	margin: 0px 10px 0px 0px;
+	width: 100%;
+	display: inline-block;
+}
+
+#ErrorMsgs {
+	color: #f61;
+	font-size: smaller;
+}
+
+#tablaAutores {
+	margin: 0px auto;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+#tablaAutores th, td {
+	border: 1px solid black;
+	padding-right: 10px;
+	padding-left: 10px;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+#fpreguntas fieldset {
+	background: #FFFF99;
+	text-align: center;
+	text-align: center;
+	border: 2px dashed #999;
+	padding: 15px;
+}
+
+#fpreguntas legend {
+	color: white;
+	background: #999;
+	text-align: left;
+}
+
+#fpreguntas label, input:not([type="submit"]) {
+	width: 90%;
+	text-align: left;
+	display: inline-block;
+	margin-bottom: 5px;
+}
+
+#fpreguntas input[type="submit"], input[type="button"] {
+	width: 30%;
+	text-align: center;
+	display: inline-block;
+	margin-bottom: 10px;
+	margin-top: 20px;
+}

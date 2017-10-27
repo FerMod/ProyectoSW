@@ -71,6 +71,7 @@
 					</div>
 				</fieldset>
 			</form>
+			
 		</article>		
 		<aside class="sidebar">
 			Sidebar contents<br/>(sidebar)

@@ -41,9 +41,6 @@ footer {
     -webkit-box-sizing: border-box;
 
 	width: 100%;
-
-	border: 1px solid #999;
-	color: black;
 }
 
 .content {
@@ -77,7 +74,6 @@ footer {
 
 	background-color: #CE9B64;
 	text-align: center;
-
 }
 
 .navbar span {
@@ -104,6 +100,9 @@ footer {
 .content, .navbar, .sidebar {
 	padding: 1em;
 	background: #eee;
+
+	border: 1px solid #999;
+	color: black;
 }
 
 #tablaAutores {

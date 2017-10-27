@@ -13,15 +13,15 @@
 
 	include "config.php";
 
-		// Create connection
+	// Create connection
 	$conn = new mysqli($servername, $username, $password, $database);
 
-		// Check connection
+	// Check connection
 	if ($conn->connect_error) {
 		trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
 	}
 
-		//Insert data of quizes.php
+	//Insert data of quizes.php
 	$email = formatInput($_POST['email']) ?? '';
 	$enunciado = formatInput($_POST['enunciado']) ?? '';
 	$respuestaCorrecta = formatInput($_POST['respuestacorrecta']) ?? '';
@@ -37,15 +37,15 @@
 
 	try {
 
-		    // Undefined | Multiple Files | $_FILES Corruption Attack
-		    // If this request falls under any of them, treat it invalid.
+	    // Undefined | Multiple Files | $_FILES Corruption Attack
+	    // If this request falls under any of them, treat it invalid.
 		if (!isset($_FILES['imagen']['error']) || is_array($_FILES['imagen']['error'])) {
 			throw new RuntimeException('Parametros inválidos.');
 		}
 
 		$containsImage = false;
 
-		    // Check $_FILES['imagen']['error'] value.
+	    // Check $_FILES['imagen']['error'] value.
 		switch ($_FILES['imagen']['error']) {
 			case UPLOAD_ERR_OK:
 			$containsImage = true;
@@ -61,13 +61,13 @@
 
 		if($containsImage) {
 
-			    // You should also check filesize here. 
+			// You should also check filesize here. 
 			if ($_FILES['imagen']['size'] > 1000000) {
 				throw new RuntimeException('Tamaño de archivo excedido.');
 			}
 
-			    // DO NOT TRUST $_FILES['imagen']['mime'] VALUE !!
-			    // Check MIME Type by yourself.
+			// DO NOT TRUST $_FILES['imagen']['mime'] VALUE !!
+			// Check MIME Type by yourself.
 			$finfo = new finfo(FILEINFO_MIME_TYPE);
 			if (false === $ext = array_search(
 				$finfo->file($_FILES['imagen']['tmp_name']),
@@ -81,9 +81,9 @@
 				throw new RuntimeException('Formato de archivo inválido.');
 			}
 
-			    // You should name it uniquely.
-			    // DO NOT USE $_FILES['imagen']['name'] WITHOUT ANY VALIDATION !!
-			    // On this example, obtain safe unique name from its binary data.
+		    // You should name it uniquely.
+		    // DO NOT USE $_FILES['imagen']['name'] WITHOUT ANY VALIDATION !!
+		    // On this example, obtain safe unique name from its binary data.
 			$sha1Name = sha1_file($_FILES['imagen']['tmp_name']);
 			if (!move_uploaded_file(
 				$_FILES['imagen']['tmp_name'],
@@ -113,14 +113,14 @@
 		VALUES('$email', '$enunciado', '$respuestaCorrecta', '$respuestaIncorrecta', '$respuestaIncorrecta1', '$respuestaIncorrecta2', $complejidad, '$tema',  '$imagenPregunta')";
 
 		if (!$result = $conn->query($sql)) {
-				// Oh no! The query failed. 
+			// Oh no! The query failed. 
 			$operationMessage .= "<br>La pregunta no se ha insertado correctamente debido a un error con la base de datos. <br>Presione el botón de volver e inténtelo de nuevo.";
 		} else {
-				//$last_id = $conn->insert_id;
+			//$last_id = $conn->insert_id;
 			$operationMessage .= "<br>La pregunta se ha insertado correctamente. <br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>";
 		}
 
-			// Close connection
+		// Close connection
 		$conn->close();
 
 	} else {

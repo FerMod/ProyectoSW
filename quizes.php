@@ -17,28 +17,6 @@
 			integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
 			crossorigin="anonymous"></script>
 		<script src="js/script.js"></script>
-
-		<?php
-
-			include "prueba.php";
-			include "config.php";
-
-			// Create connection
-			$conn = new mysqli($servername, $username, $password, $database);
- 
-			// Check connection
-			if ($conn->connect_error) {
-			 	trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
-			} else {
-				//echo "Connection success." . PHP_EOL; // PHP_EOL The correct 'End Of Line' symbol for this platform
-				//echo "Host information: " . $conn->host_info . PHP_EOL; //OK
-			}
-
-			// Close connection
-			$conn->close();
-
-		?>
-
 	</head>
 	<body>
 		<div id='page-wrap'>
@@ -92,9 +70,7 @@
 						</div>
 						<div>
 							<label for="imagen">Subir imagen:</label>
-
 							<input type="file" name="imagen" id="imagen"/>
-
 						</div>
 						<div>
 							<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>

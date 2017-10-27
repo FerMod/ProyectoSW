@@ -72,9 +72,9 @@ nav span {
 	margin-right: 10px;
 	margin-left: 10px;
 }
+
 #fpreguntas fieldset {
 	background: #FFFF99;
-	text-align: center;
 	text-align: center;
 	border: 2px dashed #999;
 	padding: 15px;
@@ -99,4 +99,21 @@ nav span {
 	display: inline-block;
 	margin-bottom: 10px;
 	margin-top: 20px;
+}
+
+#registro legend {
+	color: white;
+	background: #999;
+	text-align: left;
+}
+
+#registro fieldset {
+	background: #FFFF99;
+	text-align: center;
+	border: 2px dashed #999;
+	padding: 15px;
+}
+
+#registro div input[type="text"] {
+	width: 25%;
 }

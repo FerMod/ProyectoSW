@@ -41,7 +41,11 @@ $(document).ready(function() {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 
+<<<<<<< HEAD
 	$("#imagen").on("change", function(){
+=======
+	$("#imagen").on("change", function() {
+>>>>>>> origin/FerMod
 
 		if($("#imagen").val()) {
 
@@ -105,8 +109,12 @@ $(document).ready(function() {
 			imgElement.remove();
 		}
 
+<<<<<<< HEAD
 	}
 
 	
+=======
+	}	
+>>>>>>> origin/FerMod
 	
 });

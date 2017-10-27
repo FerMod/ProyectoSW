@@ -13,7 +13,7 @@
 
 <body>
 	<header>
-		<span ><a href="registro">Registrarse</a></span>
+		<span ><a href="Registrar.php">Registrarse</a></span>
 		<span><a href="login">Login</a></span>
 		<span style="display:none;"><a href="/logout">Logout</a></span>
 		<h2>Quiz: el juego de las preguntas</h2>
@@ -32,8 +32,8 @@
 						<label>Escriba su email <strong><font size="3" color="red">*</font></strong></label>
 						<input type="text" name="email" size="35">
 					</div>
-					
-					
+
+
 					<div>
 						<label>Confirme su email <strong><font size="3" color="red">*</font></strong></label>
 						<input type="text" name="emailver" size="25">

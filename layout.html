@@ -13,7 +13,7 @@
 
 <body>
 	<header>
-		<span ><a href="registro">Registrarse</a></span>
+		<span ><a href="Registrar.php">Registrarse</a></span>
 		<span><a href="login">Login</a></span>
 		<span style="display:none;"><a href="/logout">Logout</a></span>
 		<h2>Quiz: el juego de las preguntas</h2>

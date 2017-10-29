@@ -4,10 +4,30 @@
 	padding: 0;
 }
 
+html, body {
+	
+	/* Source: https://stackoverflow.com/questions/2434602/css-setting-width-height-as-percentage-minus-pixels */
+	
+	/* Firefox */
+	height: -moz-calc(100% - 2em);
+
+	/* WebKit */
+	height: -webkit-calc(100% - 2em);
+
+	/* Opera */
+	height: -o-calc(100% - 2em);
+
+	/* Standard */
+	height: calc(100% - 2em);
+}
+
 body {
 	padding: 2em;
 	font: 16px Georgia, serif;
 	background-color: #333;
+
+	display: flex;
+  	flex-direction: column;
 }
 
 header, footer {
@@ -18,19 +38,10 @@ header, footer {
 	right: 0;
 }
 
-/*
-header {	
-	position: absolute;	
-	top: 0;
-}
-
-footer {
-	position: absolute;
-	bottom: 0;
-}
-*/
-
 .container {
+
+	flex: 1 0 auto;
+	
 	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;
@@ -56,8 +67,6 @@ footer {
 	-webkit-flex: 3;
 	-ms-flex: 3;
 	flex: 3;
-
-	background-color: #BCD39B;
 }
 
 .navbar {
@@ -73,7 +82,6 @@ footer {
 	-ms-flex: 1;
 	flex: 1;
 
-	background-color: #CE9B64;
 	text-align: center;
 }
 

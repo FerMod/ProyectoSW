@@ -8,10 +8,10 @@ if($local) {
 	$password = "";
 	$database = "quiz";
 } else {
-	$servername = "";
+	$servername = "localhost";
 	$username = "";
 	$password = "";
-	$database = "quiz";
+	$database = "";
 }
 
 $imageUploadFolder = './img/uploads/';

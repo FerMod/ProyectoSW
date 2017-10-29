@@ -14,14 +14,10 @@ if($local) {
 	$database = "id2921821_quiz";
 }
 
-
-
-
 $imageUploadFolder = './img/uploads/';
 
 if (!file_exists($imageUploadFolder)) {
-    mkdir($imageUploadFolder, 0777, true);
+	mkdir($imageUploadFolder, 0777, true);
 }
-
 
 ?>

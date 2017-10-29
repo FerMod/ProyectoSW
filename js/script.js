@@ -41,7 +41,7 @@ $(document).ready(function() {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 
-	$("#imagen").on("change", function(){
+	$("#imagen").on("change", function() {
 
 		if($("#imagen").val()) {
 
@@ -106,7 +106,5 @@ $(document).ready(function() {
 		}
 
 	}
-
-	
 	
 });

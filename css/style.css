@@ -123,7 +123,6 @@ footer {
 #fpreguntas fieldset {
 	background: #FFFF99;
 	text-align: center;
-	text-align: center;
 	border: 2px dashed #999;
 	padding: 15px;
 }
@@ -147,6 +146,27 @@ footer {
 	display: inline-block;
 	margin-bottom: 10px;
 	margin-top: 20px;
+}
+
+#registro legend {
+	color: white;
+	background: #999;
+	text-align: left;
+}
+
+#registro fieldset {
+	background: #008DAB;
+	text-align: left;
+	padding: 15px;
+}
+
+#registro input[type="text"], input[type="password"]  {
+	width: 30%;
+}
+
+#registro input[type="button"], input[type="submit"], input[type="reset"] {
+	width: 15%;
+	text-align: center;
 }
 
 /* mobile layout */

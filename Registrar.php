@@ -30,14 +30,56 @@
 					<legend>REGISTRO</legend>
 					<div>
 						<label>Escriba su email <strong><font size="3" color="red">*</font></strong></label>
-						<input type="text" name="email" size="35">
 					</div>
-
+						<input type="text" name="email">
 
 					<div>
-						<label>Confirme su email <strong><font size="3" color="red">*</font></strong></label>
-						<input type="text" name="emailver" size="25">
+						<label>Nombre y apellidos <strong><font size="3" color="red">*</font></strong></label>
 					</div>
+						<input type="text" name="nomap">
+					
+					<div>
+						<label>Nickname <strong><font size="3" color="red">*</font></strong></label>
+					</div>
+						<input type="text" name="nick">
+						
+					<div>
+						<label>Contraseña <strong><font size="3" color="red">*</font></strong></label>
+					</div>
+						<input type="password" name="con">
+						
+					<div>
+						<label>Repetir contraseña <strong><font size="3" color="red">*</font></strong></label>
+					</div>
+						<input type="password" name="conrep">
+		
+						<br>
+						
+						<br>
+						
+						<br>
+						
+					<div>
+						<label>Elegir avatar</label><br>
+						<input type="button" name="foto" value="Seleccionar archivo">	
+					</div>
+					
+						<br>
+						
+						<br>
+						
+					<input type="submit" value="Registrarse">
+					<input type="reset" value="Restaurar campos">	
+					
+						<!--
+							Email* (campo clave),
+							Nombre y Apellidos* (al menos dos palabras),
+							Nick* (una palabra),
+							Password* (al menos de longitud seis),
+							Repetir Password*,
+							Foto (opcional)
+						-->
+					
 				</fieldset>
 			</form>
 		</article>		

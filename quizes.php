@@ -42,16 +42,16 @@
 						<input type="text" id="respuestacorrecta" name="respuestacorrecta" size="35" />
 					</div>
 					<div>
-						<label for="respuestaincorrecta">Respuesta incorrecta*:</label>
-						<input type="text" id="respuestaincorrecta" name="respuestaincorrecta" size="35" />
-					</div>
-					<div>
-						<label for="respuestaincorrecta1">Respuesta incorrecta*:</label>
+						<label for="respuestaincorrecta1">Respuesta incorrecta 1*:</label>
 						<input type="text" id="respuestaincorrecta1" name="respuestaincorrecta1" size="35" />
 					</div>
 					<div>
-						<label for="respuestaincorrecta2">Respuesta incorrecta*:</label>
+						<label for="respuestaincorrecta2">Respuesta incorrecta 2*:</label>
 						<input type="text" id="respuestaincorrecta2" name="respuestaincorrecta2" size="35" />
+					</div>
+					<div>
+						<label for="respuestaincorrecta3">Respuesta incorrecta 3*:</label>
+						<input type="text" id="respuestaincorrecta3" name="respuestaincorrecta3" size="35" />
 					</div>
 					<div>
 						<label for="complejidad">Complejidad (1..5)*:</label>

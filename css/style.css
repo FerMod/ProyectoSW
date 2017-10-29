@@ -30,10 +30,6 @@ body {
   	flex-direction: column;
 }
 
-.container {
-	flex: 1 0 auto;
-}
-
 header, footer {
 	text-align: center;
 	background-color: #FFFFFF;
@@ -43,6 +39,9 @@ header, footer {
 }
 
 .container {
+
+	flex: 1 0 auto;
+	
 	display: -webkit-box;
 	display: -moz-box;
 	display: -ms-flexbox;

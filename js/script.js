@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+	/* --- COMENTED TO TEST THE SERVER VALIDATION ---
 	$("#fpreguntas").on("submit", function() {
 		
 		var emailExp = new RegExp("^[a-zA-Z]+\\d{3}@ikasle\.ehu\.(eus|es)$");
@@ -36,6 +37,7 @@ $(document).ready(function() {
 		return false;
 
 	});
+	*/
 
 	function isNumber(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);

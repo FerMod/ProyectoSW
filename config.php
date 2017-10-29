@@ -1,6 +1,6 @@
 <?php
 
-$local = true;
+$local = false;
 
 if($local) {
 	$servername = "localhost";
@@ -8,11 +8,13 @@ if($local) {
 	$password = "";
 	$database = "quiz";
 } else {
-	$servername = "";
-	$username = "";
-	$password = "";
-	$database = "quiz";
+	$servername = "localhost";
+	$username = "id2921821_quizo";
+	$password = "07151129";
+	$database = "id2921821_quiz";
 }
+
+
 
 
 $imageUploadFolder = './img/uploads/';

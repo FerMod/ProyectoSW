@@ -30,14 +30,17 @@
 					<legend>REGISTRO</legend>
 					<div>
 						<label>Escriba su email <strong><font size="3" color="red">*</font></strong></label>
-						<input type="text" name="email" size="35">
+						<input type="text" name="email" size="40">
 					</div>
-
-
 					<div>
 						<label>Confirme su email <strong><font size="3" color="red">*</font></strong></label>
-						<input type="text" name="emailver" size="25">
+						<input type="text" name="emailconfirmation" size="40">
 					</div>
+
+					<?php
+					password_hash("mi_contraseña_se_guarda_segura_así", PASSWORD_DEFAULT);
+					?>
+					
 				</fieldset>
 			</form>
 		</article>		

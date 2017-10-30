@@ -25,22 +25,65 @@
 			<span><a href='creditos.html'>Creditos</a></span>
 		</nav>
 		<article class="content">
-			<form id="registro">	
+			<form id="registro" enctype="multipart/form-data">	
 				<fieldset>
 					<legend>REGISTRO</legend>
+
 					<div>
-						<label>Escriba su email <strong><font size="3" color="red">*</font></strong></label>
-						<input type="text" name="email" size="40">
+						<label>Escriba su email<strong><font size="3" color="red">*</font></strong></label>
+						<input type="text" name="email"/>
 					</div>
+
 					<div>
-						<label>Confirme su email <strong><font size="3" color="red">*</font></strong></label>
-						<input type="text" name="emailconfirmation" size="40">
+						<label>Nombre y apellidos<strong><font size="3" color="red">*</font></strong></label>
+						<input type="text" name="nombre"/>
 					</div>
+					
+					
+					<div>
+						<label>Username<strong><font size="3" color="red">*</font></strong></label>
+						<input type="text" name="username"/>
+					</div>
+
+					<div>
+						<label>Contraseña<strong><font size="3" color="red">*</font></strong></label>
+						<input type="password" name="password"/>
+					</div>
+
+					<div>
+						<label>Repetir contraseña<strong><font size="3" color="red">*</font></strong></label>
+						<input type="password" name="passwordRep"/>
+					</div>
+
+					<div>
+						<label>Elegir avatar</label>
+						<input type="file" name="imagen" id="imagen"/>
+					</div>
+
+					<div>
+						<input type="submit" value="Registrarse"/>
+						<input type="reset" value="Restaurar campos"/>	
+					</div>
+
+					<!--
+					Email* (campo clave),
+					Nombre y Apellidos* (al menos dos palabras),
+					Nick* (una palabra),
+					Password* (al menos de longitud seis),
+					Repetir Password*,
+					Foto (opcional)
+
+					En la bbdd:
+					email
+					nombre
+					username
+					password (hash)
+					imagen -->
 
 					<?php
 					password_hash("mi_contraseña_se_guarda_segura_así", PASSWORD_DEFAULT);
 					?>
-					
+
 				</fieldset>
 			</form>
 		</article>		

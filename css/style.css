@@ -115,17 +115,15 @@ header, footer {
 }
 
 #tablaAutores {
-	margin: 0px auto;
+	margin: auto;
 	border-collapse: collapse;
-	text-align: center;
+	text-align: center;	
+	width: 50%;
 }
 
 #tablaAutores th, td {
 	border: 1px solid black;
-	padding-right: 10px;
-	padding-left: 10px;
-	margin-right: 10px;
-	margin-left: 10px;
+	width: 50%;
 }
 
 form fieldset {

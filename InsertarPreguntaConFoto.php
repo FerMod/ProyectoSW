@@ -26,14 +26,18 @@
 		$operationMessage = "";
 		$uploadOk = true;
 		$imagenPregunta = null;
-			
+
 		try {
 
 			$dataCheckMessage = "";
-			
+
 			//Insert data of quizes.php
 			if(isset($_POST['email']) && !empty($_POST['email'])) { 
 				$email = formatInput($_POST['email']) ?? '';
+				if(!isValidEmail($email)) {
+					$uploadOk = false;
+					$dataCheckMessage .= "El formato del email no es correcto.<br>Debe cumplir el formato de la UPV/EHU.<br>";
+				}
 			} else {
 				$uploadOk = false;
 				$dataCheckMessage .= "El campo de \"Email\" no puede ser vacio.<br>";
@@ -74,8 +78,31 @@
 				$dataCheckMessage .= "El campo de \"Respuesta incorrecta 3\" no puede ser vacio. <br>";
 			}
 
-			if(isset($_POST['complejidad']) && !empty($_POST['complejidad'])) { 
+			/*
+			 * In the next variable, will be checked differently because of the following reasons:
+			 *
+			 * (http://php.net/empty)
+			 * The following things are considered to be empty:
+			 *
+			 * "" (an empty string)
+			 * 0 (0 as an integer)
+			 * 0.0 (0 as a float)
+			 * "0" (0 as a string)
+			 * NULL
+			 * FALSE
+			 * array() (an empty array)
+			 * $var; (a variable declared, but without a value)
+			 *
+			 */
+			if(isset($_POST['complejidad']) && !empty($_POST['complejidad']) || $_POST['complejidad'] != '') { 
 				$complejidad = formatInput($_POST['complejidad']) ?? '';
+				if(!is_numeric($complejidad)) {
+					$uploadOk = false;
+					$dataCheckMessage .= "El valor del campo \"Complejidad\" debe ser un número.<br>";
+				} else if($complejidad < 1 || $complejidad > 5){
+					$uploadOk = false;
+					$dataCheckMessage .= "El valor del campo \"Complejidad\" debe estar entre el 1 y el 5, ambos inclusive.<br>";
+				}
 			} else {
 				$uploadOk = false;
 				$dataCheckMessage .= "El campo de \"Complejidad\" no puede ser vacio.<br>";
@@ -93,20 +120,20 @@
 				throw new RuntimeException($dataCheckMessage);
 			}
 
-		    // Undefined | Multiple Files | $_FILES Corruption Attack
-		    // If this request falls under any of them, treat it invalid.
+			// Undefined | Multiple Files | $_FILES Corruption Attack
+			// If this request falls under any of them, treat it invalid.
 			if (!isset($_FILES['imagen']['error']) || is_array($_FILES['imagen']['error'])) {
 				throw new RuntimeException('Parametros inválidos.');
 			}
 
 			$containsImage = false;
 
-	    	// Check $_FILES['imagen']['error'] value.
+			// Check $_FILES['imagen']['error'] value.
 			switch ($_FILES['imagen']['error']) {
 				case UPLOAD_ERR_OK:
 				$containsImage = true;
 				case UPLOAD_ERR_NO_FILE:
-		        	//Nothing to do here, the file upload is optional
+				//Nothing to do here, the file upload is optional
 				break;
 				case UPLOAD_ERR_INI_SIZE:
 				case UPLOAD_ERR_FORM_SIZE:
@@ -137,9 +164,9 @@
 					throw new RuntimeException('Formato de archivo inválido.');
 				}
 
-			    // You should name it uniquely.
-			    // DO NOT USE $_FILES['imagen']['name'] WITHOUT ANY VALIDATION !!
-			    // On this example, obtain safe unique name from its binary data.
+				// You should name it uniquely.
+				// DO NOT USE $_FILES['imagen']['name'] WITHOUT ANY VALIDATION !!
+				// On this example, obtain safe unique name from its binary data.
 				$sha1Name = sha1_file($_FILES['imagen']['tmp_name']);
 				if (!move_uploaded_file(
 					$_FILES['imagen']['tmp_name'],
@@ -193,6 +220,10 @@
 		$data = stripslashes($data);
 		$data = htmlspecialchars($data);
 		return $data;
+	}
+
+	function isValidEmail($email) {
+		return filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/^[a-zA-Z]+\\d{3}@ikasle\.ehu\.(eus|es)$/', $email);
 	}
 
 	?>

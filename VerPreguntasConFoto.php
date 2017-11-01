@@ -15,28 +15,20 @@
 
 		include "config.php";
 
-				// Create connection
+		// Create connection
 		$conn = new mysqli($servername, $username, $password, $database);
 		
-				// Check connection
+		// Check connection
 		if ($conn->connect_error) {
 			trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
 		}
 
-				// Perform an SQL query
+		// Perform an SQL query
 		$sql = "SELECT *
 		FROM preguntas";
 
 		if (!$result = $conn->query($sql)) {
-			
 			echo "Sorry, the website is experiencing problems.";
-
-				    // Again, do not do this on a public site, but we'll show you how
-				    // to get the error information
-			echo "Error: Our query failed to execute and here is why: \n";
-			echo "Query: " . $sql . "\n";
-			echo "Errno: " . $conn->errno . "\n";
-			echo "Error: " . $conn->error . "\n";
 		} else {
 
 			if ($result->num_rows != 0) {

@@ -272,6 +272,21 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	display: inline-block;
 }
 
+#login {
+	text-align: center;
+}
+
+#login legend {
+	background: #999;
+}
+
+#login fieldset {
+	background: #2cc1a7;
+	width: 50%;
+	display: inline-block;
+}
+
+
 .serverMessage {
 	border: 4px solid #6D6D6D;
 	padding: 15px;

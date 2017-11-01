@@ -40,7 +40,7 @@
 					</div>
 
 					<div>
-						<input type="submit" value="Log in"/>
+						<input type="submit" value="Acceder"/>
 					</div>
 
 				</fieldset>
@@ -50,6 +50,28 @@
 			Sidebar contents<br/>(sidebar)
 		</aside>
 	</div>
+		<?php 
+			include "config.php";
+
+			// Create connection
+			$conn = new mysqli($servername, $username, $password, $database);
+
+			// Check connection
+			if ($conn->connect_error) {
+				trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
+			}
+			
+			$email = $_POST['email'];
+			$pass = $_POST['password'];
+			
+			$sql = "SELECT * FROM `usuarios` WHERE `username`='$email' AND `password`='$password'";
+	
+			if($conn->query($sql)) {
+				
+			} else {
+				
+			}
+		?>
 	<footer>
 		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>

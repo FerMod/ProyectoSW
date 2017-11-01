@@ -118,8 +118,9 @@
 								throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Parametros inválidos.</div>");
 							}
 							
+						try {	
 							$containsImage = false;
-
+						
 							// Check $_FILES['imagen']['error'] value.
 							switch ($_FILES['imagen']['error']) {
 								case UPLOAD_ERR_OK:
@@ -163,7 +164,7 @@
 								if (!move_uploaded_file(
 									$_FILES['imagen']['tmp_name'],
 									sprintf('%s%s.%s',
-										$imageUploadFolder,
+										$imageImageFolder,
 										$sha1Name,
 										$ext
 								)
@@ -171,8 +172,11 @@
 									throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
 								}
 								
-								$imagen = sprintf('%s%s.%s', $imageUploadFolder, $sha1Name, $ext);
+								$imagen = sprintf('%s%s.%s', $imageImageFolder, $sha1Name, $ext);
 							}
+						} catch (RuntimeException $e) {
+							$operationMessage .= $e->getMessage();
+						}
 							
 							
 							$sql = "INSERT INTO `usuarios` (`email`, `password`, `nombre`, `username`, `imagen`) VALUES ('$email', '$pass', '$nombre', '$username', '$imagen')";

@@ -67,14 +67,10 @@
 			
 				if(!empty($email) && !empty($pass)) {
 					$result = $conn->query("SELECT * FROM `usuarios` WHERE `email`='email'");
-					$passhash = $result[password]; #Para comprobar que la contraseña que se escribe es correcta.
+					$con = $result->fetch_assoc(); #Para comprobar que la contraseña que se escribe es correcta.
+					$passhash = $con[password];
 					if(password_verify($pass,$passhash)) {
-	
-						if($conn->query($sql)) {
-							echo '<script language="javascript">alert("¡Bienvenido " + $result[username] + "!");</script>';
-						} else {
-							echo '<script language="javascript">alert("Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.");</script>';
-						}
+						echo '<script language="javascript">alert("¡Bienvenido ".$con[username]."!");</script>';
 					} else if(!$result){
 						echo '<script language="javascript">alert("No existe email asignado a la contraseña.");</script>';
 					} else {

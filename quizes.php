@@ -65,7 +65,7 @@
 						<label for="imagen">Subir imagen:</label>
 						<input type="file" name="imagen" id="imagen"/>
 
-						<img id="previewImage" src="#"/>
+						<img id="previewImage" class="modalImage" src="#"/>
 						<input type="button" id="quitarImagen" value="Quitar Imagen"/>
 
 						<!-- The Modal -->

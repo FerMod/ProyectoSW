@@ -38,6 +38,10 @@ header, footer {
 	right: 0;
 }
 
+footer {
+	margin-bottom: 1em;
+}
+
 .container {
 
 	flex: 1 0 auto;
@@ -51,8 +55,6 @@ header, footer {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
-
-	width: 100%;
 }
 
 .content {
@@ -67,9 +69,14 @@ header, footer {
 	-webkit-flex: 3;
 	-ms-flex: 3;
 	flex: 3;
+
+	min-width: 0;
+	min-height: 0;
+	overflow: auto;
 }
 
 .navbar {
+
 	-webkit-box-ordinal-group: 1;
 	-moz-box-ordinal-group: 1;
 	-ms-flex-order: 1;
@@ -80,7 +87,7 @@ header, footer {
 	-moz-box-flex: 1;	
 	-webkit-flex: 1;
 	-ms-flex: 1;
-	flex: 1;
+	flex: 0 1 auto;
 
 	text-align: center;
 }
@@ -101,9 +108,7 @@ header, footer {
 	-moz-box-flex: 1;
 	-webkit-flex: 1;
 	-ms-flex: 1;
-	flex: 1;
-
-	background-color: #62626D;
+	flex: 0 1 auto;
 }
 
 .content, .navbar, .sidebar {
@@ -121,9 +126,108 @@ header, footer {
 	width: 50%;
 }
 
-#tablaAutores th, td {
+#tablaAutores th, #tablaAutores td {
 	border: 1px solid black;
 	width: 50%;
+}
+
+.infoTable {
+	background: white;
+	border-radius:3px;
+	border-collapse: collapse;
+	height: 320px;
+	margin: auto;
+	/*max-width: 600px;*/
+	padding:5px;
+	width: 100%;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+	animation: float 5s infinite;
+}
+
+.scrollContent {
+	overflow: auto;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+	min-width: 0;
+}
+
+.infoTable th {
+	color:#D5DDE5;
+	background:#1b1e24;
+	border-bottom:4px solid #9ea7af;
+	border-right: 1px solid #343a45;
+	/*font-size:23px;*/
+	font-weight: 100;
+	/*padding: 24px;*/
+	padding: 5px;
+	text-align: center;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	vertical-align: middle;	
+	white-space: nowrap;
+}
+
+.infoTable th:first-child {
+	border-top-left-radius: 3px;
+}
+
+.infoTable th:last-child {
+	border-top-right-radius: 3px;	
+	border-right: none;
+}
+
+.infoTable tr {
+	border-top: 1px solid #C1C3D1;
+	border-bottom-: 1px solid #C1C3D1;
+	color:#666B85;
+	/*font-size: 16px;*/
+	font-weight: normal;
+	text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+
+.infoTable tr:hover td {
+	background:#4E5066;
+	color:#FFFFFF;
+	border-top: 1px solid #22262e;
+}
+
+.infoTable tr:first-child {
+	border-top: none;
+}
+
+.infoTable tr:last-child {
+	border-bottom: none;
+}
+
+.infoTable tr:nth-child(odd) td {
+	background: #EBEBEB;
+}
+
+.infoTable tr:nth-child(odd):hover td {
+	background: #4E5066;
+}
+
+.infoTable tr:last-child td:first-child {
+	border-bottom-left-radius: 3px;
+}
+
+.infoTable tr:last-child td:last-child {
+	border-bottom-right-radius: 3px;
+}
+
+.infoTable td {
+	background:#FFFFFF;
+	/*padding:20px;*/
+	padding: 5px;
+	text-align: left;
+	vertical-align: middle;
+	font-weight: 300;
+	font-size: 18px;
+	text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+	border-right: 1px solid #C1C3D1;
+}
+
+.infoTable td:last-child {
+	border-right: 0px;
+	text-align: center;
 }
 
 form fieldset {
@@ -212,28 +316,15 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 /* Style the Image Used to Trigger the Modal */
-#previewImage {
-	display: none;
+.modalImage {
 	border-radius: 5px;
 	cursor: pointer;
 	transition: 0.3s;
-	width: 20%;
-	height: auto;
 	object-fit: contain;
-	display: block;
-	margin-left: 5%;
-	margin-right: auto;
 }
 
-#previewImage:hover {
+.modalImage:hover {
 	opacity: 0.7;
-}
-
-#quitarImagen { 
-	width: auto;
-	display: none;
-	margin-left: 5%;
-	margin-right: auto;
 }
 
 /* The Modal (background) */
@@ -252,11 +343,11 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 /* Modal Content (Image) */
-.modal-content {
-	margin: auto;
+.modal-content {	
 	display: block;
-	width: 80%;
-	max-width: 700px;
+	margin: auto;
+	max-width:50%;
+	height:auto;
 }
 
 /* Caption of Modal Image (Image Text) - Same Width as the Image */
@@ -306,15 +397,23 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	cursor: pointer;
 }
 
-/* 100% Image Width on Smaller Screens */
-@media only screen and (max-width: 700px){
-	.modal-content {
-		width: 100%;
-	}
+#previewImage {
+	display: none;
+	margin-left: 5%;
+	margin-right: auto;
+	max-width:50%;
+	height:auto;
+}
+
+#quitarImagen { 	
+	display: none;
+	width: auto;
+	margin-left: 5%;
+	margin-right: auto;
 }
 
 /* mobile layout */
-@media (max-width: 480px) {
+@media only screen and (max-width: 480px) {
 
 	.container {
 		display: -webkit-box;
@@ -354,6 +453,11 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 		-ms-flex-order: 3;
 		-webkit-order: 3;
 		order: 3;	
+	}
+
+	/* 100% Image Width on Smaller Screens */
+	.modal-content {
+		width: 100%;
 	}
 
 }

@@ -33,20 +33,22 @@
 
 			if ($result->num_rows != 0) {
 
-				echo "<table>";
+				echo "<table class=\"infoTable\">";
+				echo "<thead>";
 				echo "<tr>";
-				echo "<th>id</th>";
-				echo "<th>email</th>";
-				echo "<th>enunciado</th>";
-				echo "<th>respuesta_correcta</th>";
-				echo "<th>respuesta_incorrecta_1</th>";
-				echo "<th>respuesta_incorrecta_2</th>";
-				echo "<th>respuesta_incorrecta_3</th>";
-				echo "<th>complejidad</th>";
-				echo "<th>tema</th>";
-				echo "<th>imagen</th>";
+				echo "<th>Id</th>";
+				echo "<th>Email</th>";
+				echo "<th>Enunciado</th>";
+				echo "<th>Respuesta Correcta</th>";
+				echo "<th>Respuesta Incorrecta 1</th>";
+				echo "<th>Respuesta Incorrecta 2</th>";
+				echo "<th>Respuesta Incorrecta 3</th>";
+				echo "<th>Complejidad</th>";
+				echo "<th>Tema</th>";
+				echo "<th>Imagen</th>";
 				echo "</tr>";
-
+				echo "</thead>";
+				echo "<tbody>";
 				while ($question = $result->fetch_assoc()) {
 					echo "<tr>";
 					echo "<td>$question[id]</td>";
@@ -64,10 +66,11 @@
 						$image = $question["imagen"];
 					}
 
-					echo "<td><img src='$image'style='max-width: 100%; height: auto; object-fit: cover;'></td>";
+					echo "<td><img class=\"modalImage\" src='$image' style=\"max-width: 50%; height: auto; object-fit: contain;\"></td>";
 					echo "</tr>";
-				}
-				echo "</table>\n";
+				}				
+				echo "</tbody>";
+				echo "</table>";
 				$result->free();
 			} else {
 				echo "We could not find any values, sorry about that.";
@@ -75,7 +78,7 @@
 
 		}
 
-				// Close connection
+		// Close connection
 		$conn->close();
 
 	}
@@ -98,18 +101,24 @@
 			<span><a href='creditos.html'>Creditos</a></span>
 		</nav>
 		<article class="content">
+			<div class="scrollContent">
+				<?php createQuestionTable()?>
+			</div>
+			<!-- The Modal -->
+			<div id="modalElement" class="modal">
 
-			<form id="fpreguntas" name="fpreguntas">
-				<fieldset>
-					<legend>DATOS DE LA PREGUNTA</legend>
-					<div>
-						<?php createQuestionTable()?>
-					</div>
-					<div>
-						<input type="button" id="volver" name="volver" value="Volver" onClick="javascript:history.go(-1)"/>
-					</div>
-				</fieldset>
-			</form>
+				<!-- The Close Button -->
+				<span class="close">&times;</span>
+
+				<!-- Modal Content (The Image) -->
+				<img class="modal-content" id="img01">
+
+				<!-- Modal Caption (Image Text) -->
+				<div id="caption"></div>
+			</div>
+			<div>
+				<input type="button" id="volver" name="volver" value="Volver" onClick="javascript:history.go(-1)"/>
+			</div>
 		</article>		
 		<aside class="sidebar">
 			Sidebar contents<br/>(sidebar)

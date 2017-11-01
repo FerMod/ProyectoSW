@@ -106,9 +106,17 @@
 					$pass = $_POST['password'];
 					$passrep = $_POST['passwordRep'];
 					
+					$imagen = null;
+					
 					if(!empty($email) && !empty($nombre) && !empty($username) && !empty($pass) && !empty($passrep) && isValidEmail($email)) {
 						if($pass == $passrep) { #Comprobamos que la contraseña escrita coincide con su repetición.
 							$pass = password_hash($_POST['password'], PASSWORD_DEFAULT); #Guardamos de forma segura la contraseña.
+							
+							// Undefined | Multiple Files | $_FILES Corruption Attack
+							// If this request falls under any of them, treat it invalid.
+							if (!isset($_FILES['imagen']['error']) || is_array($_FILES['imagen']['error'])) {
+								throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Parametros inválidos.</div>");
+							}
 							
 							$containsImage = false;
 
@@ -162,9 +170,11 @@
 								)) {
 									throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
 								}
+								
+								$imagen = sprintf('%s%s.%s', $imageUploadFolder, $sha1Name, $ext);
 							}
 							
-							$imagen = sprintf('%s%s.%s', $imageUploadFolder, $sha1Name, $ext);
+							
 							$sql = "INSERT INTO `usuarios` (`email`, `password`, `nombre`, `username`, `imagen`) VALUES ('$email', '$pass', '$nombre', '$username', '$imagen')";
 							
 							if($conn->query($sql)) {

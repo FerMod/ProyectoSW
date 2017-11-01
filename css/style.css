@@ -36,7 +36,10 @@ header, footer {
 	padding: 1em;
 	left: 0;
 	right: 0;
-	padding-bottom: 2e;
+}
+
+footer {
+	margin-bottom: 1em;
 }
 
 .container {

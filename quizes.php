@@ -64,6 +64,23 @@
 					<div>
 						<label for="imagen">Subir imagen:</label>
 						<input type="file" name="imagen" id="imagen"/>
+
+						<img id="previewImage" src="#"/>
+						<input type="button" id="quitarImagen" value="Quitar Imagen"/>
+
+						<!-- The Modal -->
+						<div id="modalElement" class="modal">
+
+							<!-- The Close Button -->
+							<span class="close">&times;</span>
+
+							<!-- Modal Content (The Image) -->
+							<img class="modal-content" id="img01">
+
+							<!-- Modal Caption (Image Text) -->
+							<div id="caption"></div>
+						</div>
+
 					</div>
 					<div>
 						<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>

@@ -36,46 +36,46 @@
 				$email = formatInput($_POST['email']) ?? '';
 				if(!isValidEmail($email)) {
 					$uploadOk = false;
-					$dataCheckMessage .= "El formato del email no es correcto.<br>Debe cumplir el formato de la UPV/EHU.<br>";
+					$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El formato del email no es correcto.<br>Debe cumplir el formato de la UPV/EHU.</div><br>";
 				}
 			} else {
 				$uploadOk = false;
-				$dataCheckMessage .= "El campo de \"Email\" no puede ser vacio.<br>";
+				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo de \"Email\" no puede ser vacío.</div>";
 			}
 
 			if(isset($_POST['enunciado']) && !empty($_POST['enunciado'])) { 
 				$enunciado = formatInput($_POST['enunciado']) ?? '';
 			} else {
 				$uploadOk = false;
-				$dataCheckMessage .= "El campo de \"Enunciado\" no puede ser vacio.<br>";
+				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo de \"Enunciado\" no puede ser vacío.</div>";
 			}
 
 			if(isset($_POST['respuestacorrecta']) && !empty($_POST['respuestacorrecta'])) { 
 				$respuestaCorrecta = formatInput($_POST['respuestacorrecta']) ?? '';
 			} else {
 				$uploadOk = false;
-				$dataCheckMessage .= "El campo de \"Respuesta correcta\" no puede ser vacio.<br>";
+				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo de \"Respuesta correcta\" no puede ser vacio.</div>";
 			}
 
 			if(isset($_POST['respuestaincorrecta1']) && !empty($_POST['respuestaincorrecta1'])) { 
 				$respuestaIncorrecta = formatInput($_POST['respuestaincorrecta1']) ?? '';
 			} else {
 				$uploadOk = false;
-				$dataCheckMessage .= "El campo de \"Respuesta incorrecta 1\" no puede ser vacio.<br>";
+				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo de \"Respuesta incorrecta 1\" no puede ser vacio.</div>";
 			}
 
 			if(isset($_POST['respuestaincorrecta2']) && !empty($_POST['respuestaincorrecta2'])) { 
 				$respuestaIncorrecta1 = formatInput($_POST['respuestaincorrecta2']) ?? '';
 			} else {
 				$uploadOk = false;
-				$dataCheckMessage .= "El campo de \"Respuesta incorrecta 2\" no puede ser vacio.<br>";
+				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo de \"Respuesta incorrecta 2\" no puede ser vacio.</div>";
 			}
 
 			if(isset($_POST['respuestaincorrecta3']) && !empty($_POST['respuestaincorrecta3'])) { 
 				$respuestaIncorrecta2 = formatInput($_POST['respuestaincorrecta3']) ?? '';
 			} else {
 				$uploadOk = false;
-				$dataCheckMessage .= "El campo de \"Respuesta incorrecta 3\" no puede ser vacio. <br>";
+				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo de \"Respuesta incorrecta 3\" no puede ser vacio.</div>";
 			}
 
 			/*
@@ -94,25 +94,25 @@
 			 * $var; (a variable declared, but without a value)
 			 *
 			 */
-			if(isset($_POST['complejidad']) && !empty($_POST['complejidad']) || $_POST['complejidad'] != '') { 
+			if(isset($_POST['complejidad']) && !empty($_POST['complejidad']) || $_POST['complejidad'] != 0) { 
 				$complejidad = formatInput($_POST['complejidad']) ?? '';
 				if(!is_numeric($complejidad)) {
 					$uploadOk = false;
-					$dataCheckMessage .= "El valor del campo \"Complejidad\" debe ser un número.<br>";
+					$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El valor del campo \"Complejidad\" debe ser un número.</div>";
 				} else if($complejidad < 1 || $complejidad > 5){
 					$uploadOk = false;
-					$dataCheckMessage .= "El valor del campo \"Complejidad\" debe estar entre el 1 y el 5, ambos inclusive.<br>";
+					$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El valor del campo \"Complejidad\" debe estar entre el 1 y el 5, ambos inclusive.</div>";
 				}
 			} else {
 				$uploadOk = false;
-				$dataCheckMessage .= "El campo de \"Complejidad\" no puede ser vacio.<br>";
+				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo de \"Complejidad\" no puede ser vacio.</div>";
 			}
 
 			if(isset($_POST['tema']) && !empty($_POST['tema'])) { 
 				$tema = formatInput($_POST['tema']) ?? '';
 			} else {
 				$uploadOk = false;
-				$dataCheckMessage .= "El campo de \"Tema\" no puede ser vacio.<br>";
+				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo de \"Tema\" no puede ser vacio.</div>";
 			}
 
 			// Check if everything is ok
@@ -123,7 +123,7 @@
 			// Undefined | Multiple Files | $_FILES Corruption Attack
 			// If this request falls under any of them, treat it invalid.
 			if (!isset($_FILES['imagen']['error']) || is_array($_FILES['imagen']['error'])) {
-				throw new RuntimeException('Parametros inválidos.');
+				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Parametros inválidos.</div>");
 			}
 
 			$containsImage = false;
@@ -137,16 +137,16 @@
 				break;
 				case UPLOAD_ERR_INI_SIZE:
 				case UPLOAD_ERR_FORM_SIZE:
-				throw new RuntimeException('Tamaño de archivo excedido.');
+				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Tamaño de archivo excedido.</div>");
 				default:
-				throw new RuntimeException('Error desconocido.');
+				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Error desconocido.</div>");
 			}
 
 			if($containsImage) {
 
 				// You should also check filesize here. 
 				if ($_FILES['imagen']['size'] > 1000000) {
-					throw new RuntimeException('Tamaño de archivo excedido.');
+					throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Tamaño de archivo excedido.");
 				}
 
 				// DO NOT TRUST $_FILES['imagen']['mime'] VALUE !!
@@ -161,7 +161,7 @@
 					),
 					true
 				)) {
-					throw new RuntimeException('Formato de archivo inválido.');
+					throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Formato de archivo inválido.</div>");
 				}
 
 				// You should name it uniquely.
@@ -176,11 +176,11 @@
 						$ext
 					)
 				)) {
-					throw new RuntimeException('Fallo al mover el archivo.');
+					throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
 				}
 
 				$imagenPregunta = sprintf('%s%s.%s', $imageUploadFolder, $sha1Name, $ext);
-				$operationMessage .= 'Archivo subido de forma correcta.';
+				$operationMessage .= "Archivo subido de forma correcta.";
 
 			}
 
@@ -197,10 +197,10 @@
 
 			if (!$result = $conn->query($sql)) {
 				// Oh no! The query failed. 
-				$operationMessage .= "<br>La pregunta no se ha insertado correctamente debido a un error con la base de datos. <br>Presione el botón de volver e inténtelo de nuevo.";
+				$operationMessage .= "<div class=\"serverMessage\" id=\"serverErrorMessage\">La pregunta no se ha insertado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
 			} else {
 				//$last_id = $conn->insert_id;
-				$operationMessage .= "<br>La pregunta se ha insertado correctamente. <br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>";
+				$operationMessage .= "<div class=\"serverMessage\" id=\"serverInfoMessage\">La pregunta se ha insertado correctamente. <br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a></div>";
 			}
 
 			// Close connection

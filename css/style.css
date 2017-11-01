@@ -27,7 +27,7 @@ body {
 	background-color: #333;
 
 	display: flex;
-  	flex-direction: column;
+	flex-direction: column;
 }
 
 header, footer {
@@ -155,7 +155,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 #registro {
-    text-align: center;
+	text-align: center;
 }
 
 #registro legend {
@@ -164,8 +164,36 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 
 #registro fieldset {
 	background: #87bcc7;
-    width: 50%;
+	width: 50%;
 	display: inline-block;
+}
+
+.serverMessage {
+	border: 4px solid #6D6D6D;
+	padding: 15px;
+	margin: 5px auto 5px auto;
+	border-radius: 5px;
+	word-spacing: 2px;
+	border-radius: 5px;
+	box-shadow: 3px 3px 0px #969696;
+}
+
+#serverDefaultMessage {
+	background-color: #FFFFFF;
+	border: 4px solid #6D6D6D;
+	box-shadow: 3px 3px 0px #969696;
+}
+
+#serverInfoMessage {
+	background-color: #D9DEFF;
+	border: 4px solid #607DCC;
+	box-shadow: 3px 3px 0px #575796;
+}
+
+#serverErrorMessage {
+	background-color: #FFB3B3;
+	border: 4px solid #CC473D;
+	box-shadow: 3px 3px 0px #962A2A;
 }
 
 /* mobile layout */

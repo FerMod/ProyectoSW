@@ -101,7 +101,7 @@ $(document).ready(function() {
 		$(this).css("display", "none");
 	});
 
-	$("#previewImage").on("click", function() {
+	$(".modalImage").on("click", function() {
 		$("#modalElement").css("display", "block");
 		$("#img01").attr("src", $(this).attr("src"));
 		$("#caption").html($(this).attr("alt"));

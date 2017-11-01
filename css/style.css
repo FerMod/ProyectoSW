@@ -197,28 +197,17 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 /* Style the Image Used to Trigger the Modal */
-#previewImage {
-	display: none;
+.modalImage {
 	border-radius: 5px;
 	cursor: pointer;
 	transition: 0.3s;
-	width: 20%;
+	width: auto;
 	height: auto;
 	object-fit: contain;
-	display: block;
-	margin-left: 5%;
-	margin-right: auto;
 }
 
-#previewImage:hover {
+.modalImage:hover {
 	opacity: 0.7;
-}
-
-#quitarImagen { 
-	width: auto;
-	display: none;
-	margin-left: 5%;
-	margin-right: auto;
 }
 
 /* The Modal (background) */
@@ -291,15 +280,21 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	cursor: pointer;
 }
 
-/* 100% Image Width on Smaller Screens */
-@media only screen and (max-width: 700px){
-	.modal-content {
-		width: 100%;
-	}
+#previewImage {
+	display: none;
+	margin-left: 5%;
+	margin-right: auto;
+}
+
+#quitarImagen { 	
+	display: none;
+	width: auto;
+	margin-left: 5%;
+	margin-right: auto;
 }
 
 /* mobile layout */
-@media (max-width: 480px) {
+@media only screen and (max-width: 480px) {
 
 	.container {
 		display: -webkit-box;
@@ -339,6 +334,11 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 		-ms-flex-order: 3;
 		-webkit-order: 3;
 		order: 3;	
+	}
+
+	/* 100% Image Width on Smaller Screens */
+	.modal-content {
+		width: 100%;
 	}
 
 }

@@ -64,7 +64,7 @@
 						$image = $question["imagen"];
 					}
 
-					echo "<td><img src='$image'style='max-width: 100%; height: auto; object-fit: cover;'></td>";
+					echo "<td><img class=\"modalImage\" src='$image' style='max-width: 100%; height: auto; object-fit: cover;'></td>";
 					echo "</tr>";
 				}
 				echo "</table>\n";
@@ -104,6 +104,18 @@
 					<legend>DATOS DE LA PREGUNTA</legend>
 					<div>
 						<?php createQuestionTable()?>
+					</div>
+					<!-- The Modal -->
+					<div id="modalElement" class="modal">
+
+						<!-- The Close Button -->
+						<span class="close">&times;</span>
+
+						<!-- Modal Content (The Image) -->
+						<img class="modal-content" id="img01">
+
+						<!-- Modal Caption (Image Text) -->
+						<div id="caption"></div>
 					</div>
 					<div>
 						<input type="button" id="volver" name="volver" value="Volver" onClick="javascript:history.go(-1)"/>

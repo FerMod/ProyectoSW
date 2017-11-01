@@ -66,7 +66,7 @@
 						$image = $question["imagen"];
 					}
 
-					echo "<td><img class=\"modalImage\" src='$image' style=\"max-width: 100%; height: auto; object-fit: cover;\"></td>";
+					echo "<td><img class=\"modalImage\" src='$image' style=\"max-width: 50%; height: auto; object-fit: contain;\"></td>";
 					echo "</tr>";
 				}				
 				echo "</tbody>";

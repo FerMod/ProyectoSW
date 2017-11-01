@@ -25,7 +25,7 @@
 			<span><a href='creditos.html'>Creditos</a></span>
 		</nav>
 		<article class="content">
-			<form id="login" enctype="multipart/form-data">	
+			<form id="login" enctype="multipart/form-data" method="post">	
 				<fieldset>
 					<legend>LOGIN</legend>
 
@@ -40,7 +40,7 @@
 					</div>
 
 					<div>
-						<input type="submit" value="Acceder"/>
+						<input type="submit" value="Acceder" name="submit"/>
 					</div>
 
 				</fieldset>
@@ -51,31 +51,44 @@
 		</aside>
 	</div>
 		<?php 
-			include "config.php";
+			function logIn() {
+				include "config.php";
 
-			// Create connection
-			$conn = new mysqli($servername, $username, $password, $database);
+				// Create connection
+				$conn = new mysqli($servername, $username, $password, $database);
 
-			// Check connection
-			if ($conn->connect_error) {
-				trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
-			}
+				// Check connection
+				if ($conn->connect_error) {
+					trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
+				}
 			
-			$email = $_POST['email'];
-			$pass = $_POST['password'];
+				$email = $_POST['email'];
+				$pass = $_POST['password'];
 			
-			$sql = "SELECT * FROM `usuarios` WHERE `username`='$email' AND `password`='$password'";
-	
-			if($conn->query($sql)) {
-				
-			} else {
-				
+				if(!empty($email) && !empty($pass)) {
+					$result = $conn->query("SELECT * FROM `usuarios` WHERE `email`='email'");
+					$con = $result->fetch_assoc(); #Para comprobar que la contraseña que se escribe es correcta.
+					$passhash = $con[password];
+					if(password_verify($pass,$passhash)) {
+						echo '<script language="javascript">alert("¡Bienvenido ".$con[username]."!");</script>';
+					} else if(!$result){
+						echo '<script language="javascript">alert("No existe email asignado a la contraseña.");</script>';
+					} else {
+						echo '<script language="javascript">alert("Contraseña incorrecta.");</script>';
+					}
+				} else {
+					echo '<script language="javascript">alert("Faltan campos por escribir.");</script>';
+				}
 			}
 		?>
 	<footer>
 		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 	</footer>
-
+		<?php
+			if(isset($_POST['submit'])) {
+				logIn();
+			}
+		?>
 </body>
 </html>

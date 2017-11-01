@@ -65,12 +65,12 @@
 				$email = $_POST['email'];
 				$pass = $_POST['password'];
 			
-				if(!empty($email) && !empty($pass)) {
-					$result = $conn->query("SELECT * FROM `usuarios` WHERE `email`='email'");
+				if(!empty($email) && isset($email) && !empty($pass) && isset($pass)) {
+					$result = $conn->query("SELECT * FROM `usuarios` WHERE `email`='$email'");
 					$con = $result->fetch_assoc(); #Para comprobar que la contraseña que se escribe es correcta.
-					$passhash = $con[password];
+					$passhash = $con["password"];
 					if(password_verify($pass,$passhash)) {
-						echo '<script language="javascript">alert("¡Bienvenido ".$con[username]."!");</script>';
+						header('Location: layout.html'); #Redirecciona a la página de Inicio.
 					} else if(!$result){
 						echo '<script language="javascript">alert("No existe email asignado a la contraseña.");</script>';
 					} else {

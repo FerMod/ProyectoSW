@@ -164,7 +164,7 @@
 								if (!move_uploaded_file(
 									$_FILES['imagen']['tmp_name'],
 									sprintf('%s%s.%s',
-										$profileImageFolder,
+										$imageImageFolder,
 										$sha1Name,
 										$ext
 								)
@@ -172,7 +172,7 @@
 									throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
 								}
 								
-								$imagen = sprintf('%s%s.%s', $profileImageFolder, $sha1Name, $ext);
+								$imagen = sprintf('%s%s.%s', $imageImageFolder, $sha1Name, $ext);
 							}
 						} catch (RuntimeException $e) {
 							$operationMessage .= $e->getMessage();
@@ -182,17 +182,17 @@
 							$sql = "INSERT INTO `usuarios` (`email`, `password`, `nombre`, `username`, `imagen`) VALUES ('$email', '$pass', '$nombre', '$username', '$imagen')";
 							
 							if($conn->query($sql)) {
-								echo '<script language="javascript">alert("¡Se ha registrado el usuario con éxito!");</script>'; 
+								echo '<div class=\"serverMessage\" id=\"serverInfoMessage\">¡Se ha registrado el usuario con éxito!"</div>'; 
 							} else {
-								echo '<script language="javascript">alert("Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.");</script>'; 
+								echo '<div class=\"serverMessage\" id=\"serverErrorMessage\">Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.</div>'; 
 							}
 						} else {
-							echo '<script language="javascript">alert("La contraseña no coincide con su repetición, vuelva a intentarlo.");</script>'; 
+							echo '<div class=\"serverMessage\" id=\"serverErrorMessage\">La contraseña no coincide con su repetición, vuelva a intentarlo.</div>'; 
 						}
 					} else if(!isValidEmail($email)) {
-						echo '<script language="javascript">alert("Debe escribir el email con el formato correcto. Ejemplo: correo123@ikasle.ehu.eus/correo123@ikasle.ehu.es");</script>';
+						echo '<div class=\"serverMessage\" id=\"serverErrorMessage\">Debe escribir el email con el formato correcto. Ejemplo: correo123@ikasle.ehu.eus/correo123@ikasle.ehu.es.</div>';
 					} else {
-						echo '<script language="javascript">alert("No se puede dejar ningún campo clave vacío.");</script>'; 
+						echo '<div class=\"serverMessage\" id=\"serverErrorMessage\">No se puede dejar ningún campo clave vacío.</div>'; 
 					}
 			}
 			

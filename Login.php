@@ -20,9 +20,8 @@
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
-			<span><a href='layout.html'>Inicio</a></span>
-			<span><a href='quizes.php'>Preguntas</a></span>
-			<span><a href='creditos.html'>Creditos</a></span>
+			<span><a href='layout.php'>Inicio</a></span>
+			<span><a href='creditos.php'>Creditos</a></span>
 		</nav>
 		<article class="content">
 			<form id="login" enctype="multipart/form-data" method="post">	
@@ -70,7 +69,9 @@
 					$con = $result->fetch_assoc(); #Para comprobar que la contraseña que se escribe es correcta.
 					$passhash = $con["password"];
 					if(password_verify($pass,$passhash)) {
-						header('Location: layout.html'); #Redirecciona a la página de Inicio.
+						//session_start(); hemos comentado todo el apartado de la sesión abierta, ya que a pesar de que interacciona con la base de datos correctamente no hemos podido mantener las sesiones abiertas.
+						//$_SESSION["autentica"] = "LOG";
+						header('Location: layout.php'); #Redirecciona a la página de Inicio.
 					} else if(!$result){
 						echo '<script language="javascript">alert("No existe email asignado a la contraseña.");</script>';
 					} else {

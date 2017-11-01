@@ -8,16 +8,21 @@ if($local) {
 	$password = "";
 	$database = "quiz";
 } else {
-	$servername = "";
+	$servername = "localhost";
 	$username = "";
 	$password = "";
-	$database = "quiz";
+	$database = "";
 }
 
 $imageUploadFolder = './img/uploads/';
+$profileImageFolder = './img/users/';
 
 if (!file_exists($imageUploadFolder)) {
-    mkdir($imageUploadFolder, 0777, true);
+	mkdir($imageUploadFolder, 0777, true);
+}
+
+if (!file_exists($profileImageFolder)) {
+	mkdir($profileImageFolder, 0777, true);
 }
 
 ?>

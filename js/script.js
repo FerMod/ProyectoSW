@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+	/* --- COMENTED TO TEST THE SERVER VALIDATION ---
 	$("#fpreguntas").on("submit", function() {
 		
 		var emailExp = new RegExp("^[a-zA-Z]+\\d{3}@ikasle\.ehu\.(eus|es)$");
@@ -36,56 +37,39 @@ $(document).ready(function() {
 		return false;
 
 	});
+	*/
 
 	function isNumber(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 
-	$("#imagen").on("change", function(){
+	$("#imagen").on("change", function() {
 
 		if($("#imagen").val()) {
 
-			// Create element if does not exist
-			if (!$("#quitarImagen").length) {
-				
-				$buttonElement = "<input type='button' id='quitarImagen' value='Quitar Imagen' style='width: auto; display: block; margin-left: 5%; margin-right: auto;'/>";
-				
-				$(this).after($buttonElement);
-
-				$("#quitarImagen").on("click", function() {
-
-					$("#imagen").val('');
-
-					$("#previewImage").remove();
-
-					$("#quitarImagen").remove();
-
-				});
-
+			if ($("#quitarImagen").css("display") == "none") { //If does not show				
+				$("#quitarImagen").css("display", "block");
 			}
 
-			if (!$("#previewImage").length) { //If does not exist
-				
-				//Create the image preview
-				$imageElement =  "<img id='previewImage' src='#' style='width: 20%; height: auto; object-fit: contain; display: block; margin-left: 5%; margin-right: auto;'/>";
-				
-				$(this).after($imageElement);
-
+			if ($("#previewImage").css("display") == "none") { //If does not show			
+				$("#previewImage").css("display", "block");
 			}
 
 			previewImage(this, $("#previewImage"));
 
 		} else {
 
-			if ($("#quitarImagen").length) {
-				$("#quitarImagen").remove();
-			}
-
-			if ($("#previewImage").length) {
-				$("#previewImage").remove();
-			}
+			$("#quitarImagen").css("display", "none");
+			$("#previewImage").css("display", "none");
 
 		}
+
+	});
+
+	$("#quitarImagen").on("click", function() {
+
+		$("#imagen").val("");
+		$("#imagen").trigger("change");
 
 	});
 
@@ -96,17 +80,31 @@ $(document).ready(function() {
 			var reader = new FileReader();
 
 			reader.onload = function(e) {
-				imgElement.attr('src', e.target.result);
+				imgElement.attr("src", e.target.result);
+				imgElement.attr("alt", "Imagen de la pregunta");
 			}
 
 			reader.readAsDataURL(input.files[0]);
 
-		} else if (imgElement.length) {
-			imgElement.remove();
 		}
 
 	}
 
-	
-	
+	// When the user clicks on <span> (x), close the modal
+	$(".close").on("click", function(event) { 
+		event.stopPropagation();
+		$("#modalElement").css("display", "none");
+	});
+
+	// When the user clicks away, close the modal
+	$("#modalElement").on("click",function(event) {
+		$(this).css("display", "none");
+	});
+
+	$(".modalImage").on("click", function() {
+		$("#modalElement").css("display", "block");
+		$("#img01").attr("src", $(this).attr("src"));
+		$("#caption").html($(this).attr("alt"));
+	});
+
 });

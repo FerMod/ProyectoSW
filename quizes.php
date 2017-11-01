@@ -1,111 +1,115 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
-		<title>Preguntas</title>
-		<link rel='stylesheet' type='text/css' href='css/style.css' />
-		<link rel='stylesheet' 
-			type='text/css' 
-			media='only screen and (min-width: 530px) and (min-device-width: 481px)'
-			href='css/wide.css' />
-		<link rel='stylesheet' 
-			type='text/css' 
-			media='only screen and (max-width: 480px)'
-			href='css/smartphone.css' />	
-		<script
-			src="https://code.jquery.com/jquery-3.2.1.js"
-			integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-			crossorigin="anonymous"></script>
-		<script src="js/script.js"></script>
+<head>
+	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
+	<title>Preguntas</title>
 
+	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+	<script src="js/script.js"></script>	
+
+	<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+	<header>
+		<span ><a href="Registrar.php">Registrarse</a></span>
 		<?php
-
-			include "prueba.php";
-			include "config.php";
-
-			// Create connection
-			$conn = new mysqli($servername, $username, $password, $database);
- 
-			// Check connection
-			if ($conn->connect_error) {
-			 	trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
-			} else {
-				//echo "Connection success." . PHP_EOL; // PHP_EOL The correct 'End Of Line' symbol for this platform
-				//echo "Host information: " . $conn->host_info . PHP_EOL; //OK
-			}
-
-			// Close connection
-			$conn->close();
-
+			//session_start();
+			
+			//if($_SESSION["autentica"] == "LOG") {
+				echo '<span><a href="logout.php">Log Out</a></span>';
+			//}
 		?>
+		<span style="display:none;"><a href="/logout">Logout</a></span>
+		<h2>Quiz: el juego de las preguntas</h2>
+	</header>
+	<div class="container">
+		<nav class="navbar" role="navigation">
+			<span><a href='layout.php'>Inicio</a></span>
+			<?php 
+				//session_start();
+			
+				//if($_SESSION["autentica"] == "LOG") {
+					echo '<span><a href="quizes.php">Preguntas</a></span>';
+				//}
+			?>
+			<span><a href='creditos.php'>Creditos</a></span>
+		</nav>
+		<article class="content">
 
-	</head>
-	<body>
-		<div id='page-wrap'>
-			<header class='main' id='h1'>
-				<span class="right"><a href="registro">Registrarse</a></span>
-				<span class="right"><a href="login">Login</a></span>
-				<span class="right" style="display:none;"><a href="/logout">Logout</a></span>
-				<h2>Quiz: el juego de las preguntas</h2>
-			</header>
-			<nav class='main' id='n1' role='navigation'>
-				<span><a href='layout.html'>Inicio</a></span>
-				<span><a href='quizes.php'>Preguntas</a></span>
-				<span><a href='creditos.html'>Creditos</a></span>
-			</nav>
-			<section class="main" id="s1">
+			<form id="fpreguntas" name="fpreguntas" method="post" action="InsertarPreguntaConFoto.php" enctype="multipart/form-data">
+				<fieldset>
+					<legend>DATOS DE LA PREGUNTA</legend>
+					<div>
+						<label for="email">Email*:</label>
+						<input type="text" id="email" name="email"/>
+					</div>
+					<div>
+						<label for="enunciado">Enunciado de la pregunta*:</label>
+						<input type="text" id="enunciado" name="enunciado" size="35" />
+					</div>
+					<div>
+						<label for="respuestacorrecta">Respuesta correcta*:</label>
+						<input type="text" id="respuestacorrecta" name="respuestacorrecta" size="35" />
+					</div>
+					<div>
+						<label for="respuestaincorrecta1">Respuesta incorrecta 1*:</label>
+						<input type="text" id="respuestaincorrecta1" name="respuestaincorrecta1" size="35" />
+					</div>
+					<div>
+						<label for="respuestaincorrecta2">Respuesta incorrecta 2*:</label>
+						<input type="text" id="respuestaincorrecta2" name="respuestaincorrecta2" size="35" />
+					</div>
+					<div>
+						<label for="respuestaincorrecta3">Respuesta incorrecta 3*:</label>
+						<input type="text" id="respuestaincorrecta3" name="respuestaincorrecta3" size="35" />
+					</div>
+					<div>
+						<label for="complejidad">Complejidad (1..5)*:</label>
+						<input type="text" id="complejidad" name="complejidad" size="10" />
+					</div>
+					<div>
+						<label for="tema">Tema (subject)*:</label>
+						<input type="text" id="tema" name="tema" size="10" />
+					</div>
+					<div>
+						<label for="imagen">Subir imagen:</label>
+						<input type="file" name="imagen" id="imagen"/>
 
-				<form id="fpreguntas" name="fpreguntas" method="post" action="InsertarPreguntaConFoto.php" enctype="multipart/form-data">
-					<fieldset>
-						<legend>DATOS DE LA PREGUNTA</legend>
-						<div>
-							<label for="email">Email*:</label>
-							<input type="text" id="email" name="email"/>
+						<img id="previewImage" class="modalImage" src="#"/>
+						<input type="button" id="quitarImagen" value="Quitar Imagen"/>
+
+						<!-- The Modal -->
+						<div id="modalElement" class="modal">
+
+							<!-- The Close Button -->
+							<span class="close">&times;</span>
+
+							<!-- Modal Content (The Image) -->
+							<img class="modal-content" id="img01">
+
+							<!-- Modal Caption (Image Text) -->
+							<div id="caption"></div>
 						</div>
-						<div>
-							<label for="enunciado">Enunciado de la pregunta*:</label>
-							<input type="text" id="enunciado" name="enunciado" size="35" />
-						</div>
-						<div>
-							<label for="respuestacorrecta">Respuesta correcta*:</label>
-							<input type="text" id="respuestacorrecta" name="respuestacorrecta" size="35" />
-						</div>
-						<div>
-							<label for="respuestaincorrecta">Respuesta incorrecta*:</label>
-							<input type="text" id="respuestaincorrecta" name="respuestaincorrecta" size="35" />
-						</div>
-						<div>
-							<label for="respuestaincorrecta1">Respuesta incorrecta*:</label>
-							<input type="text" id="respuestaincorrecta1" name="respuestaincorrecta1" size="35" />
-						</div>
-						<div>
-							<label for="respuestaincorrecta2">Respuesta incorrecta*:</label>
-							<input type="text" id="respuestaincorrecta2" name="respuestaincorrecta2" size="35" />
-						</div>
-						<div>
-							<label for="complejidad">Complejidad (1..5)*:</label>
-							<input type="text" id="complejidad" name="complejidad" size="10" />
-						</div>
-						<div>
-							<label for="tema">Tema (subject)*:</label>
-							<input type="text" id="tema" name="tema" size="10" />
-						</div>
-						<div>
-							<label for="imagen">Subir imagen:</label>
-							<input type="file" name="imagen" id="imagen"/>
-						</div>
-						<div>
-							<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>
-							<input type="button" id="ver preguntas" value="Ver preguntas ya realizadas" OnClick="window.location='VerPreguntasConFoto.php';"/>
-						</div>
-					</fieldset>
-				</form>
-			</section>
-			<footer class='main' id='f1'>
-				<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
-				<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
-			</footer>
-		</div>
-		
-	</body>
+
+					</div>
+					<div>
+						<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>
+						<input type="button" id="ver preguntas" value="Ver preguntas ya realizadas" OnClick="window.location='VerPreguntasConFoto.php';"/>
+					</div>
+				</fieldset>
+			</form>
+			
+		</article>		
+		<aside class="sidebar">
+			Sidebar contents<br/>(sidebar)
+		</aside>
+	</div>
+	<footer>
+		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
+		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
+	</footer>
+
+</body>
 </html>

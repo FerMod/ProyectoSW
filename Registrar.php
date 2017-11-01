@@ -25,7 +25,7 @@
 			<span><a href='creditos.html'>Creditos</a></span>
 		</nav>
 		<article class="content">
-			<form id="registro" enctype="multipart/form-data">	
+			<form id="registro" enctype="multipart/form-data" method="post">	
 				<fieldset>
 					<legend>REGISTRO</legend>
 
@@ -168,17 +168,17 @@
 							$sql = "INSERT INTO `usuarios` (`email`, `password`, `nombre`, `username`, `imagen`) VALUES ('$email', '$pass', '$nombre', '$username', '$imagen')";
 							
 							if($conn->query($sql)) {
-								echo '<div>¡Se ha registrado el usuario con éxito!</div>'; 
+								echo '<script language="javascript">alert("¡Se ha registrado el usuario con éxito!");</script>'; 
 							} else {
-								echo '<div>Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.</div>'; 
+								echo '<script language="javascript">alert("Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.");</script>'; 
 							}
 						} else {
-							echo '<div>La contraseña no coincide con su repetición, vuelva a intentarlo.</div>'; 
+							echo '<script language="javascript">alert("La contraseña no coincide con su repetición, vuelva a intentarlo.");</script>'; 
 						}
 					} else if(!isValidEmail($email)) {
-						echo '<div>Debe escribir el email con el formato correcto. Ejemplo: correo123@ikasle.ehu.eus/correo123@ikasle.ehu.es"</div>';
+						echo '<script language="javascript">alert("Debe escribir el email con el formato correcto. Ejemplo: correo123@ikasle.ehu.eus/correo123@ikasle.ehu.es");</script>';
 					} else {
-						echo '<div>No se puede dejar ningún campo clave vacío."</div>'; 
+						echo '<script language="javascript">alert("No se puede dejar ningún campo clave vacío.");</script>'; 
 					}
 			}
 			

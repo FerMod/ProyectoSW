@@ -34,6 +34,10 @@
 					$dataCorrect = false;
 					$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El formato del email no es correcto.<br>Debe cumplir el formato de la UPV/EHU.</div>";
 				}
+				if (existsEmail($email, $conn)) {
+					$dataCorrect = false;
+					$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverErrorMessage\">Ya existe una cuenta con el email introducido.</div>";
+				}
 			} else {
 				$dataCorrect = false;
 				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo \"Email\" no puede ser vacío.</div>";
@@ -155,7 +159,7 @@
 			if(!$result = $conn->query($sql)) {
 				$operationMessage .= "<script language=\"javascript\">alert(\"Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.\");</script>"; 
 			} else {
-				$operationMessage .= "<script language=\"javascript\">alert(\"¡Se ha registrado con éxito!\");</script>"; 
+				$operationMessage .= "<script language=\"javascript\">alert(\"¡Se ha registrado con éxito!\"); window.location.replace(\"layout.php\");</script>";
 			}
 
 			// Close connection
@@ -177,6 +181,16 @@
 
 	function isValidEmail($email) {
 		return filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/^[a-zA-Z]+\\d{3}@ikasle\.ehu\.(eus|es)$/', $email);
+	}
+
+	function existsEmail($email, $conn) {
+		$query = mysqli_query($conn, "SELECT * FROM usuarios WHERE email = \"$email\"");
+
+		if (!$query) {
+			echo "Error: " . mysqli_error($conn);
+		}
+
+		return mysqli_num_rows($query) > 0;
 	}
 	?>
 

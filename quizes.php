@@ -98,11 +98,6 @@
 						<input type="button" id="ver preguntas" value="Ver preguntas ya realizadas" OnClick="window.location='VerPreguntasConFoto.php';"/>
 					</div>
 				</fieldset>
-			<?php
-				//session_start();
-				//echo '<script> document.fpreguntas.email.value='.$_SESSION["email"].';</script>';
-				//echo '<script> document.getElementById("email").disabled="disabled";</script>';
-			?>
 			</form>
 			
 		</article>		

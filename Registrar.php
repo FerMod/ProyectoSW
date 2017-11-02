@@ -278,21 +278,6 @@
 						<input type="reset" value="Restaurar campos"/>	
 					</div>
 
-					<!--
-					Email* (campo clave),
-					Nombre y Apellidos* (al menos dos palabras),
-					Nick* (una palabra),
-					Password* (al menos de longitud seis),
-					Repetir Password*,
-					Foto (opcional)
-
-					En la bbdd:
-					email
-					nombre
-					username
-					password (hash)
-					imagen -->
-
 				</fieldset>
 
 				<?php 

@@ -9,6 +9,64 @@
 
 	<link rel="stylesheet" href="css/style.css">
 
+	<?php 
+	function logIn() {
+		include "config.php";
+
+				// Create connection
+		$conn = new mysqli($servername, $username, $password, $database);
+
+				// Check connection
+		if ($conn->connect_error) {
+			trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
+		}
+
+		try {
+
+			if(!isset($_POST['email']) || empty($_POST['email']) || !isset($_POST['password']) && empty($_POST['password'])) { 
+				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverInfoMessage\">Tanto el email como la contraseña deben ser introducidas para poder continuar.</div>");
+			} else {
+				$email = formatInput($_POST['email']) ?? '';
+				$password = formatInput($_POST['password']) ?? '';
+			}
+
+			$result = $conn->query("SELECT * FROM usuarios WHERE email = \"$email\"");
+			$passwordHash = $result->fetch_assoc(); // Para comprobar que la contraseña que se escribe es correcta.
+			if(password_verify($password, $passwordHash["password"]) && existsEmail($email, $conn)) {
+				session_start();
+				$_SESSION["email"] = $email; // Iniciamos sesión.
+				$operationMessage =  "<script>location.href=\"layout.php\"</script>"; // Redirecciona a la página de Inicio.
+			} else {
+				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");
+			}
+
+		} catch (RuntimeException $e) {
+			$operationMessage = $e->getMessage();
+		}
+
+		return $operationMessage;
+
+	}
+
+	// Format the input for security reasons
+	function formatInput($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
+
+	function existsEmail($email, $conn) {
+		$query = mysqli_query($conn, "SELECT * FROM usuarios WHERE email = \"$email\"");
+
+		if (!$query) {
+			echo "Error: " . mysqli_error($conn);
+		}
+
+		return mysqli_num_rows($query) > 0;
+	}
+	?>
+
 </head>
 
 <body>
@@ -55,53 +113,24 @@
 					</div>
 
 				</fieldset>
+
+				<?php
+				if(isset($_POST['submit'])) {
+					echo logIn();
+				}
+				?>
+
 			</form>
 		</article>		
 		<aside class="sidebar">
 			Sidebar contents<br/>(sidebar)
 		</aside>
 	</div>
-	<?php 
-	function logIn() {
-		include "config.php";
 
-				// Create connection
-		$conn = new mysqli($servername, $username, $password, $database);
+	<footer>
+		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
+		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
+	</footer>
 
-				// Check connection
-		if ($conn->connect_error) {
-			trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
-		}
-		
-		$email = $_POST['email'];
-		$pass = $_POST['password'];
-		
-		if(!empty($email) && isset($email) && !empty($pass) && isset($pass)) {
-			$result = $conn->query("SELECT * FROM `usuarios` WHERE `email`='$email'");
-					$con = $result->fetch_assoc(); #Para comprobar que la contraseña que se escribe es correcta.
-					$passhash = $con["password"];
-					if(password_verify($pass, $passhash)) {
-						session_start();
-						$_SESSION["email"] = $email; //Iniciamos sesión.
-						echo '<script>location.href="layout.php"</script>'; #Redirecciona a la página de Inicio.
-					} else if(!$result){
-						echo '<script language="javascript">alert("No existe email asignado a la contraseña.");</script>';
-					} else {
-						echo '<script language="javascript">alert("Contraseña incorrecta.");</script>';
-					}
-				} else {
-					echo '<script language="javascript">alert("Faltan campos por escribir.");</script>';
-				}
-			}
-			?>
-			<footer>
-				<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
-				<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
-			</footer>
-			<?php
-			if(isset($_POST['submit'])) {
-				logIn();
-			}
-			?>
-		</body>
-		</html>
+</body>
+</html>

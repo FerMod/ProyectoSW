@@ -5,7 +5,7 @@
 - https://www.phpmyadmin.net
 -
 - Host: 127.0.0.1
-- Generation Time: Oct 30, 2017 at 08:13 PM
+- Generation Time: Nov 02, 2017 at 10:22 PM
 - Server version: 5.7.14
 - PHP Version: 7.0.10
 -->
@@ -29,7 +29,7 @@
                   `tema` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tema de la pregunta',
                   `imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen opcional de la pregunta',
                   PRIMARY KEY (`id`)
-                ) ENGINE=MyISAM AUTO_INCREMENT=133 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+                ) ENGINE=MyISAM AUTO_INCREMENT=145 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             </pma:table>
             <pma:table name="usuarios">
                 CREATE TABLE `usuarios` (
@@ -38,10 +38,10 @@
                   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Contraseña encriptada del usuario',
                   `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Nombre real del usuario',
                   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Nombre de usuario del propietario',
-                  `imagen` int(255) DEFAULT NULL COMMENT 'Imagen de perfil del usuario',
+                  `imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen de perfil del usuario',
                   PRIMARY KEY (`id`),
                   UNIQUE KEY `UNIQUE` (`email`) USING BTREE
-                ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+                ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             </pma:table>
         </pma:database>
     </pma:structure_schemas>

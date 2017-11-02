@@ -18,7 +18,7 @@
 			//session_start();
 			
 			//if($_SESSION["autentica"] == "LOG") {
-				echo '<span><a href="logout.php">Log Out</a></span>';
+				echo '<span><a href="login.php">Login</a></span>';
 			//}
 		?>
 		<span style="display:none;"><a href="/logout">Logout</a></span>

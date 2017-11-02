@@ -133,7 +133,7 @@
 				case UPLOAD_ERR_OK:
 				$containsImage = true;
 				case UPLOAD_ERR_NO_FILE:
-					//Nothing to do here, the file upload is optional
+				//Nothing to do here, the file upload is optional
 				break;
 				case UPLOAD_ERR_INI_SIZE:
 				case UPLOAD_ERR_FORM_SIZE:

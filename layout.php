@@ -17,10 +17,10 @@
 		<?php
 			session_start();
 			
-			if(@$_SESSION["email"] != "ent") {
+			if(!@$_SESSION["email"]) {
 				echo '<span><a href="Login.php">Login</a></span>';
 			} else {
-				echo '<span><a href="logout.php">Log Out</a></span>';
+				echo '<span><a href="logout.php">Logout</a></span>';
 			}
 		?>
 		<span style="display:none;"><a href="/logout">Logout</a></span>
@@ -30,7 +30,7 @@
 		<nav class="navbar" role="navigation">
 			<span><a href='layout.php'>Inicio</a></span>
 			<?php 
-				if(@!$_SESSION["email"]) {
+				if(@$_SESSION["email"]) {
 					echo '<span><a href="quizes.php">Preguntas</a></span>';
 				}
 			?>

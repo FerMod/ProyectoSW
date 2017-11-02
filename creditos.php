@@ -14,6 +14,8 @@
 <body>
 	<header>
 		<?php
+		session_start();
+
 		if(!@$_SESSION["email"]) {
 			echo "<span><a href=\"Registrar.php\">Registrarse</a></span> ";
 			echo "<span><a href=\"Login.php\">Login</a></span>";

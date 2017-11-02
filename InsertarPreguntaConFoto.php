@@ -231,15 +231,26 @@
 
 <body>
 	<header>
-		<span ><a href="Registrar.php">Registrarse</a></span>
-		<span><a href="logout.php">Logout</a></span>
-		<span style="display:none;"><a href="/logout">Logout</a></span>
+		<?php
+		session_start();
+
+		if(!@$_SESSION["email"]) {
+			echo "<span><a href=\"Registrar.php\">Registrarse</a></span> ";
+			echo "<span><a href=\"Login.php\">Login</a></span>";
+		} else {
+			echo "<span><a href=\"logout.php\">Logout</a></span>";
+		}
+		?>
 		<h2>Quiz: el juego de las preguntas</h2>
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<span><a href='layout.php'>Inicio</a></span>
-			<span><a href="quizes.php";>Preguntas</a></span>
+			<?php 
+			if(@$_SESSION["email"]) {
+				echo '<span><a href="quizes.php">Preguntas</a></span>';
+			}
+			?>
 			<span><a href='creditos.php'>Creditos</a></span>
 		</nav>
 		<article class="content">

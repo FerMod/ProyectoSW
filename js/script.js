@@ -81,7 +81,6 @@ $(document).ready(function() {
 
 			reader.onload = function(e) {
 				imgElement.attr("src", e.target.result);
-				imgElement.attr("alt", "Imagen de la pregunta");
 			}
 
 			reader.readAsDataURL(input.files[0]);
@@ -104,7 +103,7 @@ $(document).ready(function() {
 	$(".modalImage").on("click", function() {
 		$("#modalElement").css("display", "block");
 		$("#img01").attr("src", $(this).attr("src"));
-		$("#caption").html($(this).attr("alt"));
+		$("#caption").html($(".modalImage").attr("alt"));
 	});
 
 });

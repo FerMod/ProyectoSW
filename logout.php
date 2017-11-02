@@ -1,5 +1,5 @@
 <?php
 session_start(); 
 session_destroy();
-header("Location: layout.php"); 
+echo '<script>location.href="layout.php"</script>';
 ?>

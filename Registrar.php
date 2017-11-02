@@ -10,6 +10,9 @@
 	<link rel="stylesheet" href="css/style.css">
 
 	<?php
+	
+	session_start();
+
 	function createUser() {
 		include "config.php";
 
@@ -199,8 +202,6 @@
 <body>
 	<header>
 		<?php
-		session_start();
-
 		if(!@$_SESSION["email"]) {
 			echo "<span><a href=\"Registrar.php\">Registrarse</a></span> ";
 			echo "<span><a href=\"Login.php\">Login</a></span>";

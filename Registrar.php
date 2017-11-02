@@ -153,9 +153,9 @@
 			$sql = "INSERT INTO usuarios (email, password, nombre, username, imagen) VALUES ('$email', '$password', '$nombre', '$username', '$imagen')";
 
 			if(!$result = $conn->query($sql)) {
-				$operationMessage .= "<script language=\"text/javascript\">alert(\"¡Se ha registrado con éxito!\");</script>"; 
+				$operationMessage .= "<script language=\"javascript\">alert(\"Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.\");</script>"; 
 			} else {
-				$operationMessage .= "<script language=\"text/javascript\">alert(\"Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.\");</script>"; 
+				$operationMessage .= "<script language=\"javascript\">alert(\"¡Se ha registrado con éxito!\");</script>"; 
 			}
 
 			// Close connection
@@ -184,14 +184,14 @@
 
 <body>
 	<header>
-		<span ><a href="Registrar.php">Registrarse</a></span>
 		<?php
 		session_start();
 
 		if(!@$_SESSION["email"]) {
-			echo '<span><a href="Login.php">Login</a></span>';
+			echo "<span><a href=\"Registrar.php\">Registrarse</a></span> ";
+			echo "<span><a href=\"Login.php\">Login</a></span>";
 		} else {
-			echo '<span><a href="logout.php">Logout</a></span>';
+			echo "<span><a href=\"logout.php\">Logout</a></span>";
 		}
 		?>
 		<h2>Quiz: el juego de las preguntas</h2>
@@ -238,8 +238,25 @@
 					</div>
 
 					<div>
-						<label>Elegir avatar</label>
+						<label for="imagen">Elegir avatar</label>
 						<input type="file" name="imagen" id="imagen"/>
+
+						<img id="previewImage" class="modalImage" src="#" alt="Imagen del perfil"/>
+						<input type="button" id="quitarImagen" value="Quitar Imagen"/>
+
+						<!-- The Modal -->
+						<div id="modalElement" class="modal">
+
+							<!-- The Close Button -->
+							<span class="close">&times;</span>
+
+							<!-- Modal Content (The Image) -->
+							<img class="modal-content" id="img01">
+
+							<!-- Modal Caption (Image Text) -->
+							<div id="caption"></div>
+						</div>
+
 					</div>
 
 					<div>

@@ -5,7 +5,7 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <html> 
 
 <body> 
-	<p> Preguntas realizadas </p>
+	<p> <h1> Preguntas realizadas </h1> </p>
 	<table border="1">
 		<thead>
 			<tr> <th>Enunciado</th> <th>Complejidad</th> <th>Temática</th> </tr>
@@ -21,13 +21,13 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 			<td>
 				<font size="2" color="green" face="Verdana">
-					<xsl:value-of select="complexity"/> <br/>
+					<xsl:value-of select="@complexity"/> <br/>
 				</font>
 			</td>
 
 			<td>
 				<font size="2" color="blue" face="Verdana">
-					<xsl:value-of select="subject"/> <br/>
+					<xsl:value-of select="@subject"/> <br/>
 				</font>
 			</td>
 

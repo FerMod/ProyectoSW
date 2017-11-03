@@ -199,6 +199,7 @@
 				// Oh no! The query failed. 
 				$operationMessage .= "<div class=\"serverMessage\" id=\"serverErrorMessage\">La pregunta no se ha insertado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
 			} else {
+				insertElement($email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $complejidad, $tema, $imagenPregunta);
 				//$last_id = $conn->insert_id;
 				$operationMessage .= "<div class=\"serverMessage\" id=\"serverInfoMessage\">La pregunta se ha insertado correctamente. <br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a></div>";
 			}
@@ -224,6 +225,32 @@
 
 	function isValidEmail($email) {
 		return filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/^[a-zA-Z]+\\d{3}@ikasle\.ehu\.(eus|es)$/', $email);
+	}
+
+	function insertElement($email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $complejidad, $tema, $imagenPregunta) {
+
+		$assessmentItem = new SimpleXMLElement("<assessmentItem></assessmentItem>");
+		$assessmentItem->addAttribute("complexity", $complejidad);
+		$assessmentItem->addAttribute("subject", $tema);
+		$assessmentItem->addAttribute("author", $email);
+
+		$itemBody = $assessmentItem->addChild("itemBody", "<p>$enunciado</p>");
+		$correctResponse = $assessmentItem->addChild("correctResponse");
+		$correctResponse->addChild("<value>$respuestaCorrecta</value>");
+		
+		$incorrectResponses = $assessmentItem->addChild("incorrectResponses");
+		$incorrectResponses->addChild("<value>$respuestaIncorrecta</value>")
+		$incorrectResponses->addChild("<value>$respuestaIncorrecta1</value>")
+		$incorrectResponses->addChild("<value>$respuestaIncorrecta2</value>")
+
+		$image = $assessmentItem->addChild("image", $imagenPregunta);
+
+		$xml = simplexml_load_file("preguntas.xml")
+		$assessmentItems = $xml->assessmentItems;
+		$assessmentItems->addChild($assessmentItem);
+
+		Header("Content-type: text/xml");
+		echo $newsXML->asXML();
 	}
 
 	?>
@@ -256,7 +283,7 @@
 		<article class="content">
 			<label>
 				<?php
-					echo uploadQuestion();
+				echo uploadQuestion();
 				?>
 			</label>
 			<div>

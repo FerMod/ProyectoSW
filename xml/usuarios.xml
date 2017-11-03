@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" ?>
+<usuarios>
+	<usuario>
+		<email>jperez001@ikasle.ehu.es</email>
+		<nombre>Juan</nombre>
+		<apellido1>Perez</apellido1>
+		<apellido2>Ledesma</apellido2>
+		<telefono>634232323</telefono>
+	</usuario>
+	<usuario>
+		<email>lalkorta002@ikasle.ehu.es</email>
+		<nombre>Luis</nombre>
+		<apellido1>Alkorta</apellido1>
+		<apellido2>Bereciartua</apellido2>
+		<telefono>634232324</telefono>
+	</usuario>
+	<usuario>
+		<email>jsantos001@ikasle.ehu.es</email>
+		<nombre>José</nombre>
+		<apellido1>Santos</apellido1>
+		<apellido2>Lopez de Aguilera</apellido2>
+		<telefono>634232325</telefono>
+    </usuario>
+     <usuario>
+        <email>xalonso001@ikasle.ehu.es</email>
+		<nombre>Xabier</nombre>
+		<apellido1>Alonso</apellido1>
+		<apellido2>Mouriño</apellido2>
+		<telefono>696756463</telefono>
+      </usuario>
+</usuarios>

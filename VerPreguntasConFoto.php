@@ -112,6 +112,10 @@
 			<span><a href='creditos.php'>Creditos</a></span>
 		</nav>
 		<article class="content">
+			<div>
+				<a target="_blank" href="VerPreguntasXML.php">Ver preguntas en tabla html</a>
+			</div>
+
 			<div class="scrollContent">
 				<?php createQuestionTable()?>
 			</div>

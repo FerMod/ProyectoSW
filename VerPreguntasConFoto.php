@@ -90,7 +90,7 @@
 <body>
 	<header>
 		<?php
-		if($HTTP_GET_VARS["login"] != "correct") {
+		if(!isset($_GET['login']) || empty($_GET['login'])) {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
 			echo '<span><a href="Login.php">Login</a></span>';
 		} else {
@@ -103,10 +103,10 @@
 		<nav class="navbar" role="navigation">
 			<span><a href='layout.php'>Inicio</a></span>
 			<?php 
-			if($HTTP_GET_VARS["login"] == "correct") {
-				echo '<span><a href="layout.php?login="correct"">Inicio</a></span>';
-				echo '<span><a href="quizes.php?login="correct"">Preguntas</a></span>';
-				echo '<span><a href="creditos.php?login="correct"">Creditos</a></span>';
+			if(isset($_GET['login']) || !empty($_GET['login'])) {
+				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
+				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Preguntas</a></span>';
+				echo '<span><a href="creditos.php?login='.$_GET['login'].'">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="creditos.php">Creditos</a></span>';

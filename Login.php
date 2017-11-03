@@ -33,7 +33,7 @@
 			$result = $conn->query("SELECT * FROM usuarios WHERE email = \"$email\"");
 			$passwordHash = $result->fetch_assoc(); // Para comprobar que la contraseña que se escribe es correcta.
 			if(password_verify($password, $passwordHash["password"]) && existsEmail($email, $conn)) {
-				echo '<script>location.href="layout.php?login="correct""</script>'; // Redirecciona a la página de Inicio.
+				echo '<script>location.href="layout.php?login='.$email.'"</script>'; // Redirecciona a la página de Inicio.
 			} else {
 				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");
 			}
@@ -70,7 +70,7 @@
 <body>
 	<header>
 		<?php
-		if($HTTP_GET_VARS["login"] != "correct") {
+		if(!isset($_GET['login']) || empty($_GET['login'])) {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
 			echo '<span><a href="Login.php">Login</a></span>';
 		} else {
@@ -82,10 +82,10 @@
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<?php 
-			if($HTTP_GET_VARS["login"] == "correct") {
-				echo '<span><a href="layout.php?login="correct"">Inicio</a></span>';
-				echo '<span><a href="quizes.php?login="correct"">Preguntas</a></span>';
-				echo '<span><a href="creditos.php?login="correct"">Creditos</a></span>';
+			if(isset($_GET['login']) || !empty($_GET['login'])) {
+				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
+				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Preguntas</a></span>';
+				echo '<span><a href="creditos.php?login='.$_GET['login'].'">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="creditos.php">Creditos</a></span>';

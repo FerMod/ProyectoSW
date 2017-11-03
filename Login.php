@@ -34,6 +34,7 @@
 			$passwordHash = $result->fetch_assoc(); // Para comprobar que la contraseña que se escribe es correcta.
 			if(password_verify($password, $passwordHash["password"]) && existsEmail($email, $conn)) {
 				session_start();
+				// session_id(); //TODO Investigar funcion
 				$_SESSION["email"] = $email; // Iniciamos sesión.
 				$operationMessage =  "<script>location.href=\"layout.php\"</script>"; // Redirecciona a la página de Inicio.
 			} else {

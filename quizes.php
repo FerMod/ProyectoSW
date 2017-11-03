@@ -14,26 +14,27 @@
 <body>
 	<header>
 		<?php
-		session_start();
-
-		if(!@$_SESSION["email"]) {
-			echo "<span><a href=\"Registrar.php\">Registrarse</a></span> ";
-			echo "<span><a href=\"Login.php\">Login</a></span>";
+		if($HTTP_GET_VARS["login"] != "correct") {
+			echo '<span><a href="Registrar.php">Registrarse</a></span>';
+			echo '<span><a href="Login.php">Login</a></span>';
 		} else {
-			echo "<span><a href=\"logout.php\">Logout</a></span>";
+			echo '<span><a href="layout.php">Logout</a></span>';
 		}
 		?>
 		<h2>Quiz: el juego de las preguntas</h2>
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
-			<span><a href='layout.php'>Inicio</a></span>
 			<?php 
-			if(@$_SESSION["email"]) {
-				echo '<span><a href="quizes.php">Preguntas</a></span>';
+			if($HTTP_GET_VARS["login"] == "correct") {
+				echo '<span><a href="layout.php?login="correct"">Inicio</a></span>';
+				echo '<span><a href="quizes.php?login="correct"">Preguntas</a></span>';
+				echo '<span><a href="creditos.php?login="correct"">Creditos</a></span>';
+			} else {
+				echo '<span><a href="layout.php">Inicio</a></span>';
+				echo '<span><a href="creditos.php">Creditos</a></span>';
 			}
 			?>
-			<span><a href='creditos.php'>Creditos</a></span>
 		</nav>
 		<article class="content">
 

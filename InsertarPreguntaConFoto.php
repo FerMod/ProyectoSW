@@ -58,21 +58,21 @@
 			}
 
 			if(isset($_POST['respuestaincorrecta1']) && !empty($_POST['respuestaincorrecta1'])) { 
-				$respuestaIncorrecta = formatInput($_POST['respuestaincorrecta1']) ?? '';
+				$respuestaIncorrecta1 = formatInput($_POST['respuestaincorrecta1']) ?? '';
 			} else {
 				$uploadOk = false;
 				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo de \"Respuesta incorrecta 1\" no puede ser vacio.</div>";
 			}
 
 			if(isset($_POST['respuestaincorrecta2']) && !empty($_POST['respuestaincorrecta2'])) { 
-				$respuestaIncorrecta1 = formatInput($_POST['respuestaincorrecta2']) ?? '';
+				$respuestaIncorrecta2 = formatInput($_POST['respuestaincorrecta2']) ?? '';
 			} else {
 				$uploadOk = false;
 				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo de \"Respuesta incorrecta 2\" no puede ser vacio.</div>";
 			}
 
 			if(isset($_POST['respuestaincorrecta3']) && !empty($_POST['respuestaincorrecta3'])) { 
-				$respuestaIncorrecta2 = formatInput($_POST['respuestaincorrecta3']) ?? '';
+				$respuestaIncorrecta3 = formatInput($_POST['respuestaincorrecta3']) ?? '';
 			} else {
 				$uploadOk = false;
 				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo de \"Respuesta incorrecta 3\" no puede ser vacio.</div>";
@@ -179,8 +179,7 @@
 					throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
 				}
 
-				$imagenPregunta = sprintf('%s%s.%s', $imageUploadFolder, $sha1Name, $ext);
-				$operationMessage .= "Archivo subido de forma correcta.";
+				$imagenPregunta = sprintf("%s%s.%s", $imageUploadFolder, $sha1Name, $ext);
 
 			}
 
@@ -193,15 +192,18 @@
 
 		if($uploadOk) {
 			$sql = "INSERT INTO preguntas(email, enunciado, respuesta_correcta, respuesta_incorrecta_1, respuesta_incorrecta_2, respuesta_incorrecta_3, complejidad, tema, imagen)
-			VALUES('$email', '$enunciado', '$respuestaCorrecta', '$respuestaIncorrecta', '$respuestaIncorrecta1', '$respuestaIncorrecta2', $complejidad, '$tema',  '$imagenPregunta')";
+			VALUES('$email', '$enunciado', '$respuestaCorrecta', '$respuestaIncorrecta1', '$respuestaIncorrecta2', '$respuestaIncorrecta3', $complejidad, '$tema',  '$imagenPregunta')";
 
 			if (!$result = $conn->query($sql)) {
 				// Oh no! The query failed. 
 				$operationMessage .= "<div class=\"serverMessage\" id=\"serverErrorMessage\">La pregunta no se ha insertado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
 			} else {
-				insertElement($email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $complejidad, $tema, $imagenPregunta);
+				$filePath = sprintf("%s%s", $xmlFolder, "preguntas.xml");
+				insertElement($filePath, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
 				//$last_id = $conn->insert_id;
-				$operationMessage .= "<div class=\"serverMessage\" id=\"serverInfoMessage\">La pregunta se ha insertado correctamente. <br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a></div>";
+				$operationMessage .= "<div class=\"serverMessage\" id=\"serverInfoMessage\">La pregunta se ha insertado correctamente. 
+				<br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>. 
+				<br><br>O si prefiere ver el archivo '.xml' generado haga click <a href='$filePath' target='_blank'>aquí</a>.</div>";
 			}
 
 			// Close connection
@@ -227,30 +229,39 @@
 		return filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/^[a-zA-Z]+\\d{3}@ikasle\.ehu\.(eus|es)$/', $email);
 	}
 
-	function insertElement($email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $complejidad, $tema, $imagenPregunta) {
+	function insertElement($filePath, $author, $question, $correctResponse, $incorrectResponse1, $incorrectResponse2, $incorrectResponse3, $complexity, $subject, $image) {
 
-		$assessmentItem = new SimpleXMLElement("<assessmentItem></assessmentItem>");
-		$assessmentItem->addAttribute("complexity", $complejidad);
-		$assessmentItem->addAttribute("subject", $tema);
-		$assessmentItem->addAttribute("author", $email);
+		$xml = new SimpleXMLElement($filePath, 0, true);
 
-		$itemBody = $assessmentItem->addChild("itemBody", "<p>$enunciado</p>");
-		$correctResponse = $assessmentItem->addChild("correctResponse");
-		$correctResponse->addChild("<value>$respuestaCorrecta</value>");
+		$assessmentItemElement = $xml->addChild("assessmentItem");
+		$assessmentItemElement->addAttribute("complexity", $complexity);
+		$assessmentItemElement->addAttribute("subject", $subject);
+		$assessmentItemElement->addAttribute("author", $author);
+
+		$itemBodyElement = $assessmentItemElement->addChild("itemBody");
+		$itemBodyElement->addChild("p", $question);
+
+		$correctResponseElement = $assessmentItemElement->addChild("correctResponse");
+		$correctResponseElement->addChild("value", "$correctResponse");
 		
-		$incorrectResponses = $assessmentItem->addChild("incorrectResponses");
-		$incorrectResponses->addChild("<value>$respuestaIncorrecta</value>")
-		$incorrectResponses->addChild("<value>$respuestaIncorrecta1</value>")
-		$incorrectResponses->addChild("<value>$respuestaIncorrecta2</value>")
+		$incorrectResponsesElement = $assessmentItemElement->addChild("incorrectResponses");
+		$incorrectResponsesElement->addChild("value", $incorrectResponse1);
+		$incorrectResponsesElement->addChild("value", $incorrectResponse2);
+		$incorrectResponsesElement->addChild("value", $incorrectResponse3);
 
-		$image = $assessmentItem->addChild("image", $imagenPregunta);
+		$assessmentItemElement->addChild("image", $image);
+		
+		$xml->asXML($filePath);
 
-		$xml = simplexml_load_file("preguntas.xml")
-		$assessmentItems = $xml->assessmentItems;
-		$assessmentItems->addChild($assessmentItem);
+		formatXml($filePath);
+	}
 
-		Header("Content-type: text/xml");
-		echo $newsXML->asXML();
+	function formatXml($filePath) {
+		$dom = new DOMDocument("1.0", "UTF-8");
+		$dom->preserveWhiteSpace = false;
+		$dom->load($filePath);
+		$dom->formatOutput = true;
+		$dom->save($filePath);
 	}
 
 	?>

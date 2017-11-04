@@ -1,9 +1,14 @@
 <?php
-	$xslDoc = new DOMDocument();
-	$xslDoc->load("preguntas.xsl");
-	$xmlDoc = new DOMDocument();
-	$xmlDoc->load("preguntas.xml");
-	$proc = new XSLTProcessor();
-	$proc->importStylesheet($xslDoc);
-	echo $proc->transformToXML($xmlDoc);
+
+$xslDoc = new DOMDocument();
+$xslDoc->load($xmlFolder . "preguntas.xsl");
+
+$xmlDoc = new DOMDocument();
+$xmlDoc->load($xmlFolder . "preguntas.xml");
+
+$proc = new XSLTProcessor();
+$proc->importStylesheet($xslDoc);
+
+echo $proc->transformToXML($xmlDoc);
+
 ?>

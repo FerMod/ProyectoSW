@@ -13,10 +13,10 @@
 	function createUser() {
 		include "config.php";
 
-				// Create connection
+		// Create connection
 		$conn = new mysqli($servername, $username, $password, $database);
 
-				// Check connection
+		// Check connection
 		if ($conn->connect_error) {
 			trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
 		}
@@ -201,6 +201,7 @@
 		<?php
 		if(!isset($_GET['login']) || empty($_GET['login'])) {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
+			echo '&nbsp'; // Add non-breaking space
 			echo '<span><a href="Login.php">Login</a></span>';
 		} else {
 			echo '<span><a href="layout.php">Logout</a></span>';

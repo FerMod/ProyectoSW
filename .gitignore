@@ -58,3 +58,6 @@ local.properties
 # Ignore image folder
 img/uploads/*
 img/users/*
+
+# Ignore zip files
+*.zip

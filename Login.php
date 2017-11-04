@@ -33,7 +33,7 @@
 			$result = $conn->query("SELECT * FROM usuarios WHERE email = \"$email\"");
 			$passwordHash = $result->fetch_assoc(); // Para comprobar que la contraseña que se escribe es correcta.
 			if(password_verify($password, $passwordHash["password"]) && existsEmail($email, $conn)) {
-				echo '<script>location.href="layout.php?login='.$email.'"</script>'; // Redirecciona a la página de Inicio.
+				echo '<script>location.href="layout.php?login=' . $email . '"</script>'; // Redirecciona a la página de Inicio.
 			} else {
 				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");
 			}

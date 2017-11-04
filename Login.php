@@ -72,6 +72,7 @@
 		<?php
 		if(!isset($_GET['login']) || empty($_GET['login'])) {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
+			echo '&nbsp'; // Add non-breaking space
 			echo '<span><a href="Login.php">Login</a></span>';
 		} else {
 			echo '<span><a href="layout.php">Logout</a></span>';

@@ -253,14 +253,14 @@
 		
 		$xml->asXML($filePath);
 
-		formatXml($filePath);
+		formatFileStyle($filePath);
 	}
 
-	function formatXml($filePath) {
+	function formatFileStyle($filePath) {
 		$dom = new DOMDocument("1.0", "UTF-8");
-		$dom->preserveWhiteSpace = false;
-		$dom->load($filePath);
+		$dom->preserveWhiteSpace = false;		
 		$dom->formatOutput = true;
+		$dom->load($filePath);
 		$dom->save($filePath);
 	}
 

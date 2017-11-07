@@ -1,39 +1,62 @@
-<?xml version="1.0" ?>
-<xsl:stylesheet version="1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:template match="/">
-		<html> 
+		<html>
+			<head>
+				<style>
+					table, th, td {
+					border-collapse: collapse;
+					}
 
+					th, td {
+					text-align: left;
+					padding: 8px;					
+					border: 1px solid grey;
+					}
+
+					thead, tbody {
+					border: 2px solid grey;
+					}				
+
+					tr:nth-child(even){
+					background-color: #f2f2f2
+					}
+				</style>
+
+				<h1> Preguntas realizadas </h1>
+
+			</head>
 			<body> 
-				<p> <h1> Preguntas realizadas </h1> </p>
-				<table border="1">
-					<thead>
-						<tr> <th>Enunciado</th> <th>Complejidad</th> <th>Temática</th> </tr>
-					</thead>
-					<xsl:for-each select="/assessmentItems/assessmentItem" >
-						<tr>
+				<div style="overflow-x: auto;">
+					<table style="font-family: Verdana;">
 
-							<td>
-								<font size="2" color="black" face="Verdana">
-									<xsl:value-of select="itemBody"/> <br/>
-								</font>
-							</td>
+						<thead>
+							<tr>
+								<th>Enunciado</th>
+								<th>Complejidad</th>
+								<th>Temática</th>
+							</tr>
+						</thead>
 
-							<td>
-								<font size="2" color="green" face="Verdana">
-									<xsl:value-of select="@complexity"/> <br/>
-								</font>
-							</td>
+						<tbody>
+							<xsl:for-each select="/assessmentItems/assessmentItem" >
+								<tr>
+									<td style="color: black;">
+										<xsl:value-of select="itemBody"/> <br/>
+									</td>
+									<td style="color: green;">
+										<xsl:value-of select="@complexity"/> <br/>
+									</td>
+									<td style="color: blue;">
+										<xsl:value-of select="@subject"/> <br/>
+									</td>
+								</tr>
+							</xsl:for-each>
+						</tbody>
 
-							<td>
-								<font size="2" color="blue" face="Verdana">
-									<xsl:value-of select="@subject"/> <br/>
-								</font>
-							</td>
+					</table>
+				</div>
 
-						</tr>
-					</xsl:for-each>
-				</table>
 			</body>
 		</html>
 	</xsl:template>

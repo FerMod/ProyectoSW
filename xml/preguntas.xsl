@@ -23,7 +23,7 @@
 					}
 				</style>
 
-				<h1> Preguntas realizadas </h1>
+				<h1>Preguntas realizadas</h1>
 
 			</head>
 			<body> 

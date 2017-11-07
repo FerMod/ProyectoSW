@@ -29,7 +29,8 @@
 			<?php 
 			if(isset($_GET['login']) || !empty($_GET['login'])) {
 				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
-				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Preguntas</a></span>';
+				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Hacer pregunta</a></span>';
+				echo '<span><a href="VerPreguntasConFoto.php?login='.$_GET['login'].'">Ver preguntas</a></span>';
 				echo '<span><a href="creditos.php?login='.$_GET['login'].'">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';
@@ -40,6 +41,7 @@
 		<article class="content">
 
 			<form id="fpreguntas" name="fpreguntas" method="post" action="InsertarPreguntaConFoto.php" enctype="multipart/form-data">
+
 				<fieldset>
 					<legend>DATOS DE LA PREGUNTA</legend>
 					<div>
@@ -97,7 +99,6 @@
 					</div>
 					<div>
 						<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>
-						<input type="button" id="ver preguntas" value="Ver preguntas ya realizadas" OnClick="window.location='VerPreguntasConFoto.php';"/>
 					</div>
 				</fieldset>
 			</form>

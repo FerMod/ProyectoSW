@@ -101,7 +101,7 @@
 
 					<div>
 						<label>Email</label>
-						<input type="text" name="email"/>
+						<input type="text" name="email" autofocus/>
 					</div>
 
 					<div>

@@ -46,7 +46,7 @@
 					<legend>DATOS DE LA PREGUNTA</legend>
 					<div>
 						<label for="email">Email*:</label>
-						<input type="text" id="email" name="email"/>
+						<input type="text" id="email" name="email" autofocus/>
 					</div>
 					<div>
 						<label for="enunciado">Enunciado de la pregunta*:</label>

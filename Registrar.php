@@ -230,7 +230,7 @@
 
 					<div>
 						<label>Escriba su email<strong><font size="3" color="red">*</font></strong></label>
-						<input type="text" name="email"/>
+						<input type="text" name="email" autofocus/>
 					</div>
 
 					<div>

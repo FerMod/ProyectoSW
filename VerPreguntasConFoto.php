@@ -102,22 +102,21 @@
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
-			<span><a href='layout.php'>Inicio</a></span>
 			<?php 
 			if(isset($_GET['login']) || !empty($_GET['login'])) {
 				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
-				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Preguntas</a></span>';
+				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Hacer pregunta</a></span>';
+				echo '<span><a href="VerPreguntasConFoto.php?login='.$_GET['login'].'">Ver preguntas</a></span>';
 				echo '<span><a href="creditos.php?login='.$_GET['login'].'">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="creditos.php">Creditos</a></span>';
 			}
 			?>
-			<span><a href='creditos.php'>Creditos</a></span>
 		</nav>
 		<article class="content">
-			<div>
-				<a target="_blank" href="VerPreguntasXML.php">Ver preguntas en tabla html</a>
+			<div style="margin: 5px; padding: 15px 5px 15px; border-left: 6px solid grey; border-radius: 5px; background-color: lightgrey;">
+				<a target="_blank" href="VerPreguntasXML.php">Ver las preguntas del fichero xml</a>
 			</div>
 
 			<div class="scrollContent">

@@ -202,7 +202,7 @@
 				insertElement($filePath, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
 				//$last_id = $conn->insert_id;
 				$operationMessage .= "<div class=\"serverMessage\" id=\"serverInfoMessage\">La pregunta se ha insertado correctamente. 
-				<br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>. 
+				<br>Para verla haga click <a href='VerPreguntasConFoto.php?login=".$_GET['login']."' target='_self'>aquí</a>. 
 				<br><br>O si prefiere ver el archivo '.xml' generado haga click <a href='$filePath' target='_blank'>aquí</a>.</div>";
 			}
 
@@ -253,14 +253,14 @@
 		
 		$xml->asXML($filePath);
 
-		formatXml($filePath);
+		formatFileStyle($filePath);
 	}
 
-	function formatXml($filePath) {
+	function formatFileStyle($filePath) {
 		$dom = new DOMDocument("1.0", "UTF-8");
-		$dom->preserveWhiteSpace = false;
-		$dom->load($filePath);
+		$dom->preserveWhiteSpace = false;		
 		$dom->formatOutput = true;
+		$dom->load($filePath);
 		$dom->save($filePath);
 	}
 
@@ -270,7 +270,7 @@
 <body>
 	<header>
 		<?php
-		if(!isset($_GET['login']) || empty($_GET['login'])) {
+		if(!isset($_POST['login']) || empty($_POST['login'])) {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
 			echo '&nbsp'; // Add non-breaking space
 			echo '<span><a href="Login.php">Login</a></span>';
@@ -283,10 +283,11 @@
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<?php 
-			if(isset($_GET['login']) || !empty($_GET['login'])) {
-				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
-				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Preguntas</a></span>';
-				echo '<span><a href="creditos.php?login='.$_GET['login'].'">Creditos</a></span>';
+			if(isset($_POST['login']) || !empty($_POST['login'])) {
+				echo '<span><a href="layout.php?login='.$_POST['login'].'">Inicio</a></span>';
+				echo '<span><a href="quizes.php?login='.$_POST['login'].'">Hacer pregunta</a></span>';
+				echo '<span><a href="VerPreguntasConFoto.php?login='.$_POST['login'].'">Ver preguntas</a></span>';
+				echo '<span><a href="creditos.php?login='.$_POST['login'].'">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="creditos.php">Creditos</a></span>';

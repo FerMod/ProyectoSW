@@ -214,7 +214,8 @@
 			<?php 
 			if(isset($_GET['login']) || !empty($_GET['login'])) {
 				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
-				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Preguntas</a></span>';
+				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Hacer pregunta</a></span>';
+				echo '<span><a href="VerPreguntasConFoto.php?login='.$_GET['login'].'">Ver preguntas</a></span>';
 				echo '<span><a href="creditos.php?login='.$_GET['login'].'">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';
@@ -229,7 +230,7 @@
 
 					<div>
 						<label>Escriba su email<strong><font size="3" color="red">*</font></strong></label>
-						<input type="text" name="email"/>
+						<input type="text" name="email" autofocus/>
 					</div>
 
 					<div>

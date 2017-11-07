@@ -94,7 +94,7 @@ footer {
 
 .navbar span {
 	width: 100%;
-	display: inline-block;
+	display: block;
 }
 
 .sidebar {
@@ -114,7 +114,6 @@ footer {
 .content, .navbar, .sidebar {
 	padding: 1em;
 	background: #eee;
-
 	border: 1px solid #999;
 	color: black;
 }

@@ -99,6 +99,7 @@
 					</div>
 					<div>
 						<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>
+						<input type="hidden" id="login" name="login" value="$_GET['login']"/>
 					</div>
 				</fieldset>
 			</form>

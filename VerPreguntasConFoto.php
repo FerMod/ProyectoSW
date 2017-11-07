@@ -115,8 +115,8 @@
 			?>
 		</nav>
 		<article class="content">
-			<div>
-				<a target="_blank" href="VerPreguntasXML.php">Ver preguntas en tabla html</a>
+			<div style="margin: 5px; padding: 15px 5px 15px; border-left: 6px solid grey; border-radius: 5px; background-color: lightgrey;">
+				<a target="_blank" href="VerPreguntasXML.php">Ver las preguntas del fichero xml</a>
 			</div>
 
 			<div class="scrollContent">

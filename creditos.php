@@ -43,18 +43,22 @@ include('login_session.php'); // Includes login script
 		</nav>
 		<article class="content">
 			<table id="tablaAutores">
-				<tr>
-					<td><img src="img/user.png" class="modalImage"></img></td>
-					<td><img src="img/user.png" class="modalImage"></img></td>
-				</tr>
-				<tr>
-					<td>Ferran Tudela</td>
-					<td>Miguel Ángel Blanco</td>
-				</tr>
-				<tr>
-					<td>Estudiante</td>
-					<td>Estudiante</td>
-				</tr>
+				<thead>
+					<tr>
+						<td><img src="img/users/251efc3420d802924b7af6826567c75680af123c.jpg" class="modalImage"></td>
+						<td><img src="img/users/0a725b89fa6358ce6261068dd3b9cdc9d58c225a.png" class="modalImage"></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Ferran Tudela</td>
+						<td>Miguel Ángel Blanco</td>
+					</tr>
+					<tr>
+						<td>Estudiante</td>
+						<td>Estudiante</td>
+					</tr>
+				</tbody>
 			</table>
 			<!-- The Modal -->
 			<div id="modalElement" class="modal">

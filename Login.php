@@ -1,3 +1,12 @@
+<?php
+include('login_session.php'); // Includes login script
+
+if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
+	// What is doing here a logged user??
+	header("location: layout.php");
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,14 +18,15 @@
 
 	<link rel="stylesheet" href="css/style.css">
 
+	<!--
 	<?php 
 	function logIn() {
 		include "config.php";
 
-				// Create connection
-		$conn = new mysqli($servername, $username, $password, $database);
+		// Create connection
+		$conn = new mysqli($servername, $user, $pass, $database);
 
-				// Check connection
+		// Check connection
 		if ($conn->connect_error) {
 			trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
 		}
@@ -64,18 +74,19 @@
 		return mysqli_num_rows($query) > 0;
 	}
 	?>
+-->
 
 </head>
 
 <body>
 	<header>
 		<?php
-		if(!isset($_GET['login']) || empty($_GET['login'])) {
+		if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
+			echo '<span><a href="logout.php">Logout</a></span>';
+		} else {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
 			echo '&nbsp'; // Add non-breaking space
 			echo '<span><a href="Login.php">Login</a></span>';
-		} else {
-			echo '<span><a href="layout.php">Logout</a></span>';
 		}
 		?>
 		<h2>Quiz: el juego de las preguntas</h2>
@@ -83,11 +94,11 @@
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<?php 
-			if(isset($_GET['login']) || !empty($_GET['login'])) {
-				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
-				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Hacer pregunta</a></span>';
-				echo '<span><a href="VerPreguntasConFoto.php?login='.$_GET['login'].'">Ver preguntas</a></span>';
-				echo '<span><a href="creditos.php?login='.$_GET['login'].'">Creditos</a></span>';
+			if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
+				echo '<span><a href="layout.php">Inicio</a></span>';
+				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
+				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
+				echo '<span><a href="creditos.php">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="creditos.php">Creditos</a></span>';
@@ -116,9 +127,10 @@
 				</fieldset>
 
 				<?php
-				if(isset($_POST['submit'])) {
-					echo logIn();
-				}
+				// if(isset($_POST['submit'])) {
+				// 	echo logIn();
+				// }
+					echo $errorMessage;
 				?>
 
 			</form>

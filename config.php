@@ -4,13 +4,13 @@ $local = true;
 
 if($local) {
 	$servername = "localhost";
-	$username = "root";
-	$password = "";
+	$user = "root";
+	$pass = "";
 	$database = "quiz";
 } else {
 	$servername = "localhost";
-	$username = "";
-	$password = "";
+	$user = "";
+	$pass = "";
 	$database = "";
 }
 

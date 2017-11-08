@@ -1,3 +1,11 @@
+<?php
+include('login_session.php'); // Includes login script
+
+if(!isset($_SESSION['login_user']) || empty($_SESSION['login_user'])) {
+	header("location: layout.php");
+}
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,12 +98,12 @@
 <body>
 	<header>
 		<?php
-		if(!isset($_GET['login']) || empty($_GET['login'])) {
+		if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
+			echo '<span><a href="logout.php">Logout</a></span>';
+		} else {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
 			echo '&nbsp'; // Add non-breaking space
 			echo '<span><a href="Login.php">Login</a></span>';
-		} else {
-			echo '<span><a href="layout.php">Logout</a></span>';
 		}
 		?>
 		<h2>Quiz: el juego de las preguntas</h2>
@@ -103,11 +111,11 @@
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<?php 
-			if(isset($_GET['login']) || !empty($_GET['login'])) {
-				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
-				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Hacer pregunta</a></span>';
-				echo '<span><a href="VerPreguntasConFoto.php?login='.$_GET['login'].'">Ver preguntas</a></span>';
-				echo '<span><a href="creditos.php?login='.$_GET['login'].'">Creditos</a></span>';
+			if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
+				echo '<span><a href="layout.php">Inicio</a></span>';
+				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
+				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
+				echo '<span><a href="creditos.php">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="creditos.php">Creditos</a></span>';

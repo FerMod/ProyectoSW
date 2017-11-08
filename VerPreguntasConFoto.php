@@ -24,7 +24,7 @@ if(!isset($_SESSION['login_user']) || empty($_SESSION['login_user'])) {
 		include "config.php";
 
 		// Create connection
-		$conn = new mysqli($servername, $username, $password, $database);
+		$conn = new mysqli($servername, $user, $pass, $database);
 		
 		// Check connection
 		if ($conn->connect_error) {

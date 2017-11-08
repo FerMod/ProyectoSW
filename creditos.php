@@ -18,7 +18,7 @@ include('login_session.php'); // Includes login script
 	<header>
 		<?php
 		if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
-			echo '<span><a href="logout.php">Logout</a></span>';
+			echo '<span><a href="creditos.php">Logout</a></span>';
 		} else {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
 			echo '&nbsp'; // Add non-breaking space

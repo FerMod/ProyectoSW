@@ -1,6 +1,6 @@
-<!-- <?php
-include('login_session.php'); // Includes login script
-?> -->
+<?php
+//include('login_session.php'); // Includes login script
+?>
 <!DOCTYPE html>
 <html>
 <head>

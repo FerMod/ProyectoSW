@@ -1,11 +1,11 @@
-<!-- <?php
-include('login_session.php'); // Includes login script
+<?php
+// include('login_session.php'); // Includes login script
 
-if(!isset($_SESSION['login_user']) || empty($_SESSION['login_user'])) {
-	header("location: layout.php");
-}
+// if(!isset($_SESSION['login_user']) || empty($_SESSION['login_user'])) {
+// 	header("location: layout.php");
+// }
 
-?> -->
+?>
 <!DOCTYPE html>
 <html>
 <head>

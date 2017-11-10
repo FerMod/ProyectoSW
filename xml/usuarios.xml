@@ -20,12 +20,12 @@
 		<apellido1>Santos</apellido1>
 		<apellido2>Lopez de Aguilera</apellido2>
 		<telefono>634232325</telefono>
-    </usuario>
-     <usuario>
-        <email>xalonso001@ikasle.ehu.es</email>
+	</usuario>
+	<usuario>
+		<email>xalonso001@ikasle.ehu.es</email>
 		<nombre>Xabier</nombre>
 		<apellido1>Alonso</apellido1>
 		<apellido2>Mouriño</apellido2>
 		<telefono>696756463</telefono>
-      </usuario>
+	</usuario>
 </usuarios>

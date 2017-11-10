@@ -50,9 +50,7 @@ $(document).ready(function() {
 				return function() {
 
 					if (parentNode === this) {
-						throw new Error(
-							"You can't sort elements if any one is a descendant of another."
-							);
+						throw new Error("You can't sort elements if any one is a descendant of another.");
 					}
 
 				// Insert before flag:
@@ -72,19 +70,31 @@ $(document).ready(function() {
 
 	})();
 
-	var table = $('table');
+
 	// Adapted code from: https://stackoverflow.com/questions/3160277/jquery-table-sort
+
+	var table = $('table');
+	var lastTh = null;
 	$('.sortable').each(function(){
 
 		var th = $(this),
 		thIndex = th.index(),
 		inverse = false;
 
-		th.click(function(){
+		th.click(function() {
 
-			if(th.find('.arrow').length == 0) {
-				th.append("&nbsp<i class='arrow'></i>");
+			if(lastTh != th) {
+				if(lastTh != null) {
+					if(lastTh.find('.arrow').length != 0) {
+						lastTh.find('.arrow').remove();
+					}
+				}
+				lastTh = th;
 			}
+
+			if(th.find('.arrow').length == 0) {		
+				th.append(" <i class='arrow'></i>");
+			} 
 
 			if(inverse) {
 				th.find('.arrow').removeClass('down').addClass('up');

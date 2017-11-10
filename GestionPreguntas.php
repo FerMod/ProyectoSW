@@ -31,6 +31,7 @@
 				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
 				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Hacer pregunta</a></span>';
 				echo '<span><a href="VerPreguntasConFoto.php?login='.$_GET['login'].'">Ver preguntas</a></span>';
+				echo '<span><a href="GestionarPreguntas.php?login='.$_GET['login'].'">Gestionar pregunta</a></span>';
 				echo '<span><a href="creditos.php?login='.$_GET['login'].'">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';
@@ -98,14 +99,17 @@
 
 					</div>
 					<div>
-						<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>
+						<input type="button" id="enviar" name="enviar" value="Enviar solicitud" onclick='pedirDatos($xmlFolder  + "preguntas.xml")'/>
 						<?php
 						echo "<input type="hidden" id="login" name="login" value=".$_GET['login']."/>";
 						?>
 					</div>
 				</fieldset>
 			</form>
-			
+			<div id="visualizarDatos">
+				
+			</div>
+
 		</article>		
 		<aside class="sidebar">
 			Sidebar contents<br/>(sidebar)

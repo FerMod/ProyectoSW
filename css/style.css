@@ -127,9 +127,51 @@ footer {
 	width: 50%;
 }
 
+#tablaAutores th {
+	background-color: darkgrey;
+}
+
+#tablaAutores, #tablaAutores th, #tablaAutores td {
+	border-collapse: collapse;
+}
+
 #tablaAutores th, #tablaAutores td {
-	border: 1px solid black;
+	text-align: center;
+	padding: 8px;					
+	border: 1px solid grey;		
 	width: 50%;
+}
+
+#tablaAutores thead, #tablaAutores tbody {
+	border: 2px solid grey;
+}				
+
+#tablaAutores tr:nth-child(even){
+	background-color: #f2f2f2
+}
+
+#tablaAutores img {
+	max-width: 50%;
+	height: auto;
+	object-fit: contain;
+	background-color: #f35626;
+	background-image: -webkit-linear-gradient(92deg, #f35626, #feab3a);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-animation: randColor 2s infinite linear; /* Safari 4.0 - 8.0 */
+	-webkit-animation-delay: 3s; /* Safari 4.0 - 8.0 */
+	animation: randColor 2s infinite linear;
+	animation-delay: 3s;
+}
+
+@-webkit-keyframes randColor {
+	from {
+		-webkit-filter: hue-rotate(0deg);
+	}
+
+	to {
+		-webkit-filter: hue-rotate(360deg);
+	}
 }
 
 .infoTable {

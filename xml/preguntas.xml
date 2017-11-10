@@ -96,4 +96,18 @@
     </incorrectResponses>
     <image/>
   </assessmentItem>
+  <assessmentItem complexity="5" subject="Equisde" author="ferranmanquelo123@ikasle.ehu.es">
+    <itemBody>
+      <p>¿Ferrá´´´´´´´´´´n es manco?</p>
+    </itemBody>
+    <correctResponse>
+      <value>Sí</value>
+    </correctResponse>
+    <incorrectResponses>
+      <value>Mucho</value>
+      <value>Viva la república</value>
+      <value>ʲᶦʲᶦʲᶦ ˡᵒˡ</value>
+    </incorrectResponses>
+    <image>./img/uploads/5a08280c2f015246d34c61a6854bcd89a5c234e4.png</image>
+  </assessmentItem>
 </assessmentItems>

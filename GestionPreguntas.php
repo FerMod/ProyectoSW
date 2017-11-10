@@ -13,6 +13,15 @@
 
 <body>
 	<header>
+		<?php
+		if(!isset($_GET['login']) || empty($_GET['login'])) {
+			echo '<span><a href="Registrar.php">Registrarse</a></span>';
+			echo '&nbsp'; // Add non-breaking space
+			echo '<span><a href="Login.php">Login</a></span>';
+		} else {
+			echo '<span><a href="layout.php">Logout</a></span>';
+		}
+		?>
 		<h2>Quiz: el juego de las preguntas</h2>
 	</header>
 	<div class="container">
@@ -30,39 +39,78 @@
 			?>
 		</nav>
 		<article class="content">
-			<form id="edit" enctype="multipart/form-data" method="post">	
+
+			<form id="fpreguntas" name="fpreguntas" method="post" action="InsertarPreguntaConFoto.php" enctype="multipart/form-data">
+
 				<fieldset>
-					<legend>Editar pregunta</legend>
-
+					<legend>DATOS DE LA PREGUNTA</legend>
 					<div>
-						<label>Email</label>
-						<input type="text" name="email" autofocus/>
+						<label for="email">Email*:</label>
+						<input type="text" id="email" name="email" autofocus/>
 					</div>
-
 					<div>
-						<label>Contraseña</label>
-						<input type="password" name="password"/>
+						<label for="enunciado">Enunciado de la pregunta*:</label>
+						<input type="text" id="enunciado" name="enunciado" size="35" />
 					</div>
-
 					<div>
-						<input type="submit" value="Acceder" name="submit"/>
+						<label for="respuestacorrecta">Respuesta correcta*:</label>
+						<input type="text" id="respuestacorrecta" name="respuestacorrecta" size="35" />
 					</div>
+					<div>
+						<label for="respuestaincorrecta1">Respuesta incorrecta 1*:</label>
+						<input type="text" id="respuestaincorrecta1" name="respuestaincorrecta1" size="35" />
+					</div>
+					<div>
+						<label for="respuestaincorrecta2">Respuesta incorrecta 2*:</label>
+						<input type="text" id="respuestaincorrecta2" name="respuestaincorrecta2" size="35" />
+					</div>
+					<div>
+						<label for="respuestaincorrecta3">Respuesta incorrecta 3*:</label>
+						<input type="text" id="respuestaincorrecta3" name="respuestaincorrecta3" size="35" />
+					</div>
+					<div>
+						<label for="complejidad">Complejidad (1..5)*:</label>
+						<input type="text" id="complejidad" name="complejidad" size="10" />
+					</div>
+					<div>
+						<label for="tema">Tema (subject)*:</label>
+						<input type="text" id="tema" name="tema" size="10" />
+					</div>
+					<div>
+						<label for="imagen">Subir imagen:</label>
+						<input type="file" name="imagen" id="imagen"/>
 
+						<img id="previewImage" class="modalImage" src="#" alt="Imagen de la pregunta"/>
+						<input type="button" id="quitarImagen" value="Quitar Imagen"/>
+
+						<!-- The Modal -->
+						<div id="modalElement" class="modal">
+
+							<!-- The Close Button -->
+							<span class="close">&times;</span>
+
+							<!-- Modal Content (The Image) -->
+							<img class="modal-content" id="img01">
+
+							<!-- Modal Caption (Image Text) -->
+							<div id="caption"></div>
+						</div>
+
+					</div>
+					<div>
+						<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>
+						<?php
+						echo "<input type="hidden" id="login" name="login" value=".$_GET['login']."/>";
+						?>
+					</div>
 				</fieldset>
-
-				<?php
-				if(isset($_POST['submit'])) {
-					echo logIn();
-				}
-				?>
-
 			</form>
+			
 		</article>		
 		<aside class="sidebar">
 			Sidebar contents<br/>(sidebar)
 		</aside>
 	</div>
-
 	<footer>
 		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>

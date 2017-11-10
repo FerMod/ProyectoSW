@@ -90,6 +90,7 @@ $(document).ready(function() {
 					}
 				}
 				lastTh = th;
+				inverse = !inverse;
 			}
 
 			if(th.find('.arrow').length == 0) {		

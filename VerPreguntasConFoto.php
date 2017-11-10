@@ -13,7 +13,8 @@
 	<title>Preguntas</title>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-	<script src="js/script.js"></script>	
+	<script src="js/script.js"/></script>	
+	<script src="js/sortElements.js"/></script>
 
 	<link rel="stylesheet" href="css/style.css">
 
@@ -41,18 +42,18 @@
 
 			if ($result->num_rows != 0) {
 
-				echo "<table class=\"infoTable\">";
+				echo "<table class=\"infoTable\" readonly>";
 				echo "<thead>";
 				echo "<tr>";
-				echo "<th>Id</th>";
-				echo "<th>Email</th>";
+				echo "<th class=\"sortable\">Id</th>";
+				echo "<th class=\"sortable\">Email</th>";
 				echo "<th>Enunciado</th>";
 				echo "<th>Respuesta Correcta</th>";
 				echo "<th>Respuesta Incorrecta 1</th>";
 				echo "<th>Respuesta Incorrecta 2</th>";
 				echo "<th>Respuesta Incorrecta 3</th>";
-				echo "<th>Complejidad</th>";
-				echo "<th>Tema</th>";
+				echo "<th class=\"sortable\">Complejidad</th>";
+				echo "<th class=\"sortable\">Tema</th>";
 				echo "<th>Imagen</th>";
 				echo "</tr>";
 				echo "</thead>";

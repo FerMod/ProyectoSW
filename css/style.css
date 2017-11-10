@@ -176,7 +176,7 @@ footer {
 
 .infoTable {
 	background: white;
-	border-radius:3px;
+	border-radius: 3px;
 	border-collapse: collapse;
 	height: 320px;
 	margin: auto;
@@ -191,6 +191,48 @@ footer {
 	overflow: auto;
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 	min-width: 0;
+}
+
+.sortable {
+	cursor: pointer;
+}
+
+.arrow {
+	border: double #D5DDE5;
+	border-radius: 3px;
+	border-width: 0 5px 5px 0;
+	display: inline-block;
+	padding: 3px;
+}
+
+.right {
+	transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+}
+
+.left {
+	transform: rotate(135deg);
+	-webkit-transform: rotate(135deg);
+}
+
+.up {
+	transform: rotate(-135deg);
+	-webkit-transform: rotate(-135deg);
+}
+
+.down {
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+}
+
+.infoTable {
+	cursor: default;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .infoTable th {

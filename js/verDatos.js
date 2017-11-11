@@ -1,18 +1,18 @@
-document.addEventListener("DOMContentLoaded", function(event) {
 
-	//(IE7+, Firefox, Chrome, Safari, and Opera)
-	XMLHttpRequestObject = new XMLHttpRequest();
-	XMLHttpRequestObject.onreadystatechange = function() {
-		alert (XMLHttpRequestObject.readyState);
-		if (XMLHttpRequestObject.readyState==4) {
-			var obj = document.getElementById('visualizarDatos');
-			obj.innerHTML = XMLHttpRequestObject.responseText;
-		}
+//(IE7+, Firefox, Chrome, Safari, and Opera)
+XMLHttpRequestObject = new XMLHttpRequest();
+XMLHttpRequestObject.onreadystatechange = function() {
+	if (XMLHttpRequestObject.readyState==4) {
+		var myCodeMirror = CodeMirror(document.getElementById('visualizarDatos'), {
+			value: XMLHttpRequestObject.responseText,
+			mode:  "xml",
+			lineNumbers: "true",
+			readOnly: "true"
+		});
 	}
+}
 
-	function mostrarDatos(filePath) {
-		XMLHttpRequestObject.open("GET", filePath);
-		XMLHttpRequestObject.send(null);
-	}
-
-});
+function mostrarDatos(filePath) {
+	XMLHttpRequestObject.open("GET", filePath);
+	XMLHttpRequestObject.send(null);
+}

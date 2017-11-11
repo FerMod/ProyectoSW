@@ -75,7 +75,7 @@
 			Aqui se visualizan las preguntas y los creditos ...
 		</article>		
 		<aside class="sidebar">
-			Sidebar contents<br/>(sidebar)
+			Sidebar contents<br/><label onclick="location.href='examples/easter/easteregg.html'">(sidebar)</label>
 		</aside>
 	</div>
 	<footer>

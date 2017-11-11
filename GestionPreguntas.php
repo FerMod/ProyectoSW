@@ -51,7 +51,7 @@
 		</nav>
 		<article class="content">
 
-			<form id="fpreguntas" name="fpreguntas" method="post" action="InsertarPreguntaConFoto.php" enctype="multipart/form-data">
+			<form id="fpreguntas" name="fpreguntas" method="post" enctype="multipart/form-data">
 
 				<fieldset>
 					<legend>DATOS DE LA PREGUNTA</legend>

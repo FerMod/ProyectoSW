@@ -15,4 +15,16 @@ XMLHttpRequestObject.onreadystatechange = function() {
 function mostrarDatos(filePath) {
 	XMLHttpRequestObject.open("GET", filePath);
 	XMLHttpRequestObject.send(null);
+	
+	$("#email").serialize(); //Serializing the objects (not photo included)
+	$("#enunciado").serialize();
+	$("#respuestacorrecta").serialize();
+	$("#respuestaincorrecta1").serialize();
+	$("#respuestaincorrecta2").serialize();
+	$("#respuestaincorrecta3").serialize();
+	$("#complejidad").serialize();
+	$("#tema").serialize();
+	
+	XMLHttpRequestObject.open("POST", "ajaxdatos.php", true);
+	XMLHttpRequestObject.send();
 }

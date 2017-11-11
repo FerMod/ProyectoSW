@@ -3,6 +3,7 @@
 XMLHttpRequestObject = new XMLHttpRequest();
 XMLHttpRequestObject.onreadystatechange = function() {
 	if (XMLHttpRequestObject.readyState==4) {
+		document.getElementById('visualizarDatos').innerHTML = '';
 		var myCodeMirror = CodeMirror(document.getElementById('visualizarDatos'), {
 			value: XMLHttpRequestObject.responseText,
 			mode:  "xml",

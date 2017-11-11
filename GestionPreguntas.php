@@ -25,8 +25,8 @@
 		implement more advanced editing functionality.
 	-->
 	<script src="codemirror-5.31.0/lib/codemirror.js"></script>
-    <link rel="stylesheet" href="codemirror-5.31.0/lib/codemirror.css">
-    <script src="codemirror-5.31.0/mode/xml/xml.js"></script>
+	<link rel="stylesheet" href="codemirror-5.31.0/lib/codemirror.css">
+	<script src="codemirror-5.31.0/mode/xml/xml.js"></script>
 
 </head>
 

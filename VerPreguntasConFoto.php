@@ -1,3 +1,11 @@
+<?php
+// include('login_session.php'); // Includes login script
+
+// if(!isset($_SESSION['login_user']) || empty($_SESSION['login_user'])) {
+// 	header("location: layout.php");
+// }
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +13,8 @@
 	<title>Preguntas</title>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-	<script src="js/script.js"></script>	
+	<script src="js/script.js"/></script>	
+	<script src="js/sortElements.js"/></script>
 
 	<link rel="stylesheet" href="css/style.css">
 
@@ -16,7 +25,7 @@
 		include "config.php";
 
 		// Create connection
-		$conn = new mysqli($servername, $username, $password, $database);
+		$conn = new mysqli($servername, $user, $pass, $database);
 		
 		// Check connection
 		if ($conn->connect_error) {
@@ -33,18 +42,18 @@
 
 			if ($result->num_rows != 0) {
 
-				echo "<table class=\"infoTable\">";
+				echo "<table class=\"infoTable\" readonly>";
 				echo "<thead>";
 				echo "<tr>";
-				echo "<th>Id</th>";
-				echo "<th>Email</th>";
+				echo "<th class=\"sortable\">Id</th>";
+				echo "<th class=\"sortable\">Email</th>";
 				echo "<th>Enunciado</th>";
 				echo "<th>Respuesta Correcta</th>";
 				echo "<th>Respuesta Incorrecta 1</th>";
 				echo "<th>Respuesta Incorrecta 2</th>";
 				echo "<th>Respuesta Incorrecta 3</th>";
-				echo "<th>Complejidad</th>";
-				echo "<th>Tema</th>";
+				echo "<th class=\"sortable\">Complejidad</th>";
+				echo "<th class=\"sortable\">Tema</th>";
 				echo "<th>Imagen</th>";
 				echo "</tr>";
 				echo "</thead>";
@@ -90,23 +99,36 @@
 <body>
 	<header>
 		<?php
-		if(!isset($_GET['login']) || empty($_GET['login'])) {
+		if(isset($_GET['login']) && !empty($_GET['login'])) {
+			echo '<span><a href="logout.php">Logout</a></span>';
+		} else {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
 			echo '&nbsp'; // Add non-breaking space
 			echo '<span><a href="Login.php">Login</a></span>';
-		} else {
-			echo '<span><a href="layout.php">Logout</a></span>';
 		}
 		?>
+
+		<!-- FOR FUTURE USE
+		<?php
+		if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
+			echo '<span><a href="creditos.php">Logout</a></span>';
+		} else {
+			echo '<span><a href="Registrar.php">Registrarse</a></span>';
+			echo '&nbsp'; // Add non-breaking space
+			echo '<span><a href="Login.php">Login</a></span>';
+		}
+		?> -->
+
 		<h2>Quiz: el juego de las preguntas</h2>
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<?php 
-			if(isset($_GET['login']) || !empty($_GET['login'])) {
+			if(isset($_GET['login']) && !empty($_GET['login'])) {
 				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
 				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Hacer pregunta</a></span>';
 				echo '<span><a href="VerPreguntasConFoto.php?login='.$_GET['login'].'">Ver preguntas</a></span>';
+				echo '<span><a href="GestionPreguntas.php?login='.$_GET['login'].'">Gestionar preguntas</a></span>';
 				echo '<span><a href="creditos.php?login='.$_GET['login'].'">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';
@@ -114,6 +136,21 @@
 			}
 			?>
 		</nav>
+
+		<!-- FOR FUTURE USE
+		<nav class="navbar" role="navigation">
+			<?php 
+			if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
+				echo '<span><a href="layout.php">Inicio</a></span>';
+				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
+				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
+				echo '<span><a href="creditos.php">Creditos</a></span>';
+			} else {
+				echo '<span><a href="layout.php">Inicio</a></span>';
+				echo '<span><a href="creditos.php">Creditos</a></span>';
+			}
+			?>
+		</nav> -->
 		<article class="content">
 			<div style="margin: 5px; padding: 15px 5px 15px; border-left: 6px solid grey; border-radius: 5px; background-color: lightgrey;">
 				<a target="_blank" href="VerPreguntasXML.php">Ver las preguntas del fichero xml</a>

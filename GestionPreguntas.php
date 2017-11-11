@@ -1,8 +1,7 @@
 <?php
 // include('login_session.php'); // Includes login script
 
-// if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
-// 	// What is doing here a logged user??
+// if(!isset($_SESSION['login_user']) || empty($_SESSION['login_user'])) {
 // 	header("location: layout.php");
 // }
 
@@ -17,63 +16,6 @@
 	<script src="js/script.js"></script>	
 
 	<link rel="stylesheet" href="css/style.css">
-
-	<!-- In case to use sessions, coment the code below -->
-	<?php 
-	function logIn() {
-		include "config.php";
-
-		// Create connection
-		$conn = new mysqli($servername, $user, $pass, $database);
-
-		// Check connection
-		if ($conn->connect_error) {
-			trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
-		}
-
-		try {
-
-			if(!isset($_POST['email']) || empty($_POST['email']) || !isset($_POST['password']) && empty($_POST['password'])) { 
-				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverInfoMessage\">Tanto el email como la contraseña deben ser introducidas para poder continuar.</div>");
-			} else {
-				$email = formatInput($_POST['email']) ?? '';
-				$password = formatInput($_POST['password']) ?? '';
-			}
-
-			$result = $conn->query("SELECT * FROM usuarios WHERE email = \"$email\"");
-			$passwordHash = $result->fetch_assoc(); // Para comprobar que la contraseña que se escribe es correcta.
-			if(password_verify($password, $passwordHash["password"]) && existsEmail($email, $conn)) {
-				echo '<script>location.href="layout.php?login=' . $email . '"</script>'; // Redirecciona a la página de Inicio.
-			} else {
-				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");
-			}
-
-		} catch (RuntimeException $e) {
-			$operationMessage = $e->getMessage();
-		}
-
-		return $operationMessage;
-
-	}
-
-	// Format the input for security reasons
-	function formatInput($data) {
-		$data = trim($data);
-		$data = stripslashes($data);
-		$data = htmlspecialchars($data);
-		return $data;
-	}
-
-	function existsEmail($email, $conn) {
-		$query = mysqli_query($conn, "SELECT * FROM usuarios WHERE email = \"$email\"");
-
-		if (!$query) {
-			echo "Error: " . mysqli_error($conn);
-		}
-
-		return mysqli_num_rows($query) > 0;
-	}
-	?>
 
 </head>
 
@@ -133,41 +75,80 @@
 			?>
 		</nav> -->
 		<article class="content">
-			<form id="login" enctype="multipart/form-data" method="post">	
+
+			<form id="fpreguntas" name="fpreguntas" method="post" action="InsertarPreguntaConFoto.php" enctype="multipart/form-data">
+
 				<fieldset>
-					<legend>LOGIN</legend>
-
+					<legend>DATOS DE LA PREGUNTA</legend>
 					<div>
-						<label>Email</label>
-						<input type="text" name="email" autofocus/>
+						<label for="email">Email*:</label>
+						<input type="text" id="email" name="email" autofocus/>
 					</div>
-
 					<div>
-						<label>Contraseña</label>
-						<input type="password" name="password"/>
+						<label for="enunciado">Enunciado de la pregunta*:</label>
+						<input type="text" id="enunciado" name="enunciado" size="35" />
 					</div>
-
 					<div>
-						<input type="submit" value="Acceder" name="submit"/>
+						<label for="respuestacorrecta">Respuesta correcta*:</label>
+						<input type="text" id="respuestacorrecta" name="respuestacorrecta" size="35" />
 					</div>
+					<div>
+						<label for="respuestaincorrecta1">Respuesta incorrecta 1*:</label>
+						<input type="text" id="respuestaincorrecta1" name="respuestaincorrecta1" size="35" />
+					</div>
+					<div>
+						<label for="respuestaincorrecta2">Respuesta incorrecta 2*:</label>
+						<input type="text" id="respuestaincorrecta2" name="respuestaincorrecta2" size="35" />
+					</div>
+					<div>
+						<label for="respuestaincorrecta3">Respuesta incorrecta 3*:</label>
+						<input type="text" id="respuestaincorrecta3" name="respuestaincorrecta3" size="35" />
+					</div>
+					<div>
+						<label for="complejidad">Complejidad (1..5)*:</label>
+						<input type="text" id="complejidad" name="complejidad" size="10" />
+					</div>
+					<div>
+						<label for="tema">Tema (subject)*:</label>
+						<input type="text" id="tema" name="tema" size="10" />
+					</div>
+					<div>
+						<label for="imagen">Subir imagen:</label>
+						<input type="file" name="imagen" id="imagen"/>
 
+						<img id="previewImage" class="modalImage" src="#" alt="Imagen de la pregunta"/>
+						<input type="button" id="quitarImagen" value="Quitar Imagen"/>
+
+						<!-- The Modal -->
+						<div id="modalElement" class="modal">
+
+							<!-- The Close Button -->
+							<span class="close">&times;</span>
+
+							<!-- Modal Content (The Image) -->
+							<img class="modal-content" id="img01">
+
+							<!-- Modal Caption (Image Text) -->
+							<div id="caption"></div>
+						</div>
+
+					</div>
+					<div>
+						<input type="button" id="enviar" name="enviar" value="Enviar solicitud" onclick='pedirDatos($xmlFolder  + "preguntas.xml")'/>
+						<!-- Comment the hidden input field when using sessions -->
+						<input type="hidden" id="login" name="login" value="<?php echo $_GET['login'];?>"/>
+					</div>
 				</fieldset>
-
-				<?php
-				// Comment the 'if' and uncoment the 'echo' when using sessions
-				if(isset($_POST['submit'])) {
-					echo logIn();
-				}
-				//echo $errorMessage;
-				?>
-
 			</form>
+			<div id="visualizarDatos">
+				
+			</div>
+
 		</article>		
 		<aside class="sidebar">
 			Sidebar contents<br/>(sidebar)
 		</aside>
 	</div>
-
 	<footer>
 		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>

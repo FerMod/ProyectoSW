@@ -99,9 +99,8 @@
 					</div>
 					<div>
 						<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>
-						<?php
-						echo "<input type="hidden" id="login" name="login" value=".$_GET['login']."/>";
-						?>
+						<input type="hidden" id="login" name="login" value="<?php echo $_GET['login'];?>"/>
+						
 					</div>
 				</fieldset>
 			</form>

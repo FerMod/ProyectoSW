@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-<?php
-// include('login_session.php'); // Includes login script
-
-// if(!isset($_SESSION['login_user']) || empty($_SESSION['login_user'])) {
-// 	header("location: layout.php");
-// }
-
-?>
-=======
->>>>>>> 22d010372c102d9edd0c0995b2ab56c44701e471
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,9 +5,20 @@
 	<title>Preguntas</title>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-	<script src="js/script.js"></script>	
+	<script src="js/script.js"></script>
+	<script type="text/javascript" src="js/verDatos.js"></script>
 
 	<link rel="stylesheet" href="css/style.css">
+
+	<!--
+		Code Mirror (http://codemirror.net/)
+		A versatile text editor implemented in JavaScript for the browser.
+		It is specialized for editing code, and comes with a number of language modes and addons that
+		implement more advanced editing functionality.
+	-->
+	<script src="/lib/codemirror.js"></script>
+	<link rel="stylesheet" href="/lib/codemirror.css">
+	<script src="/mode/xml/xml.js"></script>
 
 </head>
 
@@ -106,17 +106,17 @@
 							<!-- Modal Caption (Image Text) -->
 							<div id="caption"></div>
 						</div>
-
 					</div>
 					<div>
-						<input type="submit" id="enviar" name="enviar" value="Enviar solicitud"/>
-						<?php
-						echo "<input type="hidden" id="login" name="login" value=".$_GET['login']."/>";
-						?>
+						<input type="button" id="enviar" name="enviar" value="Enviar solicitud" onclick="mostrarDatos('xml/preguntas.xml')"/>
+						<!-- Comment the hidden input field when using sessions -->
+						<input type="hidden" id="login" name="login" value="<?php echo $_GET['login'];?>"/>
 					</div>
 				</fieldset>
 			</form>
-			
+
+			<div id="visualizarDatos"></div>
+
 		</article>		
 		<aside class="sidebar">
 			Sidebar contents<br/>(sidebar)

@@ -201,6 +201,7 @@
 
 		return $operationMessage;
 
+
 	// Format the input for security reasons
 	function formatInput($data) {
 		$data = trim($data);

@@ -25,6 +25,6 @@ function mostrarDatos(filePath) {
 	$("#complejidad").serialize();
 	$("#tema").serialize();
 	
-	XMLHttpRequestObject.open("POST", "ajaxdatos.php", true);
+	XMLHttpRequestObject.open("POST", "insertQuestion.php", true);
 	XMLHttpRequestObject.send();
 }

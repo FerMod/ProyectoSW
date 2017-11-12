@@ -13,7 +13,7 @@
 	<title>Preguntas</title>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-	<script src="js/script.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
 	<script type="text/javascript" src="js/verDatos.js"></script>
 
 	<link rel="stylesheet" href="css/style.css">
@@ -27,6 +27,8 @@
 	<script src="https://codemirror.net/lib/codemirror.js"></script>
 	<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
 	<script src="https://codemirror.net/mode/xml/xml.js"></script>
+
+	<?php include "insertQuestion.php";?>
 
 </head>
 
@@ -87,7 +89,7 @@
 		</nav> -->
 		<article class="content">
 
-			<form id="fpreguntas" name="fpreguntas" method="post" action="InsertarPreguntaConFoto.php" enctype="multipart/form-data">
+			<form id="formGestionPreguntas" name="formGestionPreguntas" method="post" action="" enctype="multipart/form-data">
 
 				<fieldset>
 					<legend>DATOS DE LA PREGUNTA</legend>
@@ -144,13 +146,13 @@
 						</div>
 					</div>
 					<div>
-						<input type="button" id="enviar" name="enviar" value="Enviar solicitud" onclick="mostrarDatos('xml/preguntas.xml')"/>
+						<input type="submit" id="enviarPregunta" name="enviarPregunta" value="Enviar pregunta"/>
 						<!-- Comment the hidden input field when using sessions -->
 						<input type="hidden" id="login" name="login" value="<?php echo $_GET['login'];?>"/>
 					</div>
 				</fieldset>
 			</form>
-
+			<div id="operationResult"></div>
 			<div id="visualizarDatos"></div>
 
 		</article>		

@@ -9,10 +9,9 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		uploadQuestion();
 		break;
 
-		case 'blah':
-		blah();
+		case 'showQuestions':
+		showQuestions();
 		break;
-		// ...etc...
 	}
 }
 

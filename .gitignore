@@ -61,17 +61,3 @@ img/users/*
 
 # Ignore zip files
 *.zip
-
-# Ignore some demo and test folders
-/node_modules
-/demo
-/doc
-/test
-/test*.html
-/index.html
-/mode/*/*test.js
-/mode/*/*.html
-/mode/index.html
-.*
-bin
-

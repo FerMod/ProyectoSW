@@ -24,9 +24,9 @@
 		It is specialized for editing code, and comes with a number of language modes and addons that
 		implement more advanced editing functionality.
 	-->
-	<script src="codemirror-5.31.0/lib/codemirror.js"></script>
-	<link rel="stylesheet" href="codemirror-5.31.0/lib/codemirror.css">
-	<script src="codemirror-5.31.0/mode/xml/xml.js"></script>
+	<script src="https://codemirror.net/lib/codemirror.js"></script>
+	<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
+	<script src="https://codemirror.net/mode/xml/xml.js"></script>
 
 </head>
 

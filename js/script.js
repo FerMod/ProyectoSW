@@ -112,7 +112,7 @@ $(document).ready(function() {
 		var formData = new FormData(this)
 		formData.append("action", "uploadQuestion");
 		$.ajax({
-			url: "insertQuestion.php",
+			url: "ajaxRequestManager.php",
 			type: "post",				// Type of request to be send, called as method
 			data: formData,				// Data sent to server, a set of key/value pairs (i.e. form fields and values)
 			contentType: false,			// The content type used when sending data to the server.
@@ -120,7 +120,7 @@ $(document).ready(function() {
 			processData:false,			// To send DOMDocument or non processed data file it is set to false
 			success: function(data) {	// A function to be called if request succeeds
 
-				var jsonData = $.parseJSON(data);
+				var jsonData = JSON.parse(data);
 
 				$("#operationResult").empty(); //Remove the content
 				$("#operationResult").append(jsonData.operationMessage);

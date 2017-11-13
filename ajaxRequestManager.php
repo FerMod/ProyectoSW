@@ -9,6 +9,14 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		uploadQuestion();
 		break;
 
+		case 'getOnlineUsers':
+		getOnlineUsers();
+		break;
+
+		case 'getQuestionsStats':
+		getQuestionsStats();
+		break;
+
 		case 'showQuestions':
 		showQuestions();
 		break;
@@ -217,12 +225,13 @@ function uploadQuestion() {
 		$operationMessage .= "<br>Revise los datos introducidos e inténtelo de nuevo.";
 	}
 
-	// Create JSON object
+	// Create array with the operation information
 	$array = array(
 		"operationSuccess" => $uploadOk,
 		"operationMessage" => $operationMessage,
 	);
 	
+	// Encode array to JSON format
 	echo json_encode($array);
 
 }
@@ -272,6 +281,23 @@ function formatFileStyle($filePath) {
 	$dom->formatOutput = true;
 	$dom->load($filePath);
 	$dom->save($filePath);
+}
+
+function getOnlineUsers() {
+
+	$onlineUsers = 0;
+
+	echo $onlineUsers;
+}
+
+function getQuestionsStats() {
+
+	$array = array(
+		"user" => 0,
+		"total" => 0,
+	);
+	
+	echo json_encode($array);
 }
 
 ?>

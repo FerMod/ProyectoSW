@@ -155,7 +155,6 @@ $(document).ready(function() {
 			success: function(result, status, xhr) {
 				$('#numpregs').fadeOut(2000, function(){
 					$('#numpregs').fadeIn(2000, function(){
-						function(result, status, xhr) {    // A function to be called if request succeeds
 						$('#numpregs').value(result.quizesUser + "/" + result.quizesTotal);
 					});
 				});

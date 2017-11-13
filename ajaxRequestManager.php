@@ -291,13 +291,11 @@ function getOnlineUsers() {
 }
 
 function getQuestionsStats() {
-
-	$array = array(
-		"user" => 0,
-		"total" => 0,
-	);
-	
-	echo json_encode($array);
+	$xml = simplexml_load_file("xml/preguntas.xml");
+	$preguntastot = count($xml->xpath('/assessmentItems/assessmentItem'));
+	$preguntasem = count($xml->xpath('/assessmentItems/assessmentItem[@author="jvadillo001@ikasle.ehu.es"]'));
+												
+		echo $preguntasem."/".$preguntastot;
 }
 
 ?>

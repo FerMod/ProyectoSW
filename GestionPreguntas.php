@@ -73,18 +73,18 @@
 							var formData = new FormData(this)
 							formData.append("action", "uploadQuestion");
 							$.ajax({
-								type: "post",
-								url: "insertQuestion.php",
-								data: formData,
+								url: "ajaxRequestManager.php",
+								type: "post",                // Type of request to be send, called as method
+								data: formData,                // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+								contentType: false,            // The content type used when sending data to the server.
+								cache: false,                // To unable request pages to be cached
+								processData:false,            // To send DOMDocument or non processed data file it is set to false
 								success: function() {
-									$('#numpregs').fadeOut(200, function(){
+									$('#numpregs').fadeOut(20000, function(){
 										$('#numpregs').fadeIn(200, function(){
 											$('#numpregs').value(<?php 
-												$xml = simplexml_load_file("xml/preguntas.xml");
-												$preguntastot = count($xml->xpath('/assessmentItems/assessmentItem'));
-												$preguntasem = count($xml->xpath('/assessmentItems/assessmentItem[@author="jvadillo001@ikasle.ehu.es"]'));
-												
-												echo $preguntasem."/".$preguntastot;
+												include ajaxRequestManager.php;
+												getQuestionsStats();
 											?>);
 										});
 									});

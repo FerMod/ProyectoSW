@@ -137,8 +137,8 @@ $(document).ready(function() {
 		});
 
 	});
-		
-		
+
+
 	actualizarStats();
 	
 	function actualizarStats() {
@@ -152,15 +152,17 @@ $(document).ready(function() {
 			dataType: "json",				//Data type is JSON
 			cache: false,                // To unable request pages to be cached
 			processData:false,            // To send DOMDocument or non processed data file it is set to false
-			success: function(result, status, xhr) {
-				$('#numpregs').fadeOut(2000, function(){
-					$('#numpregs').fadeIn(2000, function(){
-						$('#numpregs').value(result.quizesUser + "/" + result.quizesTotal);
-					});
-				});
+			success: function(result, status, xhr) {				
+				$('#numpregs').val(result.quizesUser + "/" + result.quizesTotal);
 			}
 		});
-		setTimeOut(actualizarStats, 200000);
+		setTimeout(function() {
+			$('#numpregs').fadeOut(1000, function(){
+				$('#numpregs').fadeIn(1000, function(){
+					actualizarStats();
+				});
+			});
+		}, 2000);
 	}
 
 	function mostrarDatos(filePath) {

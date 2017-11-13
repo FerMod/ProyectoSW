@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
 	<script src="https://codemirror.net/mode/xml/xml.js"></script>
 
-	<?php include "insertQuestion.php";?>
+	<?php include "ajaxRequestManager.php";?>
 
 </head>
 

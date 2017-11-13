@@ -137,10 +137,11 @@ $(document).ready(function() {
 		});
 
 	});
-						
-	$('#formGestionPreguntas').submit(function(e){
-		e.preventDefault();
-							
+		
+		
+	actualizarStats();
+	
+	function actualizarStats() {
 		var formData = new FormData(this)
 		formData.append("action", "getQuestionsStats");
 		$.ajax({
@@ -150,15 +151,18 @@ $(document).ready(function() {
 			contentType: false,            // The content type used when sending data to the server.
 			cache: false,                // To unable request pages to be cached
 			processData:false,            // To send DOMDocument or non processed data file it is set to false
-			success: function() {
-				$('#numpregs').fadeOut(20000, function(){
-					$('#numpregs').fadeIn(200, function(){
-						$('#numpregs').value();
+			success: function(result, status, xhr) {
+				$('#numpregs').fadeOut(2000, function(){
+					$('#numpregs').fadeIn(2000, function(){
+						function(result, status, xhr) {    // A function to be called if request succeeds
+						var jsonData = JSON.parse(result);
+						$('#numpregs').value(jsonData.quizesUser + "/" + jsonData.quizesTotal);
 					});
 				});
 			}
 		});
-	});
+		setTimeOut(actualizarStats, 200000);
+	}
 
 	function mostrarDatos(filePath) {
 

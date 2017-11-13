@@ -295,7 +295,14 @@ function getQuestionsStats() {
 	$preguntastot = count($xml->xpath('/assessmentItems/assessmentItem'));
 	$preguntasem = count($xml->xpath('/assessmentItems/assessmentItem[@author="jvadillo001@ikasle.ehu.es"]'));
 												
-		echo $preguntasem."/".$preguntastot;
+	// Create array with the operation information
+	$array = array(
+		"quizesTotal" => $preguntastot,
+		"quizesUser" => $preguntasem,
+	);
+	
+	// Encode array to JSON format
+	echo json_encode($array);
 }
 
 ?>

@@ -233,7 +233,6 @@ function uploadQuestion() {
 	
 	// Encode array to JSON format
 	echo json_encode($array);
-
 }
 
 // Format the input for security reasons

@@ -53,6 +53,48 @@
 			?>
 		</nav>
 		<article class="content">
+			<fieldset>
+				<legend>Mis preguntas</legend>
+				<div id="divpreg">
+				<?php
+					$xml = simplexml_load_file("xml/preguntas.xml");
+					$preguntastot = count($xml->xpath('/assessmentItems/assessmentItem'));
+					$preguntasem = count($xml->xpath('/assessmentItems/assessmentItem[@author="jvadillo001@ikasle.ehu.es"]'));
+					
+					echo "<label id='numpregs';>".$preguntasem."/".$preguntastot."</label>";
+				?>
+				<script>
+					$(document).ready(function(){
+						$(function(){
+						$('#formGestionPreguntas').submit(function(e){
+							e.preventDefault();
+							
+							var formData = new FormData(this)
+							formData.append("action", "uploadQuestion");
+							$.ajax({
+								type: "post",
+								url: "insertQuestion.php",
+								data: formData,
+								success: function() {
+									$('#numpregs').fadeOut(200, function(){
+										$('#numpregs').fadeIn(200, function(){
+											$('#numpregs').value(<?php 
+												$xml = simplexml_load_file("xml/preguntas.xml");
+												$preguntastot = count($xml->xpath('/assessmentItems/assessmentItem'));
+												$preguntasem = count($xml->xpath('/assessmentItems/assessmentItem[@author="jvadillo001@ikasle.ehu.es"]'));
+												
+												echo $preguntasem."/".$preguntastot;
+											?>);
+										});
+									});
+								}
+							});
+						});
+						});
+					});
+				</script>
+				</div>
+			</fieldset>
 			<form id="formGestionPreguntas" name="formGestionPreguntas" method="post" action="" enctype="multipart/form-data">
 
 				<fieldset>

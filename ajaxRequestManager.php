@@ -291,11 +291,17 @@ function getOnlineUsers() {
 
 function getQuestionsStats() {
 
+	$xml = simplexml_load_file("xml/preguntas.xml");
+	$preguntasTotal = count($xml->xpath('/assessmentItems/assessmentItem'));
+	$preguntasUsuario = count($xml->xpath('/assessmentItems/assessmentItem[@author="jvadillo001@ikasle.ehu.es"]'));
+	
+	// Create array with the operation information
 	$array = array(
-		"user" => 0,
-		"total" => 0,
+		"quizesTotal" => $preguntasTotal,
+		"quizesUser" => $preguntasUsuario,
 	);
 	
+	// Encode array to JSON format
 	echo json_encode($array);
 }
 

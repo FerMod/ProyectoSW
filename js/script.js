@@ -149,14 +149,14 @@ $(document).ready(function() {
 			type: "post",                // Type of request to be send, called as method
 			data: formData,                // Data sent to server, a set of key/value pairs (i.e. form fields and values)
 			contentType: false,            // The content type used when sending data to the server.
+			dataType: "json",
 			cache: false,                // To unable request pages to be cached
 			processData:false,            // To send DOMDocument or non processed data file it is set to false
 			success: function(result, status, xhr) {
 				$('#numpregs').fadeOut(2000, function(){
 					$('#numpregs').fadeIn(2000, function(){
 						function(result, status, xhr) {    // A function to be called if request succeeds
-						var jsonData = JSON.parse(result);
-						$('#numpregs').value(jsonData.quizesUser + "/" + jsonData.quizesTotal);
+						$('#numpregs').value(result.quizesUser + "/" + result.quizesTotal);
 					});
 				});
 			}

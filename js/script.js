@@ -118,9 +118,9 @@ $(document).ready(function() {
 			contentType: false,			// The content type used when sending data to the server.
 			cache: false,				// To unable request pages to be cached
 			processData:false,			// To send DOMDocument or non processed data file it is set to false
-			success: function(data) {	// A function to be called if request succeeds
+			success: function(result, status, xhr) {	// A function to be called if request succeeds
 
-				var jsonData = JSON.parse(data);
+				var jsonData = JSON.parse(result);
 
 				$("#operationResult").empty(); //Remove the content
 				$("#operationResult").append(jsonData.operationMessage);
@@ -130,9 +130,9 @@ $(document).ready(function() {
 					mostrarDatos('xml/preguntas.xml');
 				}
 			},
-			error: function (xhr, ajaxOptions, thrownError) {
+			error: function (xhr, status, error) {
 				console.log(xhr.statusText);
-				console.log(thrownError);
+				console.log(error);
 			}
 		});
 

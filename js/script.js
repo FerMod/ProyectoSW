@@ -138,7 +138,8 @@ $(document).ready(function() {
 	});
 
 	refreshStats(20000);
-	
+	var timer;
+
 	function refreshStats(refreshRate) {
 
 		$.ajax({
@@ -156,10 +157,11 @@ $(document).ready(function() {
 			},
 			error: function (xhr, status, error) {
 				$("header").append(xhr.responseText);
+				clearTimeout(timer);
 			}
 		});
 
-		setTimeout(function() {
+		var timer = setTimeout(function() {
 			refreshStats(refreshRate);
 		}, refreshRate);
 

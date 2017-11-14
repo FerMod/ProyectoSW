@@ -60,9 +60,8 @@
 					$xml = simplexml_load_file("xml/preguntas.xml");
 					$preguntastot = count($xml->xpath('/assessmentItems/assessmentItem'));
 					$preguntasem = count($xml->xpath('/assessmentItems/assessmentItem[@author="jvadillo001@ikasle.ehu.es"]'));
-					
-					echo "<label id='numpregs';>".$preguntasem."/".$preguntastot."</label>";
 				?>
+				<label id='numpregs'; class='labelpreg'> <?php echo $preguntasem."/".$preguntastot; ?> </label>
 				</div>
 			</fieldset>
 			<form id="formGestionPreguntas" name="formGestionPreguntas" method="post" action="" enctype="multipart/form-data">

@@ -138,9 +138,11 @@ $(document).ready(function() {
 	});
 
 
-	actualizarStats();
+	actualizarStats(null, null);
 	
-	function actualizarStats() {
+	function actualizarStats(var quizesUser, var quizesTotal) {
+		var quizesUs = 0;
+		var quizesTot = 0;
 		var formData = new FormData(this)
 		formData.append("action", "getQuestionsStats");
 		$.ajax({
@@ -151,16 +153,22 @@ $(document).ready(function() {
 			dataType: "json",				//Data type is JSON
 			cache: false,                // To unable request pages to be cached
 			processData:false,            // To send DOMDocument or non processed data file it is set to false
-			success: function(result, status, xhr) {				
-				$('#numpregs').val(result.quizesUser + "/" + result.quizesTotal);
+			success: function(result, status, xhr) {
+				quizesUs = result.quizesUser;
+				quizesTot = result.quizesTotal;
+				$('#labelpreg').val(quizesUs + "/" + quizesTot);
 			}
 		});
 		setTimeout(function() {
-			$('#numpregs').fadeOut(1000, function(){
-				$('#numpregs').fadeIn(1000, function(){
-					actualizarStats();
+			if(quizesUs != quizesUser && quizesTot != quizesTotal) { //Al primer ciclo ambos valores son null, por lo que se hace sin fundido para coger el dato.
+				$('#numpregs').fadeOut(1000, function(){
+					$('#numpregs').fadeIn(1000, function(){
+						actualizarStats(quizesUs, quizesTot);
+					});
 				});
-			});
+			} else {
+				actualizarStats(quizesUs, quizesTot);
+			}
 		}, 2000);
 	}
 

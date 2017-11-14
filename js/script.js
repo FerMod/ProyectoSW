@@ -161,7 +161,7 @@ $(document).ready(function() {
 			}
 		});
 
-		var timer = setTimeout(function() {
+		timer = setTimeout(function() {
 			refreshStats(refreshRate);
 		}, refreshRate);
 

@@ -178,14 +178,14 @@ $(document).ready(function() {
 		}
 	}
 
-	function getUrlParameter(param) {
-		var pageURL = decodeURIComponent(window.location.search.substring(1)),
-		urlVariables = pageURL.split('&'),
-		parameterName,
-		i;
 
-		for (i = 0; i < urlVariables.length; i++) {
-			parameterName = urlVariables[i].split('=');
+	function getUrlParameter(param) {
+		
+		var pageURL = decodeURIComponent(window.location.search.substring(1));
+		var	urlVariables = pageURL.split('&');
+
+		for (var i = 0; i < urlVariables.length; i++) {
+			var parameterName = urlVariables[i].split('=');
 
 			if (parameterName[0] === param) {
 				return parameterName[1] === undefined ? true : parameterName[1];

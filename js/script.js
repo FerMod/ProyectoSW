@@ -147,10 +147,10 @@ $(document).ready(function() {
 			method: "post",								// Type of request to be send, called as method
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			success: function(result, status, xhr) {	
-				if($('#preguntasUsuarios').text() != result.quizesUser) {
+				if($('#preguntasUsuarios').text() !== result.quizesUser) {
 					refreshElementValue($("#preguntasUsuarios"), result.quizesUser);
 				}
-				if($('#preguntasTotales').text() != result.quizesTotal) {
+				if($('#preguntasTotales').text() !== result.quizesTotal) {
 					refreshElementValue($("#preguntasTotales"), result.quizesTotal);
 				}
 			},
@@ -172,7 +172,7 @@ $(document).ready(function() {
 		} else {
 			element.fadeOut(2000, function(){
 				element.text(value);
-				$(this).fadeIn();
+				$(this).fadeIn(2000);
 			});
 		}
 	}

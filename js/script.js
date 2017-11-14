@@ -156,7 +156,7 @@ $(document).ready(function() {
 			success: function(result, status, xhr) {
 				quizesUs = result.quizesUser;
 				quizesTot = result.quizesTotal;
-				$('#labelpreg').html(quizesUs + "/" + quizesTot); //HTML para cambiar el texto de la label.
+				$('#numpregs').html(quizesUs + "/" + quizesTot); //HTML para cambiar el texto de la label.
 			}
 		});
 		setTimeout(function() {

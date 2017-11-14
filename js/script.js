@@ -121,8 +121,7 @@ $(document).ready(function() {
 			processData:false,							// To send DOMDocument or non processed data file it is set to false
 			success: function(result, status, xhr) {	// A function to be called if request succeeds
 
-				$("#operationResult").empty(); //Remove the content
-				$("#operationResult").append(result.operationMessage);
+				$("#operationResult").html(result.operationMessage);
 
 				if(result.operationSuccess) {
 					$("#formGestionPreguntas").remove();
@@ -180,7 +179,7 @@ $(document).ready(function() {
 
 
 	function getUrlParameter(param) {
-		
+
 		var pageURL = decodeURIComponent(window.location.search.substring(1));
 		var	urlVariables = pageURL.split('&');
 

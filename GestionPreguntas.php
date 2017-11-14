@@ -53,18 +53,11 @@
 			?>
 		</nav>
 		<article class="content">
-			<fieldset>
-				<legend>Mis preguntas</legend>
-				<div id="divpreg">
-				<?php
-					$xml = simplexml_load_file("xml/preguntas.xml");
-					$preguntastot = count($xml->xpath('/assessmentItems/assessmentItem'));
-					$preguntasem = count($xml->xpath('/assessmentItems/assessmentItem[@author="jvadillo001@ikasle.ehu.es"]'));
-					
-					echo "<label id='numpregs';>".$preguntasem."/".$preguntastot."</label>";
-				?>
-				</div>
-			</fieldset>
+			<div style="margin: 5px; padding: 15px 5px 15px; border-left: 6px solid grey; border-radius: 5px; background-color: lightgrey;">				
+				<label for="questionStats" style="display: block;"><strong>Preguntas</strong></label>
+				Preguntas introducidas: <div id="preguntasUsuarios" style="display: inline-block;"></div> |
+				Preguntas totales: <div id="preguntasTotales" style="display: inline-block;"></div>				
+			</div>
 			<form id="formGestionPreguntas" name="formGestionPreguntas" method="post" action="" enctype="multipart/form-data">
 
 				<fieldset>

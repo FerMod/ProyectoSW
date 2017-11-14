@@ -291,9 +291,11 @@ function getOnlineUsers() {
 
 function getQuestionsStats() {
 
-	$xml = simplexml_load_file("xml/preguntas.xml");
-	$preguntasTotal = count($xml->xpath('/assessmentItems/assessmentItem'));
-	$preguntasUsuario = count($xml->xpath('/assessmentItems/assessmentItem[@author="jvadillo001@ikasle.ehu.es"]'));
+	include "config.php";
+
+	$xml = new SimpleXMLElement($xmlFolder . "preguntas.xml", 0, true);
+	$preguntasTotal = count($xml->xpath("/assessmentItems/assessmentItem"));
+	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $_POST['login'] . "\"]"));
 	
 	// Create array with the operation information
 	$array = array(

@@ -113,7 +113,7 @@ $(document).ready(function() {
 		formData.append("action", "uploadQuestion");
 		$.ajax({
 			url: "ajaxRequestManager.php",
-			type: "post",								// Type of request to be send, called as method
+			method: "post",								// Type of request to be send, called as method
 			data: formData,								// Data sent to server, a set of key/value pairs (i.e. form fields and values)
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			contentType: false,							// The content type used when sending data to the server.
@@ -121,8 +121,7 @@ $(document).ready(function() {
 			processData:false,							// To send DOMDocument or non processed data file it is set to false
 			success: function(result, status, xhr) {	// A function to be called if request succeeds
 
-				$("#operationResult").empty(); //Remove the content
-				$("#operationResult").append(result.operationMessage);
+				$("#operationResult").html(result.operationMessage);
 
 				if(result.operationSuccess) {
 					$("#formGestionPreguntas").remove();
@@ -137,32 +136,61 @@ $(document).ready(function() {
 
 	});
 
+	refreshStats(20000);
+	var timer;
 
-	actualizarStats();
-	
-	function actualizarStats() {
-		var formData = new FormData(this)
-		formData.append("action", "getQuestionsStats");
+	function refreshStats(refreshRate) {
+
 		$.ajax({
 			url: "ajaxRequestManager.php",
-			type: "post",                // Type of request to be send, called as method
-			data: formData,                // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-			contentType: false,            // The content type used when sending data to the server.
-			dataType: "json",				//Data type is JSON
-			cache: false,                // To unable request pages to be cached
-			processData:false,            // To send DOMDocument or non processed data file it is set to false
-			success: function(result, status, xhr) {				
-				$('#numpregs').val(result.quizesUser + "/" + result.quizesTotal);
+			data: {login: getUrlParameter("login"), action: "getQuestionsStats"},
+			method: "post",								// Type of request to be send, called as method
+			dataType: "json",							// The type of data that you're expecting back from the server.
+			success: function(result, status, xhr) {	
+				if($('#preguntasUsuarios').text() !== result.quizesUser) {
+					refreshElementValue($("#preguntasUsuarios"), result.quizesUser);
+				}
+				if($('#preguntasTotales').text() !== result.quizesTotal) {
+					refreshElementValue($("#preguntasTotales"), result.quizesTotal);
+				}
+			},
+			error: function (xhr, status, error) {
+				$("header").append(xhr.responseText);
+				clearTimeout(timer);
 			}
 		});
-		setTimeout(function() {
-			$('#numpregs').fadeOut(1000, function(){
-				$('#numpregs').fadeIn(1000, function(){
-					actualizarStats();
-				});
-			});
-		}, 2000);
+
+		timer = setTimeout(function() {
+			refreshStats(refreshRate);
+		}, refreshRate);
+
 	}
+
+	function refreshElementValue(element, value) {
+		if(element.is(':empty')) {
+			element.text(value);
+		} else {
+			element.fadeOut(2000, function(){
+				element.text(value);
+				$(this).fadeIn(2000);
+			});
+		}
+	}
+
+
+	function getUrlParameter(param) {
+
+		var pageURL = decodeURIComponent(window.location.search.substring(1));
+		var	urlVariables = pageURL.split('&');
+
+		for (var i = 0; i < urlVariables.length; i++) {
+			var parameterName = urlVariables[i].split('=');
+
+			if (parameterName[0] === param) {
+				return parameterName[1] === undefined ? true : parameterName[1];
+			}
+		}
+	};
 
 	function mostrarDatos(filePath) {
 

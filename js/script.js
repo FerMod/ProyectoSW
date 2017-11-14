@@ -137,13 +137,9 @@ $(document).ready(function() {
 
 	});
 
-	actualizarStats();
+	refreshStats(20000);
 	
-	function actualizarStats() {
-
-		var timer = setTimeout(function() {
-			actualizarStats();
-		}, 3000);
+	function refreshStats(refreshRate) {
 
 		$.ajax({
 			url: "ajaxRequestManager.php",
@@ -152,27 +148,30 @@ $(document).ready(function() {
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			success: function(result, status, xhr) {	
 				if($('#preguntasUsuarios').text() != result.quizesUser) {
-					refreshValue($("#preguntasUsuarios"), result.quizesUser);
+					refreshElementValue($("#preguntasUsuarios"), result.quizesUser);
 				}
 				if($('#preguntasTotales').text() != result.quizesTotal) {
-					refreshValue($("#preguntasTotales"), result.quizesTotal);
+					refreshElementValue($("#preguntasTotales"), result.quizesTotal);
 				}
 			},
 			error: function (xhr, status, error) {
 				$("header").append(xhr.responseText);
-				clearTimeout(timer);
 			}
 		});
+
+		setTimeout(function() {
+			refreshStats(refreshRate);
+		}, refreshRate);
+
 	}
 
-	function refreshValue(element, value) {
+	function refreshElementValue(element, value) {
 		if(element.is(':empty')) {
 			element.text(value);
 		} else {
-			element.fadeOut(1000, function(){
-				element.fadeIn(1000, function(){
-					element.text(value);
-				});
+			element.fadeOut(2000, function(){
+				element.text(value);
+				$(this).fadeIn();
 			});
 		}
 	}

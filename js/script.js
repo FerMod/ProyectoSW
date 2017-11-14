@@ -113,7 +113,7 @@ $(document).ready(function() {
 		formData.append("action", "uploadQuestion");
 		$.ajax({
 			url: "ajaxRequestManager.php",
-			type: "post",								// Type of request to be send, called as method
+			method: "post",								// Type of request to be send, called as method
 			data: formData,								// Data sent to server, a set of key/value pairs (i.e. form fields and values)
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			contentType: false,							// The content type used when sending data to the server.
@@ -137,32 +137,64 @@ $(document).ready(function() {
 
 	});
 
-
 	actualizarStats();
 	
 	function actualizarStats() {
 		var formData = new FormData(this)
 		formData.append("action", "getQuestionsStats");
+
+		var timer = setTimeout(function() {
+			actualizarStats();
+		}, 3000);
+
 		$.ajax({
 			url: "ajaxRequestManager.php",
-			type: "post",                // Type of request to be send, called as method
-			data: formData,                // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-			contentType: false,            // The content type used when sending data to the server.
-			dataType: "json",				//Data type is JSON
-			cache: false,                // To unable request pages to be cached
-			processData:false,            // To send DOMDocument or non processed data file it is set to false
-			success: function(result, status, xhr) {				
-				$('#numpregs').val(result.quizesUser + "/" + result.quizesTotal);
+			data: {login: getUrlParameter("login"), action: "getQuestionsStats"},
+			method: "POST",								// Type of request to be send, called as method
+			dataType: "json",							// The type of data that you're expecting back from the server.
+			success: function(result, status, xhr) {	
+				console.log("result.quizesUser -> " + result.quizesUser);
+				console.log("result.quizesTotal -> " + result.quizesTotal);	
+				if($('#preguntasUsuarios').text() != result.quizesUser) {
+					refreshValue($("#preguntasUsuarios"), result.quizesUser);
+				}
+				if($('#preguntasTotales').text() != result.quizesTotal) {
+					refreshValue($("#preguntasTotales"), result.quizesTotal);
+				}
+			},
+			error: function (xhr, status, error) {
+				$("header").append(xhr.responseText);
+				clearTimeout(timer);
 			}
 		});
-		setTimeout(function() {
-			$('#numpregs').fadeOut(1000, function(){
-				$('#numpregs').fadeIn(1000, function(){
-					actualizarStats();
+	}
+
+	function refreshValue(element, value) {
+		if(element.is(':empty')) {
+			element.text(value);
+		} else {
+			element.fadeOut(1000, function(){
+				element.fadeIn(1000, function(){
+					element.text(value);
 				});
 			});
-		}, 2000);
+		}
 	}
+
+	function getUrlParameter(param) {
+		var pageURL = decodeURIComponent(window.location.search.substring(1)),
+		urlVariables = pageURL.split('&'),
+		parameterName,
+		i;
+
+		for (i = 0; i < urlVariables.length; i++) {
+			parameterName = urlVariables[i].split('=');
+
+			if (parameterName[0] === param) {
+				return parameterName[1] === undefined ? true : parameterName[1];
+			}
+		}
+	};
 
 	function mostrarDatos(filePath) {
 

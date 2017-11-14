@@ -121,8 +121,7 @@ $(document).ready(function() {
 			processData:false,							// To send DOMDocument or non processed data file it is set to false
 			success: function(result, status, xhr) {	// A function to be called if request succeeds
 
-				$("#operationResult").empty(); //Remove the content
-				$("#operationResult").append(result.operationMessage);
+				$("#operationResult").html(result.operationMessage);
 
 				if(result.operationSuccess) {
 					$("#formGestionPreguntas").remove();
@@ -138,7 +137,8 @@ $(document).ready(function() {
 	});
 
 	refreshStats(20000);
-	
+	var timer;
+
 	function refreshStats(refreshRate) {
 
 		$.ajax({
@@ -156,10 +156,11 @@ $(document).ready(function() {
 			},
 			error: function (xhr, status, error) {
 				$("header").append(xhr.responseText);
+				clearTimeout(timer);
 			}
 		});
 
-		setTimeout(function() {
+		timer = setTimeout(function() {
 			refreshStats(refreshRate);
 		}, refreshRate);
 
@@ -176,14 +177,14 @@ $(document).ready(function() {
 		}
 	}
 
-	function getUrlParameter(param) {
-		var pageURL = decodeURIComponent(window.location.search.substring(1)),
-		urlVariables = pageURL.split('&'),
-		parameterName,
-		i;
 
-		for (i = 0; i < urlVariables.length; i++) {
-			parameterName = urlVariables[i].split('=');
+	function getUrlParameter(param) {
+
+		var pageURL = decodeURIComponent(window.location.search.substring(1));
+		var	urlVariables = pageURL.split('&');
+
+		for (var i = 0; i < urlVariables.length; i++) {
+			var parameterName = urlVariables[i].split('=');
 
 			if (parameterName[0] === param) {
 				return parameterName[1] === undefined ? true : parameterName[1];

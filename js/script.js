@@ -113,7 +113,7 @@ $(document).ready(function() {
 		formData.append("action", "uploadQuestion");
 		$.ajax({
 			url: "ajaxRequestManager.php",
-			type: "post",								// Type of request to be send, called as method
+			method: "post",								// Type of request to be send, called as method
 			data: formData,								// Data sent to server, a set of key/value pairs (i.e. form fields and values)
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			contentType: false,							// The content type used when sending data to the server.
@@ -137,40 +137,59 @@ $(document).ready(function() {
 
 	});
 
-
-	actualizarStats(null, null);
+	refreshStats(20000);
 	
-	function actualizarStats(var quizesUser, var quizesTotal) {
-		var quizesUs = 0;
-		var quizesTot = 0;
-		var formData = new FormData(this)
-		formData.append("action", "getQuestionsStats");
+	function refreshStats(refreshRate) {
+
 		$.ajax({
 			url: "ajaxRequestManager.php",
-			type: "post",                // Type of request to be send, called as method
-			data: formData,                // Data sent to server, a set of key/value pairs (i.e. form fields and values)
-			contentType: false,            // The content type used when sending data to the server.
-			dataType: "json",				//Data type is JSON
-			cache: false,                // To unable request pages to be cached
-			processData:false,            // To send DOMDocument or non processed data file it is set to false
-			success: function(result, status, xhr) {
-				quizesUs = result.quizesUser;
-				quizesTot = result.quizesTotal;
-				$('#numpregs').html(quizesUs + "/" + quizesTot); //HTML para cambiar el texto de la label.
+			data: {login: getUrlParameter("login"), action: "getQuestionsStats"},
+			method: "post",								// Type of request to be send, called as method
+			dataType: "json",							// The type of data that you're expecting back from the server.
+			success: function(result, status, xhr) {	
+				if($('#preguntasUsuarios').text() != result.quizesUser) {
+					refreshElementValue($("#preguntasUsuarios"), result.quizesUser);
+				}
+				if($('#preguntasTotales').text() != result.quizesTotal) {
+					refreshElementValue($("#preguntasTotales"), result.quizesTotal);
+				}
+			},
+			error: function (xhr, status, error) {
+				$("header").append(xhr.responseText);
 			}
 		});
+
 		setTimeout(function() {
-			if(quizesUs != quizesUser && quizesTot != quizesTotal) { //Al primer ciclo ambos valores son null, por lo que se hace sin fundido para coger el dato.
-				$('#numpregs').fadeOut(1000, function(){
-					$('#numpregs').fadeIn(1000, function(){
-						actualizarStats(quizesUs, quizesTot);
-					});
-				});
-			} else {
-				actualizarStats(quizesUs, quizesTot);
-			}
-		}, 2000);
+			refreshStats(refreshRate);
+		}, refreshRate);
+
 	}
+
+	function refreshElementValue(element, value) {
+		if(element.is(':empty')) {
+			element.text(value);
+		} else {
+			element.fadeOut(2000, function(){
+				element.text(value);
+				$(this).fadeIn();
+			});
+		}
+	}
+
+	function getUrlParameter(param) {
+		var pageURL = decodeURIComponent(window.location.search.substring(1)),
+		urlVariables = pageURL.split('&'),
+		parameterName,
+		i;
+
+		for (i = 0; i < urlVariables.length; i++) {
+			parameterName = urlVariables[i].split('=');
+
+			if (parameterName[0] === param) {
+				return parameterName[1] === undefined ? true : parameterName[1];
+			}
+		}
+	};
 
 	function mostrarDatos(filePath) {
 

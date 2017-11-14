@@ -4,6 +4,14 @@
 		<html>
 			<head>
 				<style>
+					table {
+					background-color: white;
+					}
+
+					th {
+					background-color: darkgrey;
+					}
+
 					table, th, td {
 					border-collapse: collapse;
 					}

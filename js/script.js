@@ -96,7 +96,7 @@ $(document).ready(function() {
 	});
 
 	// When the user clicks away, close the modal
-	$("#modalElement").on("click",function(event) {
+	$("#modalElement").on("click", function(event) {
 		$(this).css("display", "none");
 	});
 
@@ -105,5 +105,86 @@ $(document).ready(function() {
 		$("#img01").attr("src", $(this).attr("src"));
 		$("#caption").html($(".modalImage").attr("alt"));
 	});
+
+	$("#formGestionPreguntas").on("submit", function(event) {
+		event.preventDefault();
+
+		var formData = new FormData(this)
+		formData.append("action", "uploadQuestion");
+		$.ajax({
+			url: "ajaxRequestManager.php",
+			type: "post",								// Type of request to be send, called as method
+			data: formData,								// Data sent to server, a set of key/value pairs (i.e. form fields and values)
+			dataType: "json",							// The type of data that you're expecting back from the server.
+			contentType: false,							// The content type used when sending data to the server.
+			cache: false,								// To unable request pages to be cached
+			processData:false,							// To send DOMDocument or non processed data file it is set to false
+			success: function(result, status, xhr) {	// A function to be called if request succeeds
+
+				$("#operationResult").empty(); //Remove the content
+				$("#operationResult").append(result.operationMessage);
+
+				if(result.operationSuccess) {
+					$("#formGestionPreguntas").remove();
+					mostrarDatos('xml/preguntas.xml');
+				}
+			},
+			error: function (xhr, status, error) {
+				console.log(xhr.statusText);
+				console.log(error);
+			}
+		});
+
+	});
+
+
+	actualizarStats();
+	
+	function actualizarStats() {
+		var formData = new FormData(this)
+		formData.append("action", "getQuestionsStats");
+		$.ajax({
+			url: "ajaxRequestManager.php",
+			type: "post",                // Type of request to be send, called as method
+			data: formData,                // Data sent to server, a set of key/value pairs (i.e. form fields and values)
+			contentType: false,            // The content type used when sending data to the server.
+			dataType: "json",				//Data type is JSON
+			cache: false,                // To unable request pages to be cached
+			processData:false,            // To send DOMDocument or non processed data file it is set to false
+			success: function(result, status, xhr) {				
+				$('#numpregs').val(result.quizesUser + "/" + result.quizesTotal);
+			}
+		});
+		setTimeout(function() {
+			$('#numpregs').fadeOut(1000, function(){
+				$('#numpregs').fadeIn(1000, function(){
+					actualizarStats();
+				});
+			});
+		}, 2000);
+	}
+
+	function mostrarDatos(filePath) {
+
+		XMLHttpRequestObject = new XMLHttpRequest();
+		XMLHttpRequestObject.onreadystatechange = function() {
+			if (XMLHttpRequestObject.readyState==4) {
+				document.getElementById('visualizarDatos').innerHTML = '';
+				var myCodeMirror = CodeMirror(document.getElementById('visualizarDatos'), {
+					value: XMLHttpRequestObject.responseText,
+					mode:  "xml",
+					lineNumbers: "true",
+					readOnly: "true"
+				});
+			}
+		}
+
+		// Bypass the cache.
+		// Since the local cache is indexed by URL, this causes every request to be unique.
+		filePath += (filePath.match(/\?/) == null ? "?" : "&") + new Date().getTime();
+		XMLHttpRequestObject.open("GET", filePath);
+		XMLHttpRequestObject.send(null);
+	}
+
 
 });

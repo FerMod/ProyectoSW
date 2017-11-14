@@ -140,8 +140,6 @@ $(document).ready(function() {
 	actualizarStats();
 	
 	function actualizarStats() {
-		var formData = new FormData(this)
-		formData.append("action", "getQuestionsStats");
 
 		var timer = setTimeout(function() {
 			actualizarStats();
@@ -150,7 +148,7 @@ $(document).ready(function() {
 		$.ajax({
 			url: "ajaxRequestManager.php",
 			data: {login: getUrlParameter("login"), action: "getQuestionsStats"},
-			method: "POST",								// Type of request to be send, called as method
+			method: "post",								// Type of request to be send, called as method
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			success: function(result, status, xhr) {	
 				if($('#preguntasUsuarios').text() != result.quizesUser) {

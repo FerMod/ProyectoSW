@@ -153,8 +153,6 @@ $(document).ready(function() {
 			method: "POST",								// Type of request to be send, called as method
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			success: function(result, status, xhr) {	
-				console.log("result.quizesUser -> " + result.quizesUser);
-				console.log("result.quizesTotal -> " + result.quizesTotal);	
 				if($('#preguntasUsuarios').text() != result.quizesUser) {
 					refreshValue($("#preguntasUsuarios"), result.quizesUser);
 				}

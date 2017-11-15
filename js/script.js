@@ -135,11 +135,17 @@ $(document).ready(function() {
 		});
 
 	});
+	
+	if($("#preguntasUsuarios").length && $("#preguntasTotales").length) {
+		refreshStats(2000);
+	}
 
-	refreshStats(20000);
 	var timer;
-
 	function refreshStats(refreshRate) {
+
+		timer = setTimeout(function() {
+			refreshStats(refreshRate);
+		}, refreshRate);
 
 		$.ajax({
 			url: "ajaxRequestManager.php",
@@ -159,10 +165,6 @@ $(document).ready(function() {
 				clearTimeout(timer);
 			}
 		});
-
-		timer = setTimeout(function() {
-			refreshStats(refreshRate);
-		}, refreshRate);
 
 	}
 

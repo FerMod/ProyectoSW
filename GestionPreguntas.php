@@ -53,10 +53,10 @@
 			?>
 		</nav>
 		<article class="content">
-			<div style="margin: 5px; padding: 15px 5px 15px; border-left: 6px solid grey; border-radius: 5px; background-color: lightgrey;">				
-				<label for="questionStats" style="display: block;"><strong>Preguntas</strong></label>
-				Preguntas introducidas: <div id="preguntasUsuarios" style="display: inline-block;"></div> |
-				Preguntas totales: <div id="preguntasTotales" style="display: inline-block;"></div>				
+			<div id="questionStats" style="margin: 5px; padding: 15px 5px 15px; border-left: 6px solid grey; border-radius: 5px; background-color: lightgrey;">				
+				<label for="questionStatsLabel" style="display: block;"><strong>Preguntas</strong></label>
+				Preguntas introducidas: <span id="preguntasUsuarios"></span> |
+				Preguntas totales: <span id="preguntasTotales"></span>				
 			</div>
 			<form id="formGestionPreguntas" name="formGestionPreguntas" method="post" action="" enctype="multipart/form-data">
 

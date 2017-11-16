@@ -135,11 +135,17 @@ $(document).ready(function() {
 		});
 
 	});
+	
+	if($("#preguntasUsuarios").length && $("#preguntasTotales").length) {
+		refreshStats(20000);
+	}
 
-	refreshStats(20000);
 	var timer;
-
 	function refreshStats(refreshRate) {
+
+		timer = setTimeout(function() {
+			refreshStats(refreshRate);
+		}, refreshRate);
 
 		$.ajax({
 			url: "ajaxRequestManager.php",
@@ -147,12 +153,8 @@ $(document).ready(function() {
 			method: "post",								// Type of request to be send, called as method
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			success: function(result, status, xhr) {	
-				if($('#preguntasUsuarios').text() !== result.quizesUser) {
-					refreshElementValue($("#preguntasUsuarios"), result.quizesUser);
-				}
-				if($('#preguntasTotales').text() !== result.quizesTotal) {
-					refreshElementValue($("#preguntasTotales"), result.quizesTotal);
-				}
+				refreshElementValue($("#preguntasUsuarios"), result.quizesUser);
+				refreshElementValue($("#preguntasTotales"), result.quizesTotal);
 			},
 			error: function (xhr, status, error) {
 				$("header").append(xhr.responseText);
@@ -160,16 +162,12 @@ $(document).ready(function() {
 			}
 		});
 
-		timer = setTimeout(function() {
-			refreshStats(refreshRate);
-		}, refreshRate);
-
 	}
 
 	function refreshElementValue(element, value) {
 		if(element.is(':empty')) {
 			element.text(value);
-		} else {
+		} else if(parseInt(element.text(), 10) !== value) {
 			element.fadeOut(2000, function(){
 				element.text(value);
 				$(this).fadeIn(2000);

@@ -86,7 +86,7 @@
 			}
 
 			if($password == $passwordRep) { // Comprobamos que la contraseña escrita coincide con su repetición.
-				$password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Guardamos de forma segura la contraseña.
+				$hashedPassword = password_hash(hash("sha256", $password), PASSWORD_DEFAULT); // Guardamos de forma segura la contraseña.
 			} else {
 				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Las contraseñas no coinciden entre sí, vuelva a escribirla.</div>");
 			}
@@ -163,7 +163,7 @@
 		}
 
 		if($dataCorrect) {
-			$sql = "INSERT INTO usuarios (email, password, nombre, username, imagen) VALUES ('$email', '$password', '$nombre', '$username', '$imagen')";
+			$sql = "INSERT INTO usuarios (email, password, nombre, username, imagen) VALUES ('$email', '$hashedPassword', '$nombre', '$username', '$imagen')";
 
 			if(!$result = $conn->query($sql)) {
 				$operationMessage .= "<script language=\"javascript\">alert(\"Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.\");</script>"; 

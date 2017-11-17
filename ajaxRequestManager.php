@@ -288,7 +288,6 @@ function getOnlineUsers() {
 }
 
 function getQuestionsStats() {
-	header("Cache-Control: no-store, no-cache, must-revalidate");
 	include "config.php";
 
 	$xml = new SimpleXMLElement($xmlFolder . "preguntas.xml", 0, true);

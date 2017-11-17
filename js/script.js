@@ -121,8 +121,7 @@ $(document).ready(function() {
 			processData:false,							// To send DOMDocument or non processed data file it is set to false
 			success: function(result, status, xhr) {	// A function to be called if request succeeds
 
-				$("#operationResult").empty(); //Remove the content
-				$("#operationResult").append(result.operationMessage);
+				$("#operationResult").html(result.operationMessage);
 
 				if(result.operationSuccess) {
 					$("#formGestionPreguntas").remove();
@@ -136,10 +135,17 @@ $(document).ready(function() {
 		});
 
 	});
-
-	refreshStats(20000);
 	
+	if($("#preguntasUsuarios").length && $("#preguntasTotales").length) {
+		refreshStats(20000);
+	}
+
+	var timer;
 	function refreshStats(refreshRate) {
+
+		timer = setTimeout(function() {
+			refreshStats(refreshRate);
+		}, refreshRate);
 
 		$.ajax({
 			url: "ajaxRequestManager.php",
@@ -147,43 +153,36 @@ $(document).ready(function() {
 			method: "post",								// Type of request to be send, called as method
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			success: function(result, status, xhr) {	
-				if($('#preguntasUsuarios').text() != result.quizesUser) {
-					refreshElementValue($("#preguntasUsuarios"), result.quizesUser);
-				}
-				if($('#preguntasTotales').text() != result.quizesTotal) {
-					refreshElementValue($("#preguntasTotales"), result.quizesTotal);
-				}
+				refreshElementValue($("#preguntasUsuarios"), result.quizesUser);
+				refreshElementValue($("#preguntasTotales"), result.quizesTotal);
 			},
 			error: function (xhr, status, error) {
 				$("header").append(xhr.responseText);
+				clearTimeout(timer);
 			}
 		});
-
-		setTimeout(function() {
-			refreshStats(refreshRate);
-		}, refreshRate);
 
 	}
 
 	function refreshElementValue(element, value) {
 		if(element.is(':empty')) {
 			element.text(value);
-		} else {
+		} else if(parseInt(element.text(), 10) !== value) {
 			element.fadeOut(2000, function(){
 				element.text(value);
-				$(this).fadeIn();
+				$(this).fadeIn(2000);
 			});
 		}
 	}
 
-	function getUrlParameter(param) {
-		var pageURL = decodeURIComponent(window.location.search.substring(1)),
-		urlVariables = pageURL.split('&'),
-		parameterName,
-		i;
 
-		for (i = 0; i < urlVariables.length; i++) {
-			parameterName = urlVariables[i].split('=');
+	function getUrlParameter(param) {
+
+		var pageURL = decodeURIComponent(window.location.search.substring(1));
+		var	urlVariables = pageURL.split('&');
+
+		for (var i = 0; i < urlVariables.length; i++) {
+			var parameterName = urlVariables[i].split('=');
 
 			if (parameterName[0] === param) {
 				return parameterName[1] === undefined ? true : parameterName[1];

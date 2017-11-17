@@ -15,14 +15,26 @@
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 	<script src="js/script.js"></script>	
+	<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+	<script type="text/javascript">
+		var verifyCallback = function(response) {
+       		alert(response);
+      	};
+		var onloadCallback = function() {
+			widget = grecaptcha.render('html_element', {
+				'sitekey' : ''
+			});
+		};
+		
+	</script>
 
 	<link rel="stylesheet" href="css/style.css">
 
 	<?php
-		
+
 	function createUser() {
 		include "config.php";
-		
+
 
 		// Create connection
 		$conn = new mysqli($servername, $user, $pass, $database);
@@ -340,16 +352,20 @@
 
 					</div>
 					
-					</br>
-					
-					<div style="display:table-cell; vertical-align:middle; text-align:center">
+					<br/>
+
+					<!-- <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> -->
+					<div id="html_element"></div>
+					<input type="button" onclick="javascript:alert(grecaptcha.getResponse(widget));">
+
+					<!-- <div style="display:table-cell; vertical-align:middle; text-align:center">
 						<label>Escriba el captcha que hay a continuación</label></br>
 						<img src="captcha.php"></br>
 						<input type="text" name="captchatext"/>
-					</div>
+					</div> -->
 
 					<div>
-						<input type="submit" value="Registrarse" name="submit"/>
+						<input id="register" type="submit" value="Registrarse" name="submit"/>
 						<input type="reset" value="Restaurar campos"/>	
 					</div>
 

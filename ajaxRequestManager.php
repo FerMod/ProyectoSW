@@ -1,7 +1,5 @@
 <?php
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-
 if(isset($_POST['action']) && !empty($_POST['action'])) {
 	$action = $_POST['action'];
 	switch($action) {
@@ -290,7 +288,7 @@ function getOnlineUsers() {
 }
 
 function getQuestionsStats() {
-
+	header("Cache-Control: no-store, no-cache, must-revalidate");
 	include "config.php";
 
 	$xml = new SimpleXMLElement($xmlFolder . "preguntas.xml", 0, true);

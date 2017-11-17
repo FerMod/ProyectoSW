@@ -19,6 +19,7 @@
 	<link rel="stylesheet" href="css/style.css">
 
 	<?php
+	
 	function createUser() {
 		include "config.php";
 
@@ -310,6 +311,14 @@
 							<div id="caption"></div>
 						</div>
 
+					</div>
+					
+					</br>
+					
+					<div style="display:table-cell; vertical-align:middle; text-align:center">
+						<label>Escriba el captcha que hay a continuación</label></br>
+						<img src="captcha.php"></br>
+						<input type="text" name="captchatext"/>
 					</div>
 
 					<div>

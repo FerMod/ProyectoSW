@@ -109,7 +109,7 @@ $(document).ready(function() {
 	$("#formGestionPreguntas").on("submit", function(event) {
 		event.preventDefault();
 
-		var formData = new FormData(this)
+		var formData = new FormData(this);
 		formData.append("action", "uploadQuestion");
 		$.ajax({
 			url: "ajaxRequestManager.php",

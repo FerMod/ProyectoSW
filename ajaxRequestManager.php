@@ -1,7 +1,5 @@
 <?php
 
-header("Cache-Control: no-store, no-cache, must-revalidate");
-
 if(isset($_POST['action']) && !empty($_POST['action'])) {
 	$action = $_POST['action'];
 	switch($action) {

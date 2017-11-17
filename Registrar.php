@@ -19,9 +19,10 @@
 	<link rel="stylesheet" href="css/style.css">
 
 	<?php
-	
+		
 	function createUser() {
 		include "config.php";
+		
 
 		// Create connection
 		$conn = new mysqli($servername, $user, $pass, $database);

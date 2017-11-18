@@ -41,43 +41,43 @@
 				$email = formatInput($_POST['email']) ?? '';
 				if(!isValidEmail($email)) {
 					$dataCorrect = false;
-					$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El formato del email no es correcto.<br>Debe cumplir el formato de la UPV/EHU.</div>";
+					$dataCheckMessage .= "<div class=\"serverMessage\">El formato del email no es correcto.<br>Debe cumplir el formato de la UPV/EHU.</div>";
 				}
 				if (existsEmail($email, $conn)) {
 					$dataCorrect = false;
-					$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverErrorMessage\">Ya existe una cuenta con el email introducido.</div>";
+					$dataCheckMessage .= "<div class=\"serverErrorMessage\">Ya existe una cuenta con el email introducido.</div>";
 				}
 			} else {
 				$dataCorrect = false;
-				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo \"Email\" no puede ser vacío.</div>";
+				$dataCheckMessage .= "<div class=\"serverMessage\">El campo \"Email\" no puede ser vacío.</div>";
 			}
 
 			if(isset($_POST['nombre']) && !empty($_POST['nombre'])) { 
 				$nombre = formatInput($_POST['nombre']) ?? '';
 			} else {
 				$dataCorrect = false;
-				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo \"Nombre y Apellidos\" no puede ser vacío.</div>";
+				$dataCheckMessage .= "<div class=\"serverMessage\">El campo \"Nombre y Apellidos\" no puede ser vacío.</div>";
 			}
 
 			if(isset($_POST['username']) && !empty($_POST['username'])) { 
 				$username = formatInput($_POST['username']) ?? '';
 			} else {
 				$dataCorrect = false;
-				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo \"Username\" no puede ser vacío.</div>";
+				$dataCheckMessage .= "<div class=\"serverMessage\">El campo \"Username\" no puede ser vacío.</div>";
 			}
 
 			if(isset($_POST['password']) && !empty($_POST['password'])) { 
 				$password = formatInput($_POST['password']) ?? '';
 			} else {
 				$dataCorrect = false;
-				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo \"Contraseña\" no puede ser vacío.</div>";
+				$dataCheckMessage .= "<div class=\"serverMessage\">El campo \"Contraseña\" no puede ser vacío.</div>";
 			}
 
 			if(isset($_POST['passwordRep']) && !empty($_POST['passwordRep'])) { 
 				$passwordRep = formatInput($_POST['passwordRep']) ?? '';
 			} else {
 				$dataCorrect = false;
-				$dataCheckMessage .= "<div class=\"serverMessage\" id=\"serverDefaultMessage\">El campo \"Repetir contraseña\" no puede ser vacío.</div>";
+				$dataCheckMessage .= "<div class=\"serverMessage\">El campo \"Repetir contraseña\" no puede ser vacío.</div>";
 			}
 
 			// Check if everything is ok
@@ -88,7 +88,7 @@
 			if($password == $passwordRep) { // Comprobamos que la contraseña escrita coincide con su repetición.
 				$hashedPassword = password_hash(hash("sha256", $password), PASSWORD_DEFAULT); // Guardamos de forma segura la contraseña.
 			} else {
-				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Las contraseñas no coinciden entre sí, vuelva a escribirla.</div>");
+				throw new RuntimeException("<div class=\"serverErrorMessage\">Las contraseñas no coinciden entre sí, vuelva a escribirla.</div>");
 			}
 			
 			$imagen = null;
@@ -96,7 +96,7 @@
 			// Undefined | Multiple Files | $_FILES Corruption Attack
 			// If this request falls under any of them, treat it invalid.
 			if (!isset($_FILES['imagen']['error']) || is_array($_FILES['imagen']['error'])) {
-				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Parametros inválidos.</div>");
+				throw new RuntimeException("<div class=\"serverErrorMessage\">Parametros inválidos.</div>");
 			}
 			
 
@@ -111,16 +111,16 @@
 				break;
 				case UPLOAD_ERR_INI_SIZE:
 				case UPLOAD_ERR_FORM_SIZE:
-				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Tamaño de archivo excedido.</div>");
+				throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.</div>");
 				default:
-				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Error desconocido.</div>");
+				throw new RuntimeException("<div class=\"serverErrorMessage\">Error desconocido.</div>");
 			}
 
 			if($containsImage) {
 
 				// You should also check filesize here. 
 				if ($_FILES['imagen']['size'] > 1000000) {
-					throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Tamaño de archivo excedido.");
+					throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.");
 				}
 
 				// DO NOT TRUST $_FILES['imagen']['mime'] VALUE !!
@@ -135,7 +135,7 @@
 					),
 					true
 				)) {
-					throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Formato de archivo inválido.</div>");
+					throw new RuntimeException("<div class=\"serverErrorMessage\">Formato de archivo inválido.</div>");
 				}
 
 				// You should name it uniquely.
@@ -150,7 +150,7 @@
 						$ext
 					)
 				)) {
-					throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
+					throw new RuntimeException("<div class=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
 				}
 
 				$imagen = sprintf('%s%s.%s', $profileImageFolder, $sha1Name, $ext);
@@ -267,7 +267,7 @@
 
 					<div>
 						<label>Escriba su email<strong><font size="3" color="red">*</font></strong></label>
-						<input type="email" name="email" autofocus/>
+						<input id="email" type="email" name="email" autofocus/>
 					</div>
 
 					<div>

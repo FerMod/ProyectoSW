@@ -115,7 +115,7 @@
 							// Undefined | Multiple Files | $_FILES Corruption Attack
 							// If this request falls under any of them, treat it invalid.
 							if (!isset($_FILES['imagen']['error']) || is_array($_FILES['imagen']['error'])) {
-								throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Parametros inválidos.</div>");
+								throw new RuntimeException("<div class=\"serverErrorMessage\">Parametros inválidos.</div>");
 							}
 							
 						try {	
@@ -130,16 +130,16 @@
 								break;
 								case UPLOAD_ERR_INI_SIZE:
 								case UPLOAD_ERR_FORM_SIZE:
-								throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Tamaño de archivo excedido.</div>");
+								throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.</div>");
 								default:
-								throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Error desconocido.</div>");
+								throw new RuntimeException("<div class=\"serverErrorMessage\">Error desconocido.</div>");
 							}
 
 							if($containsImage) {
 
 								// You should also check filesize here. 
 								if ($_FILES['imagen']['size'] > 1000000) {
-									throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Tamaño de archivo excedido.");
+									throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.");
 								}
 
 								// DO NOT TRUST $_FILES['imagen']['mime'] VALUE !!
@@ -154,7 +154,7 @@
 								),
 								true
 								)) {
-									throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Formato de archivo inválido.</div>");
+									throw new RuntimeException("<div class=\"serverErrorMessage\">Formato de archivo inválido.</div>");
 								}
 
 								// You should name it uniquely.
@@ -169,7 +169,7 @@
 										$ext
 								)
 								)) {
-									throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
+									throw new RuntimeException("<div class=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
 								}
 								
 								$imagen = sprintf('%s%s.%s', $imageImageFolder, $sha1Name, $ext);
@@ -182,17 +182,17 @@
 							$sql = "INSERT INTO `usuarios` (`email`, `password`, `nombre`, `username`, `imagen`) VALUES ('$email', '$pass', '$nombre', '$username', '$imagen')";
 							
 							if($conn->query($sql)) {
-								echo '<div class=\"serverMessage\" id=\"serverInfoMessage\">¡Se ha registrado el usuario con éxito!"</div>'; 
+								echo '<div class=\"serverInfoMessage\">¡Se ha registrado el usuario con éxito!"</div>'; 
 							} else {
-								echo '<div class=\"serverMessage\" id=\"serverErrorMessage\">Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.</div>'; 
+								echo '<div class=\"serverErrorMessage\">Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.</div>'; 
 							}
 						} else {
-							echo '<div class=\"serverMessage\" id=\"serverErrorMessage\">La contraseña no coincide con su repetición, vuelva a intentarlo.</div>'; 
+							echo '<div class=\"serverErrorMessage\">La contraseña no coincide con su repetición, vuelva a intentarlo.</div>'; 
 						}
 					} else if(!isValidEmail($email)) {
-						echo '<div class=\"serverMessage\" id=\"serverErrorMessage\">Debe escribir el email con el formato correcto. Ejemplo: correo123@ikasle.ehu.eus/correo123@ikasle.ehu.es.</div>';
+						echo '<div class=\"serverErrorMessage\">Debe escribir el email con el formato correcto. Ejemplo: correo123@ikasle.ehu.eus/correo123@ikasle.ehu.es.</div>';
 					} else {
-						echo '<div class=\"serverMessage\" id=\"serverErrorMessage\">No se puede dejar ningún campo clave vacío.</div>'; 
+						echo '<div class=\"serverErrorMessage\">No se puede dejar ningún campo clave vacío.</div>'; 
 					}
 			}
 			

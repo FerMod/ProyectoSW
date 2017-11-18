@@ -28,12 +28,12 @@
 <body>
 	<header>
 		<?php
-		if(!isset($_GET['login']) || empty($_GET['login'])) {
+		if(isset($_GET['login']) && !empty($_GET['login'])) {
+			echo '<span><a href="logout.php">Logout</a></span>';
+		} else {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
 			echo '&nbsp'; // Add non-breaking space
 			echo '<span><a href="Login.php">Login</a></span>';
-		} else {
-			echo '<span><a href="layout.php">Logout</a></span>';
 		}
 		?>
 		<h2>Quiz: el juego de las preguntas</h2>
@@ -41,7 +41,7 @@
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<?php 
-			if(isset($_GET['login']) || !empty($_GET['login'])) {
+			if(isset($_GET['login']) && !empty($_GET['login'])) {
 				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
 				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Hacer pregunta</a></span>';
 				echo '<span><a href="VerPreguntasConFoto.php?login='.$_GET['login'].'">Ver preguntas</a></span>';

@@ -400,10 +400,18 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	box-shadow: 3px 3px 0px #962A2A;
 }
 
-.error {
-	-webkit-box-shadow: 0px 0px 10px 5px #ff0000 inset, 0px 0px 10px 2px #ff0000;
-	-moz-box-shadow: 0px 0px 10px 5px #ff0000 inset, 0px 0px 10px 2px #ff0000;
-	box-shadow: 0px 0px 10px 5px #ff0000 inset, 0px 0px 10px 2px #ff0000;
+.invalidData {
+	-webkit-box-shadow: red;
+	-moz-box-shadow: red;
+	box-shadow: red;
+	border-color: red;
+}
+
+.validData {
+	-webkit-box-shadow: green;
+	-moz-box-shadow: green;
+	box-shadow: green;
+	border-color: green;
 }
 
 /* Style the Image Used to Trigger the Modal */

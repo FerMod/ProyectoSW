@@ -8,15 +8,19 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		break;
 
 		case 'getOnlineUsers':
-		getOnlineUsers();
+		getOnlineUsers(); //TODO
 		break;
 
 		case 'getQuestionsStats':
 		getQuestionsStats();
 		break;
 
+		case 'isVIPUser':
+		isVIPUser();
+		break;
+
 		case 'showQuestions':
-		showQuestions();
+		showQuestions(); //TODO
 		break;
 	}
 }
@@ -298,11 +302,30 @@ function getQuestionsStats() {
 	// Create array with the operation information
 	$array = array(
 		"quizesTotal" => $preguntasTotal,
-		"quizesUser" => $preguntasUsuario,
+		"quizesUser" => $preguntasUsuario
 	);
 	
 	// Encode array to JSON format
 	echo json_encode($array);
+}
+
+function isVIPUser() {
+
+	require_once("nusoap-0.9.5/src/nusoap.php");
+
+	// Create new NuSoap client. First parameter is the wsdl url and the second parameter is to confirm that is a wsdl url
+	$client = new nusoap_client("http://ehusw.es/jav/ServiciosWeb/comprobarmatricula.php?wsdl", true);
+	$client->soap_defencoding = "UTF-8";
+	$client->decode_utf8 = false;
+
+	// Call and consume service
+	$result = strtoupper($client->call("comprobar", $_POST["email"])) !== "NO" ? true : false;
+
+	$resultArray = array(
+		"isVip" => $result
+	);
+
+	echo json_encode($resultArray);
 }
 
 ?>

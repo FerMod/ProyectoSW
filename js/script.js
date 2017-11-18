@@ -137,15 +137,11 @@ $(document).ready(function() {
 	});
 	
 	if($("#preguntasUsuarios").length && $("#preguntasTotales").length) {
-		refreshStats(20000);
+		refreshStats(); // Execute the function
+		var timer = setInterval(refreshStats, 20000);
 	}
 
-	var timer;
-	function refreshStats(refreshRate) {
-
-		timer = setTimeout(function() {
-			refreshStats(refreshRate);
-		}, refreshRate);
+	function refreshStats() {
 
 		$.ajax({
 			url: "ajaxRequestManager.php",
@@ -158,7 +154,7 @@ $(document).ready(function() {
 			},
 			error: function (xhr, status, error) {
 				$("header").append(xhr.responseText);
-				clearTimeout(timer);
+				clearInterval(timer);
 			}
 		});
 
@@ -212,5 +208,29 @@ $(document).ready(function() {
 		XMLHttpRequestObject.send(null);
 	}
 
+	$("#email").on("change", function(event) {
+		
+		if (!$("#email").val()) {
+			$("#email").removeClass("validData").removeClass("invalidData");
+		} else {
+			$.ajax({
+				url: "ajaxRequestManager.php",
+				data: {"email": $(this).val().trim(), action: "isVIPUser"},
+				method: "post",
+				dataType: "json",
+				success: function(result, status, xhr) {
+					if(result.isVip) {
+						$("#email").removeClass("invalidData").addClass("validData");
+					} else {
+						$("#email").removeClass("validData").addClass("invalidData");
+					}
+				},
+				error: function (xhr, status, error) {
+					$("header").append(xhr.responseText);
+				}
+			});
+		}
+
+	});
 
 });

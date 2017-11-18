@@ -401,16 +401,16 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 .invalidData {
-	-webkit-box-shadow: red;
-	-moz-box-shadow: red;
-	box-shadow: red;
+	-webkit-box-shadow: 3px 3px 10px 0px red;
+	-moz-box-shadow: 3px 3px 10px 0px red;
+	box-shadow: 3px 3px 10px 0px red;
 	border-color: red;
 }
 
 .validData {
-	-webkit-box-shadow: green;
-	-moz-box-shadow: green;
-	box-shadow: green;
+	-webkit-box-shadow: 3px 3px 10px 0px green;
+	-moz-box-shadow: 3px 3px 10px 0px green;
+	box-shadow: 3px 3px 10px 0px green;
 	border-color: green;
 }
 

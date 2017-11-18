@@ -39,9 +39,29 @@ $(document).ready(function() {
 	});
 	*/
 
+	$("#registro").on("submit", function() {
+
+		if(!$("#email").hasClass("validData")) {			
+			alert("(Debug alert)\nThe used is not VIP.");
+			return false;
+		}
+
+		return true;
+
+	});
+
 	function isNumber(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
+
+	$("form").on("reset", function(event) {
+		var $inputElement =  $(this).find(":input");
+		$inputElement.css("-webkit-box-shadow", "initial");
+		$inputElement.css("-moz-box-shadow", "initial");
+		$inputElement.css("box-shadow", "initial");
+		$inputElement.css("border-color", "initial");
+		$(".operationResult").remove();
+	});
 
 	$("#imagen").on("change", function() {
 

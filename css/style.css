@@ -414,6 +414,35 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	border-color: green;
 }
 
+.inputDefaultStyle {
+	/*TODO - Add a default style for the input element*/
+}
+
+.veryWeak{
+	-webkit-box-shadow: 3px 3px 10px 0px red;
+	-moz-box-shadow: 3px 3px 10px 0px red;
+	box-shadow: 3px 3px 10px 0px red;
+	border-color: #F04040!important
+}
+.weak{
+	-webkit-box-shadow: 3px 3px 10px 0px #FFB78C;
+	-moz-box-shadow: 3px 3px 10px 0px #FFB78C;
+	box-shadow: 3px 3px 10px 0px #FFB78C;
+	border-color: #FF853C!important;
+}
+.medium{
+	-webkit-box-shadow: 3px 3px 10px 0px #FFEC8B;
+	-moz-box-shadow: 3px 3px 10px 0px #FFEC8B;
+	box-shadow: 3px 3px 10px 0px #FFEC8B;
+	border-color: #FC0!important;
+}
+.strong{
+	-webkit-box-shadow: 3px 3px 10px 0px #C3FF88;
+	-moz-box-shadow: 3px 3px 10px 0px #C3FF88;
+	box-shadow: 3px 3px 10px 0px #C3FF88;
+	border-color: #8DFF1C!important;
+}
+
 /* Style the Image Used to Trigger the Modal */
 .modalImage {
 	border-radius: 5px;

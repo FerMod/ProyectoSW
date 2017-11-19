@@ -254,7 +254,6 @@ $(document).ready(function() {
 
 	});
 
-	// $("#password").on("change", function(event) {}
 	$("#password").on("input propertychange blur", function(event) {
 
 		// Prevent multiple event trigger, use the first that triggers

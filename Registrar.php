@@ -282,7 +282,7 @@
 
 					<div>
 						<label>Contraseña<strong><font size="3" color="red">*</font></strong></label>
-						<input type="password" name="password"/>
+						<input id="password" type="password" name="password"/>
 					</div>
 
 					<div>

@@ -2,7 +2,7 @@
 //incluimos la clase nusoap.php
 require_once('nusoap-0.9.5/src/nusoap.php');
 //creamos el objeto de tipo soap_server
-$ns="http://localhost/nusoap-0.9.5/samples";
+$ns="http://localhost/ProyectoSW/demo.php?wsdl";
 $server = new soap_server;
 $server->configureWSDL('sumar',$ns);
 $server->wsdl->schemaTargetNamespace=$ns;

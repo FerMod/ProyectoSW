@@ -1,7 +1,7 @@
 <?php
 
 // Adapted from the following source: https://www.formget.com/login-form-in-php/
-include("config.php");
+include_once("config.php");
 
 session_start(); // Starting Session
 

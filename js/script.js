@@ -228,7 +228,7 @@ $(document).ready(function() {
 		XMLHttpRequestObject.open("GET", filePath);
 		XMLHttpRequestObject.send(null);
 	}
-
+	
 	$("#email").on("change", function(event) {
 		
 		if (!$("#email").val()) {
@@ -254,6 +254,7 @@ $(document).ready(function() {
 
 	});
 
+	/*
 	$("#password").on("input propertychange blur", function(event) {
 
 		// Prevent multiple event trigger, use the first that triggers
@@ -312,7 +313,7 @@ $(document).ready(function() {
 	function getPasswordStrength(password) {
 		return 0;
 	}
-
+	*/
 	// Dont allow any context menu and the cut, copy and paste actions in the password field
 	$("input[type=password]").on("contextmenu cut copy paste", function(event) {
 		event.preventDefault();

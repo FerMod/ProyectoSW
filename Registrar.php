@@ -70,6 +70,11 @@
 
 			if(isset($_POST['password']) && !empty($_POST['password'])) { 
 				$password = formatInput($_POST['password']) ?? '';
+				
+				if(!checkPassword($password)) {
+					$dataCorrect = false;
+					$dataCheckMessage .= "<div class=\"serverMessage\">El campo \"Contraseña\" debe ser más seguro.</div>";
+				}
 			} else {
 				$dataCorrect = false;
 				$dataCheckMessage .= "<div class=\"serverMessage\">El campo \"Contraseña\" no puede ser vacío.</div>";
@@ -203,6 +208,17 @@
 
 		return mysqli_num_rows($query) > 0;
 	}
+	
+	function checkPassword($pass) {
+		require_once('nusoap-0.9.5/src/nusoap.php');
+		
+		$soapclient = new nusoap_client('ComprobarContraseña.php?wsdl', true);
+		
+		$result = strtoupper($client->call("comprobarContraseña", $pass)) !== "INVALIDA" ? true : false;
+		
+		return $result;
+	}
+	
 	?>
 
 </head>

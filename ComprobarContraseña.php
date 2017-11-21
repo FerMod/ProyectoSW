@@ -9,13 +9,24 @@ $server->wsdl->schemaTargetNamespace=$ns;
 
 $server->register('comprobarContraseña',
 array('pass'=>'xsd:string'),
-array('z'=>'xsd:string'),
+array('valida'=>'xsd:string'),
 $ns);
 
-function sumar ($pass){
-	return null;
+function comprobarContraseña ($pass){
+	$file = fopen("/files/toppasswords.txt", "r") or die("¡Incapaz de abrir el archivo!");
+	
+	while(!feof($file)) {
+		$passcomp = fgets($myfile);
+		if($passcomp == $pass) {
+			fclose($file);
+			return 'INVALIDA';
+		}
+	}
+	
+	fclose($file);
+	return 'VALIDA';
 }
-//llamamos al método service de la clase nusoap
+
 $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : '';
 $server->service($HTTP_RAW_POST_DATA);
 ?>

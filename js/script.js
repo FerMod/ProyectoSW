@@ -39,9 +39,30 @@ $(document).ready(function() {
 	});
 	*/
 
+	$("#registro").on("submit", function() {
+
+		if(!$("#email").hasClass("validData")) {			
+			alert("(Debug alert)\nThe used is NOT VIP.\ndostuff");
+			return false;
+		}
+
+		alert("(Debug alert)\nThe user IS VIP.\ndostuff");
+		return true;
+
+	});
+
 	function isNumber(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
+
+	$("form").on("reset", function(event) {
+		var $inputElement =  $("input:not([type=button], [type=reset], [type=submit])");
+		$inputElement.css("-webkit-box-shadow", "initial");
+		$inputElement.css("-moz-box-shadow", "initial");
+		$inputElement.css("box-shadow", "initial");
+		$inputElement.css("border-color", "initial");
+		$(".operationResult").remove();
+	});
 
 	$("#imagen").on("change", function() {
 
@@ -137,15 +158,11 @@ $(document).ready(function() {
 	});
 	
 	if($("#preguntasUsuarios").length && $("#preguntasTotales").length) {
-		refreshStats(20000);
+		refreshStats(); // Execute the function
+		var timer = setInterval(refreshStats, 20000);
 	}
 
-	var timer;
-	function refreshStats(refreshRate) {
-
-		timer = setTimeout(function() {
-			refreshStats(refreshRate);
-		}, refreshRate);
+	function refreshStats() {
 
 		$.ajax({
 			url: "ajaxRequestManager.php",
@@ -158,7 +175,7 @@ $(document).ready(function() {
 			},
 			error: function (xhr, status, error) {
 				$("header").append(xhr.responseText);
-				clearTimeout(timer);
+				clearInterval(timer);
 			}
 		});
 
@@ -212,5 +229,93 @@ $(document).ready(function() {
 		XMLHttpRequestObject.send(null);
 	}
 
+	$("#email").on("change", function(event) {
+		
+		if (!$("#email").val()) {
+			$("#email").removeClass("validData").removeClass("invalidData");
+		} else {
+			$.ajax({
+				url: "ajaxRequestManager.php",
+				data: {"email": $(this).val().trim(), action: "isVIPUser"},
+				method: "post",
+				dataType: "json",
+				success: function(result, status, xhr) {
+					if(result.isVip) {
+						$("#email").removeClass("invalidData").addClass("validData");
+					} else {
+						$("#email").removeClass("validData").addClass("invalidData");
+					}
+				},
+				error: function (xhr, status, error) {
+					$("header").append(xhr.responseText);
+				}
+			});
+		}
+
+	});
+
+	$("#password").on("input propertychange blur", function(event) {
+
+		// Prevent multiple event trigger, use the first that triggers
+		event.preventDefault();
+
+		$.ajax({
+			url : "files/toppasswords.txt",
+			success : function (result, status, xhr) {
+
+				var strength;
+
+				if ($("#password").val()) {
+					// String.prototype.indexOf returns the position of the string in the other string. If not found, it will return -1
+					if(result.toLowerCase().indexOf($("#password").val().toLowerCase()) !== -1) {					
+						strength = getPasswordStrength();
+					} else {
+						strength = 0;
+					}
+				}
+
+				$("#password").removeClass();
+
+				switch (strength) {
+
+					case 0: // veryWeak
+					$("#password").addClass("veryWeak");
+					break; 
+
+					case 1: // weak
+					$("#password").addClass("weak");
+					break;
+
+					case 2: // medium
+					$("#password").addClass("medium");
+					break;
+
+					case 3: // strong
+					$("#password").addClass("strong");
+					break;
+
+					default: // password undefined (no password entered)
+					$("#password").removeClass();
+					// $("#password").addClass("inputDefaultStyle"); 
+					break;
+
+				}
+
+				console.log("Password strength: " + strength);
+				
+			}
+		});
+
+	});
+
+	// TODO: Define a strength test
+	function getPasswordStrength(password) {
+		return 0;
+	}
+
+	// Dont allow any context menu and the cut, copy and paste actions in the password field
+	$("input[type=password]").on("contextmenu cut copy paste", function(event) {
+		event.preventDefault();
+	});
 
 });

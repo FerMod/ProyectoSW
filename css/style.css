@@ -372,7 +372,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	display: inline-block;
 }
 
-.serverMessage {
+.serverMessage, .serverInfoMessage, .serverErrorMessage {
 	border: 4px solid #6D6D6D;
 	padding: 15px;
 	margin: 5px auto 5px auto;
@@ -382,22 +382,65 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	box-shadow: 3px 3px 0px #969696;
 }
 
-#serverDefaultMessage {
+.serverMessage {
 	background-color: #FFFFFF;
 	border: 4px solid #6D6D6D;
 	box-shadow: 3px 3px 0px #969696;
 }
 
-#serverInfoMessage {
+.serverInfoMessage {
 	background-color: #D9DEFF;
 	border: 4px solid #607DCC;
 	box-shadow: 3px 3px 0px #575796;
 }
 
-#serverErrorMessage {
+.serverErrorMessage {
 	background-color: #FFB3B3;
 	border: 4px solid #CC473D;
 	box-shadow: 3px 3px 0px #962A2A;
+}
+
+.invalidData {
+	-webkit-box-shadow: 3px 3px 10px 0px red;
+	-moz-box-shadow: 3px 3px 10px 0px red;
+	box-shadow: 3px 3px 10px 0px red;
+	border-color: red;
+}
+
+.validData {
+	-webkit-box-shadow: 3px 3px 10px 0px green;
+	-moz-box-shadow: 3px 3px 10px 0px green;
+	box-shadow: 3px 3px 10px 0px green;
+	border-color: green;
+}
+
+.inputDefaultStyle {
+	/*TODO - Add a default style for the input element*/
+}
+
+.veryWeak{
+	-webkit-box-shadow: 3px 3px 10px 0px red;
+	-moz-box-shadow: 3px 3px 10px 0px red;
+	box-shadow: 3px 3px 10px 0px red;
+	border-color: #F04040!important
+}
+.weak{
+	-webkit-box-shadow: 3px 3px 10px 0px #FFB78C;
+	-moz-box-shadow: 3px 3px 10px 0px #FFB78C;
+	box-shadow: 3px 3px 10px 0px #FFB78C;
+	border-color: #FF853C!important;
+}
+.medium{
+	-webkit-box-shadow: 3px 3px 10px 0px #FFEC8B;
+	-moz-box-shadow: 3px 3px 10px 0px #FFEC8B;
+	box-shadow: 3px 3px 10px 0px #FFEC8B;
+	border-color: #FC0!important;
+}
+.strong{
+	-webkit-box-shadow: 3px 3px 10px 0px #C3FF88;
+	-moz-box-shadow: 3px 3px 10px 0px #C3FF88;
+	box-shadow: 3px 3px 10px 0px #C3FF88;
+	border-color: #8DFF1C!important;
 }
 
 /* Style the Image Used to Trigger the Modal */

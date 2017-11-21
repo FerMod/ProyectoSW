@@ -61,3 +61,6 @@ img/users/*
 
 # Ignore zip files
 *.zip
+
+# Ignore sensible information file
+*.hidden

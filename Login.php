@@ -34,7 +34,7 @@
 		try {
 
 			if(!isset($_POST['email']) || empty($_POST['email']) || !isset($_POST['password']) && empty($_POST['password'])) { 
-				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverInfoMessage\">Tanto el email como la contraseña deben ser introducidas para poder continuar.</div>");
+				throw new RuntimeException("<div class=\"serverInfoMessage\">Tanto el email como la contraseña deben ser introducidas para poder continuar.</div>");
 			} else {
 				$email = formatInput($_POST['email']) ?? '';
 				$password = formatInput($_POST['password']) ?? '';
@@ -45,7 +45,7 @@
 			if(password_verify(hash("sha256", $password), $passwordHash["password"]) && existsEmail($email, $conn)) {
 				echo '<script>location.href="layout.php?login=' . $email . '"</script>'; // Redirecciona a la página de Inicio.
 			} else {
-				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");
+				throw new RuntimeException("<div class=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");
 			}
 
 		} catch (RuntimeException $e) {

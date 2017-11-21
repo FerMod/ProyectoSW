@@ -214,7 +214,7 @@
 		
 		$soapclient = new nusoap_client('ComprobarContraseña.php?wsdl', true);
 		
-		$result = strtoupper($client->call("comprobarContraseña", $pass)) !== "INVALIDA" ? true : false;
+		$result = strtoupper($soapclient->call("comprobarContraseña", $pass)) !== "INVALIDA" ? true : false;
 		
 		return $result;
 	}

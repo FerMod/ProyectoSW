@@ -12,17 +12,29 @@ array('valida'=>'xsd:string'),
 $ns);
 
 function checkPass ($pass){
+	/* SOLUCIÓN 1
 	$file = fopen("/files/toppasswords.txt", "r") or die("¡Incapaz de abrir el archivo!");
 	
-	while(!feof($file)) {
-		$passcomp = fgets($file);
-		if($passcomp == $pass) {
+	while($passcomp = fgets($file) !== false) {
+		if(strpos($passcomp, $pass) == true) {
 			fclose($file);
 			return 'INVALIDA';
 		}
 	}
 	
 	fclose($file);
+	return 'VALIDA';
+	*/
+	
+	//SOLUCIÓN 2
+	$lines = file("files/toppasswords.txt");
+	$i = 0;
+	while($i < sizeof($lines)) {
+		if(strpos($lines[$i], $pass) == true) {
+			return 'INVALIDA';
+		}
+		$i = $i + 1;
+	}
 	return 'VALIDA';
 }
 

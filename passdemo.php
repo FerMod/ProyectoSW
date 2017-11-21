@@ -7,7 +7,7 @@
 
 <?php
 
-	if(checkPassword($_POST['pass']) == 'INVALIDA') {
+	if(checkPassword('000000003')) {
 		echo '<div> Youre a faggot. </div>';
 	} else {
 		echo '<div> *dabs* </div>';
@@ -18,9 +18,13 @@
 		
 		$soapclient = new nusoap_client('http://localhost/ProyectoSW/ComprobarContraseña.php?wsdl', true);
 		
+		$result = $soapclient->call("checkPass", array('pass'=>$pass));
 		
-		
-		return $client->call("checkPass", array('pass'=>$pass));
+		if($result == "VALIDA") {
+			return true;
+		} else {
+			return false;
+		}
 	}
 ?>
 </html>

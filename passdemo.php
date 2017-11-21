@@ -6,9 +6,9 @@
 </form>
 
 <?php
-	
-	checkPassword('000000000');
-	checkPassword('000000003');
+	checkPassword('00000000');
+	//checkPassword('00000000');
+	//checkPassword('000000003');
 	
 	/*if(checkPassword('000000003')) {
 		echo '<script> alert("Youre a faggot."); </script>';
@@ -25,9 +25,11 @@
 		
 		echo '<script> alert('.$result.'); </script>';
 		
-		if(strpos($result, 'VALIDA')) {
+		if($result == 'INVALIDA') {
+			echo 'Ya tira.';
 			return true;
 		} else {
+			echo 'No tira.';
 			return false;
 		}
 	}

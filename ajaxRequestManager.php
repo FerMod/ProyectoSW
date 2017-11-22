@@ -1,6 +1,7 @@
 <?php
 
 include_once('login_session.php');
+
 if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 	// Another account? how many do you need??
 	header("location: layout.php");
@@ -37,7 +38,7 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 
 function uploadQuestion() {
 
-	include "config.php";
+	include("config.php");
 
 	// Create connection
 	$conn = new mysqli($servername, $user, $pass, $database);

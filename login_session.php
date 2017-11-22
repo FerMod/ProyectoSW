@@ -1,7 +1,7 @@
 <?php
 
 // Adapted from the following source: https://www.formget.com/login-form-in-php/
-include("config.php");
+include_once("config.php");
 
 session_start(); // Starting Session
 
@@ -12,7 +12,7 @@ if(isset($_POST['submit'])) {
 	try {
 
 		if(!isset($_POST['email']) || empty($_POST['email']) || !isset($_POST['password']) || empty($_POST['password'])) {
-			throw new RuntimeException("<div class=\"serverMessage\" id=\"serverInfoMessage\">Tanto el email como la contraseña deben ser introducidas para poder continuar.</div>");
+			throw new RuntimeException("<div class=\"serverInfoMessage\">Tanto el email como la contraseña deben ser introducidas para poder continuar.</div>");
 		} else {
 
 			// Establishing connection with server
@@ -36,7 +36,7 @@ if(isset($_POST['submit'])) {
 			if(password_verify($password, $loggedSession['password']) && mysqli_num_rows($result) == 1) {
 				$_SESSION['login_user'] = $email; // Initializing session
 			} else {
-				throw new RuntimeException("<div class=\"serverMessage\" id=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");
+				throw new RuntimeException("<div class=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");
 			}
 
 			$connection->close(); // Closing connection

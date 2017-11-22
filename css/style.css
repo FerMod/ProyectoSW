@@ -372,7 +372,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	display: inline-block;
 }
 
-.serverMessage {
+.serverMessage, .serverInfoMessage, .serverErrorMessage {
 	border: 4px solid #6D6D6D;
 	padding: 15px;
 	margin: 5px auto 5px auto;
@@ -382,22 +382,93 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	box-shadow: 3px 3px 0px #969696;
 }
 
-#serverDefaultMessage {
+.serverMessage {
 	background-color: #FFFFFF;
 	border: 4px solid #6D6D6D;
 	box-shadow: 3px 3px 0px #969696;
 }
 
-#serverInfoMessage {
+.serverInfoMessage {
 	background-color: #D9DEFF;
 	border: 4px solid #607DCC;
 	box-shadow: 3px 3px 0px #575796;
 }
 
-#serverErrorMessage {
+.serverErrorMessage {
 	background-color: #FFB3B3;
 	border: 4px solid #CC473D;
 	box-shadow: 3px 3px 0px #962A2A;
+}
+
+.invalidData {
+	-webkit-box-shadow: 3px 3px 10px 0px red;
+	-moz-box-shadow: 3px 3px 10px 0px red;
+	box-shadow: 3px 3px 10px 0px red;
+	border-color: red;
+}
+
+.validData {
+	-webkit-box-shadow: 3px 3px 10px 0px green;
+	-moz-box-shadow: 3px 3px 10px 0px green;
+	box-shadow: 3px 3px 10px 0px green;
+	border-color: green;
+}
+
+.inputDefaultStyle {
+	/*TODO - Add a default style for the input element*/
+}
+
+.veryWeak{
+	-webkit-box-shadow: 3px 3px 10px 0px red;
+	-moz-box-shadow: 3px 3px 10px 0px red;
+	box-shadow: 3px 3px 10px 0px red;
+	border-color: red !important
+}
+.weak{
+	-webkit-box-shadow: 3px 3px 10px 0px orange;
+	-moz-box-shadow: 3px 3px 10px 0px orange;
+	box-shadow: 3px 3px 10px 0px orange;
+	border-color: orange !important;
+}
+.medium{
+	-webkit-box-shadow: 3px 3px 10px 0px YellowGreen ;
+	-moz-box-shadow: 3px 3px 10px 0px YellowGreen ;
+	box-shadow: 3px 3px 10px 0px YellowGreen ;
+	border-color: YellowGreen  !important;
+}
+.strong{
+	-webkit-box-shadow: 3px 3px 10px 0px #13c113;
+	-moz-box-shadow: 3px 3px 10px 0px #13c113;
+	box-shadow: 3px 3px 10px 0px #13c113;
+	border-color: #13c113 !important;
+}
+
+#tooltip-content{
+	border: none;
+	font-size: 2.75rem;
+	width: 95%;
+	margin-top:-10px;
+	text-align: center;
+}
+
+.tip {
+	transform: rotate(45deg);
+	background: #fff;
+	width: 24px;
+	height: 24px;
+	position: relative;
+	top: 40px;
+	right: 13px;
+	border-left: 1px solid grey;
+	border-bottom: 1px solid grey;
+}
+
+.tooltip-bg {
+	border: 1px solid grey;
+	background: #FFFFFF;
+	width: 400px;
+	height: 80px;
+	border-radius: 15px;
 }
 
 /* Style the Image Used to Trigger the Modal */

@@ -3,7 +3,7 @@
 // Adapted from the following source: https://www.formget.com/login-form-in-php/
 session_start(); // Starting Session
 
-include("config.php");
+include_once("config.php");
 
 $errorMessage=""; // Variable To Store Error Message
 

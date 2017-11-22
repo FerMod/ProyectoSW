@@ -1,10 +1,13 @@
 
 <?php
+
 include_once('login_session.php'); // Includes login script
+
 if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 	// Another account? how many do you need??
 	header("location: layout.php");
 }
+
 ?>
 
 <!DOCTYPE html>

@@ -1,10 +1,16 @@
+
 <?php
-include('session.php');
+
+include_once('login_session.php');
+
 if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 	header("location: layout.php");
 }
+
 header("Cache-Control: no-store, no-cache, must-revalidate");
+
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>

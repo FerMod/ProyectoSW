@@ -209,16 +209,6 @@
 		return mysqli_num_rows($query) > 0;
 	}
 	
-	function checkPassword($pass) {
-		require_once('nusoap-0.9.5/src/nusoap.php');
-		
-		$soapclient = new nusoap_client('ComprobarContraseña.php?wsdl', true);
-		
-		$result = strtoupper($soapclient->call("comprobarContraseña", $pass)) !== "INVALIDA" ? true : false;
-		
-		return $result;
-	}
-	
 	?>
 
 </head>

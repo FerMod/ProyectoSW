@@ -253,6 +253,31 @@ $(document).ready(function() {
 		}
 
 	});
+	
+	$("#password").on("change", function(event) {
+		
+		if (!$("#password").val()) {
+			$("#password").removeClass("validData").removeClass("invalidData");
+		} else {
+			$.ajax({
+				url: "ajaxRequestManager.php",
+				data: {"password": $(this).val().trim(), action: "checkPassword"},
+				method: "post",
+				dataType: "json",
+				success: function(result, status, xhr) {
+					if(result.isSecure) {
+						$("#password").removeClass("invalidData").addClass("validData");
+					} else {
+						$("#password").removeClass("validData").addClass("invalidData");
+					}
+				},
+				error: function (xhr, status, error) {
+					$("header").append(xhr.responseText);
+				}
+			});
+		}
+
+	});
 
 	/*
 	$("#password").on("input propertychange blur", function(event) {

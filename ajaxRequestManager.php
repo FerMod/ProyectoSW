@@ -22,6 +22,10 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		case 'showQuestions':
 		showQuestions(); //TODO
 		break;
+		
+		case 'checkPassword':
+		checkPassword();
+		break;
 	}
 }
 
@@ -322,6 +326,21 @@ function isVIPUser() {
 
 	$resultArray = array(
 		"isVip" => $result
+	);
+
+	echo json_encode($resultArray);
+}
+
+function checkPassword() {
+	
+	require_once('nusoap-0.9.5/src/nusoap.php');
+		
+	$soapclient = new nusoap_client('http://localhost/ProyectoSW/ComprobarContrasena.php?wsdl', true);
+		
+	$result = strtoupper($soapclient->call("checkPass", array('x'=>$_POST["password"]))) !== 'INVALIDA' ? true : false;
+		
+	$resultArray = array(
+		"isValid" => $result
 	);
 
 	echo json_encode($resultArray);

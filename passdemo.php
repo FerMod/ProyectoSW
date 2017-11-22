@@ -21,17 +21,13 @@
 		
 		$soapclient = new nusoap_client('http://localhost/ProyectoSW/ComprobarContrasena.php?wsdl', true);
 		
-		$result = $soapclient->call("checkPass", array('x'=>$pass));
+		$result = strtoupper($soapclient->call("checkPass", array('x'=>$pass))) !== 'INVALIDA' ? true : false;
 		
-		echo '<script> alert('.$result.'); </script>';
-		
-		if($result == 'INVALIDA') {
-			echo 'Ya tira.';
-			return true;
-		} else {
-			echo 'No tira.';
-			return false;
-		}
+		    $resultArray = array(
+				"isSecure" => $result
+			);
+
+		echo json_encode($resultArray);
 	}
 ?>
 </html>

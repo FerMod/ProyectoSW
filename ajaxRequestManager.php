@@ -337,7 +337,7 @@ function checkPassword() {
 		
 	$soapclient = new nusoap_client('http://localhost/ProyectoSW/ComprobarContrasena.php?wsdl', true);
 		
-	$result = strtoupper($soapclient->call("checkPass", array('x'=>$_POST["password"]))) !== 'INVALIDA' ? true : false;
+	$result = strtoupper($soapclient->call("checkPass", array('password'=>$_POST["password"]))) !== 'INVALIDA' ? true : false;
 		
 	$resultArray = array(
 		"isValid" => $result

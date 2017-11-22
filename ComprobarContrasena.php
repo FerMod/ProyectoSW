@@ -1,6 +1,6 @@
 <?php
 
-require_once('nusoap-0.9.5/src/nusoap.php');
+require('nusoap-0.9.5/src/nusoap.php');
 
 $ns = "http://localhost/ProyectoSW/ComprobarContrasena.php?wsdl";
 $server = new soap_server;

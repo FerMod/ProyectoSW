@@ -1,5 +1,11 @@
 <?php
 
+include_once('login_session.php');
+if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
+	// Another account? how many do you need??
+	header("location: layout.php");
+}
+
 if(isset($_POST['action']) && !empty($_POST['action'])) {
 	$action = $_POST['action'];
 	switch($action) {
@@ -296,11 +302,12 @@ function getOnlineUsers() {
 }
 
 function getQuestionsStats() {
-	include "config.php";
+	
+	include("session.php");
 
 	$xml = new SimpleXMLElement($xmlFolder . "preguntas.xml", 0, true);
 	$preguntasTotal = count($xml->xpath("/assessmentItems/assessmentItem"));
-	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $_SESSION['login_user'] . "\"]"));
+	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $loggedSession['email'] . "\"]"));
 	
 	// Create array with the operation information
 	$array = array(

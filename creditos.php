@@ -10,7 +10,7 @@ include_once('login_session.php'); // Includes login script
 	<title>Preguntas</title>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-	<script src="https://rawgit.com/tuupola/jquery_lazyload/2.x/lazyload.js"></script>
+	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.4/jquery.lazy.min.js"></script>
 	<script src="js/script.js"></script>	
 
 	<link rel="stylesheet" href="css/style.css">
@@ -52,8 +52,8 @@ include_once('login_session.php'); // Includes login script
 				<thead>
 					<tr>
 						<!-- <td><img src="img/loading.gif" class="modalImage lazyload" data-original="https://github.com/FerMod.png" width="640" heigh="480"></td> -->
-						<td><img src="https://github.com/FerMod.png" class="modalImage lazyload"></td>
-						<td><img src="https://github.com/FosterGun.png" class="modalImage lazyload"></td>
+						<td><img src="img/loading.gif" data-src="https://github.com/FerMod.png" class="modalImage lazy"></td>
+						<td><img src="img/loading.gif" data-src="https://github.com/FosterGun.png" class="modalImage lazy"></td>
 					</tr>
 				</thead>
 				<tbody>
@@ -88,6 +88,12 @@ include_once('login_session.php'); // Includes login script
 		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 	</footer>
+
+	<script>
+		$(function() {
+			$('.lazy').lazy();
+		});
+	</script>
 
 </body>
 </html>

@@ -303,7 +303,8 @@ $(document).ready(function() {
 								if(result.isValid) {
 									$("#password").removeClass("invalidData").addClass("validData");
 								} else {
-									$("#password").removeClass("validData").addClass("invalidData");
+									$("#password").removeClass("validData").addClass("invalidData");									
+									$("#password").get(0).setCustomValidity("The password is very weak");
 								}
 							},
 								error: function (xhr, status, error) {
@@ -321,7 +322,6 @@ $(document).ready(function() {
 
 					case 0: // veryWeak
 					$("#password").addClass("veryWeak");
-					$("#password").get(0).setCustomValidity("The password is very weak");
 					break; 
 
 					case 1: // weak

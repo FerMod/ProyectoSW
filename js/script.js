@@ -39,14 +39,12 @@ $(document).ready(function() {
 	});
 	*/
 
-	$("#registro").on("submit", function() {
+	$("#registro").on("submit", function(event) {
 
-		if(!$("#email").hasClass("validData")) {			
-			alert("(Debug alert)\nThe used is NOT VIP.\ndostuff");
+		if(!$("#email").get(0).checkValidity() || !$("#password").get(0).checkValidity()) {
 			return false;
 		}
 
-		alert("(Debug alert)\nThe user IS VIP.\ndostuff");
 		return true;
 
 	});
@@ -253,32 +251,6 @@ $(document).ready(function() {
 		}
 
 	});
-	
-	$("#password").on("change", function(event) {
-		
-		if (!$("#password").val()) {
-			$("#password").removeClass("validData").removeClass("invalidData");
-		} else {
-			$.ajax({
-				url: "ajaxRequestManager.php",
-				data: {"password": $(this).val().trim(), action: "checkPassword"},
-				method: "post",
-				dataType: "json",
-				success: function(result, status, xhr) {
-					if(result.isSecure) {
-						$("#password").removeClass("invalidData").addClass("validData");
-					} else {
-						$("#password").removeClass("validData").addClass("invalidData");
-					}
-				},
-				error: function (xhr, status, error) {
-					$("header").append(xhr.responseText);
-				}
-			});
-		}
-
-	});
-
 
 	$("#password").on("keyup", function(event) {
 
@@ -286,37 +258,28 @@ $(document).ready(function() {
 		event.preventDefault();
 
 		$.ajax({
-			url : "files/toppasswords.txt",
-			success : function (result, status, xhr) {
-
+			url: "ajaxRequestManager.php",
+			data: {"password": $("#password").val(), action: "checkPassword"},
+			method: "post",
+			dataType: "json",
+			success: function(result, status, xhr) {
+				
 				var strength = -1;
 
-				if ($("#password").val()) {
-					// String.prototype.indexOf returns the position of the string in the other string. If not found, it will return -1
-					if(result.toLowerCase().indexOf($("#password").val().toLowerCase()) == -1) {					
-						$.ajax({
-							url: "ajaxRequestManager.php",
-							data: {"password": $(this).val(), action: "checkPassword"},
-							method: "post",
-							dataType: "json",
-							success: function(result, status, xhr) {
-								if(result.isValid) {
-									$("#password").removeClass("invalidData").addClass("validData");
-								} else {
-									$("#password").removeClass("validData").addClass("invalidData");									
-									$("#password").get(0).setCustomValidity("The password is very weak");
-								}
-							},
-							error: function (xhr, status, error) {
-								$("header").append(xhr.responseText);
-							}
-						});
+				if ($("#password").val()) {					
+					$("#password").get(0).validity = result.isValid;
+					if(result.isValid) {
+						$("#password").addClass("validData"); 
+						strength = getPasswordStrength($("#password").val());
 					} else {
 						strength = 0;
+						$("#password").removeClass();
+						$("#password").get(0).setCustomValidity("The password is very weak");
 					}
+				} else {					
+					$("#password").get(0).validity = false;
+					$("#password").get(0).setCustomValidity("The password field cannot be empty");
 				}
-
-				$("#password").removeClass();
 
 				switch (strength) {
 
@@ -338,13 +301,14 @@ $(document).ready(function() {
 
 					default: // password undefined (no password entered)
 					$("#password").removeClass();
-					// $("#password").addClass("inputDefaultStyle"); 
 					break;
 
 				}
 				
-				console.log("Password strength: " + strength);
-				
+				//console.log("Password strength: " + strength);
+			},
+			error: function (xhr, status, error) {
+				$("header").append(xhr.responseText);
 			}
 		});
 

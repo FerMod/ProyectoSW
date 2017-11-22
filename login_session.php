@@ -3,7 +3,7 @@
 // Adapted from the following source: https://www.formget.com/login-form-in-php/
 session_start(); // Starting Session
 
-include("config.php");
+include_once("config.php");
 
 $errorMessage=""; // Variable To Store Error Message
 
@@ -34,7 +34,7 @@ if(isset($_POST['submit'])) {
 			$result = $connection->query("SELECT * FROM usuarios WHERE email='$email'");
 			$loggedSession = $result->fetch_assoc();
 			if(password_verify(hash("sha256", $password), $loggedSession['password']) && mysqli_num_rows($result) == 1) {
-				$_SESSION['login_user'] = $email; // Initializing session
+				$_SESSION['logged_user'] = $email; // Initializing session
 			} else {
 				throw new RuntimeException("<div class=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");
 			}

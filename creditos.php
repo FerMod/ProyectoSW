@@ -20,8 +20,8 @@ include_once('login_session.php'); // Includes login script
 	<header>
 
 		<?php
-		if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
-			echo '<span><a href="creditos.php">Logout</a></span>';
+		if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+			echo '<span><a href="logout.php">Logout</a></span>';
 		} else {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
 			echo '&nbsp'; // Add non-breaking space
@@ -34,7 +34,7 @@ include_once('login_session.php'); // Includes login script
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<?php 
-			if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
+			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
 				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';

@@ -3,7 +3,7 @@
 // Adapted from the following source: https://www.formget.com/login-form-in-php/
 session_start(); // Starting Session
 
-include_once("config.php");
+$config = include("config.php");
 
 $errorMessage=""; // Variable To Store Error Message
 
@@ -16,7 +16,7 @@ if(isset($_POST['submit'])) {
 		} else {
 
 			// Establishing connection with server
-			$connection = new mysqli($servername, $user, $pass, $database);
+			$connection = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
 			// Check connection
 			if ($connection->connect_error) {

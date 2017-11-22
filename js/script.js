@@ -357,4 +357,8 @@ $(document).ready(function() {
 		event.preventDefault();
 	});
 
+	
+	// $("img.lazyload").lazyload();
+
 });
+

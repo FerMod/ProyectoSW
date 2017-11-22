@@ -1,3 +1,6 @@
+<?php
+$config = include("config.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,27 +91,26 @@
 		</aside>
 		
 		<?php
-			
-			function createUser() {
-					include "config.php";
+		
+		function createUser() {
 
 					// Create connection
-					$conn = new mysqli($servername, $username, $password, $database);
+			$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
 					// Check connection
-					if ($conn->connect_error) {
-						trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
-					}
+			if ($conn->connect_error) {
+				trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
+			}
 			
-					$email = $_POST['email'];
-					$nombre = $_POST['nombre'];
-					$username = $_POST['username'];
-					$pass = $_POST['password'];
-					$passrep = $_POST['passwordRep'];
-					
-					$imagen = null;
-					
-					if(!empty($email) && isset($email) && !empty($nombre) && isset($nombre) && !empty($username) && isset($username) && !empty($pass) && isset($pass) && !empty($passrep) && isset($passrep) && isValidEmail($email)) {
+			$email = $_POST['email'];
+			$nombre = $_POST['nombre'];
+			$username = $_POST['username'];
+			$pass = $_POST['password'];
+			$passrep = $_POST['passwordRep'];
+			
+			$imagen = null;
+			
+			if(!empty($email) && isset($email) && !empty($nombre) && isset($nombre) && !empty($username) && isset($username) && !empty($pass) && isset($pass) && !empty($passrep) && isset($passrep) && isValidEmail($email)) {
 						if($pass == $passrep) { #Comprobamos que la contraseña escrita coincide con su repetición.
 							$pass = password_hash($_POST['password'], PASSWORD_DEFAULT); #Guardamos de forma segura la contraseña.
 							
@@ -118,65 +120,65 @@
 								throw new RuntimeException("<div class=\"serverErrorMessage\">Parametros inválidos.</div>");
 							}
 							
-						try {	
-							$containsImage = false;
-						
+							try {	
+								$containsImage = false;
+								
 							// Check $_FILES['imagen']['error'] value.
-							switch ($_FILES['imagen']['error']) {
-								case UPLOAD_ERR_OK:
-								$containsImage = true;
-								case UPLOAD_ERR_NO_FILE:
+								switch ($_FILES['imagen']['error']) {
+									case UPLOAD_ERR_OK:
+									$containsImage = true;
+									case UPLOAD_ERR_NO_FILE:
 								//Nothing to do here, the file upload is optional
-								break;
-								case UPLOAD_ERR_INI_SIZE:
-								case UPLOAD_ERR_FORM_SIZE:
-								throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.</div>");
-								default:
-								throw new RuntimeException("<div class=\"serverErrorMessage\">Error desconocido.</div>");
-							}
+									break;
+									case UPLOAD_ERR_INI_SIZE:
+									case UPLOAD_ERR_FORM_SIZE:
+									throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.</div>");
+									default:
+									throw new RuntimeException("<div class=\"serverErrorMessage\">Error desconocido.</div>");
+								}
 
-							if($containsImage) {
+								if($containsImage) {
 
 								// You should also check filesize here. 
-								if ($_FILES['imagen']['size'] > 1000000) {
-									throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.");
-								}
+									if ($_FILES['imagen']['size'] > 1000000) {
+										throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.");
+									}
 
 								// DO NOT TRUST $_FILES['imagen']['mime'] VALUE !!
 								// Check MIME Type by yourself.
-								$finfo = new finfo(FILEINFO_MIME_TYPE);
-								if (false === $ext = array_search(
-								$finfo->file($_FILES['imagen']['tmp_name']),
-								array(
-									'jpg' => 'image/jpeg',
-									'png' => 'image/png',
-									'gif' => 'image/gif',
-								),
-								true
-								)) {
-									throw new RuntimeException("<div class=\"serverErrorMessage\">Formato de archivo inválido.</div>");
-								}
+									$finfo = new finfo(FILEINFO_MIME_TYPE);
+									if (false === $ext = array_search(
+										$finfo->file($_FILES['imagen']['tmp_name']),
+										array(
+											'jpg' => 'image/jpeg',
+											'png' => 'image/png',
+											'gif' => 'image/gif',
+										),
+										true
+									)) {
+										throw new RuntimeException("<div class=\"serverErrorMessage\">Formato de archivo inválido.</div>");
+									}
 
 								// You should name it uniquely.
 								// DO NOT USE $_FILES['imagen']['name'] WITHOUT ANY VALIDATION !!
 								// On this example, obtain safe unique name from its binary data.
-								$sha1Name = sha1_file($_FILES['imagen']['tmp_name']);
-								if (!move_uploaded_file(
-									$_FILES['imagen']['tmp_name'],
-									sprintf('%s%s.%s',
-										$imageImageFolder,
-										$sha1Name,
-										$ext
-								)
-								)) {
-									throw new RuntimeException("<div class=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
+									$sha1Name = sha1_file($_FILES['imagen']['tmp_name']);
+									if (!move_uploaded_file(
+										$_FILES['imagen']['tmp_name'],
+										sprintf('%s%s.%s',
+											$imageImageFolder,
+											$sha1Name,
+											$ext
+										)
+									)) {
+										throw new RuntimeException("<div class=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
+									}
+									
+									$imagen = sprintf('%s%s.%s', $imageImageFolder, $sha1Name, $ext);
 								}
-								
-								$imagen = sprintf('%s%s.%s', $imageImageFolder, $sha1Name, $ext);
+							} catch (RuntimeException $e) {
+								$operationMessage .= $e->getMessage();
 							}
-						} catch (RuntimeException $e) {
-							$operationMessage .= $e->getMessage();
-						}
 							
 							
 							$sql = "INSERT INTO `usuarios` (`email`, `password`, `nombre`, `username`, `imagen`) VALUES ('$email', '$pass', '$nombre', '$username', '$imagen')";
@@ -194,21 +196,21 @@
 					} else {
 						echo '<div class=\"serverErrorMessage\">No se puede dejar ningún campo clave vacío.</div>'; 
 					}
-			}
-			
-			function isValidEmail($email) {
-				return filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/^[a-zA-Z]+\\d{3}@ikasle\.ehu\.(eus|es)$/', $email);
-			}
-		?>
-	</div>
-		<?php 
+				}
+				
+				function isValidEmail($email) {
+					return filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/^[a-zA-Z]+\\d{3}@ikasle\.ehu\.(eus|es)$/', $email);
+				}
+				?>
+			</div>
+			<?php 
 			if(isset($_POST['submit'])){
 				createUser();
 			} 
-		?>
-	<footer>
-		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
-		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
-	</footer>
-</body>
-</html>
+			?>
+			<footer>
+				<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
+				<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
+			</footer>
+		</body>
+		</html>

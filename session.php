@@ -5,10 +5,10 @@ if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 	header("location: layout.php");
 }
 
-include("config.php");
+$config = include("config.php");
 
 // Establishing Connection with Server by passing server_name, user_id and password as a parameter
-$connection = new mysqli($servername, $user, $pass, $database);
+$connection = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
 // Storing Session
 $userCheck = $_SESSION['logged_user'];

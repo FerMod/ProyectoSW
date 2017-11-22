@@ -7,13 +7,19 @@ if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 	header("location: layout.php");
 }
 
+
+$config = include("config.php");
+
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
-	<title>Preguntas</title>
+	
+	<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+	<link rel="icon" href="favicon.png" type="image/x-icon">
+	<title>Preguntas - Insertar Pregunta</title>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 	<script src="js/script.js"></script>	
@@ -24,10 +30,8 @@ if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 
 	function uploadQuestion() {
 
-		include "config.php";
-
 		// Create connection
-		$conn = new mysqli($servername, $user, $pass, $database);
+		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
 		// Check connection
 		if ($conn->connect_error) {

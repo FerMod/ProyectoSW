@@ -8,7 +8,7 @@ $connection = new mysqli($servername, $user, $pass, $database);
 session_start();// Starting Session
 
 // Storing Session
-$userCheck = $_SESSION['login_user'];
+$userCheck = $_SESSION['logged_user'];
 
 $result = $connection->query("SELECT * FROM usuarios WHERE email='$userCheck'");
 $loggedSession = $result->fetch_assoc();

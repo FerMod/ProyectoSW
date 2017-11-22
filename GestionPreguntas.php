@@ -1,4 +1,10 @@
-<?php header("Cache-Control: no-store, no-cache, must-revalidate");?>
+<?php
+include('session.php');
+if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
+	header("location: layout.php");
+}
+header("Cache-Control: no-store, no-cache, must-revalidate");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,8 +33,9 @@
 
 <body>
 	<header>
+
 		<?php
-		if(isset($_GET['login']) && !empty($_GET['login'])) {
+		if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 			echo '<span><a href="logout.php">Logout</a></span>';
 		} else {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
@@ -36,12 +43,13 @@
 			echo '<span><a href="Login.php">Login</a></span>';
 		}
 		?>
+
 		<h2>Quiz: el juego de las preguntas</h2>
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<?php 
-			if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
+			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
 				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';

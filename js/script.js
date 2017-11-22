@@ -299,7 +299,7 @@ $(document).ready(function() {
 							data: {"password": $(this).val(), action: "checkPassword"},
 							method: "post",
 							dataType: "json",
-								success: function(result, status, xhr) {
+							success: function(result, status, xhr) {
 								if(result.isValid) {
 									$("#password").removeClass("invalidData").addClass("validData");
 								} else {
@@ -307,7 +307,7 @@ $(document).ready(function() {
 									$("#password").get(0).setCustomValidity("The password is very weak");
 								}
 							},
-								error: function (xhr, status, error) {
+							error: function (xhr, status, error) {
 								$("header").append(xhr.responseText);
 							}
 						});

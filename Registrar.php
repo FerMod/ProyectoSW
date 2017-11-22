@@ -291,6 +291,10 @@
 					<div>
 						<label>Contraseña<strong><font size="3" color="red">*</font></strong></label>
 						<input id="password" type="password" name="password"/>
+						<!-- <div class="tooltip-bg">
+							<div class="tip"></div> 
+							<label type="text" placeholder="type here" id="tooltipContent">
+						</div> -->
 					</div>
 
 					<div>

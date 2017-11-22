@@ -279,8 +279,8 @@ $(document).ready(function() {
 
 	});
 
-	/*
-	$("#password").on("input propertychange blur", function(event) {
+
+	$("#password").on("keyup", function(event) {
 
 		// Prevent multiple event trigger, use the first that triggers
 		event.preventDefault();
@@ -289,12 +289,27 @@ $(document).ready(function() {
 			url : "files/toppasswords.txt",
 			success : function (result, status, xhr) {
 
-				var strength;
+				var strength = -1;
 
 				if ($("#password").val()) {
 					// String.prototype.indexOf returns the position of the string in the other string. If not found, it will return -1
-					if(result.toLowerCase().indexOf($("#password").val().toLowerCase()) !== -1) {					
-						strength = getPasswordStrength();
+					if(result.toLowerCase().indexOf($("#password").val().toLowerCase()) == -1) {					
+						$.ajax({
+							url: "ajaxRequestManager.php",
+							data: {"password": $(this).val(), action: "checkPassword"},
+							method: "post",
+							dataType: "json",
+								success: function(result, status, xhr) {
+								if(result.isValid) {
+									$("#password").removeClass("invalidData").addClass("validData");
+								} else {
+									$("#password").removeClass("validData").addClass("invalidData");
+								}
+							},
+								error: function (xhr, status, error) {
+								$("header").append(xhr.responseText);
+							}
+						});
 					} else {
 						strength = 0;
 					}
@@ -306,6 +321,7 @@ $(document).ready(function() {
 
 					case 0: // veryWeak
 					$("#password").addClass("veryWeak");
+					$("#password").get(0).setCustomValidity("The password is very weak");
 					break; 
 
 					case 1: // weak
@@ -326,7 +342,7 @@ $(document).ready(function() {
 					break;
 
 				}
-
+				
 				console.log("Password strength: " + strength);
 				
 			}
@@ -334,11 +350,42 @@ $(document).ready(function() {
 
 	});
 
-	// TODO: Define a strength test
 	function getPasswordStrength(password) {
-		return 0;
+
+		var strength = 0;
+
+		if (password.length < 6) {
+			return strength;
+		}
+
+		if(password.length >= 7) {
+			strength++;
+		}
+
+		// If password contains both lower and uppercase characters, increase strength value.
+		if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
+			strength++;
+		}
+
+		// If it has numbers and characters, increase strength value.
+		if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) {
+			strength++;
+		}
+
+		// If it has one special character, increase strength value.
+		if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) {
+			strength++;
+		}
+
+		// If it has two special characters, increase strength value.
+		if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) {
+			strength++;
+		}
+
+		return strength;
+
 	}
-	*/
+	
 	// Dont allow any context menu and the cut, copy and paste actions in the password field
 	$("input[type=password]").on("contextmenu cut copy paste", function(event) {
 		event.preventDefault();

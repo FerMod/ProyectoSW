@@ -21,7 +21,7 @@ if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
 	<!-- In case to use sessions, coment the code below -->
 	<?php 
 	function logIn() {
-		include_once("config.php");
+		include("config.php");
 
 		// Create connection
 		$conn = new mysqli($servername, $user, $pass, $database);
@@ -36,8 +36,8 @@ if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
 			if(!isset($_POST['email']) || empty($_POST['email']) || !isset($_POST['password']) && empty($_POST['password'])) { 
 				throw new RuntimeException("<div class=\"serverInfoMessage\">Tanto el email como la contraseña deben ser introducidas para poder continuar.</div>");
 			} else {
-				$email = $_POST['email'] ?? '';
-				$password = formatInput($_POST['password']) ?? '';
+				$email = formatInput($_POST['email']) ?? '';
+				$password = $_POST['password'] ?? '';
 			}
 
 			$result = $conn->query("SELECT * FROM usuarios WHERE email = \"$email\"");
@@ -99,7 +99,7 @@ if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
 				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-				echo '<span><a href="GestionPreguntas.php>Gestionar preguntas</a></span>';
+				echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
 				echo '<span><a href="creditos.php">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';

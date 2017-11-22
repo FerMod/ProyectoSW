@@ -36,7 +36,7 @@ include_once('login_session.php'); // Includes login script
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
 				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-				echo '<span><a href="GestionPreguntas.php>Gestionar preguntas</a></span>';
+				echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
 				echo '<span><a href="creditos.php">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';

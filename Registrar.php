@@ -21,7 +21,7 @@ if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
 	<?php
 
 	function createUser() {
-		include_once("config.php");
+		include("config.php");
 		
 
 		// Create connection
@@ -170,7 +170,7 @@ if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
 			if(!$result = $conn->query($sql)) {
 				$operationMessage .= "<script language=\"javascript\">alert(\"Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.\");</script>"; 
 			} else {
-				$operationMessage .= "<script language=\"javascript\">alert(\"¡Se ha registrado con éxito!\"); window.location.replace(\"layout.php?login=$email\");</script>";
+				$operationMessage .= "<script language=\"javascript\">alert(\"¡Se ha registrado con éxito!\"); window.location.replace(\"layout.php\");</script>";
 			}
 
 			// Close connection
@@ -230,7 +230,7 @@ if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
 				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-				echo '<span><a href="GestionPreguntas.php>Gestionar preguntas</a></span>';
+				echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
 				echo '<span><a href="creditos.php">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';

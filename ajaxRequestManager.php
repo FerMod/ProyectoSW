@@ -300,7 +300,7 @@ function getQuestionsStats() {
 
 	$xml = new SimpleXMLElement($xmlFolder . "preguntas.xml", 0, true);
 	$preguntasTotal = count($xml->xpath("/assessmentItems/assessmentItem"));
-	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $_SESSION['login'] . "\"]"));
+	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $_SESSION['login_user'] . "\"]"));
 	
 	// Create array with the operation information
 	$array = array(

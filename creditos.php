@@ -50,8 +50,8 @@ include_once('login_session.php'); // Includes login script
 			<table id="tablaAutores">
 				<thead>
 					<tr>
-						<td><img src="img/users/251efc3420d802924b7af6826567c75680af123c.jpg" class="modalImage"></td>
-						<td><img src="img/users/0a725b89fa6358ce6261068dd3b9cdc9d58c225a.png" class="modalImage"></td>
+						<td><img src="https://github.com/FerMod.png" class="modalImage"></td>
+						<td><img src="https://github.com/FosterGun.png" class="modalImage"></td>
 					</tr>
 				</thead>
 				<tbody>

@@ -1,6 +1,6 @@
 <?php
 
-include "config.php";
+include("config.php");
 
 $xslDoc = new DOMDocument();
 $xslDoc->load($xmlFolder . "preguntas.xsl");

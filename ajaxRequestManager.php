@@ -220,7 +220,7 @@ function uploadQuestion() {
 			insertElement($filePath, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
 			//$last_id = $conn->insert_id;
 			$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha insertado correctamente. 
-			<br>Para verla haga click <a href='VerPreguntasConFoto.php?login=".$_POST['login']."' target='_self'>aquí</a>. 
+			<br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>. 
 			<br><br>O si prefiere ver el archivo '.xml' generado haga click <a href='$filePath' target='_blank'>aquí</a>.</div>";
 		}
 
@@ -300,7 +300,7 @@ function getQuestionsStats() {
 
 	$xml = new SimpleXMLElement($xmlFolder . "preguntas.xml", 0, true);
 	$preguntasTotal = count($xml->xpath("/assessmentItems/assessmentItem"));
-	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $_POST['login'] . "\"]"));
+	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $_SESSION['login'] . "\"]"));
 	
 	// Create array with the operation information
 	$array = array(

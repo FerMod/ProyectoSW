@@ -1,6 +1,6 @@
 <?php
 
-include("config.php");
+include_once("config.php");
 
 // Establishing Connection with Server by passing server_name, user_id and password as a parameter
 $connection = new mysqli($servername, $user, $pass, $database);

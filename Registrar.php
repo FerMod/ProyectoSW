@@ -1,17 +1,25 @@
-<?php
-// include('login_session.php'); // Includes login script
 
-// if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
-// 	// Another account? how many do you need??
-// 	header("location: layout.php");
-// }
+<?php
+
+include_once('login_session.php'); // Includes login script
+
+if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+	// Another account? how many do you need??
+	header("location: layout.php");
+}
+
+$config = include("config.php");
 
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
-	<title>Preguntas</title>
+	
+	<link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+	<link rel="icon" href="favicon.png" type="image/x-icon">
+	<title>Preguntas - Registrar</title>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 	<script src="js/script.js"></script>	
@@ -33,11 +41,9 @@
 	<?php
 
 	function createUser() {
-		include "config.php";
-
 
 		// Create connection
-		$conn = new mysqli($servername, $user, $pass, $database);
+		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
 		// Check connection
 		if ($conn->connect_error) {
@@ -81,19 +87,14 @@
 			}
 
 			if(isset($_POST['password']) && !empty($_POST['password'])) { 
-				$password = formatInput($_POST['password']) ?? '';
-				
-				if(!checkPassword($password)) {
-					$dataCorrect = false;
-					$dataCheckMessage .= "<div class=\"serverMessage\">El campo \"Contraseña\" debe ser más seguro.</div>";
-				}
+				$password = $_POST['password'] ?? '';
 			} else {
 				$dataCorrect = false;
 				$dataCheckMessage .= "<div class=\"serverMessage\">El campo \"Contraseña\" no puede ser vacío.</div>";
 			}
 
 			if(isset($_POST['passwordRep']) && !empty($_POST['passwordRep'])) { 
-				$passwordRep = formatInput($_POST['passwordRep']) ?? '';
+				$passwordRep = $_POST['passwordRep'] ?? '';
 			} else {
 				$dataCorrect = false;
 				$dataCheckMessage .= "<div class=\"serverMessage\">El campo \"Repetir contraseña\" no puede ser vacío.</div>";
@@ -187,7 +188,7 @@
 			if(!$result = $conn->query($sql)) {
 				$operationMessage .= "<script language=\"javascript\">alert(\"Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.\");</script>"; 
 			} else {
-				$operationMessage .= "<script language=\"javascript\">alert(\"¡Se ha registrado con éxito!\"); window.location.replace(\"layout.php?login=$email\");</script>";
+				$operationMessage .= "<script language=\"javascript\">alert(\"¡Se ha registrado con éxito!\"); window.location.replace(\"layout.php\");</script>";
 			}
 
 			// Close connection
@@ -227,8 +228,9 @@
 
 <body>
 	<header>
+
 		<?php
-		if(isset($_GET['login']) && !empty($_GET['login'])) {
+		if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 			echo '<span><a href="logout.php">Logout</a></span>';
 		} else {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
@@ -237,49 +239,23 @@
 		}
 		?>
 
-		<!-- FOR FUTURE USE
-		<?php
-		if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
-			echo '<span><a href="creditos.php">Logout</a></span>';
-		} else {
-			echo '<span><a href="Registrar.php">Registrarse</a></span>';
-			echo '&nbsp'; // Add non-breaking space
-			echo '<span><a href="Login.php">Login</a></span>';
-		}
-		?> -->
-
 		<h2>Quiz: el juego de las preguntas</h2>
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<?php 
-			if(isset($_GET['login']) && !empty($_GET['login'])) {
-				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
-				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Hacer pregunta</a></span>';
-				echo '<span><a href="VerPreguntasConFoto.php?login='.$_GET['login'].'">Ver preguntas</a></span>';
-				echo '<span><a href="GestionPreguntas.php?login='.$_GET['login'].'">Gestionar preguntas</a></span>';
-				echo '<span><a href="creditos.php?login='.$_GET['login'].'">Creditos</a></span>';
+			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+				echo '<span><a href="layout.php">Inicio</a></span>';
+				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
+				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
+				echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
+				echo '<span><a href="creditos.php">Creditos</a></span>';
 			} else {
 				echo '<span><a href="layout.php">Inicio</a></span>';
 				echo '<span><a href="creditos.php">Creditos</a></span>';
 			}
 			?>
 		</nav>
-
-		<!-- FOR FUTURE USE
-		<nav class="navbar" role="navigation">
-			<?php 
-			if(isset($_SESSION['login_user']) && !empty($_SESSION['login_user'])) {
-				echo '<span><a href="layout.php">Inicio</a></span>';
-				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
-				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-				echo '<span><a href="creditos.php">Creditos</a></span>';
-			} else {
-				echo '<span><a href="layout.php">Inicio</a></span>';
-				echo '<span><a href="creditos.php">Creditos</a></span>';
-			}
-			?>
-		</nav> -->
 		<article class="content">
 			<form id="registro" enctype="multipart/form-data" method="post">	
 				<fieldset>
@@ -306,32 +282,34 @@
 						<!-- <div class="tooltip-bg">
 							<div class="tip"></div> 
 							<label type="text" placeholder="type here" id="tooltipContent">
-						</div> -->
-					</div>
+							</div> -->
+						</div>
 
-					<div>
-						<label>Repetir contraseña<strong><font size="3" color="red">*</font></strong></label>
-						<input type="password" name="passwordRep" required/>
-					</div>
+						<div>
+							<label>Repetir contraseña<strong><font size="3" color="red">*</font></strong></label>
+							<input type="password" name="passwordRep" required/>
+						</div>
 
-					<div>
-						<label for="imagen">Elegir avatar</label>
-						<input type="file" name="imagen" id="imagen"/>
+						<div>
+							<label for="imagen">Elegir avatar</label>
+							<input type="file" name="imagen" id="imagen"/>
 
-						<img id="previewImage" class="modalImage" src="#" alt="Imagen del perfil"/>
-						<input type="button" id="quitarImagen" value="Quitar Imagen"/>
+							<img id="previewImage" class="modalImage" src="#" alt="Imagen del perfil"/>
+							<input type="button" id="quitarImagen" value="Quitar Imagen"/>
 
-						<!-- The Modal -->
-						<div id="modalElement" class="modal">
+							<!-- The Modal -->
+							<div id="modalElement" class="modal">
 
-							<!-- The Close Button -->
-							<span class="close">&times;</span>
+								<!-- The Close Button -->
+								<span class="close">&times;</span>
 
-							<!-- Modal Content (The Image) -->
-							<img class="modal-content" id="img01">
+								<!-- Modal Content (The Image) -->
+								<img class="modal-content" id="img01">
 
-							<!-- Modal Caption (Image Text) -->
-							<div id="caption"></div>
+								<!-- Modal Caption (Image Text) -->
+								<div id="caption"></div>
+							</div>
+
 						</div>
 
 					</div>

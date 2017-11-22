@@ -7,6 +7,9 @@ if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 	header("location: layout.php");
 }
 
+
+$config = include("config.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -24,10 +27,8 @@ if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 
 	function uploadQuestion() {
 
-		include "config.php";
-
 		// Create connection
-		$conn = new mysqli($servername, $user, $pass, $database);
+		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
 		// Check connection
 		if ($conn->connect_error) {

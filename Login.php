@@ -1,10 +1,15 @@
 
 <?php
+
 include_once('login_session.php'); // Includes login script
+
 if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 	// What is doing here a logged user??
 	header("location: layout.php");
 }
+
+$config = include("config.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -21,10 +26,8 @@ if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 	<!-- In case to use sessions, coment the code below -->
 	<?php 
 	function logIn() {
-		include("config.php");
-
 		// Create connection
-		$conn = new mysqli($servername, $user, $pass, $database);
+		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
 		// Check connection
 		if ($conn->connect_error) {

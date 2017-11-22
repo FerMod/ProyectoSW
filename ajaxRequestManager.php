@@ -223,7 +223,7 @@ function uploadQuestion() {
 			// Oh no! The query failed. 
 			$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha insertado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
 		} else {
-			$filePath = sprintf("%s%s", $xmlFolder, "preguntas.xml");
+			$filePath = sprintf("%s%s", $config["folders"]["xml"], "preguntas.xml");
 			insertElement($filePath, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
 			//$last_id = $conn->insert_id;
 			$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha insertado correctamente. 
@@ -306,7 +306,7 @@ function getQuestionsStats() {
 	
 	include("session.php");
 
-	$xml = new SimpleXMLElement($xmlFolder . "preguntas.xml", 0, true);
+	$xml = new SimpleXMLElement($config["folders"]["xml"] . "preguntas.xml", 0, true);
 	$preguntasTotal = count($xml->xpath("/assessmentItems/assessmentItem"));
 	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $loggedSession['email'] . "\"]"));
 	

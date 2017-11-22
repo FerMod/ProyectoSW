@@ -1,12 +1,12 @@
 <?php
 
-include("config.php");
+$config = include("config.php");
 
 $xslDoc = new DOMDocument();
-$xslDoc->load($xmlFolder . "preguntas.xsl");
+$xslDoc->load($config["folders"]["xml"] . "preguntas.xsl");
 
 $xmlDoc = new DOMDocument();
-$xmlDoc->load($xmlFolder . "preguntas.xml");
+$xmlDoc->load($config["folders"]["xml"] . "preguntas.xml");
 
 $proc = new XSLTProcessor();
 $proc->importStylesheet($xslDoc);

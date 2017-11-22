@@ -275,22 +275,22 @@
 
 					<div>
 						<label>Escriba su email<strong><font size="3" color="red">*</font></strong></label>
-						<input id="email" type="email" name="email" autofocus/>
+						<input id="email" type="email" name="email" autofocus required/>
 					</div>
 
 					<div>
 						<label>Nombre y apellidos<strong><font size="3" color="red">*</font></strong></label>
-						<input type="text" name="nombre"/>
+						<input type="text" name="nombre" required/>
 					</div>
 
 					<div>
 						<label>Username<strong><font size="3" color="red">*</font></strong></label>
-						<input type="text" name="username"/>
+						<input type="text" name="username" required/>
 					</div>
 
 					<div>
 						<label>Contraseña<strong><font size="3" color="red">*</font></strong></label>
-						<input id="password" type="password" name="password"/>
+						<input id="password" type="password" name="password" required/>
 						<!-- <div class="tooltip-bg">
 							<div class="tip"></div> 
 							<label type="text" placeholder="type here" id="tooltipContent">
@@ -299,7 +299,7 @@
 
 					<div>
 						<label>Repetir contraseña<strong><font size="3" color="red">*</font></strong></label>
-						<input type="password" name="passwordRep"/>
+						<input type="password" name="passwordRep" required/>
 					</div>
 
 					<div>
@@ -326,11 +326,11 @@
 					
 					</br>
 					
-					<div style="display:table-cell; vertical-align:middle; text-align:center">
+					<!-- <div style="display:table-cell; vertical-align:middle; text-align:center">
 						<label>Escriba el captcha que hay a continuación</label></br>
 						<img src="captcha.php"></br>
 						<input type="text" name="captchatext"/>
-					</div>
+					</div> -->
 
 					<div>
 						<input type="submit" value="Registrarse" name="submit"/>

@@ -1,3 +1,4 @@
+<?php header("Cache-Control: no-store, no-cache, must-revalidate");?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,12 +28,12 @@
 <body>
 	<header>
 		<?php
-		if(!isset($_GET['login']) || empty($_GET['login'])) {
+		if(isset($_GET['login']) && !empty($_GET['login'])) {
+			echo '<span><a href="logout.php">Logout</a></span>';
+		} else {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
 			echo '&nbsp'; // Add non-breaking space
 			echo '<span><a href="Login.php">Login</a></span>';
-		} else {
-			echo '<span><a href="layout.php">Logout</a></span>';
 		}
 		?>
 		<h2>Quiz: el juego de las preguntas</h2>
@@ -40,7 +41,7 @@
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<?php 
-			if(isset($_GET['login']) || !empty($_GET['login'])) {
+			if(isset($_GET['login']) && !empty($_GET['login'])) {
 				echo '<span><a href="layout.php?login='.$_GET['login'].'">Inicio</a></span>';
 				echo '<span><a href="quizes.php?login='.$_GET['login'].'">Hacer pregunta</a></span>';
 				echo '<span><a href="VerPreguntasConFoto.php?login='.$_GET['login'].'">Ver preguntas</a></span>';
@@ -55,9 +56,10 @@
 		<article class="content">
 			<div id="questionStats" style="margin: 5px; padding: 15px 5px 15px; border-left: 6px solid grey; border-radius: 5px; background-color: lightgrey;">				
 				<label for="questionStatsLabel" style="display: block;"><strong>Preguntas</strong></label>
-				Preguntas introducidas: <span id="preguntasUsuarios"></span> |
+				Preguntas introducidas: <span id="preguntasUsuarios"></span>
 				Preguntas totales: <span id="preguntasTotales"></span>				
 			</div>
+
 			<form id="formGestionPreguntas" name="formGestionPreguntas" method="post" action="" enctype="multipart/form-data">
 
 				<fieldset>

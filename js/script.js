@@ -39,9 +39,30 @@ $(document).ready(function() {
 	});
 	*/
 
+	$("#registro").on("submit", function() {
+
+		if(!$("#email").hasClass("validData")) {			
+			alert("(Debug alert)\nThe used is NOT VIP.\ndostuff");
+			return false;
+		}
+
+		alert("(Debug alert)\nThe user IS VIP.\ndostuff");
+		return true;
+
+	});
+
 	function isNumber(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	}
+
+	$("form").on("reset", function(event) {
+		var $inputElement =  $("input:not([type=button], [type=reset], [type=submit])");
+		$inputElement.css("-webkit-box-shadow", "initial");
+		$inputElement.css("-moz-box-shadow", "initial");
+		$inputElement.css("box-shadow", "initial");
+		$inputElement.css("border-color", "initial");
+		$(".operationResult").remove();
+	});
 
 	$("#imagen").on("change", function() {
 
@@ -109,7 +130,7 @@ $(document).ready(function() {
 	$("#formGestionPreguntas").on("submit", function(event) {
 		event.preventDefault();
 
-		var formData = new FormData(this)
+		var formData = new FormData(this);
 		formData.append("action", "uploadQuestion");
 		$.ajax({
 			url: "ajaxRequestManager.php",
@@ -137,15 +158,11 @@ $(document).ready(function() {
 	});
 	
 	if($("#preguntasUsuarios").length && $("#preguntasTotales").length) {
-		refreshStats(20000);
+		refreshStats(); // Execute the function
+		var timer = setInterval(refreshStats, 20000);
 	}
 
-	var timer;
-	function refreshStats(refreshRate) {
-
-		timer = setTimeout(function() {
-			refreshStats(refreshRate);
-		}, refreshRate);
+	function refreshStats() {
 
 		$.ajax({
 			url: "ajaxRequestManager.php",
@@ -158,7 +175,7 @@ $(document).ready(function() {
 			},
 			error: function (xhr, status, error) {
 				$("header").append(xhr.responseText);
-				clearTimeout(timer);
+				clearInterval(timer);
 			}
 		});
 
@@ -211,6 +228,167 @@ $(document).ready(function() {
 		XMLHttpRequestObject.open("GET", filePath);
 		XMLHttpRequestObject.send(null);
 	}
+	
+	$("#email").on("change", function(event) {
+		
+		if (!$("#email").val()) {
+			$("#email").removeClass("validData").removeClass("invalidData");
+		} else {
+			$.ajax({
+				url: "ajaxRequestManager.php",
+				data: {"email": $(this).val().trim(), action: "isVIPUser"},
+				method: "post",
+				dataType: "json",
+				success: function(result, status, xhr) {
+					if(result.isVip) {
+						$("#email").removeClass("invalidData").addClass("validData");
+					} else {
+						$("#email").removeClass("validData").addClass("invalidData");
+					}
+				},
+				error: function (xhr, status, error) {
+					$("header").append(xhr.responseText);
+				}
+			});
+		}
 
+	});
+	
+	$("#password").on("change", function(event) {
+		
+		if (!$("#password").val()) {
+			$("#password").removeClass("validData").removeClass("invalidData");
+		} else {
+			$.ajax({
+				url: "ajaxRequestManager.php",
+				data: {"password": $(this).val().trim(), action: "checkPassword"},
+				method: "post",
+				dataType: "json",
+				success: function(result, status, xhr) {
+					if(result.isSecure) {
+						$("#password").removeClass("invalidData").addClass("validData");
+					} else {
+						$("#password").removeClass("validData").addClass("invalidData");
+					}
+				},
+				error: function (xhr, status, error) {
+					$("header").append(xhr.responseText);
+				}
+			});
+		}
+
+	});
+
+
+	$("#password").on("keyup", function(event) {
+
+		// Prevent multiple event trigger, use the first that triggers
+		event.preventDefault();
+
+		$.ajax({
+			url : "files/toppasswords.txt",
+			success : function (result, status, xhr) {
+
+				var strength = -1;
+
+				if ($("#password").val()) {
+					// String.prototype.indexOf returns the position of the string in the other string. If not found, it will return -1
+					if(result.toLowerCase().indexOf($("#password").val().toLowerCase()) == -1) {					
+						$.ajax({
+							url: "ajaxRequestManager.php",
+							data: {"password": $(this).val(), action: "checkPassword"},
+							method: "post",
+							dataType: "json",
+							success: function(result, status, xhr) {
+								if(result.isValid) {
+									$("#password").removeClass("invalidData").addClass("validData");
+								} else {
+									$("#password").removeClass("validData").addClass("invalidData");									
+									$("#password").get(0).setCustomValidity("The password is very weak");
+								}
+							},
+							error: function (xhr, status, error) {
+								$("header").append(xhr.responseText);
+							}
+						});
+					} else {
+						strength = 0;
+					}
+				}
+
+				$("#password").removeClass();
+
+				switch (strength) {
+
+					case 0: // veryWeak
+					$("#password").addClass("veryWeak");
+					break; 
+
+					case 1: // weak
+					$("#password").addClass("weak");
+					break;
+
+					case 2: // medium
+					$("#password").addClass("medium");
+					break;
+
+					case 3: // strong
+					$("#password").addClass("strong");
+					break;
+
+					default: // password undefined (no password entered)
+					$("#password").removeClass();
+					// $("#password").addClass("inputDefaultStyle"); 
+					break;
+
+				}
+				
+				console.log("Password strength: " + strength);
+				
+			}
+		});
+
+	});
+
+	function getPasswordStrength(password) {
+
+		var strength = 0;
+
+		if (password.length < 6) {
+			return strength;
+		}
+
+		if(password.length >= 7) {
+			strength++;
+		}
+
+		// If password contains both lower and uppercase characters, increase strength value.
+		if (password.match(/([a-z].*[A-Z])|([A-Z].*[a-z])/)) {
+			strength++;
+		}
+
+		// If it has numbers and characters, increase strength value.
+		if (password.match(/([a-zA-Z])/) && password.match(/([0-9])/)) {
+			strength++;
+		}
+
+		// If it has one special character, increase strength value.
+		if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) {
+			strength++;
+		}
+
+		// If it has two special characters, increase strength value.
+		if (password.match(/(.*[!,%,&,@,#,$,^,*,?,_,~].*[!,%,&,@,#,$,^,*,?,_,~])/)) {
+			strength++;
+		}
+
+		return strength;
+
+	}
+	
+	// Dont allow any context menu and the cut, copy and paste actions in the password field
+	$("input[type=password]").on("contextmenu cut copy paste", function(event) {
+		event.preventDefault();
+	});
 
 });

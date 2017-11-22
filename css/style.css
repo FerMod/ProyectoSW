@@ -422,25 +422,53 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	-webkit-box-shadow: 3px 3px 10px 0px red;
 	-moz-box-shadow: 3px 3px 10px 0px red;
 	box-shadow: 3px 3px 10px 0px red;
-	border-color: #F04040!important
+	border-color: red !important
 }
 .weak{
-	-webkit-box-shadow: 3px 3px 10px 0px #FFB78C;
-	-moz-box-shadow: 3px 3px 10px 0px #FFB78C;
-	box-shadow: 3px 3px 10px 0px #FFB78C;
-	border-color: #FF853C!important;
+	-webkit-box-shadow: 3px 3px 10px 0px orange;
+	-moz-box-shadow: 3px 3px 10px 0px orange;
+	box-shadow: 3px 3px 10px 0px orange;
+	border-color: orange !important;
 }
 .medium{
-	-webkit-box-shadow: 3px 3px 10px 0px #FFEC8B;
-	-moz-box-shadow: 3px 3px 10px 0px #FFEC8B;
-	box-shadow: 3px 3px 10px 0px #FFEC8B;
-	border-color: #FC0!important;
+	-webkit-box-shadow: 3px 3px 10px 0px YellowGreen ;
+	-moz-box-shadow: 3px 3px 10px 0px YellowGreen ;
+	box-shadow: 3px 3px 10px 0px YellowGreen ;
+	border-color: YellowGreen  !important;
 }
 .strong{
-	-webkit-box-shadow: 3px 3px 10px 0px #C3FF88;
-	-moz-box-shadow: 3px 3px 10px 0px #C3FF88;
-	box-shadow: 3px 3px 10px 0px #C3FF88;
-	border-color: #8DFF1C!important;
+	-webkit-box-shadow: 3px 3px 10px 0px #13c113;
+	-moz-box-shadow: 3px 3px 10px 0px #13c113;
+	box-shadow: 3px 3px 10px 0px #13c113;
+	border-color: #13c113 !important;
+}
+
+#tooltip-content{
+	border: none;
+	font-size: 2.75rem;
+	width: 95%;
+	margin-top:-10px;
+	text-align: center;
+}
+
+.tip {
+	transform: rotate(45deg);
+	background: #fff;
+	width: 24px;
+	height: 24px;
+	position: relative;
+	top: 40px;
+	right: 13px;
+	border-left: 1px solid grey;
+	border-bottom: 1px solid grey;
+}
+
+.tooltip-bg {
+	border: 1px solid grey;
+	background: #FFFFFF;
+	width: 400px;
+	height: 80px;
+	border-radius: 15px;
 }
 
 /* Style the Image Used to Trigger the Modal */

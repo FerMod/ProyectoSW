@@ -84,7 +84,7 @@ include_once('login_session.php'); // Includes login script
 			</div>
 		</article>		
 		<aside class="sidebar">
-			Sidebar contents<br/>(sidebar)
+			<span>Sidebar contents<br/>(sidebar)</span>
 		</aside>
 	</div>
 	<footer>

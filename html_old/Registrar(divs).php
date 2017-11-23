@@ -87,7 +87,7 @@ $config = include("config.php");
 			</form>
 		</article>		
 		<aside class="sidebar">
-			Sidebar contents<br/>(sidebar)
+			<span>Sidebar contents<br/>(sidebar)</span>
 		</aside>
 		
 		<?php

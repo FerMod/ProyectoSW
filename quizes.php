@@ -122,7 +122,7 @@ if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 			
 		</article>		
 		<aside class="sidebar">
-			Sidebar contents<br/>(sidebar)
+			<span>Sidebar contents<br/>(sidebar)</span>
 		</aside>
 	</div>
 	<footer>

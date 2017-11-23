@@ -323,7 +323,7 @@ $config = include("config.php");
 			</div>
 		</article>		
 		<aside class="sidebar">
-			Sidebar contents<br/>(sidebar)
+			<span>Sidebar contents<br/>(sidebar)</span>
 		</aside>
 	</div>
 	<footer>

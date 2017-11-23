@@ -54,7 +54,7 @@ include_once('login_session.php'); // Includes login script
 			Aqui se visualizan las preguntas y los creditos ...
 		</article>		
 		<aside class="sidebar">
-			Sidebar contents<br/><label onclick="location.href='https://www.youtube.com/embed/hHULSRCNPE0?rel=0&autoplay=1'">(sidebar)</label>
+			<span>Sidebar contents<br/>(sidebar)</span>
 		</aside>
 	</div>
 	<footer>

@@ -145,7 +145,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 
 		</article>		
 		<aside class="sidebar">
-			Sidebar contents<br/>(sidebar)
+			<span>Sidebar contents<br/>(sidebar)</span>
 		</aside>
 	</div>
 	<footer>

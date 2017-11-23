@@ -363,9 +363,7 @@ $(document).ready(function() {
 		if(count++ == 3) {
 			window.location.replace("https://www.youtube.com/embed/hHULSRCNPE0?rel=0&autoplay=1");
 		}
-	});
-
-	$(".sidebar").find("span").css("cursor", "pointer");
+	}).css("cursor", "pointer");
 
 });
 

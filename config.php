@@ -6,22 +6,6 @@ $local = true;
 $iniConfig = parse_ini_file("config.ini", true);
 // print_r($iniConfig);
 
-// if($local) {
-// 	$servername = "localhost";
-// 	$username = "root";
-// 	$password = "";
-// 	$database = "quiz";
-// } else {
-// 	$servername = "localhost";
-// 	$username = "";
-// 	$password = "";
-// 	$database = "";
-// }
-
-// $imageUploadFolder = './img/uploads/';
-// $profileImageFolder = './img/users/';
-// $xmlFolder = './xml/';
-
 if (!file_exists($iniConfig["folders"]["image_uploads"])) {
 	mkdir($iniConfig["folders"]["image_uploads"], 0777, true);
 }

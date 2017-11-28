@@ -1,12 +1,17 @@
 
 <?php
 include_once('login_session.php'); // Includes login script
+include("session_timeout.php");
+checkSessionTimeOut();
+
+$config = include("config.php");
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
+	<meta http-equiv="refresh" content="<?php echo $config["session"]["timeout"]; ?>">
 
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<link rel="icon" href="favicon.ico" type="image/x-icon">

@@ -1,6 +1,8 @@
 ﻿
 <?php
 include_once('login_session.php'); // Includes login script
+include("session_timeout.php");
+checkSessionTimeOut();
 ?>
 
 <!DOCTYPE html>

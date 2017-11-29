@@ -3,11 +3,10 @@
 include_once('login_session.php');
 include("session_timeout.php");
 
-if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
-	// Another account? how many do you need??
-	header("location: layout.php");
-} else {
+if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+	// Another account? how many do you need??	
 	checkSessionTimeout();
+	header("location: layout.php");
 }
 
 $config = include("config.php");

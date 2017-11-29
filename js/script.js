@@ -137,7 +137,7 @@ $(document).ready(function() {
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			contentType: false,							// The content type used when sending data to the server.
 			cache: false,								// To unable request pages to be cached
-			processData:false,							// To send DOMDocument or non processed data file it is set to false
+			processData: false,							// To send DOMDocument or non processed data file it is set to false
 			success: function(result, status, xhr) {	// A function to be called if request succeeds
 
 				$("#operationResult").html(result.operationMessage);
@@ -235,16 +235,16 @@ $(document).ready(function() {
 		} else {
 			$.ajax({
 				url: "ajaxRequestManager.php",
-				data: {"email": $(this).val().trim(), action: "isVIPUser"},
+				data: {"email": $("#email").val().trim(), action: "isVIPUser"},
 				method: "post",
 				dataType: "json",
 				success: function(result, status, xhr) {
-					// $("#email").get(0).validity = result.isVip;
-					// if(result.isVip) {
-					// 	$("#email").removeClass("invalidData").addClass("validData");
-					// } else {
-					// 	$("#email").removeClass("validData").addClass("invalidData");
-					// }
+					$("#email").get(0).validity = result.isVip;
+					if(result.isVip) {
+						$("#email").removeClass("invalidData").addClass("validData");
+					} else {
+						$("#email").removeClass("validData").addClass("invalidData");
+					}
 				},
 				error: function (xhr, status, error) {
 					$("header").append(xhr.responseText);
@@ -266,48 +266,48 @@ $(document).ready(function() {
 			dataType: "json",
 			success: function(result, status, xhr) {
 				
-				// var strength = -1;
+				var strength = -1;
 
-				// if ($("#password").val()) {				
-				// 	$("#password").get(0).validity =true// result.isValid;
-				// 	if(result.isValid) {
-				// 		$("#password").addClass("validData");
-				// 		strength = getPasswordStrength($("#password").val());
-				// 	} else {
-				// 		strength = 0;
-				// 		$("#password").removeClass();
-				// 		$("#password").get(0).setCustomValidity("The password is very weak");
-				// 	}
-				// } else {					
-				// 	$("#password").get(0).validity = false;
-				// 	$("#password").get(0).setCustomValidity("The password field cannot be empty");
-				// }
+				if ($("#password").val()) {				
+					$("#password").get(0).validity =true// result.isValid;
+					if(result.isValid) {
+						$("#password").addClass("validData");
+						strength = getPasswordStrength($("#password").val());
+					} else {
+						strength = 0;
+						$("#password").removeClass();
+						$("#password").get(0).setCustomValidity("The password is very weak");
+					}
+				} else {					
+					$("#password").get(0).validity = false;
+					$("#password").get(0).setCustomValidity("The password field cannot be empty");
+				}
 
-				// switch (strength) {
+				switch (strength) {
 
-				// 	case 0: // veryWeak
-				// 	$("#password").addClass("veryWeak");
-				// 	break; 
+					case 0: // veryWeak
+					$("#password").addClass("veryWeak");
+					break; 
 
-				// 	case 1: // weak
-				// 	$("#password").addClass("weak");
-				// 	break;
+					case 1: // weak
+					$("#password").addClass("weak");
+					break;
 
-				// 	case 2: // medium
-				// 	$("#password").addClass("medium");
-				// 	break;
+					case 2: // medium
+					$("#password").addClass("medium");
+					break;
 
-				// 	case 3: // strong
-				// 	$("#password").addClass("strong");
-				// 	break;
+					case 3: // strong
+					$("#password").addClass("strong");
+					break;
 
-				// 	default: // password undefined (no password entered)
-				// 	$("#password").removeClass();
-				// 	break;
+					default: // password undefined (no password entered)
+					$("#password").removeClass();
+					break;
 
-				// }
-				// console.log("Validity: " + $("#password").get(0).validity);
-				// console.log("Password strength: " + strength);
+				}
+				console.log("Validity: " + $("#password").get(0).validity);
+				console.log("Password strength: " + strength);
 			},
 			error: function (xhr, status, error) {
 				$("header").append(xhr.responseText);

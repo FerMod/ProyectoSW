@@ -66,7 +66,7 @@ $config = include("config.php");
 				$preguntas = simplexml_load_file('xml/preguntas.xml');
 				$i = 0;
 				foreach ($preguntas->assessmentItem as $pregunta) {
-					echo '<div class="preguntaed" id='.$i.'>';
+					echo '<div class="preguntaed" id='.$i.' onclick="editarPregunta('.$i.')">';
 						echo '<div><label id="'.$i.'comp">Complejidad: '.$pregunta['complexity'].' | Tema: '.$pregunta['subject'].' | Autor: '.$pregunta['author'].'</label></div>';
 						echo '<div><label id="'.$i.'preg">Enunciado: '.$pregunta->itemBody->p.'</label></div>';
 						echo '<div><label id="'.$i.'cor">+Respuesta correcta: '.$pregunta->correctResponse->value.'</label></div>';
@@ -88,9 +88,9 @@ $config = include("config.php");
 				}	
 
 				#preguntas {
-					height:30%;
-					overflow:hidden;
-					overflow-y:scroll;
+					height: 30%;
+					overflow: hidden;
+					overflow-y: scroll;
 				}
 			</style>
 			</fieldset>
@@ -100,38 +100,38 @@ $config = include("config.php");
 				<form>
 					<div>
 						<label for="email">Email*:</label>
-						<input type="text" id="email" name="email" autofocus/>
+						<input type="text" id="emailed" name="emailed" disabled/>
 					</div>
 					<div>
 						<label for="enunciado">Enunciado de la pregunta*:</label>
-						<input type="text" id="enunciado" name="enunciado" size="35" />
+						<input type="text" id="enunciadoed" name="enunciadoed" size="35" />
 					</div>
 					<div>
 						<label for="respuestacorrecta">Respuesta correcta*:</label>
-						<input type="text" id="respuestacorrecta" name="respuestacorrecta" size="35" />
+						<input type="text" id="respuestacorrectaed" name="respuestacorrectaed" size="35" />
 					</div>
 					<div>
 						<label for="respuestaincorrecta1">Respuesta incorrecta 1*:</label>
-						<input type="text" id="respuestaincorrecta1" name="respuestaincorrecta1" size="35" />
+						<input type="text" id="respuestaincorrecta1ed" name="respuestaincorrecta1ed" size="35" />
 					</div>
 					<div>
 						<label for="respuestaincorrecta2">Respuesta incorrecta 2*:</label>
-						<input type="text" id="respuestaincorrecta2" name="respuestaincorrecta2" size="35" />
+						<input type="text" id="respuestaincorrecta2ed" name="respuestaincorrecta2ed" size="35" />
 					</div>
 					<div>
 						<label for="respuestaincorrecta3">Respuesta incorrecta 3*:</label>
-						<input type="text" id="respuestaincorrecta3" name="respuestaincorrecta3" size="35" />
+						<input type="text" id="respuestaincorrecta3ed" name="respuestaincorrecta3ed" size="35" />
 					</div>
 					<div>
 						<label for="complejidad">Complejidad (1..5)*:</label>
-						<input type="text" id="complejidad" name="complejidad" size="10" />
+						<input type="text" id="complejidaded" name="complejidaded" size="10" />
 					</div>
 					<div>
 						<label for="tema">Tema (subject)*:</label>
-						<input type="text" id="tema" name="tema" size="10" />
+						<input type="text" id="temaed" name="temaed" size="10" />
 					</div>
 					<div>
-						<input type="submit" value="Confirmar edición" id="tema" name="tema"/>
+						<input type="submit" value="Confirmar edición"/>
 					</div>
 				</form>
 			</fieldset>
@@ -146,6 +146,28 @@ $config = include("config.php");
 		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 	</footer>
+	<script type="text/javascript">
+		function editarPregunta(id) {
+			var datos = $("#"+id+"comp").text().split(" | ");
 
+			var comp = datos[0].split("Complejidad: ")[1];
+			var tema = datos[1].split("Tema: ")[1];
+			var email = datos[2].split("Autor: ")[1];
+			var enun = $("#"+id+"preg").text().split("Enunciado: ")[1];
+			var rcor = $("#"+id+"cor").text().split("+Respuesta correcta: ")[1];
+			var rincor1 = $("#"+id+"incor1").text().split("-Respuesta incorrecta 1: ")[1];
+			var rincor2 = $("#"+id+"incor2").text().split("-Respuesta incorrecta 2: ")[1];
+			var rincor3 = $("#"+id+"incor3").text().split("-Respuesta incorrecta 3: ")[1];
+
+			$("#emailed").val(email);
+			$("#enunciadoed").val(enun);
+			$("#respuestacorrectaed").val(rcor);
+			$("#respuestaincorrecta1ed").val(rincor1);
+			$("#respuestaincorrecta2ed").val(rincor2);
+			$("#respuestaincorrecta3ed").val(rincor3);
+			$("#complejidaded").val(comp);
+			$("#temaed").val(tema);
+		}
+	</script>
 </body>
 </html>

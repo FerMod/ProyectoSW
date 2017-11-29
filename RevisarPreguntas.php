@@ -60,7 +60,82 @@ $config = include("config.php");
 			?>
 		</nav>
 		<article class="content">
+			<label>Editar pregunta</label>
+			<fieldset id="preguntas">
+			<?php
+				$preguntas = simplexml_load_file('xml/preguntas.xml');
+				$i = 0;
+				foreach ($preguntas->assessmentItem as $pregunta) {
+					echo '<div class="preguntaed" id='.$i.'>';
+						echo '<div><label id="'.$i.'comp">Complejidad: '.$pregunta['complexity'].' | Tema: '.$pregunta['subject'].' | Autor: '.$pregunta['author'].'</label></div>';
+						echo '<div><label id="'.$i.'preg">Enunciado: '.$pregunta->itemBody->p.'</label></div>';
+						echo '<div><label id="'.$i.'cor">+Respuesta correcta: '.$pregunta->correctResponse->value.'</label></div>';
+						$j = 1;
+						$incorrect = $pregunta->incorrectResponses;
+						foreach($incorrect->value as $incor) {
+							echo '<div><label id="'.$i.'incor'.$j.'">-Respuesta incorrecta '.$j.': '.$incor.'</label></div>';
+							$j = $j + 1;
+						}
+					echo '</div>';
+					echo '<hr>';
+					$i = $i + 1;
+				}
+			?>
+			<style type="text/css">
+				.preguntaed {
+						border-left: 6px solid green;
+    					background-color: lightgrey;
+				}	
 
+				#preguntas {
+					height:30%;
+					overflow:hidden;
+					overflow-y:scroll;
+				}
+			</style>
+			</fieldset>
+			<div>
+			<fieldset>
+				<legend>Datos de la pregunta</legend>
+				<form>
+					<div>
+						<label for="email">Email*:</label>
+						<input type="text" id="email" name="email" autofocus/>
+					</div>
+					<div>
+						<label for="enunciado">Enunciado de la pregunta*:</label>
+						<input type="text" id="enunciado" name="enunciado" size="35" />
+					</div>
+					<div>
+						<label for="respuestacorrecta">Respuesta correcta*:</label>
+						<input type="text" id="respuestacorrecta" name="respuestacorrecta" size="35" />
+					</div>
+					<div>
+						<label for="respuestaincorrecta1">Respuesta incorrecta 1*:</label>
+						<input type="text" id="respuestaincorrecta1" name="respuestaincorrecta1" size="35" />
+					</div>
+					<div>
+						<label for="respuestaincorrecta2">Respuesta incorrecta 2*:</label>
+						<input type="text" id="respuestaincorrecta2" name="respuestaincorrecta2" size="35" />
+					</div>
+					<div>
+						<label for="respuestaincorrecta3">Respuesta incorrecta 3*:</label>
+						<input type="text" id="respuestaincorrecta3" name="respuestaincorrecta3" size="35" />
+					</div>
+					<div>
+						<label for="complejidad">Complejidad (1..5)*:</label>
+						<input type="text" id="complejidad" name="complejidad" size="10" />
+					</div>
+					<div>
+						<label for="tema">Tema (subject)*:</label>
+						<input type="text" id="tema" name="tema" size="10" />
+					</div>
+					<div>
+						<input type="submit" value="Confirmar edición" id="tema" name="tema"/>
+					</div>
+				</form>
+			</fieldset>
+		</div>
 		</article>		
 		<aside class="sidebar">
 			<span>Sidebar contents<br/>(sidebar)</span>

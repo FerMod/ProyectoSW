@@ -162,7 +162,7 @@ $(document).ready(function() {
 
 	function refreshStats() {
 
-		$.ajax({
+		var xhr = $.ajax({
 			url: "ajaxRequestManager.php",
 			data: {login: getUrlParameter("login"), action: "getQuestionsStats"},
 			method: "post",								// Type of request to be send, called as method
@@ -171,9 +171,9 @@ $(document).ready(function() {
 				refreshElementValue($("#preguntasUsuarios"), result.quizesUser);
 				refreshElementValue($("#preguntasTotales"), result.quizesTotal);
 			},
-			error: function (xhr, status, error) {
-				$("header").append(xhr.responseText);
+			error: function (xhr, status, error) {				
 				clearInterval(timer);
+				$("header").append(xhr.responseText);
 			}
 		});
 
@@ -365,5 +365,14 @@ $(document).ready(function() {
 		}
 	}).css("cursor", "pointer");
 
+});
+
+$(document).ajaxSuccess(function(event, request, settings, data) {
+	console.log(data);
+	if($.trim(data.sessionTimeout)) {
+		if(data.sessionTimeout) {
+			window.location.replace("layout.php");
+		}
+	}
 });
 

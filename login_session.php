@@ -1,9 +1,12 @@
 <?php
 
+$config = include("config.php");
+
+// ini_set("session.cookie_lifetime", $config["session"]["timeout"]);
+// ini_set("session.gc_maxlifetime", $config["session"]["timeout"]);
+
 // Adapted from the following source: https://www.formget.com/login-form-in-php/
 session_start(); // Starting Session
-
-$config = include("config.php");
 
 $errorMessage=""; // Variable To Store Error Message
 

@@ -1,8 +1,8 @@
 
 <?php
 include_once('login_session.php'); // Includes login script
-include("session_timeout.php");
-checkSessionTimeOut();
+include('session_timeout.php');
+refreshSessionTimeout();
 
 $config = include("config.php");
 ?>
@@ -11,7 +11,8 @@ $config = include("config.php");
 <html>
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
-	<meta http-equiv="refresh" content="<?php echo $config["session"]["timeout"]; ?>">
+	<!-- Uncomment the following line to auto refresh the page -->
+	<!-- <meta http-equiv="refresh" content="<?php echo $config["session"]["timeout"]; ?>"> -->
 
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<link rel="icon" href="favicon.ico" type="image/x-icon">

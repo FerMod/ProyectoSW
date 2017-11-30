@@ -1,12 +1,15 @@
 <?php
 
-function checkSessionTimeout() {
-	
+// if (!function_exists('refreshSessionTimeout')) {
+
+function refreshSessionTimeout() {
+
 	$config = include("config.php");
 
-	if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $config["session"]["timeout"])) {
+	if (isSessionTimedout()) {
 		// last request was more than the 'timeout' time value ago
-		include("logout.php");
+		session_unset();
+		session_destroy();
 	}
 	$_SESSION['last_activity'] = time(); // update last activity time stamp
 
@@ -17,7 +20,15 @@ function checkSessionTimeout() {
 		session_regenerate_id(true); // change session ID for the current session and invalidate old session ID
 		$_SESSION['creation_time'] = time(); // update creation time
 	}
-	
+
 }
+
+// }
+
+function isSessionTimedout() {
+	$config = include("config.php");
+	return isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $config["session"]["timeout"]);
+}
+
 
 ?>

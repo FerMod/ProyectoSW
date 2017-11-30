@@ -2,12 +2,13 @@
 <?php
 
 include_once('login_session.php');
-include("session_timeout.php");
+include('session_timeout.php');
+include('ajaxRequestManager.php');
 
 if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 	header("location: layout.php");
 } else {
-	checkSessionTimeOut();
+	refreshSessionTimeout();
 }
 
 header("Cache-Control: no-store, no-cache, must-revalidate");
@@ -38,8 +39,6 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 	<script src="https://codemirror.net/lib/codemirror.js"></script>
 	<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
 	<script src="https://codemirror.net/mode/xml/xml.js"></script>
-
-	<?php include "ajaxRequestManager.php";?>
 
 </head>
 

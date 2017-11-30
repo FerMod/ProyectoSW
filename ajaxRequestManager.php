@@ -1,43 +1,48 @@
 <?php
 
 include_once('login_session.php');
-include("session_timeout.php");
-
-if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-	// Another account? how many do you need??	
-	checkSessionTimeout();
-	header("location: layout.php");
-}
+include_once('session_timeout.php');
 
 $config = include("config.php");
 
 if(isset($_POST['action']) && !empty($_POST['action'])) {
 	$action = $_POST['action'];
+	$ajaxResult = array();
 	switch($action) {
 		case 'uploadQuestion':
-		uploadQuestion();
+		$ajaxResult = uploadQuestion();
 		break;
 
 		case 'getOnlineUsers':
-		getOnlineUsers(); //TODO
+		$ajaxResult = getOnlineUsers(); //TODO
 		break;
 
 		case 'getQuestionsStats':
-		getQuestionsStats();
+		$ajaxResult = getQuestionsStats();
 		break;
 
 		case 'isVIPUser':
-		isVIPUser();
+		$ajaxResult = isVIPUser();
 		break;
 
 		case 'showQuestions':
-		showQuestions(); //TODO
+		$ajaxResult = showQuestions(); //TODO
 		break;
 		
 		case 'checkPassword':
-		checkPassword();
+		$ajaxResult = checkPassword();
 		break;
 	}
+
+	if($action != "getQuestionsStats" && $action != "getOnlineUsers") {
+		refreshSessionTimeout();
+	}
+
+	$ajaxResult["sessionTimeout"] = isSessionTimedout();
+
+	// Encode array to JSON format
+	echo json_encode($ajaxResult);
+
 }
 
 function uploadQuestion() {
@@ -313,13 +318,11 @@ function getQuestionsStats() {
 	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $loggedSession['email'] . "\"]"));
 	
 	// Create array with the operation information
-	$array = array(
+	return array(
 		"quizesTotal" => $preguntasTotal,
 		"quizesUser" => $preguntasUsuario
 	);
 	
-	// Encode array to JSON format
-	echo json_encode($array);
 }
 
 function isVIPUser() {
@@ -332,28 +335,28 @@ function isVIPUser() {
 	$client->decode_utf8 = false;
 
 	// Call and consume service
-	$result = strtoupper($client->call("comprobar", $_POST["email"])) !== "NO" ? true : false;
+	$result = strtoupper($client->call("comprobar",  array("x"=>$_POST["email"]))) !== "NO" ? true : false;
 
-	$resultArray = array(
+	return array(
 		"isVip" => $result
 	);
 
-	echo json_encode($resultArray);
 }
 
 function checkPassword() {
 	
 	require_once('nusoap-0.9.5/src/nusoap.php');
-		
+
 	$soapclient = new nusoap_client('http://localhost/ProyectoSW/ComprobarContrasena.php?wsdl', true);
-		
+
 	$result = strtoupper($soapclient->call("checkPass", array('password'=>$_POST["password"]))) !== 'INVALIDA' ? true : false;
-		
-	$resultArray = array(
+
+	return array(
 		"isValid" => $result
 	);
 
-	echo json_encode($resultArray);
 }
+
+
 
 ?>

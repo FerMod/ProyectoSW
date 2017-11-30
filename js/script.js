@@ -44,7 +44,7 @@ $(document).ready(function() {
 		if(!$("#email").get(0).checkValidity() || !$("#password").get(0).checkValidity()) {
 			return false;
 		}
-		
+
 		refreshSessionTimeout();
 		return true;
 
@@ -156,6 +156,7 @@ $(document).ready(function() {
 				}
 			},
 			error: function (xhr, status, error) {
+				$("header").append(xhr.responseText);
 				console.log(xhr.statusText);
 				console.log(error);
 			}
@@ -172,7 +173,7 @@ $(document).ready(function() {
 
 		var xhr = $.ajax({
 			url: "ajaxRequestManager.php",
-			data: {login: getUrlParameter("login"), action: "getQuestionsStats"},
+			data: {action: "getQuestionsStats"},
 			method: "post",								// Type of request to be send, called as method
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			success: function(result, status, xhr) {	
@@ -386,6 +387,7 @@ $(document).ajaxSuccess(function(event, request, settings, data) {
 	console.log(data);
 	if($.trim(data.sessionTimeout)) {
 		if(data.sessionTimeout) {
+			xhr.abort();
 			window.location.replace("layout.php");
 		}
 	}

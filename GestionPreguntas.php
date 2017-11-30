@@ -3,6 +3,7 @@
 
 include_once('login_session.php');
 include('session_timeout.php');
+refreshSessionTimeout();
 include('ajaxRequestManager.php');
 
 if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {

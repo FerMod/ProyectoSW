@@ -217,8 +217,8 @@ $config = include("config.php");
 				$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha insertado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
 			} else {
 				$filePath = sprintf("%s%s", $xmlFolder, "preguntas.xml");
-				insertElement($filePath, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
-				//$last_id = $conn->insert_id;
+				$question_id = $conn->insert_id;
+				insertElement($filePath, $question_id, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
 				$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha insertado correctamente. 
 				<br>Para verla haga click <a href='VerPreguntasConFoto.php?login=".$_GET['login']."' target='_self'>aquí</a>. 
 				<br><br>O si prefiere ver el archivo '.xml' generado haga click <a href='$filePath' target='_blank'>aquí</a>.</div>";

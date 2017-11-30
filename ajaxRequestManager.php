@@ -3,8 +3,6 @@
 include_once('login_session.php');
 include_once('session_timeout.php');
 
-$config = include("config.php");
-
 if(isset($_POST['action']) && !empty($_POST['action'])) {
 	$action = $_POST['action'];
 	$ajaxResult = array();
@@ -46,6 +44,8 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 }
 
 function uploadQuestion() {
+
+	$config = include("config.php");
 
 	// Create connection
 	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
@@ -231,8 +231,8 @@ function uploadQuestion() {
 			$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha insertado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
 		} else {
 			$filePath = sprintf("%s%s", $config["folders"]["xml"], "preguntas.xml");
-			insertElement($filePath, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
-			//$last_id = $conn->insert_id;
+			$last_id = $conn->insert_id;
+			insertElement($filePath, $last_id, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
 			$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha insertado correctamente. 
 			<br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>. 
 			<br><br>O si prefiere ver el archivo '.xml' generado haga click <a href='$filePath' target='_blank'>aquí</a>.</div>";
@@ -252,7 +252,7 @@ function uploadQuestion() {
 	);
 	
 	// Encode array to JSON format
-	echo json_encode($array);
+	return $array;
 }
 
 // Format the input for security reasons
@@ -267,11 +267,12 @@ function isValidEmail($email) {
 	return filter_var($email, FILTER_VALIDATE_EMAIL) && preg_match('/^[a-zA-Z]+\\d{3}@ikasle\.ehu\.(eus|es)$/', $email);
 }
 
-function insertElement($filePath, $author, $question, $correctResponse, $incorrectResponse1, $incorrectResponse2, $incorrectResponse3, $complexity, $subject, $image) {
+function insertElement($filePath, $id, $author, $question, $correctResponse, $incorrectResponse1, $incorrectResponse2, $incorrectResponse3, $complexity, $subject, $image) {
 
 	$xml = new SimpleXMLElement($filePath, 0, true);
 
 	$assessmentItemElement = $xml->addChild("assessmentItem");
+	$assessmentItemElement->addAttribute("id", $id);
 	$assessmentItemElement->addAttribute("complexity", $complexity);
 	$assessmentItemElement->addAttribute("subject", $subject);
 	$assessmentItemElement->addAttribute("author", $author);
@@ -310,18 +311,22 @@ function getOnlineUsers() {
 }
 
 function getQuestionsStats() {
-	
-	include("session.php");
 
-	$xml = new SimpleXMLElement($config["folders"]["xml"] . "preguntas.xml", 0, true);
-	$preguntasTotal = count($xml->xpath("/assessmentItems/assessmentItem"));
-	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $loggedSession['email'] . "\"]"));
-	
-	// Create array with the operation information
-	return array(
-		"quizesTotal" => $preguntasTotal,
-		"quizesUser" => $preguntasUsuario
-	);
+	if(!isSessionTimedout()) {
+
+		include("session.php");
+
+		$xml = new SimpleXMLElement($config["folders"]["xml"] . "preguntas.xml", 0, true);
+		$preguntasTotal = count($xml->xpath("/assessmentItems/assessmentItem"));
+		$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $loggedSession['email'] . "\"]"));
+
+		// Create array with the operation information
+		return array(
+			"quizesTotal" => $preguntasTotal,
+			"quizesUser" => $preguntasUsuario
+		);
+
+	}
 	
 }
 

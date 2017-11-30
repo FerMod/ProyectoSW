@@ -64,28 +64,28 @@ $config = include("config.php");
 			<fieldset id="preguntas">
 			<?php
 				$preguntas = simplexml_load_file('xml/preguntas.xml');
-				$i = 0;
+
 				foreach ($preguntas->assessmentItem as $pregunta) {
-					echo '<div class="preguntaed" id='.$i.' onclick="editarPregunta('.$i.')">';
-						echo '<div><label id="'.$i.'comp">Complejidad: '.$pregunta['complexity'].' | Tema: '.$pregunta['subject'].' | Autor: '.$pregunta['author'].'</label></div>';
-						echo '<div><label id="'.$i.'preg">Enunciado: '.$pregunta->itemBody->p.'</label></div>';
-						echo '<div><label id="'.$i.'cor">+Respuesta correcta: '.$pregunta->correctResponse->value.'</label></div>';
+					echo '<div class="preguntaed" id="'.$pregunta['id'].'id" onclick="editarPregunta('.$pregunta['id'].')">';
+						echo '<div><label id='.$pregunta['id'].'>Id pregunta: '.$pregunta['id'].'</label></div>';
+						echo '<div><label id="'.$pregunta['id'].'comp">Complejidad: '.$pregunta['complexity'].' | Tema: '.$pregunta['subject'].' | Autor: '.$pregunta['author'].'</label></div>';
+						echo '<div><label id="'.$pregunta['id'].'preg">Enunciado: '.$pregunta->itemBody->p.'</label></div>';
+						echo '<div><label id="'.$pregunta['id'].'cor">+Respuesta correcta: '.$pregunta->correctResponse->value.'</label></div>';
 						$j = 1;
 						$incorrect = $pregunta->incorrectResponses;
 						foreach($incorrect->value as $incor) {
-							echo '<div><label id="'.$i.'incor'.$j.'">-Respuesta incorrecta '.$j.': '.$incor.'</label></div>';
+							echo '<div><label id="'.$pregunta['id'].'incor'.$j.'">-Respuesta incorrecta '.$j.': '.$incor.'</label></div>';
 							$j = $j + 1;
 						}
 					echo '</div>';
 					echo '<hr>';
-					$i = $i + 1;
 				}
 			?>
 			<style type="text/css">
 				.preguntaed {
 						border-left: 6px solid green;
     					background-color: lightgrey;
-				}	
+				}
 
 				#preguntas {
 					height: 30%;
@@ -98,6 +98,10 @@ $config = include("config.php");
 			<fieldset>
 				<legend>Datos de la pregunta</legend>
 				<form>
+					<div>
+						<label for="id">Id pregunta:</label>
+						<input type="text" id="ided" name="ided" disabled/>
+					</div>
 					<div>
 						<label for="email">Email*:</label>
 						<input type="text" id="emailed" name="emailed" disabled/>
@@ -131,10 +135,12 @@ $config = include("config.php");
 						<input type="text" id="temaed" name="temaed" size="10" />
 					</div>
 					<div>
-						<input type="submit" value="Confirmar edición"/>
+						<input type="submit" value="Confirmar edición" onsubmit="updateQuestion()"/>
 					</div>
 				</form>
 			</fieldset>
+		</div>
+		<div id="respuesta">
 		</div>
 		</article>		
 		<aside class="sidebar">
@@ -147,8 +153,11 @@ $config = include("config.php");
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 	</footer>
 	<script type="text/javascript">
+
 		function editarPregunta(id) {
 			var datos = $("#"+id+"comp").text().split(" | ");
+
+			var id = $("#"+id).text().split("Id pregunta: ")[1];
 
 			var comp = datos[0].split("Complejidad: ")[1];
 			var tema = datos[1].split("Tema: ")[1];
@@ -159,6 +168,7 @@ $config = include("config.php");
 			var rincor2 = $("#"+id+"incor2").text().split("-Respuesta incorrecta 2: ")[1];
 			var rincor3 = $("#"+id+"incor3").text().split("-Respuesta incorrecta 3: ")[1];
 
+			$("#ided").val(id);
 			$("#emailed").val(email);
 			$("#enunciadoed").val(enun);
 			$("#respuestacorrectaed").val(rcor);
@@ -167,6 +177,25 @@ $config = include("config.php");
 			$("#respuestaincorrecta3ed").val(rincor3);
 			$("#complejidaded").val(comp);
 			$("#temaed").val(tema);
+		}
+
+		function updateQuestion() {
+			var xhr = new XMLHttpRequest();
+
+			xhr.open('POST','update_question.php', true);
+
+			xhr.send("emailed=" + $("#emailed").val() + "&" + "enunciadoed=" + $("#enunciadoed").val() + "&" +
+			 "respuestacorrectaed=" + $("#respuestacorrectaed").val() + "&" + "respuestaincorrecta1ed=" +
+			  $("#respuestaincorrecta1ed").val() + "&" + "respuestaincorrecta2ed=" + $("#respuestaincorrecta2ed").val() +
+			   "&" + "respuestaincorrecta3ed=" + $("#respuestaincorrecta3ed").val() + "&" +
+			   "complejidaded=" + $("#complejidaded").val() + "&" + "temaed=" + $("#temaed").val() + "&" + "ided=" + $("#ided").val(id));
+
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState == 4 && xhr.status == 200)
+ 					document.getElementById('respuesta').innerHTML = xhr.responseText;
+			}
+
+			return true;
 		}
 	</script>
 </body>

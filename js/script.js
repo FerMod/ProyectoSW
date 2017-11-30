@@ -227,7 +227,7 @@ $(document).ready(function() {
 		XMLHttpRequestObject.send(null);
 	}
 	
-	$("#email").on("keyup", function(event) {
+	/* $("#email").on("keyup", function(event) {
 		
 		if (!$("#email").val()) {
 			$("#email").get(0).validity = false;
@@ -252,7 +252,7 @@ $(document).ready(function() {
 			});
 		}
 
-	});
+	}); 
 
 	$("#password").on("keyup", function(event) {
 
@@ -315,6 +315,8 @@ $(document).ready(function() {
 		});
 
 	});
+
+	*/
 
 	function getPasswordStrength(password) {
 

@@ -156,7 +156,7 @@ $(document).ready(function() {
 				}
 			},
 			error: function (xhr, status, error) {
-				$("header").append(xhr.responseText);
+				//$("header").append(xhr.responseText);
 				console.log(xhr.statusText);
 				console.log(error);
 			}
@@ -182,7 +182,7 @@ $(document).ready(function() {
 			},
 			error: function (xhr, status, error) {				
 				clearInterval(timer);
-				$("header").append(xhr.responseText);
+				//$("header").append(xhr.responseText);
 			}
 		});
 
@@ -256,7 +256,7 @@ $(document).ready(function() {
 					}
 				},
 				error: function (xhr, status, error) {
-					$("header").append(xhr.responseText);
+					//$("header").append(xhr.responseText);
 				}
 			});
 		}
@@ -319,7 +319,7 @@ $(document).ready(function() {
 				console.log("Password strength: " + strength);
 			},
 			error: function (xhr, status, error) {
-				$("header").append(xhr.responseText);
+				//$("header").append(xhr.responseText);
 			}
 		});
 

@@ -1,6 +1,6 @@
 <?php
 	$config = include("config.php");
-	
+
 	// Create connection
 	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
@@ -15,7 +15,7 @@
 	$dataCheckMessage = "";
 
 	$email = formatInput($_POST['emailed']) ?? '';
-	$id = $_POST['refer'];
+	$id = $_POST['ided'];
 
 	if(isset($_POST['enunciadoed']) && !empty($_POST['enunciadoed'])) { 
 		$enunciado = formatInput($_POST['enunciadoed']) ?? '';
@@ -92,7 +92,7 @@
 
 	// Check if everything is ok
 	if (!$uploadOk) {
-		throw new RuntimeException($dataCheckMessage);
+		echo $dataCheckMessage;
 	}
 
 	if($uploadOk) {
@@ -141,7 +141,7 @@
 	// Close connection
 	$conn->close();
 
-	return $operationMessage;
+	echo $operationMessage;
 
 
 	// Format the input for security reasons

@@ -202,6 +202,32 @@ $config = include("config.php");
 	$("#formRevPreguntas").on("submit", function(event) {
 			event.preventDefault();
 			var formDataR = new FormData(this);
+
+			var r = "ided=" + $("#ided").val() + 
+					"emailed=" + $("#emailed").val() +
+					"respuestacorrectaed=" + $("#respuestacorrectaed").val() +
+					"respuestaincorrecta1ed=" + $("#respuestaincorrecta1ed").val() +
+					"respuestaincorrecta2ed=" + $("#respuestaincorrecta2ed").val() +
+					"respuestaincorrecta3ed=" + $("#respuestaincorrecta3ed").val() +
+					"complejidaded=" + $("#complejidaded").val() +
+					"temaed=" + $("#temaed").val();
+
+			if(XMLHttpRequest) {
+ 				xhr = new XMLHttpRequest();
+			} else {
+ 				xhr = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+
+			xhr.open('POST','update_question.php', true);
+
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState == 4 && xhr.status == 200)
+ 					document.getElementById('respuesta').innerHTML = xhr.responseText;
+			}
+
+			xhr.send(r);
+
+			/*
 			$.ajax({
 			url: "upload_question.php",
 			method: "post",								// Type of request to be send, called as method
@@ -216,7 +242,7 @@ $config = include("config.php");
 				console.log(xhr.statusText);
 				console.log(error);
 			}
-		});
+		});*/
 	});
 	</script>
 </body>

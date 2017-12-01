@@ -10,6 +10,12 @@ if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 	header("location: layout.php");
 }
 
+if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_teacher'])) {
+	// What is doing here a logged teacher??
+	refreshSessionTimeout();
+	header("location: layout.php");
+}
+
 $config = include("config.php");
 
 ?>

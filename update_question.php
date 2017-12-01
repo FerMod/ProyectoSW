@@ -1,4 +1,6 @@
 <?php
+	$config = include("config.php");
+	
 	// Create connection
 	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
@@ -13,7 +15,7 @@
 	$dataCheckMessage = "";
 
 	$email = formatInput($_POST['emailed']) ?? '';
-	$id = $_POST['ided'];
+	$id = $_POST['refer'];
 
 	if(isset($_POST['enunciadoed']) && !empty($_POST['enunciadoed'])) { 
 		$enunciado = formatInput($_POST['enunciadoed']) ?? '';

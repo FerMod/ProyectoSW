@@ -6,7 +6,13 @@ include("session_timeout.php");
 
 if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 	// What is doing here a logged user??
-	checkSessionTimeOut();
+	refreshSessionTimeout();
+	header("location: layout.php");
+}
+
+if(!isset($_SESSION['logged_user']) && empty($_SESSION['logged_teacher'])) {
+	// What is doing here a unlogged teacher??
+	refreshSessionTimeout();
 	header("location: layout.php");
 }
 
@@ -33,7 +39,7 @@ $config = include("config.php");
 	<header>
 
 		<?php
-		if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+		if((isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) || (isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher']))) {
 			echo '<span><a href="logout.php">Logout</a></span>';
 		} else {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
@@ -43,20 +49,34 @@ $config = include("config.php");
 		?>
 
 		<h2>Quiz: el juego de las preguntas</h2>
+		<?php
+			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+				echo '<label>¡Bienvenido alumno '.$_SESSION['logged_user'].'! </label>';
+			} else if(isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher'])) {
+				echo '<label>¡Bienvenido profesor '.$_SESSION['logged_teacher'].'! </label>';
+			}
+		?>
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
 			<?php 
-			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-				echo '<span><a href="layout.php">Inicio</a></span>';
-				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
-				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-				echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
-				echo '<span><a href="creditos.php">Creditos</a></span>';
-			} else {
-				echo '<span><a href="layout.php">Inicio</a></span>';
-				echo '<span><a href="creditos.php">Creditos</a></span>';
-			}
+				if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+					echo '<span><a href="layout.php">Inicio</a></span>';
+					echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
+					echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
+					echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
+					echo '<span><a href="creditos.php">Creditos</a></span>';
+				} else if(isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher'])) {
+					echo '<span><a href="layout.php">Inicio</a></span>';
+					echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
+					echo '<span><a href="RevisarPreguntas.php">Revisar preguntas</a></span>';
+					echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
+					echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
+					echo '<span><a href="creditos.php">Creditos</a></span>';
+				} else {
+					echo '<span><a href="layout.php">Inicio</a></span>';
+					echo '<span><a href="creditos.php">Creditos</a></span>';
+				}
 			?>
 		</nav>
 		<article class="content">
@@ -97,7 +117,7 @@ $config = include("config.php");
 			<div>
 			<fieldset>
 				<legend>Datos de la pregunta</legend>
-				<form>
+				<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">
 					<div>
 						<label for="id">Id pregunta:</label>
 						<input type="text" id="ided" name="ided" disabled/>
@@ -135,7 +155,7 @@ $config = include("config.php");
 						<input type="text" id="temaed" name="temaed" size="10" />
 					</div>
 					<div>
-						<input type="submit" value="Confirmar edición" onsubmit="updateQuestion()"/>
+						<input type="submit" value="Confirmar edición"/>
 					</div>
 				</form>
 			</fieldset>
@@ -179,24 +199,25 @@ $config = include("config.php");
 			$("#temaed").val(tema);
 		}
 
-		function updateQuestion() {
-			var xhr = new XMLHttpRequest();
-
-			xhr.open('POST','update_question.php', true);
-
-			xhr.send("emailed=" + $("#emailed").val() + "&" + "enunciadoed=" + $("#enunciadoed").val() + "&" +
-			 "respuestacorrectaed=" + $("#respuestacorrectaed").val() + "&" + "respuestaincorrecta1ed=" +
-			  $("#respuestaincorrecta1ed").val() + "&" + "respuestaincorrecta2ed=" + $("#respuestaincorrecta2ed").val() +
-			   "&" + "respuestaincorrecta3ed=" + $("#respuestaincorrecta3ed").val() + "&" +
-			   "complejidaded=" + $("#complejidaded").val() + "&" + "temaed=" + $("#temaed").val() + "&" + "ided=" + $("#ided").val(id));
-
-			xhr.onreadystatechange = function() {
-				if(xhr.readyState == 4 && xhr.status == 200)
- 					document.getElementById('respuesta').innerHTML = xhr.responseText;
+	$("#formRevPreguntas").on("submit", function(event) {
+			event.preventDefault();
+			var formDataR = new FormData(this);
+			$.ajax({
+			url: "upload_question.php",
+			method: "post",								// Type of request to be send, called as method
+			data: formDataR,								// Data sent to server, a set of key/value pairs (i.e. form fields and values)
+			contentType: false,							// The content type used when sending data to the server.
+			cache: false,								// To unable request pages to be cached
+			dataType: "html",
+			processData: false,							// To send DOMDocument or non processed data file it is set to false
+			success: function(result, status, xhr) {	// A function to be called if request succeeds
+				$("#respuesta").html(result.operationMessage);
+			}, error: function (xhr, status, error) {
+				console.log(xhr.statusText);
+				console.log(error);
 			}
-
-			return true;
-		}
+		});
+	});
 	</script>
 </body>
 </html>

@@ -10,7 +10,11 @@ if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 	header("location: layout.php");
 }
 
-$config = include("config.php");
+if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_teacher'])) {
+	// Another account? how many do you need??
+	refreshSessionTimeout();
+	header("location: layout.php");
+}
 
 ?>
 
@@ -31,6 +35,7 @@ $config = include("config.php");
 	<?php
 
 	function createUser() {		
+		$config = include("config.php");
 
 		// Create connection
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
@@ -49,10 +54,10 @@ $config = include("config.php");
 
 			if(isset($_POST['email']) && !empty($_POST['email'])) { 
 				$email = formatInput($_POST['email']) ?? '';
-				if(!isValidEmail($email)) {
+				/*if(!isValidEmail($email)) {
 					$dataCorrect = false;
 					$dataCheckMessage .= "<div class=\"serverMessage\">El formato del email no es correcto.<br>Debe cumplir el formato de la UPV/EHU.</div>";
-				}
+				}*/
 				if (existsEmail($email, $conn)) {
 					$dataCorrect = false;
 					$dataCheckMessage .= "<div class=\"serverErrorMessage\">Ya existe una cuenta con el email introducido.</div>";

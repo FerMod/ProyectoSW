@@ -37,7 +37,11 @@ if(isset($_POST['submit'])) {
 			$result = $connection->query("SELECT * FROM usuarios WHERE email='$email'");
 			$loggedSession = $result->fetch_assoc();
 			if(password_verify(hash("sha256", $password), $loggedSession['password']) && mysqli_num_rows($result) == 1) {
-				$_SESSION['logged_user'] = $email; // Initializing session
+				if($email != "web000@ehu.es") {
+					$_SESSION['logged_user'] = $email; // Initializing session
+				} else {
+					$_SESSION['logged_teacher'] = $email;
+				}
 			} else {
 				throw new RuntimeException("<div class=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");
 			}

@@ -5,7 +5,7 @@ include_once('login_session.php');
 include('session_timeout.php');
 include('ajaxRequestManager.php');
 
-if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user']) || !isset($_SESSION['logged_teacher']) || empty($_SESSION['logged_teacher'])) {
+if((!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) && (!isset($_SESSION['logged_teacher']) || empty($_SESSION['logged_teacher']))) {
 	header("location: layout.php");
 } else {
 	refreshSessionTimeout();

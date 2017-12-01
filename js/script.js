@@ -39,14 +39,12 @@ $(document).ready(function() {
 	});
 	*/
 
-	$("#registro").on("submit", function() {
+	$("#registro").on("submit", function(event) {
 
-		if(!$("#email").hasClass("validData")) {			
-			alert("(Debug alert)\nThe used is NOT VIP.\ndostuff");
+		if(!$("#email").get(0).checkValidity() || !$("#password").get(0).checkValidity()) {
 			return false;
 		}
 
-		alert("(Debug alert)\nThe user IS VIP.\ndostuff");
 		return true;
 
 	});
@@ -139,7 +137,7 @@ $(document).ready(function() {
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			contentType: false,							// The content type used when sending data to the server.
 			cache: false,								// To unable request pages to be cached
-			processData:false,							// To send DOMDocument or non processed data file it is set to false
+			processData: false,							// To send DOMDocument or non processed data file it is set to false
 			success: function(result, status, xhr) {	// A function to be called if request succeeds
 
 				$("#operationResult").html(result.operationMessage);
@@ -164,7 +162,7 @@ $(document).ready(function() {
 
 	function refreshStats() {
 
-		$.ajax({
+		var xhr = $.ajax({
 			url: "ajaxRequestManager.php",
 			data: {login: getUrlParameter("login"), action: "getQuestionsStats"},
 			method: "post",								// Type of request to be send, called as method
@@ -173,9 +171,9 @@ $(document).ready(function() {
 				refreshElementValue($("#preguntasUsuarios"), result.quizesUser);
 				refreshElementValue($("#preguntasTotales"), result.quizesTotal);
 			},
-			error: function (xhr, status, error) {
-				$("header").append(xhr.responseText);
+			error: function (xhr, status, error) {				
 				clearInterval(timer);
+				$("header").append(xhr.responseText);
 			}
 		});
 
@@ -229,17 +227,19 @@ $(document).ready(function() {
 		XMLHttpRequestObject.send(null);
 	}
 	
-	$("#email").on("change", function(event) {
+	/* $("#email").on("keyup", function(event) {
 		
 		if (!$("#email").val()) {
+			$("#email").get(0).validity = false;
 			$("#email").removeClass("validData").removeClass("invalidData");
 		} else {
 			$.ajax({
 				url: "ajaxRequestManager.php",
-				data: {"email": $(this).val().trim(), action: "isVIPUser"},
+				data: {"email": $("#email").val().trim(), action: "isVIPUser"},
 				method: "post",
 				dataType: "json",
 				success: function(result, status, xhr) {
+					$("#email").get(0).validity = result.isVip;
 					if(result.isVip) {
 						$("#email").removeClass("invalidData").addClass("validData");
 					} else {
@@ -252,33 +252,7 @@ $(document).ready(function() {
 			});
 		}
 
-	});
-	
-	$("#password").on("change", function(event) {
-		
-		if (!$("#password").val()) {
-			$("#password").removeClass("validData").removeClass("invalidData");
-		} else {
-			$.ajax({
-				url: "ajaxRequestManager.php",
-				data: {"password": $(this).val().trim(), action: "checkPassword"},
-				method: "post",
-				dataType: "json",
-				success: function(result, status, xhr) {
-					if(result.isSecure) {
-						$("#password").removeClass("invalidData").addClass("validData");
-					} else {
-						$("#password").removeClass("validData").addClass("invalidData");
-					}
-				},
-				error: function (xhr, status, error) {
-					$("header").append(xhr.responseText);
-				}
-			});
-		}
-
-	});
-
+	}); 
 
 	$("#password").on("keyup", function(event) {
 
@@ -286,37 +260,28 @@ $(document).ready(function() {
 		event.preventDefault();
 
 		$.ajax({
-			url : "files/toppasswords.txt",
-			success : function (result, status, xhr) {
-
+			url: "ajaxRequestManager.php",
+			data: {"password": $("#password").val(), action: "checkPassword"},
+			method: "post",
+			dataType: "json",
+			success: function(result, status, xhr) {
+				
 				var strength = -1;
 
-				if ($("#password").val()) {
-					// String.prototype.indexOf returns the position of the string in the other string. If not found, it will return -1
-					if(result.toLowerCase().indexOf($("#password").val().toLowerCase()) == -1) {					
-						$.ajax({
-							url: "ajaxRequestManager.php",
-							data: {"password": $(this).val(), action: "checkPassword"},
-							method: "post",
-							dataType: "json",
-							success: function(result, status, xhr) {
-								if(result.isValid) {
-									$("#password").removeClass("invalidData").addClass("validData");
-								} else {
-									$("#password").removeClass("validData").addClass("invalidData");									
-									$("#password").get(0).setCustomValidity("The password is very weak");
-								}
-							},
-							error: function (xhr, status, error) {
-								$("header").append(xhr.responseText);
-							}
-						});
+				if ($("#password").val()) {				
+					$("#password").get(0).validity =true// result.isValid;
+					if(result.isValid) {
+						$("#password").addClass("validData");
+						strength = getPasswordStrength($("#password").val());
 					} else {
 						strength = 0;
+						$("#password").removeClass();
+						$("#password").get(0).setCustomValidity("The password is very weak");
 					}
+				} else {					
+					$("#password").get(0).validity = false;
+					$("#password").get(0).setCustomValidity("The password field cannot be empty");
 				}
-
-				$("#password").removeClass();
 
 				switch (strength) {
 
@@ -338,17 +303,20 @@ $(document).ready(function() {
 
 					default: // password undefined (no password entered)
 					$("#password").removeClass();
-					// $("#password").addClass("inputDefaultStyle"); 
 					break;
 
 				}
-				
+				console.log("Validity: " + $("#password").get(0).validity);
 				console.log("Password strength: " + strength);
-				
+			},
+			error: function (xhr, status, error) {
+				$("header").append(xhr.responseText);
 			}
 		});
 
 	});
+
+	*/
 
 	function getPasswordStrength(password) {
 
@@ -391,4 +359,22 @@ $(document).ready(function() {
 		event.preventDefault();
 	});
 
+	var count = 1;
+	$(".sidebar").find("span").on("click", function(event) {
+		console.log(count);
+		if(count++ == 3) {
+			window.location.replace("https://www.youtube.com/embed/hHULSRCNPE0?rel=0&autoplay=1");
+		}
+	}).css("cursor", "pointer");
+
 });
+
+$(document).ajaxSuccess(function(event, request, settings, data) {
+	console.log(data);
+	if($.trim(data.sessionTimeout)) {
+		if(data.sessionTimeout) {
+			window.location.replace("layout.php");
+		}
+	}
+});
+

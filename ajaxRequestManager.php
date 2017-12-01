@@ -1,40 +1,54 @@
 <?php
 
+include_once('login_session.php');
+include_once('session_timeout.php');
+
+$config = include("config.php");
+
 if(isset($_POST['action']) && !empty($_POST['action'])) {
 	$action = $_POST['action'];
+	$ajaxResult = array();
 	switch($action) {
 		case 'uploadQuestion':
-		uploadQuestion();
+		$ajaxResult = uploadQuestion();
 		break;
 
 		case 'getOnlineUsers':
-		getOnlineUsers(); //TODO
+		$ajaxResult = getOnlineUsers(); //TODO
 		break;
 
 		case 'getQuestionsStats':
-		getQuestionsStats();
+		$ajaxResult = getQuestionsStats();
 		break;
 
 		case 'isVIPUser':
-		isVIPUser();
+		$ajaxResult = isVIPUser();
 		break;
 
 		case 'showQuestions':
-		showQuestions(); //TODO
+		$ajaxResult = showQuestions(); //TODO
 		break;
 		
 		case 'checkPassword':
-		checkPassword();
+		$ajaxResult = checkPassword();
 		break;
 	}
+
+	if($action != "getQuestionsStats" && $action != "getOnlineUsers") {
+		refreshSessionTimeout();
+	}
+
+	$ajaxResult["sessionTimeout"] = isSessionTimedout();
+
+	// Encode array to JSON format
+	echo json_encode($ajaxResult);
+
 }
 
 function uploadQuestion() {
 
-	include "config.php";
-
 	// Create connection
-	$conn = new mysqli($servername, $user, $pass, $database);
+	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
 	// Check connection
 	if ($conn->connect_error) {
@@ -216,11 +230,11 @@ function uploadQuestion() {
 			// Oh no! The query failed. 
 			$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha insertado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
 		} else {
-			$filePath = sprintf("%s%s", $xmlFolder, "preguntas.xml");
+			$filePath = sprintf("%s%s", $config["folders"]["xml"], "preguntas.xml");
 			insertElement($filePath, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
 			//$last_id = $conn->insert_id;
 			$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha insertado correctamente. 
-			<br>Para verla haga click <a href='VerPreguntasConFoto.php?login=".$_POST['login']."' target='_self'>aquí</a>. 
+			<br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>. 
 			<br><br>O si prefiere ver el archivo '.xml' generado haga click <a href='$filePath' target='_blank'>aquí</a>.</div>";
 		}
 
@@ -296,22 +310,22 @@ function getOnlineUsers() {
 }
 
 function getQuestionsStats() {
-	include "config.php";
+	
+	include("session.php");
 
-	$xml = new SimpleXMLElement($xmlFolder . "preguntas.xml", 0, true);
+	$xml = new SimpleXMLElement($config["folders"]["xml"] . "preguntas.xml", 0, true);
 	$preguntasTotal = count($xml->xpath("/assessmentItems/assessmentItem"));
-	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $_POST['login'] . "\"]"));
+	$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $loggedSession['email'] . "\"]"));
 	
 	// Create array with the operation information
-	$array = array(
+	return array(
 		"quizesTotal" => $preguntasTotal,
 		"quizesUser" => $preguntasUsuario
 	);
 	
-	// Encode array to JSON format
-	echo json_encode($array);
 }
 
+/*
 function isVIPUser() {
 
 	require_once("nusoap-0.9.5/src/nusoap.php");
@@ -322,28 +336,29 @@ function isVIPUser() {
 	$client->decode_utf8 = false;
 
 	// Call and consume service
-	$result = strtoupper($client->call("comprobar", $_POST["email"])) !== "NO" ? true : false;
+	$result = strtoupper($client->call("comprobar",  array("x"=>$_POST["email"]))) !== "NO" ? true : false;
 
-	$resultArray = array(
+	return array(
 		"isVip" => $result
 	);
 
-	echo json_encode($resultArray);
 }
+*/
 
 function checkPassword() {
 	
 	require_once('nusoap-0.9.5/src/nusoap.php');
-		
+
 	$soapclient = new nusoap_client('http://localhost/ProyectoSW/ComprobarContrasena.php?wsdl', true);
-		
-	$result = strtoupper($soapclient->call("checkPass", array('x'=>$_POST["password"]))) !== 'INVALIDA' ? true : false;
-		
-	$resultArray = array(
+
+	$result = strtoupper($soapclient->call("checkPass", array('password'=>$_POST["password"]))) !== 'INVALIDA' ? true : false;
+
+	return array(
 		"isValid" => $result
 	);
 
-	echo json_encode($resultArray);
 }
+
+
 
 ?>

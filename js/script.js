@@ -45,6 +45,7 @@ $(document).ready(function() {
 			return false;
 		}
 
+		refreshSessionTimeout();
 		return true;
 
 	});
@@ -83,12 +84,16 @@ $(document).ready(function() {
 
 		}
 
+		refreshSessionTimeout();
+
 	});
 
 	$("#quitarImagen").on("click", function() {
 
 		$("#imagen").val("");
 		$("#imagen").trigger("change");
+
+		refreshSessionTimeout();
 
 	});
 
@@ -112,17 +117,20 @@ $(document).ready(function() {
 	$(".close").on("click", function(event) { 
 		event.stopPropagation();
 		$("#modalElement").css("display", "none");
+		refreshSessionTimeout();
 	});
 
 	// When the user clicks away, close the modal
 	$("#modalElement").on("click", function(event) {
 		$(this).css("display", "none");
+		refreshSessionTimeout();
 	});
 
 	$(".modalImage").on("click", function() {
 		$("#modalElement").css("display", "block");
 		$("#img01").attr("src", $(this).attr("src"));
 		$("#caption").html($(".modalImage").attr("alt"));
+		refreshSessionTimeout();
 	});
 
 	$("#formGestionPreguntas").on("submit", function(event) {
@@ -148,6 +156,7 @@ $(document).ready(function() {
 				}
 			},
 			error: function (xhr, status, error) {
+				//$("header").append(xhr.responseText);
 				console.log(xhr.statusText);
 				console.log(error);
 			}
@@ -164,7 +173,7 @@ $(document).ready(function() {
 
 		var xhr = $.ajax({
 			url: "ajaxRequestManager.php",
-			data: {login: getUrlParameter("login"), action: "getQuestionsStats"},
+			data: {action: "getQuestionsStats"},
 			method: "post",								// Type of request to be send, called as method
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			success: function(result, status, xhr) {	
@@ -173,7 +182,7 @@ $(document).ready(function() {
 			},
 			error: function (xhr, status, error) {				
 				clearInterval(timer);
-				$("header").append(xhr.responseText);
+				//$("header").append(xhr.responseText);
 			}
 		});
 
@@ -247,7 +256,7 @@ $(document).ready(function() {
 					}
 				},
 				error: function (xhr, status, error) {
-					$("header").append(xhr.responseText);
+					//$("header").append(xhr.responseText);
 				}
 			});
 		}
@@ -310,7 +319,7 @@ $(document).ready(function() {
 				console.log("Password strength: " + strength);
 			},
 			error: function (xhr, status, error) {
-				$("header").append(xhr.responseText);
+				//$("header").append(xhr.responseText);
 			}
 		});
 
@@ -362,16 +371,24 @@ $(document).ready(function() {
 	$(".sidebar").find("span").on("click", function(event) {
 		console.log(count);
 		if(count++ == 3) {
-			window.location.replace("https://www.youtube.com/embed/hHULSRCNPE0?rel=0&autoplay=1");
+			window.location.replace("https://goo.gl/NHLufA");
 		}
 	}).css("cursor", "pointer");
 
 });
 
+function refreshSessionTimeout() {
+	$.ajax({
+		url: "ajaxRequestManager.php",
+		method: "post"
+	});
+}
+
 $(document).ajaxSuccess(function(event, request, settings, data) {
 	console.log(data);
 	if($.trim(data.sessionTimeout)) {
 		if(data.sessionTimeout) {
+			xhr.abort();
 			window.location.replace("layout.php");
 		}
 	}

@@ -16,8 +16,12 @@ function refreshSessionTimeout() {
 	if (!isset($_SESSION['creation_time'])) {
 		$_SESSION['creation_time'] = time();
 	} else if (time() - $_SESSION['creation_time'] > $config["session"]["timeout"]) {
-		// session started more than the 'timeout' time ago
-		session_regenerate_id(true); // change session ID for the current session and invalidate old session ID
+		// session started more than the 'timeout' time ago		
+		if (!headers_sent()) {
+			session_regenerate_id(true);// change session ID for the current session and invalidate old session ID
+		} else {
+			@session_regenerate_id(true);
+		}
 		$_SESSION['creation_time'] = time(); // update creation time
 	}
 

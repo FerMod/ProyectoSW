@@ -4,14 +4,8 @@
 include_once('login_session.php'); // Includes login script
 include_once('session_timeout.php');
 
-if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-	// Another account? how many do you need??
-	refreshSessionTimeout();
-	header("location: layout.php");
-}
-
-if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_teacher'])) {
-	// Another account? how many do you need??
+if(!isset($_SESSION['logged_teacher']) && empty($_SESSION['logged_teacher']) && isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+	// What is doing here a unlogged teacher??
 	refreshSessionTimeout();
 	header("location: layout.php");
 }

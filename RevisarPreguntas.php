@@ -4,13 +4,7 @@
 include_once('login_session.php'); // Includes login script
 include("session_timeout.php");
 
-if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-	// What is doing here a logged user??
-	refreshSessionTimeout();
-	header("location: layout.php");
-}
-
-if(!isset($_SESSION['logged_user']) && empty($_SESSION['logged_teacher'])) {
+if(!isset($_SESSION['logged_teacher']) && empty($_SESSION['logged_teacher']) && isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 	// What is doing here a unlogged teacher??
 	refreshSessionTimeout();
 	header("location: layout.php");
@@ -27,7 +21,7 @@ $config = include("config.php");
 	
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
-	<title>Preguntas - Login</title>
+	<title>Preguntas - Revisar preguntas</title>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 	<script src="js/script.js"></script>	
@@ -201,7 +195,7 @@ $config = include("config.php");
 
 	$("#formRevPreguntas").on("submit", function(event) {
 			event.preventDefault();
-			var formDataR = new FormData(this);
+			//var formDataR = new FormData(this);
 
 			var r = "ided=" + $("#ided").val() + 
 					"emailed=" + $("#emailed").val() +

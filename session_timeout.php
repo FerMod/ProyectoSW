@@ -2,8 +2,6 @@
 
 $config = include("config.php");
 
-// if (!function_exists('refreshSessionTimeout')) {
-
 @ChromePhp::log(session_id());
 @ChromePhp::log("Session timeout countdown: " . ($_SESSION['expires'] - time()));
 @ChromePhp::log("Session id regenerate countdown: " . ($_SESSION['ID_expires'] - time()));
@@ -19,7 +17,7 @@ function refreshSessionTimeout() {
 		session_unset();
 		session_destroy();
 	} else {
-		$_SESSION['expires'] = time() + $config["session"]["timeout"]; // update last activity time stamp
+		$_SESSION['expires'] = time() + $config["session"]["expiration_time"]; // update last activity time stamp
 	}
 
 }
@@ -29,10 +27,10 @@ function checkSessionId($delete_old_session = false) {
 	global $config;
 
 	if (!isset($_SESSION['ID_expires'])) {
-		$_SESSION['ID_expires'] = time() + $config["session"]["timeout"];
+		$_SESSION['ID_expires'] = time() + $config["session"]["id_expiration_time"];
 	} else if ($_SESSION['ID_expires'] < time()) {
-		regenerateSession($_SESSION['obsolete']);
-		$_SESSION['ID_expires'] = time() + $config["session"]["timeout"]; // update creation time
+		regenerateSession();
+		$_SESSION['ID_expires'] = time() + $config["session"]["id_expiration_time"]; // update creation time
 	}
 
 }
@@ -58,7 +56,7 @@ function regenerateSession($reload = false) {
 
     // Set current session to expire in the time specified in the config file
 	$_SESSION['obsolete'] = true;
-	$_SESSION['expires'] = time() + $config["session"]["timeout"];
+	$_SESSION['expires'] = time() + $config["session"]["expiration_time"];
 
     // Create new session without destroying the old one
 	session_regenerate_id(false);

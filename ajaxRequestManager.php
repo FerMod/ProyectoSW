@@ -31,7 +31,7 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		$ajaxResult = checkPassword();
 		break;
 
-		case 'editPassword':
+		case 'editQuestion':
 		$ajaxResult = editQuestion();
 		break;
 	}

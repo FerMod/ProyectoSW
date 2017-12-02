@@ -325,7 +325,6 @@ $(document).ready(function() {
 
 	});
 
-
 	function getPasswordStrength(password) {
 
 		var strength = 0;

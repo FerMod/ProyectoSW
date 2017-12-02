@@ -1,7 +1,5 @@
 <?php
 
-include('DebugTools/ChromePhp.php');
-
 $config = include("config.php");
 
 // if (!function_exists('refreshSessionTimeout')) {

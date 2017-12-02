@@ -164,6 +164,28 @@ $(document).ready(function() {
 
 	});
 	
+	$("#formRevPreguntas").on("submit", function(event) {
+		event.preventDefault();
+			
+		var formDataR = new FormData(this);
+		formDataR.append("action", "editQuestion");
+		$.ajax({
+			url: "ajaxRequestManager.php",
+			method: "post",								// Type of request to be send, called as method
+			data: formDataR,								// Data sent to server, a set of key/value pairs (i.e. form fields and values)
+			contentType: false,							// The content type used when sending data to the server.
+			cache: false,								// To unable request pages to be cached
+			dataType: "json",
+			processData: false,							// To send DOMDocument or non processed data file it is set to false
+			success: function(result, status, xhr) {	// A function to be called if request succeeds
+				$("#respuesta").html(result.operationMessage);
+			}, error: function (xhr, status, error) {
+				console.log(xhr.statusText);
+				console.log(error);
+			}
+		});
+	});
+
 	if($("#preguntasUsuarios").length && $("#preguntasTotales").length) {
 		refreshStats(); // Execute the function
 		var timer = setInterval(refreshStats, 20000);

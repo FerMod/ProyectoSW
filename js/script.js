@@ -156,7 +156,6 @@ $(document).ready(function() {
 				}
 			},
 			error: function (xhr, status, error) {
-				//$("header").append(xhr.responseText);
 				console.log(xhr.statusText);
 				console.log(error);
 			}
@@ -204,7 +203,7 @@ $(document).ready(function() {
 			},
 			error: function (xhr, status, error) {				
 				clearInterval(timer);
-				//$("header").append(xhr.responseText);
+				console.log(xhr.responseText);
 			}
 		});
 
@@ -278,7 +277,7 @@ $(document).ready(function() {
 					}
 				},
 				error: function (xhr, status, error) {
-					//$("header").append(xhr.responseText);
+					console.log(xhr.responseText);
 				}
 			});
 		}
@@ -341,7 +340,7 @@ $(document).ready(function() {
 				console.log("Password strength: " + strength);
 			},
 			error: function (xhr, status, error) {
-				//$("header").append(xhr.responseText);
+				console.log(xhr.responseText);
 			}
 		});
 
@@ -409,7 +408,6 @@ $(document).ajaxSuccess(function(event, request, settings, data) {
 	console.log(data);
 	if($.trim(data.sessionTimeout)) {
 		if(data.sessionTimeout) {
-			xhr.abort();
 			window.location.replace("layout.php");
 		}
 	}

@@ -2,9 +2,12 @@
 <?php
 include_once('login_session.php'); // Includes login script
 include('session_timeout.php');
-refreshSessionTimeout();
 
-$config = include("config.php");
+if((isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) || (isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher']))) {
+	refreshSessionTimeout();
+}
+
+//$config = include("config.php");
 ?>
 
 <!DOCTYPE html>

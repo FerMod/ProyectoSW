@@ -336,7 +336,6 @@ function getQuestionsStats() {
 	
 }
 
-/*
 function isVIPUser() {
 
 	require_once("nusoap-0.9.5/src/nusoap.php");
@@ -354,7 +353,6 @@ function isVIPUser() {
 	);
 
 }
-*/
 
 function checkPassword() {
 	

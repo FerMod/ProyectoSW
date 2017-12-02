@@ -31,6 +31,9 @@ $config = include("config.php");
 	<!-- In case to use sessions, coment the code below -->
 	<?php 
 	function logIn() {
+
+		global $config;
+		
 		// Create connection
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 

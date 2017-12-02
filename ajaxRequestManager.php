@@ -3,6 +3,8 @@
 include_once('login_session.php');
 include_once('session_timeout.php');
 
+$config = include("config.php");
+
 if(isset($_POST['action']) && !empty($_POST['action'])) {
 	$action = $_POST['action'];
 	$ajaxResult = array();
@@ -45,7 +47,7 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 
 function uploadQuestion() {
 
-	$config = include("config.php");
+	global $config;
 
 	// Create connection
 	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);

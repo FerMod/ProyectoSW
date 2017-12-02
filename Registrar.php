@@ -10,6 +10,8 @@ if(!isset($_SESSION['logged_teacher']) && empty($_SESSION['logged_teacher']) && 
 	header("location: layout.php");
 }
 
+$config = include("config.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -28,8 +30,9 @@ if(!isset($_SESSION['logged_teacher']) && empty($_SESSION['logged_teacher']) && 
 
 	<?php
 
-	function createUser() {		
-		$config = include("config.php");
+	function createUser() {	
+		
+		global $config;
 
 		// Create connection
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);

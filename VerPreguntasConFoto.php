@@ -10,6 +10,8 @@ if((!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) && (!is
 	refreshSessionTimeout();
 }
 
+$config = include("config.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -31,8 +33,7 @@ if((!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) && (!is
 
 	function createQuestionTable() {
 
-		
-		$config = include("config.php");
+		global $config;
 
 		// Create connection
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);

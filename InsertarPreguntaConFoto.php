@@ -33,6 +33,8 @@ $config = include("config.php");
 
 	function uploadQuestion() {
 
+		global $config;
+
 		// Create connection
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 

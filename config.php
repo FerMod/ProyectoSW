@@ -1,7 +1,5 @@
 <?php
 
-$local = true;
-
 // Parse .ini file with sections
 $iniConfig = parse_ini_file("config.ini", true);
 // print_r($iniConfig);

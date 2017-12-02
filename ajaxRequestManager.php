@@ -39,10 +39,10 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 	}
 
 	if($action != "getQuestionsStats" && $action != "getOnlineUsers") {
-		refreshSessionTimeout();
+		checkSession();
 	}
 
-	$ajaxResult["sessionTimeout"] = isSessionTimedout();
+	$ajaxResult["sessionTimeout"] = $_SESSION['obsolete'];
 
 	// Encode array to JSON format
 	echo json_encode($ajaxResult);
@@ -318,7 +318,7 @@ function getOnlineUsers() {
 
 function getQuestionsStats() {
 
-	if(!isSessionTimedout()) {
+	if(!$_SESSION['obsolete']) {
 
 		include("session.php");
 

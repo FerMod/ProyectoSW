@@ -34,8 +34,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 		A versatile text editor implemented in JavaScript for the browser.
 		It is specialized for editing code, and comes with a number of language modes and addons that
 		implement more advanced editing functionality.
-	-->
-	
+	-->	
 	<script src="https://codemirror.net/lib/codemirror.js"></script>
 	<link rel="stylesheet" href="https://codemirror.net/lib/codemirror.css">
 	<script src="https://codemirror.net/mode/xml/xml.js"></script>
@@ -144,8 +143,6 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 					</div>
 					<div>
 						<input type="submit" id="enviarPregunta" name="enviarPregunta" value="Enviar pregunta"/>
-						<!-- Comment the hidden input field when using sessions -->
-						<!-- <input type="hidden" id="login" name="login" value="<?php echo $_GET['login'];?>"/> -->
 					</div>
 				</fieldset>
 			</form>

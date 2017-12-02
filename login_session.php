@@ -2,11 +2,10 @@
 
 $config = include("config.php");
 
-ini_set("session.cookie_lifetime", $config["session"]["timeout"]);
-ini_set("session.gc_maxlifetime", $config["session"]["timeout"]);
+// ini_set("session.cookie_lifetime", $config["session"]["timeout"]);
+// ini_set("session.gc_maxlifetime", $config["session"]["timeout"]);
 
 // Adapted from the following source: https://www.formget.com/login-form-in-php/
-session_id();
 session_start(); // Starting Session
 
 $errorMessage=""; // Variable To Store Error Message
@@ -39,9 +38,14 @@ if(isset($_POST['submit'])) {
 			$loggedSession = $result->fetch_assoc();
 			if(password_verify(hash("sha256", $password), $loggedSession['password']) && mysqli_num_rows($result) == 1) {
 
-				$_SESSION['logged_user'] = $email; // Initializing session
-				
+				$_SESSION['logged_user'] = $email; // Initializing session				
 				$_SESSION['user_type'] = ($email != "web000@ehu.es") ? 'student' : 'teacher';
+
+				$_SESSION['obsolete'] = false;
+				$_SESSION['expires'] = time() + $config["session"]["timeout"];
+				$_SESSION['ID_expires'] = time() + $config["session"]["timeout"];
+				$_SESSION['IPaddress'] = $_SERVER['REMOTE_ADDR'];
+				$_SESSION['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
 
 			} else {
 				throw new RuntimeException("<div class=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");

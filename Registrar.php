@@ -4,8 +4,8 @@
 include_once('login_session.php'); // Includes login script
 include_once('session_timeout.php');
 
-if(!isset($_SESSION['logged_teacher']) && empty($_SESSION['logged_teacher']) && isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-	// What is doing here a unlogged teacher??
+if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+	// What is doing here a logged user??
 	refreshSessionTimeout();
 	header("location: layout.php");
 }

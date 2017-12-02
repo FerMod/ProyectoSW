@@ -4,7 +4,8 @@
 include_once('login_session.php'); // Includes login script
 include('session_timeout.php');
 
-if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
+if(!isset($_SESSION['logged_user']) && empty($_SESSION['logged_user'])) {
+	// What is doing here a unlogged user??	
 	header("location: layout.php");
 } else {
 	refreshSessionTimeout();
@@ -19,6 +20,7 @@ if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 	
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
+
 	<title>Preguntas - Quizes</title>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
@@ -42,21 +44,30 @@ if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 		?>
 
 		<h2>Quiz: el juego de las preguntas</h2>
+
+		<?php
+		if((isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) && (isset($_SESSION['user_type']) && !empty($_SESSION['user_type']))) {		
+
+			$userType = '';
+			switch ($_SESSION['user_type']) {
+				case 'teacher':
+				$userType = 'profesor';
+				break;
+
+				case 'student':
+				$userType = 'alumno';
+				break;
+			}
+
+			echo '<span>¡Bienvenido ' . $userType . ' "' . $_SESSION['logged_user'] . '"! </span>';
+
+		}
+		?>
+
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
-			<?php 
-			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-				echo '<span><a href="layout.php">Inicio</a></span>';
-				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
-				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-				echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
-				echo '<span><a href="creditos.php">Creditos</a></span>';
-			} else {
-				echo '<span><a href="layout.php">Inicio</a></span>';
-				echo '<span><a href="creditos.php">Creditos</a></span>';
-			}
-			?>
+			<?php include('navbar_items.php'); ?>
 		</nav>
 		<article class="content">
 

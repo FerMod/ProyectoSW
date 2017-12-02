@@ -4,8 +4,8 @@
 include_once('login_session.php'); // Includes login script
 include('session_timeout.php');
 
-if(!isset($_SESSION['logged_teacher']) && empty($_SESSION['logged_teacher']) && isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-	// What is doing here a unlogged teacher??
+if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+	// What is doing here a logged user??
 	refreshSessionTimeout();
 	header("location: layout.php");
 }
@@ -125,12 +125,16 @@ $config = include("config.php");
 
 					<div>
 						<label>Email</label>
-						<input type="text" name="email" autofocus/>
+						<!-- <input type="text" name="email" autofocus/>
+						<input type="text" name="email" autofocus value="admin"/> -->
+						<input type="text" name="email" autofocus value="web000@ehu.es"/>
 					</div>
 
 					<div>
 						<label>Contraseña</label>
-						<input type="password" name="password"/>
+						<!-- <input type="password" name="password"/>
+						<input type="password" name="password" autofocus value="admin"/> -->
+						<input type="password" name="password" autofocus value="web000"/>
 					</div>
 
 					<div>

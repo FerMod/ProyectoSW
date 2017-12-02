@@ -5,7 +5,7 @@ include_once('login_session.php');
 include('session_timeout.php');
 include('ajaxRequestManager.php');
 
-if((!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) && (!isset($_SESSION['logged_teacher']) || empty($_SESSION['logged_teacher']))) {
+if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user'])) {
 	header("location: layout.php");
 } else {
 	refreshSessionTimeout();
@@ -46,7 +46,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 	<header>
 
 		<?php
-			if((isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) || (isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher']))) {
+			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 				echo '<span><a href="logout.php">Logout</a></span>';
 			} else {
 				echo '<span><a href="Registrar.php">Registrarse</a></span>';
@@ -57,34 +57,27 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 
 		<h2>Quiz: el juego de las preguntas</h2>
 		<?php
-			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-				echo '<label>¡Bienvenido alumno '.$_SESSION['logged_user'].'! </label>';
-			} else if(isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher'])) {
-				echo '<label>¡Bienvenido profesor '.$_SESSION['logged_teacher'].'! </label>';
+		if((isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) && (isset($_SESSION['user_type']) && !empty($_SESSION['user_type']))) {		
+
+			$userType = '';
+			switch ($_SESSION['user_type']) {
+				case 'teacher':
+				$userType = 'profesor';
+				break;
+
+				case 'student':
+				$userType = 'alumno';
+				break;
 			}
+
+			echo '<span>¡Bienvenido ' . $userType . ' "' . $_SESSION['logged_user'] . '"! </span>';
+
+		}
 		?>
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
-			<?php 
-				if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-					echo '<span><a href="layout.php">Inicio</a></span>';
-					echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
-					echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-					echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
-					echo '<span><a href="creditos.php">Creditos</a></span>';
-				} else if(isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher'])) {
-					echo '<span><a href="layout.php">Inicio</a></span>';
-					echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
-					echo '<span><a href="RevisarPreguntas.php">Revisar preguntas</a></span>';
-					echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-					echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
-					echo '<span><a href="creditos.php">Creditos</a></span>';
-				} else {
-					echo '<span><a href="layout.php">Inicio</a></span>';
-					echo '<span><a href="creditos.php">Creditos</a></span>';
-				}
-			?>
+			<?php include('navbar_items.php'); ?>
 		</nav>
 		<article class="content">
 			<div id="questionStats" style="margin: 5px; padding: 15px 5px 15px; border-left: 6px solid grey; border-radius: 5px; background-color: lightgrey;">				

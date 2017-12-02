@@ -6,6 +6,7 @@ ini_set("session.cookie_lifetime", $config["session"]["timeout"]);
 ini_set("session.gc_maxlifetime", $config["session"]["timeout"]);
 
 // Adapted from the following source: https://www.formget.com/login-form-in-php/
+session_id();
 session_start(); // Starting Session
 
 $errorMessage=""; // Variable To Store Error Message

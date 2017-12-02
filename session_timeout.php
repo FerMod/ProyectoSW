@@ -14,13 +14,13 @@ function refreshSessionTimeout() {
 
 	refreshSessionCreationTime();
 
+	ChromePhp::table($_SESSION);
+
 }
 
 // }
 
 function isSessionTimedout() {
-
-	ChromePhp::log($_SESSION);
 
 	global $config;
 

@@ -2,8 +2,8 @@
 
 $config = include("config.php");
 
-// ini_set("session.cookie_lifetime", $config["session"]["timeout"]);
-// ini_set("session.gc_maxlifetime", $config["session"]["timeout"]);
+ini_set("session.cookie_lifetime", $config["session"]["expiration_time"]);
+ini_set("session.gc_maxlifetime", $config["session"]["expiration_time"]);
 
 // Adapted from the following source: https://www.formget.com/login-form-in-php/
 session_start(); // Starting Session

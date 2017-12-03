@@ -1,7 +1,7 @@
 <?php
 
 include_once('login_session.php');
-include('session_timeout.php');
+include_once('session_timeout.php');
 
 $config = include("config.php");
 
@@ -14,42 +14,44 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		break;
 
 		case 'getOnlineUsers':
-$ajaxResult = getOnlineUsers(); //TODO
-break;
+		$ajaxResult = getOnlineUsers(); //TODO
+		break;
 
-case 'getQuestionsStats':
-$ajaxResult = getQuestionsStats();
-break;
+		case 'getQuestionsStats':
+		$ajaxResult = getQuestionsStats();
+		break;
 
-case 'isVIPUser':
-$ajaxResult = isVIPUser();
-break;
+		case 'isVIPUser':
+		$ajaxResult = isVIPUser();
+		break;
 
-case 'showQuestions':
-$ajaxResult = showQuestions(); //TODO
-break;
+		case 'showQuestions':
+		$ajaxResult = showQuestions(); //TODO
+		break;
 
-case 'checkPassword':
-$ajaxResult = checkPassword();
-break;
+		case 'checkPassword':
+		$ajaxResult = checkPassword();
+		break;
 
-case 'editQuestion':
-$ajaxResult = editQuestion();
-break;
+		case 'editQuestion':
+		$ajaxResult = editQuestion();
+		break;
 
-case 'getQuestions':
-$ajaxResult = getQuestions();
-break;
-}
+		case 'getQuestions':
+		$ajaxResult = getQuestions();
+		break;
+	}
 
-if($action != "getQuestionsStats" && $action != "getOnlineUsers") {
-	checkSession();
-}
+	if($action == "getQuestionsStats" || $action == "getOnlineUsers") {
+		isValidSession();
+	} else {
+		refreshSessionTimeout();
+	}
 
-$ajaxResult["sessionTimeout"] = $_SESSION['obsolete'];
+	$ajaxResult["sessionTimeout"] = $_SESSION['obsolete'];
 
-// Encode array to JSON format
-echo json_encode($ajaxResult);
+	// Encode array to JSON format
+	echo json_encode($ajaxResult);
 
 }
 
@@ -330,7 +332,7 @@ function getQuestionsStats() {
 		$preguntasTotal = count($xml->xpath("/assessmentItems/assessmentItem"));
 		$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $loggedSession['email'] . "\"]"));
 
-// Create array with the operation information
+		// Create array with the operation information
 		return array(
 			"quizesTotal" => $preguntasTotal,
 			"quizesUser" => $preguntasUsuario
@@ -344,12 +346,12 @@ function isVIPUser() {
 
 	require_once("nusoap-0.9.5/src/nusoap.php");
 
-// Create new NuSoap client. First parameter is the wsdl url and the second parameter is to confirm that is a wsdl url
+	// Create new NuSoap client. First parameter is the wsdl url and the second parameter is to confirm that is a wsdl url
 	$client = new nusoap_client("http://ehusw.es/jav/ServiciosWeb/comprobarmatricula.php?wsdl", true);
 	$client->soap_defencoding = "UTF-8";
 	$client->decode_utf8 = false;
 
-// Call and consume service
+	// Call and consume service
 	$result = strtoupper($client->call("comprobar",  array("x"=>$_POST["email"]))) !== "NO" ? true : false;
 
 	return array(
@@ -376,10 +378,10 @@ function editQuestion() {
 
 	global $config;
 
-// Create connection
+	// Create connection
 	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
-// Check connection
+	// Check connection
 	if ($conn->connect_error) {
 		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
 	}
@@ -427,103 +429,101 @@ function editQuestion() {
 		$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Respuesta incorrecta 3\" no puede ser vacio.</div>";
 	}
 
-/*
-* In the next variable, will be checked differently because of the following reasons:
-*
-* (http://php.net/empty)
-* The following things are considered to be empty:
-*
-* "" (an empty string)
-* 0 (0 as an integer)
-* 0.0 (0 as a float)
-* "0" (0 as a string)
-* NULL
-* FALSE
-* array() (an empty array)
-* $var; (a variable declared, but without a value)
-*
-*/
-if(isset($_POST['complejidaded']) && !empty($_POST['complejidaded']) || $_POST['complejidaded'] != 0) { 
-	$complejidad = formatInput($_POST['complejidaded']) ?? '';
-	if(!is_numeric($complejidad)) {
-		$uploadOk = false;
-		$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe ser un número.</div>";
-	} else if($complejidad < 1 || $complejidad > 5){
-		$uploadOk = false;
-		$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe estar entre el 1 y el 5, ambos inclusive.</div>";
-	}
-} else {
-	$uploadOk = false;
-	$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Complejidad\" no puede ser vacio.</div>";
-}
-
-
-if(isset($_POST['tema']) && !empty($_POST['tema'])) { 
-	$tema = formatInput($_POST['tema']) ?? '';
-} else {
-	$uploadOk = false;
-	$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Tema\" no puede ser vacio.</div>";
-}
-
-// Check if everything is ok
-if (!$uploadOk) {
-	throw new RuntimeException($dataCheckMessage);
-}
-
-if($uploadOk) {
-	$sql = "UPDATE preguntas
-	SET enunciado = '$enunciado', respuesta_correcta = '$respuestaCorrecta', respuesta_incorrecta_1 = '$respuestaIncorrecta1', respuesta_incorrecta_2 = '$respuestaIncorrecta2', respuesta_incorrecta_3 = '$respuestaIncorrecta3', complejidad = '$complejidad', tema = '$tema' 
-	WHERE email = '$email' AND id = '$id'";
-
-	if (!$result = $conn->query($sql)) {
-// Oh no! The query failed. 
-		$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha actualizado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
+	/*
+	* In the next variable, will be checked differently because of the following reasons:
+	*
+	* (http://php.net/empty)
+	* The following things are considered to be empty:
+	*
+	* "" (an empty string)
+	* 0 (0 as an integer)
+	* 0.0 (0 as a float)
+	* "0" (0 as a string)
+	* NULL
+	* FALSE
+	* array() (an empty array)
+	* $var; (a variable declared, but without a value)
+	*
+	*/
+	if(isset($_POST['complejidaded']) && !empty($_POST['complejidaded']) || $_POST['complejidaded'] != 0) { 
+		$complejidad = formatInput($_POST['complejidaded']) ?? '';
+		if(!is_numeric($complejidad)) {
+			$uploadOk = false;
+			$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe ser un número.</div>";
+		} else if($complejidad < 1 || $complejidad > 5){
+			$uploadOk = false;
+			$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe estar entre el 1 y el 5, ambos inclusive.</div>";
+		}
 	} else {
-		$preguntas = simplexml_load_file('xml/preguntas.xml');
+		$uploadOk = false;
+		$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Complejidad\" no puede ser vacio.</div>";
+	}
 
-		foreach ($preguntas->assessmentItem as $pregunta) {
-			if($id == $pregunta['id']) {
-				$pregunta['complexity'] = $complejidad;
-				$pregunta['subject'] = $tema;
-				$pregunta->itemBody->p = $enunciado;
-				$pregunta->correctResponse->value = $respuestaCorrecta;
-				$incorrect = $pregunta->incorrectResponses;
-				$j = 1;
-				$incorrect->value[0] = $respuestaIncorrecta1;
-				$incorrect->value[1] = $respuestaIncorrecta2;
-				$incorrect->value[2] = $respuestaIncorrecta3;
-				break;
+
+	if(isset($_POST['tema']) && !empty($_POST['tema'])) { 
+		$tema = formatInput($_POST['tema']) ?? '';
+	} else {
+		$uploadOk = false;
+		$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Tema\" no puede ser vacio.</div>";
+	}
+
+	// Check if everything is ok
+	if (!$uploadOk) {
+		throw new RuntimeException($dataCheckMessage);
+	}
+
+	if($uploadOk) {
+		$sql = "UPDATE preguntas
+		SET enunciado = '$enunciado', respuesta_correcta = '$respuestaCorrecta', respuesta_incorrecta_1 = '$respuestaIncorrecta1', respuesta_incorrecta_2 = '$respuestaIncorrecta2', respuesta_incorrecta_3 = '$respuestaIncorrecta3', complejidad = '$complejidad', tema = '$tema' 
+		WHERE email = '$email' AND id = '$id'";
+
+		if (!$result = $conn->query($sql)) {
+	// Oh no! The query failed. 
+			$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha actualizado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
+		} else {
+			$preguntas = simplexml_load_file('xml/preguntas.xml');
+
+			foreach ($preguntas->assessmentItem as $pregunta) {
+				if($id == $pregunta['id']) {
+					$pregunta['complexity'] = $complejidad;
+					$pregunta['subject'] = $tema;
+					$pregunta->itemBody->p = $enunciado;
+					$pregunta->correctResponse->value = $respuestaCorrecta;
+					$incorrect = $pregunta->incorrectResponses;
+					$j = 1;
+					$incorrect->value[0] = $respuestaIncorrecta1;
+					$incorrect->value[1] = $respuestaIncorrecta2;
+					$incorrect->value[2] = $respuestaIncorrecta3;
+					break;
+				}
 			}
+
+			$preguntas->asXML('xml/preguntas.xml');
+			$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha actualizado correctamente.</div>";
+			$operationMessage .=
+			'<script>
+			$("#'.$id.'comp").html("Complejidad: '.$complejidad.' | Tema: '.$tema.' | Autor: '.$email.'");
+			$("#'.$id.'preg").html("Enunciado: '.$enunciado.'");
+			$("#'.$id.'cor").html("+Respuesta correcta: '.$respuestaCorrecta.'");
+			$("#'.$id.'incor1").html("-Respuesta incorrecta 1: '.$respuestaIncorrecta1.'");
+			$("#'.$id.'incor2").html("-Respuesta incorrecta 2: '.$respuestaIncorrecta2.'");
+			$("#'.$id.'incor3").html("-Respuesta incorrecta 3: '.$respuestaIncorrecta3.'");
+			</script>';
 		}
 
-		$preguntas->asXML('xml/preguntas.xml');
-		$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha actualizado correctamente.</div>";
-		$operationMessage .=
-		'<script>
-		$("#'.$id.'comp").html("Complejidad: '.$complejidad.' | Tema: '.$tema.' | Autor: '.$email.'");
-		$("#'.$id.'preg").html("Enunciado: '.$enunciado.'");
-		$("#'.$id.'cor").html("+Respuesta correcta: '.$respuestaCorrecta.'");
-		$("#'.$id.'incor1").html("-Respuesta incorrecta 1: '.$respuestaIncorrecta1.'");
-		$("#'.$id.'incor2").html("-Respuesta incorrecta 2: '.$respuestaIncorrecta2.'");
-		$("#'.$id.'incor3").html("-Respuesta incorrecta 3: '.$respuestaIncorrecta3.'");
-		</script>';
+	} else {
+		$operationMessage .= "<br>Revise los datos introducidos e inténtelo de nuevo.";
 	}
 
-} else {
-	$operationMessage .= "<br>Revise los datos introducidos e inténtelo de nuevo.";
-}
+	// Close connection
+	$conn->close();
 
-// Close connection
-$conn->close();
+	// Create array with the operation information
+	return $array = array(
+		"operationSuccess" => $uploadOk,
+		"operationMessage" => $operationMessage
+	);
 
-// Create array with the operation information
-$array = array(
-	"operationSuccess" => $uploadOk,
-	"operationMessage" => $operationMessage
-);
-
-// Encode array to JSON format
-return $array;
 }
 
 function getQuestions() {
@@ -552,7 +552,7 @@ function getQuestions() {
 
 			$queryArray = array();
 			while ($row = $result->fetch_assoc()) {
-				 $queryArray[$row["id"]] = $row;
+				$queryArray[$row["id"]] = $row;
 			}
 
 			$array = array(

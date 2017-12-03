@@ -1,9 +1,9 @@
 
 <?php
 include_once('login_session.php'); // Includes login script
-include('session_timeout.php');
+include_once('session_timeout.php');
 
-if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+if(isValidSession()) {
 	refreshSessionTimeout();
 }
 

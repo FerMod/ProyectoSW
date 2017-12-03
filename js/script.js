@@ -195,7 +195,7 @@ $(document).ready(function() {
 
 	function refreshStats() {
 
-		var $timerAjax = $.ajax({
+		$.ajax({
 			url: "ajaxRequestManager.php",
 			data: {action: "getQuestionsStats"},
 			method: "post",								// Type of request to be send, called as method
@@ -428,10 +428,6 @@ function refreshSessionTimeout() {
 $(document).ajaxSuccess(function(event, request, settings, data) {
 	if($.trim(data.sessionTimeout)) {
 		if(data.sessionTimeout) {
-			if(timerAjax.length) {
-				timerAjax.abort();				
-				clearInterval(timer);
-			}
 			redirecTo("layout.php");
 		}
 	}

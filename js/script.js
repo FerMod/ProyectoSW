@@ -165,9 +165,10 @@ $(document).ready(function() {
 	
 	$("#formRevPreguntas").on("submit", function(event) {
 		event.preventDefault();
-			
+
 		var formDataR = new FormData(this);
 		formDataR.append("action", "editQuestion");
+
 		$.ajax({
 			url: "ajaxRequestManager.php",
 			method: "post",								// Type of request to be send, called as method
@@ -177,8 +178,10 @@ $(document).ready(function() {
 			dataType: "json",
 			processData: false,							// To send DOMDocument or non processed data file it is set to false
 			success: function(result, status, xhr) {	// A function to be called if request succeeds
+				console.log(result);
 				$("#respuesta").html(result.operationMessage);
-			}, error: function (xhr, status, error) {
+			},
+			error: function (xhr, status, error) {
 				console.log(xhr.statusText);
 				console.log(error);
 			}
@@ -192,7 +195,7 @@ $(document).ready(function() {
 
 	function refreshStats() {
 
-		var xhr = $.ajax({
+		$.ajax({
 			url: "ajaxRequestManager.php",
 			data: {action: "getQuestionsStats"},
 			method: "post",								// Type of request to be send, called as method
@@ -396,6 +399,22 @@ $(document).ready(function() {
 	}).css("cursor", "pointer");
 
 });
+
+function getQuestions() {
+
+	$.ajax({
+		url: "ajaxRequestManager.php",
+		data: {action: "getQuestions"},
+		method: "post",
+		dataType: "json",
+		success: function(result, status, xhr) {
+			return result.query;
+		},
+		error: function (xhr, status, error) {
+		}
+	});
+
+}
 
 function refreshSessionTimeout() {
 	$.ajax({

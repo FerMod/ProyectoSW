@@ -14,38 +14,43 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		break;
 
 		case 'getOnlineUsers':
-		$ajaxResult = getOnlineUsers(); //TODO
-		break;
+$ajaxResult = getOnlineUsers(); //TODO
+break;
 
-		case 'getQuestionsStats':
-		$ajaxResult = getQuestionsStats();
-		break;
+case 'getQuestionsStats':
+$ajaxResult = getQuestionsStats();
+break;
 
-		case 'isVIPUser':
-		$ajaxResult = isVIPUser();
-		break;
+case 'isVIPUser':
+$ajaxResult = isVIPUser();
+break;
 
-		case 'showQuestions':
-		$ajaxResult = showQuestions(); //TODO
-		break;
-		
-		case 'checkPassword':
-		$ajaxResult = checkPassword();
-		break;
+case 'showQuestions':
+$ajaxResult = showQuestions(); //TODO
+break;
 
-		case 'editQuestion':
-		$ajaxResult = editQuestion();
-		break;
-	}
+case 'checkPassword':
+$ajaxResult = checkPassword();
+break;
 
-	if($action != "getQuestionsStats" && $action != "getOnlineUsers") {
-		checkSession();
-	}
+case 'editQuestion':
+$ajaxResult = editQuestion();
+break;
 
-	$ajaxResult["sessionTimeout"] = $_SESSION['obsolete'];
+case 'getQuestions':
+$ajaxResult = getQuestions();
+break;
+}
 
-	// Encode array to JSON format
-	echo json_encode($ajaxResult);
+if($action != "getQuestionsStats" && $action != "getOnlineUsers") {
+	checkSession();
+}
+getQuestions();
+
+$ajaxResult["sessionTimeout"] = $_SESSION['obsolete'];
+
+// Encode array to JSON format
+echo json_encode($ajaxResult);
 
 }
 
@@ -53,10 +58,10 @@ function uploadQuestion() {
 
 	global $config;
 
-	// Create connection
+// Create connection
 	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
-	// Check connection
+// Check connection
 	if ($conn->connect_error) {
 		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
 	}
@@ -69,7 +74,7 @@ function uploadQuestion() {
 
 		$dataCheckMessage = "";
 
-			//Insert data of quizes.php
+//Insert data of quizes.php
 		if(isset($_POST['email']) && !empty($_POST['email'])) { 
 			$email = formatInput($_POST['email']) ?? '';
 			if(!isValidEmail($email)) {
@@ -116,149 +121,149 @@ function uploadQuestion() {
 			$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Respuesta incorrecta 3\" no puede ser vacio.</div>";
 		}
 
-		/*
-		 * In the next variable, will be checked differently because of the following reasons:
-		 *
-		 * (http://php.net/empty)
-		 * The following things are considered to be empty:
-		 *
-		 * "" (an empty string)
-		 * 0 (0 as an integer)
-		 * 0.0 (0 as a float)
-		 * "0" (0 as a string)
-		 * NULL
-		 * FALSE
-		 * array() (an empty array)
-		 * $var; (a variable declared, but without a value)
-		 *
-		 */
-		if(isset($_POST['complejidad']) && !empty($_POST['complejidad'])) {
-			$complejidad = formatInput($_POST['complejidad']) ?? 0;
-			if(!is_numeric($complejidad)) {
-				$uploadOk = false;
-				$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe ser un número.</div>";
-			} else if($complejidad < 1 || $complejidad > 5){
-				$uploadOk = false;
-				$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe estar entre el 1 y el 5, ambos inclusive.</div>";
-			}
-		} else {
-			$uploadOk = false;
-			$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Complejidad\" no puede ser vacio.</div>";
-		}
-
-		if(isset($_POST['tema']) && !empty($_POST['tema'])) { 
-			$tema = formatInput($_POST['tema']) ?? '';
-		} else {
-			$uploadOk = false;
-			$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Tema\" no puede ser vacio.</div>";
-		}
-
-		// Check if everything is ok
-		if (!$uploadOk) {
-			throw new RuntimeException($dataCheckMessage);
-		}
-
-		// Undefined | Multiple Files | $_FILES Corruption Attack
-		// If this request falls under any of them, treat it invalid.
-		if (!isset($_FILES['imagen']['error']) || is_array($_FILES['imagen']['error'])) {
-			throw new RuntimeException("<div class=\"serverErrorMessage\">Parametros inválidos.</div>");
-		}
-
-		$containsImage = false;
-
-		// Check $_FILES['imagen']['error'] value.
-		switch ($_FILES['imagen']['error']) {
-			case UPLOAD_ERR_OK:
-			$containsImage = true;
-			case UPLOAD_ERR_NO_FILE:
-			//Nothing to do here, the file upload is optional
-			break;
-			case UPLOAD_ERR_INI_SIZE:
-			case UPLOAD_ERR_FORM_SIZE:
-			throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.</div>");
-			default:
-			throw new RuntimeException("<div class=\"serverErrorMessage\">Error desconocido.</div>");
-		}
-
-		if($containsImage) {
-
-			// You should also check filesize here. 
-			if ($_FILES['imagen']['size'] > 1000000) {
-				throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.");
-			}
-
-			// DO NOT TRUST $_FILES['imagen']['mime'] VALUE !!
-			// Check MIME Type by yourself.
-			$finfo = new finfo(FILEINFO_MIME_TYPE);
-			if (false === $ext = array_search(
-				$finfo->file($_FILES['imagen']['tmp_name']),
-				array(
-					'jpg' => 'image/jpeg',
-					'png' => 'image/png',
-					'gif' => 'image/gif',
-				),
-				true
-			)) {
-				throw new RuntimeException("<div class=\"serverErrorMessage\">Formato de archivo inválido.</div>");
-			}
-
-			// You should name it uniquely.
-			// DO NOT USE $_FILES['imagen']['name'] WITHOUT ANY VALIDATION !!
-			// On this example, obtain safe unique name from its binary data.
-			$sha1Name = sha1_file($_FILES['imagen']['tmp_name']);
-			if (!move_uploaded_file(
-				$_FILES['imagen']['tmp_name'],
-				sprintf('%s%s.%s',
-					$imageUploadFolder,
-					$sha1Name,
-					$ext
-				)
-			)) {
-				throw new RuntimeException("<div class=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
-			}
-
-			$imagenPregunta = sprintf("%s%s.%s", $imageUploadFolder, $sha1Name, $ext);
-
-		}
-
-	} catch (RuntimeException $e) {
-
+/*
+* In the next variable, will be checked differently because of the following reasons:
+*
+* (http://php.net/empty)
+* The following things are considered to be empty:
+*
+* "" (an empty string)
+* 0 (0 as an integer)
+* 0.0 (0 as a float)
+* "0" (0 as a string)
+* NULL
+* FALSE
+* array() (an empty array)
+* $var; (a variable declared, but without a value)
+*
+*/
+if(isset($_POST['complejidad']) && !empty($_POST['complejidad'])) {
+	$complejidad = formatInput($_POST['complejidad']) ?? 0;
+	if(!is_numeric($complejidad)) {
 		$uploadOk = false;
-		$operationMessage .= $e->getMessage();
+		$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe ser un número.</div>";
+	} else if($complejidad < 1 || $complejidad > 5){
+		$uploadOk = false;
+		$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe estar entre el 1 y el 5, ambos inclusive.</div>";
+	}
+} else {
+	$uploadOk = false;
+	$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Complejidad\" no puede ser vacio.</div>";
+}
 
+if(isset($_POST['tema']) && !empty($_POST['tema'])) { 
+	$tema = formatInput($_POST['tema']) ?? '';
+} else {
+	$uploadOk = false;
+	$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Tema\" no puede ser vacio.</div>";
+}
+
+// Check if everything is ok
+if (!$uploadOk) {
+	throw new RuntimeException($dataCheckMessage);
+}
+
+// Undefined | Multiple Files | $_FILES Corruption Attack
+// If this request falls under any of them, treat it invalid.
+if (!isset($_FILES['imagen']['error']) || is_array($_FILES['imagen']['error'])) {
+	throw new RuntimeException("<div class=\"serverErrorMessage\">Parametros inválidos.</div>");
+}
+
+$containsImage = false;
+
+// Check $_FILES['imagen']['error'] value.
+switch ($_FILES['imagen']['error']) {
+	case UPLOAD_ERR_OK:
+	$containsImage = true;
+	case UPLOAD_ERR_NO_FILE:
+//Nothing to do here, the file upload is optional
+	break;
+	case UPLOAD_ERR_INI_SIZE:
+	case UPLOAD_ERR_FORM_SIZE:
+	throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.</div>");
+	default:
+	throw new RuntimeException("<div class=\"serverErrorMessage\">Error desconocido.</div>");
+}
+
+if($containsImage) {
+
+// You should also check filesize here. 
+	if ($_FILES['imagen']['size'] > 1000000) {
+		throw new RuntimeException("<div class=\"serverErrorMessage\">Tamaño de archivo excedido.");
 	}
 
-	if($uploadOk) {
-		$sql = "INSERT INTO preguntas(email, enunciado, respuesta_correcta, respuesta_incorrecta_1, respuesta_incorrecta_2, respuesta_incorrecta_3, complejidad, tema, imagen)
-		VALUES('$email', '$enunciado', '$respuestaCorrecta', '$respuestaIncorrecta1', '$respuestaIncorrecta2', '$respuestaIncorrecta3', $complejidad, '$tema',  '$imagenPregunta')";
+// DO NOT TRUST $_FILES['imagen']['mime'] VALUE !!
+// Check MIME Type by yourself.
+	$finfo = new finfo(FILEINFO_MIME_TYPE);
+	if (false === $ext = array_search(
+		$finfo->file($_FILES['imagen']['tmp_name']),
+		array(
+			'jpg' => 'image/jpeg',
+			'png' => 'image/png',
+			'gif' => 'image/gif',
+		),
+		true
+	)) {
+		throw new RuntimeException("<div class=\"serverErrorMessage\">Formato de archivo inválido.</div>");
+	}
 
-		if (!$result = $conn->query($sql)) {
-			// Oh no! The query failed. 
-			$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha insertado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
-		} else {
-			$filePath = sprintf("%s%s", $config["folders"]["xml"], "preguntas.xml");
-			$last_id = $conn->insert_id;
-			insertElement($filePath, $last_id, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
-			$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha insertado correctamente. 
-			<br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>. 
-			<br><br>O si prefiere ver el archivo '.xml' generado haga click <a href='$filePath' target='_blank'>aquí</a>.</div>";
-		}
+// You should name it uniquely.
+// DO NOT USE $_FILES['imagen']['name'] WITHOUT ANY VALIDATION !!
+// On this example, obtain safe unique name from its binary data.
+	$sha1Name = sha1_file($_FILES['imagen']['tmp_name']);
+	if (!move_uploaded_file(
+		$_FILES['imagen']['tmp_name'],
+		sprintf('%s%s.%s',
+			$imageUploadFolder,
+			$sha1Name,
+			$ext
+		)
+	)) {
+		throw new RuntimeException("<div class=\"serverErrorMessage\">Fallo al mover el archivo.</div>");
+	}
 
-		// Close connection
-		$conn->close();
+	$imagenPregunta = sprintf("%s%s.%s", $imageUploadFolder, $sha1Name, $ext);
 
+}
+
+} catch (RuntimeException $e) {
+
+	$uploadOk = false;
+	$operationMessage .= $e->getMessage();
+
+}
+
+if($uploadOk) {
+	$sql = "INSERT INTO preguntas(email, enunciado, respuesta_correcta, respuesta_incorrecta_1, respuesta_incorrecta_2, respuesta_incorrecta_3, complejidad, tema, imagen)
+	VALUES('$email', '$enunciado', '$respuestaCorrecta', '$respuestaIncorrecta1', '$respuestaIncorrecta2', '$respuestaIncorrecta3', $complejidad, '$tema',  '$imagenPregunta')";
+
+	if (!$result = $conn->query($sql)) {
+// Oh no! The query failed. 
+		$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha insertado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
 	} else {
-		$operationMessage .= "<br>Revise los datos introducidos e inténtelo de nuevo.";
+		$filePath = sprintf("%s%s", $config["folders"]["xml"], "preguntas.xml");
+		$last_id = $conn->insert_id;
+		insertElement($filePath, $last_id, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
+		$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha insertado correctamente. 
+		<br>Para verla haga click <a href='VerPreguntasConFoto.php' target='_self'>aquí</a>. 
+		<br><br>O si prefiere ver el archivo '.xml' generado haga click <a href='$filePath' target='_blank'>aquí</a>.</div>";
 	}
 
-	// Create array with the operation information
-	$array = array(
-		"operationSuccess" => $uploadOk,
-		"operationMessage" => $operationMessage,
-	);
-	
-	// Encode array to JSON format
-	return $array;
+// Close connection
+	$conn->close();
+
+} else {
+	$operationMessage .= "<br>Revise los datos introducidos e inténtelo de nuevo.";
+}
+
+// Create array with the operation information
+$array = array(
+	"operationSuccess" => $uploadOk,
+	"operationMessage" => $operationMessage,
+);
+
+// Encode array to JSON format
+return $array;
 }
 
 // Format the input for security reasons
@@ -288,14 +293,14 @@ function insertElement($filePath, $id, $author, $question, $correctResponse, $in
 
 	$correctResponseElement = $assessmentItemElement->addChild("correctResponse");
 	$correctResponseElement->addChild("value", "$correctResponse");
-	
+
 	$incorrectResponsesElement = $assessmentItemElement->addChild("incorrectResponses");
 	$incorrectResponsesElement->addChild("value", $incorrectResponse1);
 	$incorrectResponsesElement->addChild("value", $incorrectResponse2);
 	$incorrectResponsesElement->addChild("value", $incorrectResponse3);
 
 	$assessmentItemElement->addChild("image", $image);
-	
+
 	$xml->asXML($filePath);
 
 	formatFileStyle($filePath);
@@ -326,26 +331,26 @@ function getQuestionsStats() {
 		$preguntasTotal = count($xml->xpath("/assessmentItems/assessmentItem"));
 		$preguntasUsuario = count($xml->xpath("/assessmentItems/assessmentItem[@author=\"" . $loggedSession['email'] . "\"]"));
 
-		// Create array with the operation information
+// Create array with the operation information
 		return array(
 			"quizesTotal" => $preguntasTotal,
 			"quizesUser" => $preguntasUsuario
 		);
 
 	}
-	
+
 }
 
 function isVIPUser() {
 
 	require_once("nusoap-0.9.5/src/nusoap.php");
 
-	// Create new NuSoap client. First parameter is the wsdl url and the second parameter is to confirm that is a wsdl url
+// Create new NuSoap client. First parameter is the wsdl url and the second parameter is to confirm that is a wsdl url
 	$client = new nusoap_client("http://ehusw.es/jav/ServiciosWeb/comprobarmatricula.php?wsdl", true);
 	$client->soap_defencoding = "UTF-8";
 	$client->decode_utf8 = false;
 
-	// Call and consume service
+// Call and consume service
 	$result = strtoupper($client->call("comprobar",  array("x"=>$_POST["email"]))) !== "NO" ? true : false;
 
 	return array(
@@ -355,7 +360,7 @@ function isVIPUser() {
 }
 
 function checkPassword() {
-	
+
 	require_once('nusoap-0.9.5/src/nusoap.php');
 
 	$soapclient = new nusoap_client('http://localhost/ProyectoSW/ComprobarContrasena.php?wsdl', true);
@@ -369,12 +374,13 @@ function checkPassword() {
 }
 
 function editQuestion() {
-	$config = include("config.php");
 
-	// Create connection
+	global $config;
+
+// Create connection
 	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
-	// Check connection
+// Check connection
 	if ($conn->connect_error) {
 		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
 	}
@@ -422,103 +428,147 @@ function editQuestion() {
 		$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Respuesta incorrecta 3\" no puede ser vacio.</div>";
 	}
 
-	/*
-	 * In the next variable, will be checked differently because of the following reasons:
-	 *
-	 * (http://php.net/empty)
-	 * The following things are considered to be empty:
-	 *
-	 * "" (an empty string)
-	 * 0 (0 as an integer)
-	 * 0.0 (0 as a float)
-	 * "0" (0 as a string)
-	 * NULL
-	 * FALSE
-	 * array() (an empty array)
-	 * $var; (a variable declared, but without a value)
-	 *
-	 */
-	if(isset($_POST['complejidaded']) && !empty($_POST['complejidaded']) || $_POST['complejidaded'] != 0) { 
-		$complejidad = formatInput($_POST['complejidaded']) ?? '';
-		if(!is_numeric($complejidad)) {
-			$uploadOk = false;
-			$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe ser un número.</div>";
-		} else if($complejidad < 1 || $complejidad > 5){
-			$uploadOk = false;
-			$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe estar entre el 1 y el 5, ambos inclusive.</div>";
+/*
+* In the next variable, will be checked differently because of the following reasons:
+*
+* (http://php.net/empty)
+* The following things are considered to be empty:
+*
+* "" (an empty string)
+* 0 (0 as an integer)
+* 0.0 (0 as a float)
+* "0" (0 as a string)
+* NULL
+* FALSE
+* array() (an empty array)
+* $var; (a variable declared, but without a value)
+*
+*/
+if(isset($_POST['complejidaded']) && !empty($_POST['complejidaded']) || $_POST['complejidaded'] != 0) { 
+	$complejidad = formatInput($_POST['complejidaded']) ?? '';
+	if(!is_numeric($complejidad)) {
+		$uploadOk = false;
+		$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe ser un número.</div>";
+	} else if($complejidad < 1 || $complejidad > 5){
+		$uploadOk = false;
+		$dataCheckMessage .= "<div class=\"serverMessage\">El valor del campo \"Complejidad\" debe estar entre el 1 y el 5, ambos inclusive.</div>";
+	}
+} else {
+	$uploadOk = false;
+	$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Complejidad\" no puede ser vacio.</div>";
+}
+
+
+if(isset($_POST['tema']) && !empty($_POST['tema'])) { 
+	$tema = formatInput($_POST['tema']) ?? '';
+} else {
+	$uploadOk = false;
+	$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Tema\" no puede ser vacio.</div>";
+}
+
+// Check if everything is ok
+if (!$uploadOk) {
+	throw new RuntimeException($dataCheckMessage);
+}
+
+if($uploadOk) {
+	$sql = "UPDATE preguntas
+	SET enunciado = '$enunciado', respuesta_correcta = '$respuestaCorrecta', respuesta_incorrecta_1 = '$respuestaIncorrecta1', respuesta_incorrecta_2 = '$respuestaIncorrecta2', respuesta_incorrecta_3 = '$respuestaIncorrecta3', complejidad = '$complejidad', tema = '$tema' 
+	WHERE email = '$email' AND id = '$id'";
+
+	if (!$result = $conn->query($sql)) {
+// Oh no! The query failed. 
+		$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha actualizado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
+	} else {
+		$preguntas = simplexml_load_file('xml/preguntas.xml');
+
+		foreach ($preguntas->assessmentItem as $pregunta) {
+			if($id == $pregunta['id']) {
+				$pregunta['complexity'] = $complejidad;
+				$pregunta['subject'] = $tema;
+				$pregunta->itemBody->p = $enunciado;
+				$pregunta->correctResponse->value = $respuestaCorrecta;
+				$incorrect = $pregunta->incorrectResponses;
+				$j = 1;
+				$incorrect->value[0] = $respuestaIncorrecta1;
+				$incorrect->value[1] = $respuestaIncorrecta2;
+				$incorrect->value[2] = $respuestaIncorrecta3;
+				break;
+			}
 		}
+
+		$preguntas->asXML('xml/preguntas.xml');
+		$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha actualizado correctamente.</div>";
+		$operationMessage .=
+		'<script>
+		$("#'.$id.'comp").html("Complejidad: '.$complejidad.' | Tema: '.$tema.' | Autor: '.$email.'");
+		$("#'.$id.'preg").html("Enunciado: '.$enunciado.'");
+		$("#'.$id.'cor").html("+Respuesta correcta: '.$respuestaCorrecta.'");
+		$("#'.$id.'incor1").html("-Respuesta incorrecta 1: '.$respuestaIncorrecta1.'");
+		$("#'.$id.'incor2").html("-Respuesta incorrecta 2: '.$respuestaIncorrecta2.'");
+		$("#'.$id.'incor3").html("-Respuesta incorrecta 3: '.$respuestaIncorrecta3.'");
+		</script>';
+	}
+
+} else {
+	$operationMessage .= "<br>Revise los datos introducidos e inténtelo de nuevo.";
+}
+
+// Close connection
+$conn->close();
+
+// Create array with the operation information
+$array = array(
+	"operationSuccess" => $uploadOk,
+	"operationMessage" => $operationMessage
+);
+
+// Encode array to JSON format
+return $array;
+}
+
+function getQuestions() {
+
+	global $config;
+
+	// Create connection
+	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+	// Check connection
+	if ($conn->connect_error) {
+		trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
+	}
+
+	// Perform an SQL query
+	$sql = "SELECT *
+	FROM preguntas";
+
+	$array = array();
+
+	if (!$result = $conn->query($sql)) {
+		echo "<div class=\"serverErrorMessage\">Sorry, the website is experiencing problems.</div>";
 	} else {
-		$uploadOk = false;
-		$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Complejidad\" no puede ser vacio.</div>";
-	}
-		
 
-	if(isset($_POST['tema']) && !empty($_POST['tema'])) { 
-		$tema = formatInput($_POST['tema']) ?? '';
-	} else {
-		$uploadOk = false;
-		$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Tema\" no puede ser vacio.</div>";
-	}
+		if($result->num_rows != 0) {
 
-	// Check if everything is ok
-	if (!$uploadOk) {
-		throw new RuntimeException($dataCheckMessage);
-	}
-
-	if($uploadOk) {
-		$sql = "UPDATE preguntas
-			SET enunciado = '$enunciado', respuesta_correcta = '$respuestaCorrecta', respuesta_incorrecta_1 = '$respuestaIncorrecta1', respuesta_incorrecta_2 = '$respuestaIncorrecta2', respuesta_incorrecta_3 = '$respuestaIncorrecta3', complejidad = '$complejidad', tema = '$tema' 
-				WHERE email = '$email' AND id = '$id'";
-
-		if (!$result = $conn->query($sql)) {
-			// Oh no! The query failed. 
-			$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha actualizado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
-		} else {
-			$preguntas = simplexml_load_file('xml/preguntas.xml');
-
-			foreach ($preguntas->assessmentItem as $pregunta) {
-				if($id == $pregunta['id']) {
-					$pregunta['complexity'] = $complejidad;
-					$pregunta['subject'] = $tema;
-					$pregunta->itemBody->p = $enunciado;
-					$pregunta->correctResponse->value = $respuestaCorrecta;
-					$incorrect = $pregunta->incorrectResponses;
-					$j = 1;
-					$incorrect->value[0] = $respuestaIncorrecta1;
-					$incorrect->value[1] = $respuestaIncorrecta2;
-					$incorrect->value[2] = $respuestaIncorrecta3;
-					break;
-				}
+			$queryArray = array();
+			while ($row = $result->fetch_assoc()) {
+				 $queryArray[$row["id"]] = $row;
 			}
 
-			$preguntas->asXML('xml/preguntas.xml');
-			$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha actualizado correctamente.</div>";
-			$operationMessage .=
-			 '<script>
-			 	$("#'.$id.'comp").html("Complejidad: '.$complejidad.' | Tema: '.$tema.' | Autor: '.$email.'");
-			 	$("#'.$id.'preg").html("Enunciado: '.$enunciado.'");
-			 	$("#'.$id.'cor").html("+Respuesta correcta: '.$respuestaCorrecta.'");
-			 	$("#'.$id.'incor1").html("-Respuesta incorrecta 1: '.$respuestaIncorrecta1.'");
-			 	$("#'.$id.'incor2").html("-Respuesta incorrecta 2: '.$respuestaIncorrecta2.'");
-			 	$("#'.$id.'incor3").html("-Respuesta incorrecta 3: '.$respuestaIncorrecta3.'");
-			  </script>';
+			$array = array(
+				"query" => $queryArray
+			);			
+
 		}
 
-	} else {
-		$operationMessage .= "<br>Revise los datos introducidos e inténtelo de nuevo.";
+		$result->free();
+
 	}
 
-	// Close connection
 	$conn->close();
 
-	// Create array with the operation information
-	$array = array(
-		"operationSuccess" => $uploadOk,
-		"operationMessage" => $operationMessage,
-	);
-	
-	// Encode array to JSON format
 	return $array;
 }
-	
+
 ?>

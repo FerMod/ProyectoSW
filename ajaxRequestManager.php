@@ -1,7 +1,7 @@
 <?php
 
 include_once('login_session.php');
-include_once('session_timeout.php');
+include('session_timeout.php');
 
 $config = include("config.php");
 
@@ -45,7 +45,6 @@ break;
 if($action != "getQuestionsStats" && $action != "getOnlineUsers") {
 	checkSession();
 }
-getQuestions();
 
 $ajaxResult["sessionTimeout"] = $_SESSION['obsolete'];
 

@@ -195,7 +195,7 @@ $(document).ready(function() {
 
 	function refreshStats() {
 
-		$.ajax({
+		var $timerAjax = $.ajax({
 			url: "ajaxRequestManager.php",
 			data: {action: "getQuestionsStats"},
 			method: "post",								// Type of request to be send, called as method
@@ -398,6 +398,8 @@ $(document).ready(function() {
 		}
 	}).css("cursor", "pointer");
 
+	refreshSessionTimeout();
+
 });
 
 function getQuestions() {
@@ -424,10 +426,20 @@ function refreshSessionTimeout() {
 }
 
 $(document).ajaxSuccess(function(event, request, settings, data) {
-	console.log(data);
 	if($.trim(data.sessionTimeout)) {
 		if(data.sessionTimeout) {
-			window.location.replace("layout.php");
+			if(timerAjax.length) {
+				timerAjax.abort();				
+				clearInterval(timer);
+			}
+			redirecTo("layout.php");
 		}
 	}
 });
+
+function redirecTo(url) {
+	if(url.length) {
+		window.location.replace(url);
+	}
+}
+

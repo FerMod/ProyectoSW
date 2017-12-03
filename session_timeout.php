@@ -3,8 +3,8 @@
 $config = include("config.php");
 
 @ChromePhp::log(session_id());
-@ChromePhp::log("Session timeout countdown: " . ($_SESSION['expires'] - time()));
-@ChromePhp::log("Session id regenerate countdown: " . ($_SESSION['ID_expires'] - time()));
+// @ChromePhp::log("Session timeout countdown: " . ($_SESSION['expires'] - time()));
+// @ChromePhp::log("Session id regenerate countdown: " . ($_SESSION['ID_expires'] - time()));
 @ChromePhp::table($_SESSION);
 
 function refreshSessionTimeout() {
@@ -107,6 +107,7 @@ function checkSession() {
 		return true;
 
 	} catch(Exception $e) {
+		ChromePhp::warn($e);
 		return false;
 	}
 }

@@ -75,10 +75,9 @@ if(!isValidSession()) {
 			<script type="text/javascript">
 				getQuestions(createQuestionList);
 			</script>
-		<div>
-			<fieldset>
-				<legend>Datos de la pregunta</legend>
-				<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">
+			<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">
+				<fieldset>
+					<legend>Datos de la pregunta</legend>
 					<div>
 						<label for="id-edit">Id pregunta:</label>
 						<input type="text" id="id-edit" name="id-edit" readonly="readonly" style="background: #dddddd;" />
@@ -118,21 +117,19 @@ if(!isValidSession()) {
 					<div>
 						<input type="submit" value="Confirmar edición"/>
 					</div>
-				</form>
-			</fieldset>
+				</fieldset>
+			</form>
+			<div id="respuesta">
+			</div>
+		</article>		
+		<aside class="sidebar">
+			<span>Sidebar contents<br/>(sidebar)</span>
+		</aside>
+	</div>
 
-		</div>
-		<div id="respuesta">
-		</div>
-	</article>		
-	<aside class="sidebar">
-		<span>Sidebar contents<br/>(sidebar)</span>
-	</aside>
-</div>
-
-<footer>
-	<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
-	<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
-</footer>
+	<footer>
+		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
+		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
+	</footer>
 </body>
 </html>

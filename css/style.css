@@ -70,8 +70,8 @@ footer {
 	-ms-flex: 3;
 	flex: 3;
 
-	min-width: 0;
-	min-height: 0;
+	min-width: auto;
+	min-height: auto;
 	overflow: auto;
 }
 
@@ -559,11 +559,17 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	height:auto;
 }
 
-#quitarImagen { 	
+#quitarImagen {
 	display: none;
 	width: auto;
 	margin-left: 5%;
 	margin-right: auto;
+}
+
+#listaPreguntas {
+	height: 2%;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .pregunta {
@@ -575,25 +581,25 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 
 /* List styling */
 .answerList, .answerList ul {
-  margin-top: 0;
-  padding-left: 2em;
-  list-style-type: none;
-  position: relative;
+	margin-top: 0;
+	padding-left: 2em;
+	list-style-type: none;
+	position: relative;
 }
 .answerList li:before {
-  position: absolute;
-  margin-left: -1.3em;
-  font-weight: bold;
+	position: absolute;
+	margin-left: -1.3em;
+	font-weight: bold;
 }
 
 .answerList li.tick:before {
-  content: "\2713";
-  color: darkgreen;
+	content: "\2713";
+	color: darkgreen;
 }
 
 .answerList li.cross:before {
-  content: "\2717";
-  color: crimson;
+	content: "\2717";
+	color: crimson;
 }
 
 /* mobile layout */

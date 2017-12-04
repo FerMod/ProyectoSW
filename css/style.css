@@ -573,10 +573,32 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 .pregunta {
-	border-left: 6px solid green;	
+	border-left: 6px solid green;
 	border-top: 2px solid darkgrey;
-	background-color: lightgrey;
+	background-color: #ffffff;
 	padding: 5px 5px 5px 5px;
+	text-align: left;
+	width: 100%;
+	cursor: pointer;
+}
+
+.pregunta:hover {
+	border-top: 2px solid lightgrey;
+	background-color: #d3d3d3;
+}
+
+.pregunta:active {
+	border-left: 7px solid green;
+	border-top: 2px solid lightgrey;
+	background-color: #d3d3d3;
+}
+
+
+.disable-select {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 /* List styling */
@@ -600,6 +622,21 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 .answerList li.cross:before {
 	content: "\2717";
 	color: crimson;
+}
+
+@keyframes highlight {
+	from {
+		background: yellow; /* lovely yellow colour */
+		-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 1px 0 rgba(255,255,255,.075);
+		box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 1px 0 rgba(255,255,255,.075);
+	}
+	to {
+		background: none;
+	}
+}
+
+.highlight {
+	animation: highlight 2s;
 }
 
 /* mobile layout */

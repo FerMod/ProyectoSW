@@ -626,9 +626,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 
 @keyframes highlight {
 	from {
-		background: yellow; /* lovely yellow colour */
-		-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 1px 0 rgba(255,255,255,.075);
-		box-shadow: inset 0 1px 3px rgba(0,0,0,.05),0 1px 0 rgba(255,255,255,.075);
+		background: yellow;
 	}
 	to {
 		background: none;
@@ -636,7 +634,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 .highlight {
-	animation: highlight 2s;
+	animation: highlight 3s;
 }
 
 /* mobile layout */

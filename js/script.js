@@ -138,6 +138,7 @@ $(document).ready(function() {
 
 		var formData = new FormData(this);
 		formData.append("action", "uploadQuestion");
+
 		$.ajax({
 			url: "ajaxRequestManager.php",
 			method: "post",								// Type of request to be send, called as method
@@ -166,20 +167,25 @@ $(document).ready(function() {
 	$("#formRevPreguntas").on("submit", function(event) {
 		event.preventDefault();
 
-		var formDataR = new FormData(this);
-		formDataR.append("action", "editQuestion");
+		var formData = new FormData(this);
+		formData.append("action", "editQuestion");
 
 		$.ajax({
 			url: "ajaxRequestManager.php",
-			method: "post",								// Type of request to be send, called as method
-			data: formDataR,								// Data sent to server, a set of key/value pairs (i.e. form fields and values)
-			contentType: false,							// The content type used when sending data to the server.
-			cache: false,								// To unable request pages to be cached
+			method: "post",
+			data: formData,
 			dataType: "json",
-			processData: false,							// To send DOMDocument or non processed data file it is set to false
-			success: function(result, status, xhr) {	// A function to be called if request succeeds
-				console.log(result);
+			contentType: false,
+			cache: false,
+			processData: false,
+			success: function(result, status, xhr) {
+
 				$("#respuesta").html(result.operationMessage);
+
+				if(result.operationSuccess) {
+					actualizarPregunta(result.question["id"], result.question["email"], result.question["enunciado"], result.question["respuestaCorrecta"], result.question["respuestaIncorrecta1"], result.question["respuestaIncorrecta2"], result.question["respuestaIncorrecta3"], result.question["complejidad"], result.question["tema"]);
+				}
+				
 			},
 			error: function (xhr, status, error) {
 				console.log(xhr.statusText);
@@ -398,24 +404,75 @@ $(document).ready(function() {
 		}
 	}).css("cursor", "pointer");
 
-	refreshSessionTimeout();
-
 });
 
-function getQuestions() {
+function getQuestions(callbackFunciton) {
 
 	$.ajax({
 		url: "ajaxRequestManager.php",
 		data: {action: "getQuestions"},
 		method: "post",
 		dataType: "json",
-		success: function(result, status, xhr) {
-			return result.query;
-		},
+		success: callbackFunciton,
 		error: function (xhr, status, error) {
 		}
 	});
 
+}
+
+function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2, respuestaIncorrecta3, complejidad, tema) {
+	$('#' + id + '[id="id"]').text(id);
+	$('#' + id + '[id="email"]').text(email);
+	$('#' + id + '[id="enunciado"]').text(enunciado);
+	$('#' + id + '[id="respuestaCorrecta"]').text(respuestaCorrecta);
+	$('#' + id + '[id="respuestaIncorrecta1"]').text(respuestaIncorrecta1);
+	$('#' + id + '[id="respuestaIncorrecta2"]').text(respuestaIncorrecta2);
+	$('#' + id + '[id="respuestaIncorrecta3"]').text(respuestaIncorrecta3);
+	$('#' + id + '[id="complejidad"]').text(complejidad);
+	$('#' + id + '[id="tema"]').text(tema);
+}
+
+function editarPregunta(id) {
+
+	var email = $("#" + id).find("#email").text();
+	var enunciado = $("#" + id).find("#enunciado").text();
+	var respuestaCorrecta = $("#" + id).find("#respuestaCorrecta").text();
+	var respuestaIncorrecta1 = $("#" + id).find("#respuestaIncorrecta1").text();
+	var respuestaIncorrecta2 = $("#" + id).find("#respuestaIncorrecta2").text();
+	var respuestaIncorrecta3 = $("#" + id).find("#respuestaIncorrecta3").text();
+	var complejidad = $("#" + id).find("#complejidad").text();
+	var tema = $("#" + id).find("#tema").text();
+
+	$("#id-edit").val(id);
+	$("#email-edit").val(email);
+	$("#enunciado-edit").val(enunciado);
+	$("#respuestaCorrecta-edit").val(respuestaCorrecta);
+	$("#respuestaIncorrecta1-edit").val(respuestaIncorrecta1);
+	$("#respuestaIncorrecta2-edit").val(respuestaIncorrecta2);
+	$("#respuestaIncorrecta3-edit").val(respuestaIncorrecta3);
+	$("#complejidad-edit").val(complejidad);
+	$("#tema-edit").val(tema);
+}
+
+function createQuestionList(result, status, xhr) {
+
+	$.each(result.query, function (key, value) {
+
+		var $questionDivElement = $('<div id="' + key + '" onclick="editarPregunta(' +  key + ')"></div>').addClass("pregunta");
+		$questionDivElement.append('Id pregunta: <span id="id">' + key + '</span><br/>');
+		$questionDivElement.append('Complejidad: <span id="complejidad">' + value['complejidad'] + '</span> | Tema: <span id="tema">' + value['tema'] + '</span> | Autor: <span id="email">' + value['email'] + '</span>');
+		$questionDivElement.append('Enunciado: <span id="enunciado">' + value['enunciado'] + '</span><br/>');
+		
+		var $listElement = $('<ul></ul>').addClass("answerList");
+		$listElement.append('<li id="respuestaCorrecta" class="tick">' + value['respuesta_correcta'] + '</li>');
+		$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value['respuesta_incorrecta_1'] + '</li>');
+		$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value['respuesta_incorrecta_2'] + '</li>');
+		$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value['respuesta_incorrecta_3'] + '</li>');
+
+		$questionDivElement.append($listElement);
+		$("#listaPreguntas").append($questionDivElement);
+
+	});
 }
 
 function refreshSessionTimeout() {

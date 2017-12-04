@@ -2,10 +2,10 @@
 
 $config = include("config.php");
 
-@ChromePhp::log(session_id());
-@ChromePhp::log("Session timeout countdown: " . ($_SESSION['expires'] - time()));
-@ChromePhp::log("Session id regenerate countdown: " . ($_SESSION['ID_expires'] - time()));
-@ChromePhp::table($_SESSION);
+// @ChromePhp::log(session_id());
+// @ChromePhp::log("Session timeout countdown: " . ($_SESSION['expires'] - time()));
+// @ChromePhp::log("Session id regenerate countdown: " . ($_SESSION['ID_expires'] - time()));
+// @ChromePhp::table($_SESSION);
 
 function refreshSessionTimeout() {
 
@@ -16,6 +16,7 @@ function refreshSessionTimeout() {
 		session_destroy();
 	} else {
 		$_SESSION['expires'] = time() + $config["session"]["expiration_time"]; // update last activity time stamp
+		$_SESSION['obsolete'] = haveSessionExpired();
 	}
 
 }
@@ -38,7 +39,7 @@ function isValidSession() {
 		$_SESSION['obsolete'] = haveSessionExpired();
 
 		if($_SESSION['obsolete']) {
-			throw new Exception('Attempt to use expired session.');
+			throw new Exception('Attempt to use a obsolete session.');
 		}
 
 		if(!isset($_SESSION['IPaddress'])) {
@@ -57,18 +58,20 @@ function isValidSession() {
 		// 	throw new Exception('Attempted to log in user that does not exist with ID: ' . $_SESSION['user_id']);
 		// }
 
-		if (haveSessionIdExpired()) {
-			regenerateSession($_SESSION['obsolete']);
-		}
-
+		// If session is not obsolete, there is a chance to regenerate the session
 		if(!$_SESSION['obsolete'] && mt_rand(1, 100) == 1) {
 			regenerateSession();
+		}
+
+		if(haveSessionExpired()){
+			//ChromePhp::log($_SESSION['obsolete']);
+			regenerateSession($_SESSION['obsolete']);
 		}
 		
 		return true;
 
 	} catch(Exception $e) {
-		ChromePhp::info($e);
+		//ChromePhp::info($e);
 		return false;
 	}
 }

@@ -1,6 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
-
 * {
 	margin: 0;
 	padding: 0;
@@ -72,8 +70,8 @@ footer {
 	-ms-flex: 3;
 	flex: 3;
 
-	min-width: 0;
-	min-height: 0;
+	min-width: auto;
+	min-height: auto;
 	overflow: auto;
 }
 
@@ -561,11 +559,47 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	height:auto;
 }
 
-#quitarImagen { 	
+#quitarImagen {
 	display: none;
 	width: auto;
 	margin-left: 5%;
 	margin-right: auto;
+}
+
+#listaPreguntas {
+	height: 2%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.pregunta {
+	border-left: 6px solid green;	
+	border-top: 2px solid darkgrey;
+	background-color: lightgrey;
+	padding: 5px 5px 5px 5px;
+}
+
+/* List styling */
+.answerList, .answerList ul {
+	margin-top: 0;
+	padding-left: 2em;
+	list-style-type: none;
+	position: relative;
+}
+.answerList li:before {
+	position: absolute;
+	margin-left: -1.3em;
+	font-weight: bold;
+}
+
+.answerList li.tick:before {
+	content: "\2713";
+	color: darkgreen;
+}
+
+.answerList li.cross:before {
+	content: "\2717";
+	color: crimson;
 }
 
 /* mobile layout */

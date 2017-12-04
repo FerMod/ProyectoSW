@@ -70,82 +70,50 @@ if(!isValidSession()) {
 		</nav>
 		<article class="content">
 			<label>Editar pregunta</label>
-			<div id="preguntas" style="border-style: groove;">
-				<!-- <?php
-				// $preguntas = simplexml_load_file('xml/preguntas.xml');
-
-				// foreach ($preguntas->assessmentItem as $pregunta) {
-				// 	echo '<div class="preguntaed" id="'.$pregunta['id'].'id" onclick="editarPregunta('.$pregunta['id'].')">';
-				// 	echo '<div><label id='.$pregunta['id'].'>Id pregunta: '.$pregunta['id'].'</label></div>';
-				// 	echo '<div><label id="'.$pregunta['id'].'comp">Complejidad: '.$pregunta['complexity'].' | Tema: '.$pregunta['subject'].' | Autor: '.$pregunta['author'].'</label></div>';
-				// 	echo '<div><label id="'.$pregunta['id'].'preg">Enunciado: '.$pregunta->itemBody->p.'</label></div>';
-				// 	echo '<div><label id="'.$pregunta['id'].'cor">+Respuesta correcta: '.$pregunta->correctResponse->value.'</label></div>';
-				// 	$j = 1;
-				// 	$incorrect = $pregunta->incorrectResponses;
-				// 	foreach($incorrect->value as $incor) {
-				// 		echo '<div><label id="'.$pregunta['id'].'incor'.$j.'">-Respuesta incorrecta '.$j.': '.$incor.'</label></div>';
-				// 		$j = $j + 1;
-				// 	}
-				// 	echo '</div>';
-				// 	echo '<hr>';
-				// }
-				?> -->
-				
+			<div id="listaPreguntas" class="listaPreguntas" style="border-style: groove;">
 			</div>
 			<script type="text/javascript">
 				getQuestions(createQuestionList);
 			</script>
-			<style type="text/css">
-			.pregunta {
-				border-left: 6px solid green;
-				background-color: lightgrey;
-			}
-
-			#preguntas {
-				height: 30%;
-				overflow: hidden;
-				overflow-y: scroll;
-			}
-		</style>
 		<div>
 			<fieldset>
 				<legend>Datos de la pregunta</legend>
 				<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">
 					<div>
-						<label for="id">Id pregunta:</label>
-						<input type="text" id="ided" name="ided" disabled/>
+						<label for="id-edit">Id pregunta:</label>
+						<input type="text" id="id-edit" name="id-edit" readonly="readonly" style="background: #dddddd;" />
 					</div>
 					<div>
-						<label for="email">Email*:</label>
-						<input type="text" id="emailed" name="emailed" disabled/>
+						<label for="email-edit">Email*:</label>
+						<input type="text" id="email-edit" name="email-edit" readonly="readonly" style="background: #dddddd;"/>
 					</div>
 					<div>
-						<label for="enunciado">Enunciado de la pregunta*:</label>
-						<input type="text" id="enunciadoed" name="enunciadoed" size="35" />
+						<label for="enunciado-edit">Enunciado de la pregunta*:</label>
+						<input type="text" id="enunciado-edit" name="enunciado-edit" size="35" />
 					</div>
 					<div>
-						<label for="respuestacorrecta">Respuesta correcta*:</label>
-						<input type="text" id="respuestacorrectaed" name="respuestacorrectaed" size="35" />
+						<label for="respuestaCorrecta-edit">Respuesta correcta*:</label>
+						<input type="text" id="respuestaCorrecta-edit" name="respuestaCorrecta-edit" size="35" />
 					</div>
 					<div>
-						<label for="respuestaincorrecta1">Respuesta incorrecta 1*:</label>
-						<input type="text" id="respuestaincorrecta1ed" name="respuestaincorrecta1ed" size="35" />
+						<label for="respuestaIncorrecta1-edit">Respuesta incorrecta 1*:</label>
+						<input type="text" id="respuestaIncorrecta1-edit" name="respuestaIncorrecta1-edit" size="35" />
 					</div>
 					<div>
-						<label for="respuestaincorrecta2">Respuesta incorrecta 2*:</label>
-						<input type="text" id="respuestaincorrecta2ed" name="respuestaincorrecta2ed" size="35" />
+						<label for="respuestaIncorrecta2-edit">Respuesta incorrecta 2*:</label>
+						<input type="text" id="respuestaIncorrecta2-edit" name="respuestaIncorrecta2-edit" size="35" />
 					</div>
 					<div>
-						<label for="respuestaincorrecta3">Respuesta incorrecta 3*:</label>
-						<input type="text" id="respuestaincorrecta3ed" name="respuestaincorrecta3ed" size="35" />
+						<label for="respuestaIncorrecta3-edit">Respuesta incorrecta 3*:</label>
+						<input type="text" id="respuestaIncorrecta3-edit" name="respuestaIncorrecta3-edit" size="35" />
 					</div>
 					<div>
-						<label for="complejidad">Complejidad (1..5)*:</label>
-						<input type="text" id="complejidaded" name="complejidaded" size="10" />
+						<label for="complejidad-edit">Complejidad (1..5)*:</label>
+						<input type="text" id="complejidad-edit" name="complejidad-edit" size="10" />
 					</div>
 					<div>
-						<label for="tema">Tema (subject)*:</label>
-						<input type="text" id="temaed" name="temaed" size="10" />
+						<label for="tema-edit">Tema (subject)*:</label>
+						<input type="text" id="tema-edit" name="tema-edit" size="10" />
 					</div>
 					<div>
 						<input type="submit" value="Confirmar edición"/>
@@ -166,31 +134,5 @@ if(!isValidSession()) {
 	<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
 	<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 </footer>
-<script type="text/javascript">
-	// function editarPregunta(id) {
-	// 	var datos = $("#"+id+"comp").text().split(" | ");
-
-	// 	var id = $("#"+id).text().split("Id pregunta: ")[1];
-
-	// 	var comp = datos[0].split("Complejidad: ")[1];
-	// 	var tema = datos[1].split("Tema: ")[1];
-	// 	var email = datos[2].split("Autor: ")[1];
-	// 	var enun = $("#"+id+"preg").text().split("Enunciado: ")[1];
-	// 	var rcor = $("#"+id+"cor").text().split("+Respuesta correcta: ")[1];
-	// 	var rincor1 = $("#"+id+"incor1").text().split("-Respuesta incorrecta 1: ")[1];
-	// 	var rincor2 = $("#"+id+"incor2").text().split("-Respuesta incorrecta 2: ")[1];
-	// 	var rincor3 = $("#"+id+"incor3").text().split("-Respuesta incorrecta 3: ")[1];
-
-	// 	$("#ided").val(id);
-	// 	$("#emailed").val(email);
-	// 	$("#enunciadoed").val(enun);
-	// 	$("#respuestacorrectaed").val(rcor);
-	// 	$("#respuestaincorrecta1ed").val(rincor1);
-	// 	$("#respuestaincorrecta2ed").val(rincor2);
-	// 	$("#respuestaincorrecta3ed").val(rincor3);
-	// 	$("#complejidaded").val(comp);
-	// 	$("#temaed").val(tema);
-	// }
-</script>
 </body>
 </html>

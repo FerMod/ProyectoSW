@@ -406,6 +406,21 @@ $(document).ready(function() {
 		}
 	}).css("cursor", "pointer");
 
+
+	$("[data-scroll-to]").click(function() {
+		var $this = $(this),
+		$toElement      = $this.attr('data-scroll-to'),
+		$focusElement   = $this.attr('data-scroll-focus'),
+		$offset         = $this.attr('data-scroll-offset') * 1 || 0,
+		$speed          = $this.attr('data-scroll-speed') * 1 || 500;
+
+		$('html, body').animate({
+			scrollTop: $($toElement).offset().top + $offset
+		}, $speed);
+
+		if ($focusElement) $($focusElement).focus();
+	});
+
 });
 
 function getQuestions(callbackFunciton) {
@@ -424,60 +439,62 @@ function getQuestions(callbackFunciton) {
 
 function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2, respuestaIncorrecta3, complejidad, tema) {
 	
-	var idElement = $("#" + id).find("#id");
-	var emailElement = $("#" + id).find("#email");
-	var enunciadoElement = $("#" + id).find("#enunciado");
-	var respuestaCorrectaElement = $("#" + id).find("#respuestaCorrecta");
-	var respuestaIncorrecta1Element = $("#" + id).find("#respuestaIncorrecta1");
-	var respuestaIncorrecta2Element = $("#" + id).find("#respuestaIncorrecta2");
-	var respuestaIncorrecta3Element = $("#" + id).find("#respuestaIncorrecta3");
-	var complejidadElement =$("#" + id).find("#complejidad");
-	var temaElement = $("#" + id).find("#tema");
+	var $idElement = $("#" + id).find("#id");
+	var $emailElement = $("#" + id).find("#email");
+	var $enunciadoElement = $("#" + id).find("#enunciado");
+	var $respuestaCorrectaElement = $("#" + id).find("#respuestaCorrecta");
+	var $respuestaIncorrecta1Element = $("#" + id).find("#respuestaIncorrecta1");
+	var $respuestaIncorrecta2Element = $("#" + id).find("#respuestaIncorrecta2");
+	var $respuestaIncorrecta3Element = $("#" + id).find("#respuestaIncorrecta3");
+	var $complejidadElement =$("#" + id).find("#complejidad");
+	var $temaElement = $("#" + id).find("#tema");
 
-	if(idElement.text() != id) {
-		idElement.text(id);
-		highlight(idElement);
+	if($idElement.text() != id) {
+		$idElement.text(id);
+		highlight($idElement);
 	}
 
-	if(emailElement.text() != email) {
-		emailElement.text(email);
-		highlight(emailElement);
+	if($emailElement.text() != email) {
+		$emailElement.text(email);
+		highlight($emailElement);
 	}
 
-	if(enunciadoElement.text() != enunciado) {
-		enunciadoElement.text(enunciado);
-		highlight(enunciadoElement);
+	if($enunciadoElement.text() != enunciado) {
+		$enunciadoElement.text(enunciado);
+		highlight($enunciadoElement);
 	}
 
-	if(respuestaCorrectaElement.text() != respuestaCorrecta) {
-		respuestaCorrectaElement.text(respuestaCorrecta);
-		highlight(respuestaCorrectaElement);
+	if($respuestaCorrectaElement.text() != respuestaCorrecta) {
+		$respuestaCorrectaElement.text(respuestaCorrecta);
+		highlight($respuestaCorrectaElement);
 	}
 
-	if(respuestaIncorrecta1Element.text() != respuestaIncorrecta1) {
-		respuestaIncorrecta1Element.text(respuestaIncorrecta1);
-		highlight(respuestaIncorrecta1Element);
+	if($respuestaIncorrecta1Element.text() != respuestaIncorrecta1) {
+		$respuestaIncorrecta1Element.text(respuestaIncorrecta1);
+		highlight($respuestaIncorrecta1Element);
 	}
 
-	if(respuestaIncorrecta2Element.text() != respuestaIncorrecta2) {
-		respuestaIncorrecta2Element.text(respuestaIncorrecta2);
-		highlight(respuestaIncorrecta2Element);
+	if($respuestaIncorrecta2Element.text() != respuestaIncorrecta2) {
+		$respuestaIncorrecta2Element.text(respuestaIncorrecta2);
+		highlight($respuestaIncorrecta2Element);
 	}
 
-	if(respuestaIncorrecta3Element.text() != respuestaIncorrecta3) {
-		respuestaIncorrecta3Element.text(respuestaIncorrecta3);
-		highlight(respuestaIncorrecta3Element);
+	if($respuestaIncorrecta3Element.text() != respuestaIncorrecta3) {
+		$respuestaIncorrecta3Element.text(respuestaIncorrecta3);
+		highlight($respuestaIncorrecta3Element);
 	}
 
-	if(complejidadElement.text() != complejidad) {
-		complejidadElement.text(complejidad);
-		highlight(complejidadElement);
+	if($complejidadElement.text() != complejidad) {
+		$complejidadElement.text(complejidad);
+		highlight($complejidadElement);
 	}
 
-	if(temaElement.text() != tema) {
-		temaElement.text(tema);
-		highlight(temaElement);
+	if($temaElement.text() != tema) {
+		$temaElement.text(tema);
+		highlight($temaElement);
 	}
+
+	scrollTo($("#listaPreguntas"), $("#" + id));
 
 }
 
@@ -547,8 +564,13 @@ function redirecTo(url) {
 
 function highlight($element) {
 	$element.addClass("highlight");
-	$element.delay(2000).queue(function() { // Wait for 1 second.
+	$element.delay(2200).queue(function() { // Wait the defined seconds
 		$(this).removeClass("highlight").dequeue();
 	});	
 }
 
+function scrollTo($container, $element) {
+	$container.animate({
+		scrollTop: $element.offset().top - $container.offset().top + $container.scrollTop()
+	});
+}

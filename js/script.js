@@ -440,12 +440,23 @@ function getQuestions(callbackFunciton) {
 }
 
 function createQuestionList(result, status, xhr) {
-	console.table(result.query);
+	//console.table(result.query);
 	$.each(result.query, function (key, value) {
-		var $questionDiv = $("#preguntas").append('<div class="preguntas" id="' + key + 'id" onclick="editarPregunta(' +  key + ')"></div>');
-		$questionDiv.append('<div><label id="' + key + '">Id pregunta: ' + key + '</label></div>');
-		$questionDiv.append('<div><label id="' + key + '">Complejidad: ' + value['complejidad'] + ' | Tema: ' + value['tema'] + ' | Autor: ' + value['email'] + '</label></div>');
-		// $questionDiv.append('<div><label id="' + key + 'preg">Enunciado: '.$pregunta->itemBody->p.'</label></div>');
+
+		var $questionDivElement = $('<div id="' + key + '" onclick="editarPregunta(' +  key + ')"></div>').addClass("pregunta");
+		$questionDivElement.append('<div id="id">Id pregunta: ' + key + '</div>');
+		$questionDivElement.append('<div id="complejidad">Complejidad: ' + value['complejidad'] + ' | Tema: ' + value['tema'] + ' | Autor: ' + value['email'] + '</div>');
+		$questionDivElement.append('<div id="enunciado">Enunciado: ' + value['enunciado'] + '</div>');
+		
+		var $listElement = $('<ul></ul>').addClass("answerList");
+		$listElement.append('<li id="respuestaCorrecta" class="tick">' + value['respuesta_correcta'] + '</li>');
+		$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value['respuesta_incorrecta_1'] + '</li>');
+		$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value['respuesta_incorrecta_2'] + '</li>');
+		$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value['respuesta_incorrecta_3'] + '</li>');
+
+		$questionDivElement.append($listElement);
+		$("#preguntas").append($questionDivElement);
+
 	});
 }
 

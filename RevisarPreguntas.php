@@ -96,7 +96,7 @@ if(!isValidSession()) {
 				getQuestions(createQuestionList);
 			</script>
 			<style type="text/css">
-			.preguntaed {
+			.pregunta {
 				border-left: 6px solid green;
 				background-color: lightgrey;
 			}

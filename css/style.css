@@ -566,6 +566,36 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	margin-right: auto;
 }
 
+.pregunta {
+	border-left: 6px solid green;	
+	border-top: 2px solid darkgrey;
+	background-color: lightgrey;
+	padding: 5px 5px 5px 5px;
+}
+
+/* List styling */
+.answerList, .answerList ul {
+  margin-top: 0;
+  padding-left: 2em;
+  list-style-type: none;
+  position: relative;
+}
+.answerList li:before {
+  position: absolute;
+  margin-left: -1.3em;
+  font-weight: bold;
+}
+
+.answerList li.tick:before {
+  content: "\2713";
+  color: darkgreen;
+}
+
+.answerList li.cross:before {
+  content: "\2717";
+  color: crimson;
+}
+
 /* mobile layout */
 @media only screen and (max-width: 480px) {
 

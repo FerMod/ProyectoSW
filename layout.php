@@ -15,7 +15,7 @@ if(isValidSession()) {
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
 	<!-- Uncomment the following line to auto refresh the page -->
-	<!-- <meta http-equiv="refresh" content="<?php echo $config["session"]["timeout"]; ?>"> -->
+	<!-- <meta http-equiv="refresh" content="<?php echo $config["session"]["expiration_time"]; ?>"> -->
 
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -25,6 +25,9 @@ if(isValidSession()) {
 	<script src="js/script.js"></script>	
 
 	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 
 </head>
 

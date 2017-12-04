@@ -39,7 +39,7 @@ function isValidSession() {
 		$_SESSION['obsolete'] = haveSessionExpired();
 
 		if($_SESSION['obsolete']) {
-			throw new Exception('Attempt to use expired session.');
+			throw new Exception('Attempt to use a obsolete session.');
 		}
 
 		if(!isset($_SESSION['IPaddress'])) {
@@ -58,13 +58,14 @@ function isValidSession() {
 		// 	throw new Exception('Attempted to log in user that does not exist with ID: ' . $_SESSION['user_id']);
 		// }
 
-		if (haveSessionIdExpired()) {
-			//ChromePhp::log($_SESSION['obsolete']);
-			regenerateSession($_SESSION['obsolete']);
-		}
-
+		// If session is not obsolete, there is a chance to regenerate the session
 		if(!$_SESSION['obsolete'] && mt_rand(1, 100) == 1) {
 			regenerateSession();
+		}
+
+		if(haveSessionExpired()){
+			//ChromePhp::log($_SESSION['obsolete']);
+			regenerateSession($_SESSION['obsolete']);
 		}
 		
 		return true;

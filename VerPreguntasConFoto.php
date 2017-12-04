@@ -28,6 +28,7 @@ $config = include("config.php");
 	<script src="js/sortElements.js"/></script>
 
 	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 
 	<?php
 

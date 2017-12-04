@@ -442,9 +442,9 @@ function getQuestions(callbackFunciton) {
 function createQuestionList(result, status, xhr) {
 	console.table(result.query);
 	$.each(result.query, function (key, value) {
-		var $questionDiv = $("#preguntas").append('<div class="preguntaed" id="' + key + 'id" onclick="editarPregunta(' +  key + ')"></div>');
-		$questionDiv.append('<div><label id=' + key + '>Id pregunta: ' + key + '</label></div>');
-		$questionDiv.append('<div><label id="' + key + 'comp">Complejidad: ' + value['complejidad'] + ' | Tema: ' + value['tema'] + ' | Autor: ' + value['email'] + '</label></div>');
+		var $questionDiv = $("#preguntas").append('<div class="preguntas" id="' + key + 'id" onclick="editarPregunta(' +  key + ')"></div>');
+		$questionDiv.append('<div><label id="' + key + '">Id pregunta: ' + key + '</label></div>');
+		$questionDiv.append('<div><label id="' + key + '">Complejidad: ' + value['complejidad'] + ' | Tema: ' + value['tema'] + ' | Autor: ' + value['email'] + '</label></div>');
 		// $questionDiv.append('<div><label id="' + key + 'preg">Enunciado: '.$pregunta->itemBody->p.'</label></div>');
 	});
 }

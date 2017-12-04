@@ -525,9 +525,9 @@ function createQuestionList(result, status, xhr) {
 	$.each(result.query, function (key, value) {
 
 		var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
-		$questionDivElement.append('Id pregunta: <span id="id">' + key + '</span><br/>');
-		$questionDivElement.append('Complejidad: <span id="complejidad">' + value['complejidad'] + '</span> | Tema: <span id="tema">' + value['tema'] + '</span> | Autor: <span id="email">' + value['email'] + '</span></br>');
-		$questionDivElement.append('Enunciado: <span id="enunciado">' + value['enunciado'] + '</span><br/>');
+		$questionDivElement.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
+		$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value['complejidad'] + '</span><strong> | Tema: </strong><span id="tema">' + value['tema'] + '</span><strong> | Autor: </strong><span id="email">' + value['email'] + '</span></br>');
+		$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value['enunciado'] + '</span><br/>');
 		
 		var $listElement = $('<ul></ul>').addClass("answerList");
 		$listElement.append('<li id="respuestaCorrecta" class="tick">' + value['respuesta_correcta'] + '</li>');

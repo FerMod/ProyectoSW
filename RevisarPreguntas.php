@@ -115,7 +115,7 @@ if(!isValidSession()) {
 						<input type="text" id="tema-edit" name="tema-edit" size="10" />
 					</div>
 					<div>
-						<input type="submit" value="Confirmar edición"/>
+						<input data-scroll-to="#listaPreguntas" data-scroll-speed="700" data-scroll-offset="-200" type="submit" value="Confirmar edición"/>
 					</div>
 				</fieldset>
 			</form>

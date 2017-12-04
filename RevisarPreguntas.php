@@ -70,7 +70,7 @@ if(!isValidSession()) {
 		</nav>
 		<article class="content">
 			<label>Editar pregunta</label>
-			<div id="listaPreguntas" class="listaPreguntas" style="border-style: groove;">
+			<div id="listaPreguntas" style="border-style: groove;">
 			</div>
 			<script type="text/javascript">
 				getQuestions(createQuestionList);

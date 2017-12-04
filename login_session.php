@@ -42,8 +42,8 @@ if(isset($_POST['submit'])) {
 				$_SESSION['user_type'] = ($email != "web000@ehu.es") ? 'student' : 'teacher';
 
 				$_SESSION['obsolete'] = false;
-				$_SESSION['expires'] = time() + $config["session"]["timeout"];
-				$_SESSION['ID_expires'] = time() + $config["session"]["timeout"];
+				$_SESSION['expires'] = time() + $config["session"]["expiration_time"];
+				$_SESSION['ID_expires'] = time() + $config["session"]["id_expiration_time"];
 				$_SESSION['IPaddress'] = $_SERVER['REMOTE_ADDR'];
 				$_SESSION['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
 

@@ -68,39 +68,43 @@ if(!isValidSession()) {
 		</nav>
 		<article class="content">
 			<label>Editar pregunta</label>
-			<fieldset id="preguntas">
-				<?php
-				$preguntas = simplexml_load_file('xml/preguntas.xml');
+			<div id="preguntas" style="border-style: groove;">
+				<!-- <?php
+				// $preguntas = simplexml_load_file('xml/preguntas.xml');
 
-				foreach ($preguntas->assessmentItem as $pregunta) {
-					echo '<div class="preguntaed" id="'.$pregunta['id'].'id" onclick="editarPregunta('.$pregunta['id'].')">';
-					echo '<div><label id='.$pregunta['id'].'>Id pregunta: '.$pregunta['id'].'</label></div>';
-					echo '<div><label id="'.$pregunta['id'].'comp">Complejidad: '.$pregunta['complexity'].' | Tema: '.$pregunta['subject'].' | Autor: '.$pregunta['author'].'</label></div>';
-					echo '<div><label id="'.$pregunta['id'].'preg">Enunciado: '.$pregunta->itemBody->p.'</label></div>';
-					echo '<div><label id="'.$pregunta['id'].'cor">+Respuesta correcta: '.$pregunta->correctResponse->value.'</label></div>';
-					$j = 1;
-					$incorrect = $pregunta->incorrectResponses;
-					foreach($incorrect->value as $incor) {
-						echo '<div><label id="'.$pregunta['id'].'incor'.$j.'">-Respuesta incorrecta '.$j.': '.$incor.'</label></div>';
-						$j = $j + 1;
-					}
-					echo '</div>';
-					echo '<hr>';
-				}
-				?>
-				<style type="text/css">
-				.preguntaed {
-					border-left: 6px solid green;
-					background-color: lightgrey;
-				}
+				// foreach ($preguntas->assessmentItem as $pregunta) {
+				// 	echo '<div class="preguntaed" id="'.$pregunta['id'].'id" onclick="editarPregunta('.$pregunta['id'].')">';
+				// 	echo '<div><label id='.$pregunta['id'].'>Id pregunta: '.$pregunta['id'].'</label></div>';
+				// 	echo '<div><label id="'.$pregunta['id'].'comp">Complejidad: '.$pregunta['complexity'].' | Tema: '.$pregunta['subject'].' | Autor: '.$pregunta['author'].'</label></div>';
+				// 	echo '<div><label id="'.$pregunta['id'].'preg">Enunciado: '.$pregunta->itemBody->p.'</label></div>';
+				// 	echo '<div><label id="'.$pregunta['id'].'cor">+Respuesta correcta: '.$pregunta->correctResponse->value.'</label></div>';
+				// 	$j = 1;
+				// 	$incorrect = $pregunta->incorrectResponses;
+				// 	foreach($incorrect->value as $incor) {
+				// 		echo '<div><label id="'.$pregunta['id'].'incor'.$j.'">-Respuesta incorrecta '.$j.': '.$incor.'</label></div>';
+				// 		$j = $j + 1;
+				// 	}
+				// 	echo '</div>';
+				// 	echo '<hr>';
+				// }
+				?> -->
+				
+			</div>
+			<script type="text/javascript">
+				getQuestions(createQuestionList);
+			</script>
+			<style type="text/css">
+			.preguntaed {
+				border-left: 6px solid green;
+				background-color: lightgrey;
+			}
 
-				#preguntas {
-					height: 30%;
-					overflow: hidden;
-					overflow-y: scroll;
-				}
-			</style>
-		</fieldset>
+			#preguntas {
+				height: 30%;
+				overflow: hidden;
+				overflow-y: scroll;
+			}
+		</style>
 		<div>
 			<fieldset>
 				<legend>Datos de la pregunta</legend>
@@ -161,30 +165,30 @@ if(!isValidSession()) {
 	<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 </footer>
 <script type="text/javascript">
-	function editarPregunta(id) {
-		var datos = $("#"+id+"comp").text().split(" | ");
+	// function editarPregunta(id) {
+	// 	var datos = $("#"+id+"comp").text().split(" | ");
 
-		var id = $("#"+id).text().split("Id pregunta: ")[1];
+	// 	var id = $("#"+id).text().split("Id pregunta: ")[1];
 
-		var comp = datos[0].split("Complejidad: ")[1];
-		var tema = datos[1].split("Tema: ")[1];
-		var email = datos[2].split("Autor: ")[1];
-		var enun = $("#"+id+"preg").text().split("Enunciado: ")[1];
-		var rcor = $("#"+id+"cor").text().split("+Respuesta correcta: ")[1];
-		var rincor1 = $("#"+id+"incor1").text().split("-Respuesta incorrecta 1: ")[1];
-		var rincor2 = $("#"+id+"incor2").text().split("-Respuesta incorrecta 2: ")[1];
-		var rincor3 = $("#"+id+"incor3").text().split("-Respuesta incorrecta 3: ")[1];
+	// 	var comp = datos[0].split("Complejidad: ")[1];
+	// 	var tema = datos[1].split("Tema: ")[1];
+	// 	var email = datos[2].split("Autor: ")[1];
+	// 	var enun = $("#"+id+"preg").text().split("Enunciado: ")[1];
+	// 	var rcor = $("#"+id+"cor").text().split("+Respuesta correcta: ")[1];
+	// 	var rincor1 = $("#"+id+"incor1").text().split("-Respuesta incorrecta 1: ")[1];
+	// 	var rincor2 = $("#"+id+"incor2").text().split("-Respuesta incorrecta 2: ")[1];
+	// 	var rincor3 = $("#"+id+"incor3").text().split("-Respuesta incorrecta 3: ")[1];
 
-		$("#ided").val(id);
-		$("#emailed").val(email);
-		$("#enunciadoed").val(enun);
-		$("#respuestacorrectaed").val(rcor);
-		$("#respuestaincorrecta1ed").val(rincor1);
-		$("#respuestaincorrecta2ed").val(rincor2);
-		$("#respuestaincorrecta3ed").val(rincor3);
-		$("#complejidaded").val(comp);
-		$("#temaed").val(tema);
-	}
+	// 	$("#ided").val(id);
+	// 	$("#emailed").val(email);
+	// 	$("#enunciadoed").val(enun);
+	// 	$("#respuestacorrectaed").val(rcor);
+	// 	$("#respuestaincorrecta1ed").val(rincor1);
+	// 	$("#respuestaincorrecta2ed").val(rincor2);
+	// 	$("#respuestaincorrecta3ed").val(rincor3);
+	// 	$("#complejidaded").val(comp);
+	// 	$("#temaed").val(tema);
+	// }
 </script>
 </body>
 </html>

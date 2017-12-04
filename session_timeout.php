@@ -2,10 +2,10 @@
 
 $config = include("config.php");
 
-@ChromePhp::log(session_id());
-@ChromePhp::log("Session timeout countdown: " . ($_SESSION['expires'] - time()));
-@ChromePhp::log("Session id regenerate countdown: " . ($_SESSION['ID_expires'] - time()));
-@ChromePhp::table($_SESSION);
+// @ChromePhp::log(session_id());
+// @ChromePhp::log("Session timeout countdown: " . ($_SESSION['expires'] - time()));
+// @ChromePhp::log("Session id regenerate countdown: " . ($_SESSION['ID_expires'] - time()));
+// @ChromePhp::table($_SESSION);
 
 function refreshSessionTimeout() {
 
@@ -16,6 +16,7 @@ function refreshSessionTimeout() {
 		session_destroy();
 	} else {
 		$_SESSION['expires'] = time() + $config["session"]["expiration_time"]; // update last activity time stamp
+		$_SESSION['obsolete'] = haveSessionExpired();
 	}
 
 }
@@ -58,6 +59,7 @@ function isValidSession() {
 		// }
 
 		if (haveSessionIdExpired()) {
+			//ChromePhp::log($_SESSION['obsolete']);
 			regenerateSession($_SESSION['obsolete']);
 		}
 
@@ -68,7 +70,7 @@ function isValidSession() {
 		return true;
 
 	} catch(Exception $e) {
-		ChromePhp::info($e);
+		//ChromePhp::info($e);
 		return false;
 	}
 }

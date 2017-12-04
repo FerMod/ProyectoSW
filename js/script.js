@@ -398,24 +398,55 @@ $(document).ready(function() {
 		}
 	}).css("cursor", "pointer");
 
-	refreshSessionTimeout();
+	function editarPregunta(id) {
+		var datos = $("#"+id+"comp").text().split(" | ");
+
+		var id = $("#"+id).text().split("Id pregunta: ")[1];
+
+		var comp = datos[0].split("Complejidad: ")[1];
+		var tema = datos[1].split("Tema: ")[1];
+		var email = datos[2].split("Autor: ")[1];
+		var enun = $("#"+id+"preg").text().split("Enunciado: ")[1];
+		var rcor = $("#"+id+"cor").text().split("+Respuesta correcta: ")[1];
+		var rincor1 = $("#"+id+"incor1").text().split("-Respuesta incorrecta 1: ")[1];
+		var rincor2 = $("#"+id+"incor2").text().split("-Respuesta incorrecta 2: ")[1];
+		var rincor3 = $("#"+id+"incor3").text().split("-Respuesta incorrecta 3: ")[1];
+
+		$("#ided").val(id);
+		$("#emailed").val(email);
+		$("#enunciadoed").val(enun);
+		$("#respuestacorrectaed").val(rcor);
+		$("#respuestaincorrecta1ed").val(rincor1);
+		$("#respuestaincorrecta2ed").val(rincor2);
+		$("#respuestaincorrecta3ed").val(rincor3);
+		$("#complejidaded").val(comp);
+		$("#temaed").val(tema);
+	}
 
 });
 
-function getQuestions() {
+function getQuestions(callbackFunciton) {
 
 	$.ajax({
 		url: "ajaxRequestManager.php",
 		data: {action: "getQuestions"},
 		method: "post",
 		dataType: "json",
-		success: function(result, status, xhr) {
-			return result.query;
-		},
+		success: callbackFunciton,
 		error: function (xhr, status, error) {
 		}
 	});
 
+}
+
+function createQuestionList(result, status, xhr) {
+	console.table(result.query);
+	$.each(result.query, function (key, value) {
+		var $questionDiv = $("#preguntas").append('<div class="preguntaed" id="' + key + 'id" onclick="editarPregunta(' +  key + ')"></div>');
+		$questionDiv.append('<div><label id=' + key + '>Id pregunta: ' + key + '</label></div>');
+		$questionDiv.append('<div><label id="' + key + 'comp">Complejidad: ' + value['complejidad'] + ' | Tema: ' + value['tema'] + ' | Autor: ' + value['email'] + '</label></div>');
+		// $questionDiv.append('<div><label id="' + key + 'preg">Enunciado: '.$pregunta->itemBody->p.'</label></div>');
+	});
 }
 
 function refreshSessionTimeout() {

@@ -40,12 +40,12 @@ $(document).ready(function() {
 	*/
 
 	$("#registro").on("submit", function(event) {
+		refreshSessionTimeout();
 
 		if(!$("#email").get(0).checkValidity() || !$("#password").get(0).checkValidity()) {
 			return false;
 		}
 
-		refreshSessionTimeout();
 		return true;
 
 	});
@@ -64,6 +64,7 @@ $(document).ready(function() {
 	});
 
 	$("#imagen").on("change", function() {
+		refreshSessionTimeout();
 
 		if($("#imagen").val()) {
 
@@ -84,16 +85,13 @@ $(document).ready(function() {
 
 		}
 
-		refreshSessionTimeout();
-
 	});
 
 	$("#quitarImagen").on("click", function() {
+		refreshSessionTimeout();
 
 		$("#imagen").val("");
 		$("#imagen").trigger("change");
-
-		refreshSessionTimeout();
 
 	});
 
@@ -116,8 +114,8 @@ $(document).ready(function() {
 	// When the user clicks on <span> (x), close the modal
 	$(".close").on("click", function(event) { 
 		event.stopPropagation();
-		$("#modalElement").css("display", "none");
 		refreshSessionTimeout();
+		$("#modalElement").css("display", "none");
 	});
 
 	// When the user clicks away, close the modal
@@ -127,14 +125,15 @@ $(document).ready(function() {
 	});
 
 	$(".modalImage").on("click", function() {
+		refreshSessionTimeout();
 		$("#modalElement").css("display", "block");
 		$("#img01").attr("src", $(this).attr("src"));
 		$("#caption").html($(".modalImage").attr("alt"));
-		refreshSessionTimeout();
 	});
 
 	$("#formGestionPreguntas").on("submit", function(event) {
 		event.preventDefault();
+		refreshSessionTimeout();
 
 		var formData = new FormData(this);
 		formData.append("action", "uploadQuestion");
@@ -166,6 +165,7 @@ $(document).ready(function() {
 	
 	$("#formRevPreguntas").on("submit", function(event) {
 		event.preventDefault();
+		refreshSessionTimeout();
 
 		var formData = new FormData(this);
 		formData.append("action", "editQuestion");
@@ -192,6 +192,7 @@ $(document).ready(function() {
 				console.log(error);
 			}
 		});
+
 	});
 
 	if($("#preguntasUsuarios").length && $("#preguntasTotales").length) {
@@ -267,7 +268,7 @@ $(document).ready(function() {
 	}
 	
 	$("#email").on("keyup", function(event) {
-		
+
 		if (!$("#email").val()) {
 			$("#email").get(0).validity = false;
 			$("#email").removeClass("validData").removeClass("invalidData");
@@ -394,6 +395,7 @@ $(document).ready(function() {
 	// Dont allow any context menu and the cut, copy and paste actions in the password field
 	$("input[type=password]").on("contextmenu cut copy paste", function(event) {
 		event.preventDefault();
+		refreshSessionTimeout();
 	});
 
 	var count = 1;
@@ -421,15 +423,62 @@ function getQuestions(callbackFunciton) {
 }
 
 function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2, respuestaIncorrecta3, complejidad, tema) {
-	$('#' + id + '[id="id"]').text(id);
-	$('#' + id + '[id="email"]').text(email);
-	$('#' + id + '[id="enunciado"]').text(enunciado);
-	$('#' + id + '[id="respuestaCorrecta"]').text(respuestaCorrecta);
-	$('#' + id + '[id="respuestaIncorrecta1"]').text(respuestaIncorrecta1);
-	$('#' + id + '[id="respuestaIncorrecta2"]').text(respuestaIncorrecta2);
-	$('#' + id + '[id="respuestaIncorrecta3"]').text(respuestaIncorrecta3);
-	$('#' + id + '[id="complejidad"]').text(complejidad);
-	$('#' + id + '[id="tema"]').text(tema);
+	
+	var idElement = $("#" + id).find("#id");
+	var emailElement = $("#" + id).find("#email");
+	var enunciadoElement = $("#" + id).find("#enunciado");
+	var respuestaCorrectaElement = $("#" + id).find("#respuestaCorrecta");
+	var respuestaIncorrecta1Element = $("#" + id).find("#respuestaIncorrecta1");
+	var respuestaIncorrecta2Element = $("#" + id).find("#respuestaIncorrecta2");
+	var respuestaIncorrecta3Element = $("#" + id).find("#respuestaIncorrecta3");
+	var complejidadElement =$("#" + id).find("#complejidad");
+	var temaElement = $("#" + id).find("#tema");
+
+	if(idElement.text() != id) {
+		idElement.text(id);
+		highlight(idElement);
+	}
+
+	if(emailElement.text() != email) {
+		emailElement.text(email);
+		highlight(emailElement);
+	}
+
+	if(enunciadoElement.text() != enunciado) {
+		enunciadoElement.text(enunciado);
+		highlight(enunciadoElement);
+	}
+
+	if(respuestaCorrectaElement.text() != respuestaCorrecta) {
+		respuestaCorrectaElement.text(respuestaCorrecta);
+		highlight(respuestaCorrectaElement);
+	}
+
+	if(respuestaIncorrecta1Element.text() != respuestaIncorrecta1) {
+		respuestaIncorrecta1Element.text(respuestaIncorrecta1);
+		highlight(respuestaIncorrecta1Element);
+	}
+
+	if(respuestaIncorrecta2Element.text() != respuestaIncorrecta2) {
+		respuestaIncorrecta2Element.text(respuestaIncorrecta2);
+		highlight(respuestaIncorrecta2Element);
+	}
+
+	if(respuestaIncorrecta3Element.text() != respuestaIncorrecta3) {
+		respuestaIncorrecta3Element.text(respuestaIncorrecta3);
+		highlight(respuestaIncorrecta3Element);
+	}
+
+	if(complejidadElement.text() != complejidad) {
+		complejidadElement.text(complejidad);
+		highlight(complejidadElement);
+	}
+
+	if(temaElement.text() != tema) {
+		temaElement.text(tema);
+		highlight(temaElement);
+	}
+
 }
 
 function editarPregunta(id) {
@@ -458,7 +507,7 @@ function createQuestionList(result, status, xhr) {
 
 	$.each(result.query, function (key, value) {
 
-		var $questionDivElement = $('<div id="' + key + '" onclick="editarPregunta(' +  key + ')"></div>').addClass("pregunta");
+		var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
 		$questionDivElement.append('Id pregunta: <span id="id">' + key + '</span><br/>');
 		$questionDivElement.append('Complejidad: <span id="complejidad">' + value['complejidad'] + '</span> | Tema: <span id="tema">' + value['tema'] + '</span> | Autor: <span id="email">' + value['email'] + '</span>');
 		$questionDivElement.append('Enunciado: <span id="enunciado">' + value['enunciado'] + '</span><br/>');
@@ -494,5 +543,12 @@ function redirecTo(url) {
 	if(url.length) {
 		window.location.replace(url);
 	}
+}
+
+function highlight($element) {
+	$element.addClass("highlight");
+	$element.delay(2000).queue(function() { // Wait for 1 second.
+		$(this).removeClass("highlight").dequeue();
+	});	
 }
 

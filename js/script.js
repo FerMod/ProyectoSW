@@ -526,7 +526,7 @@ function createQuestionList(result, status, xhr) {
 
 		var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
 		$questionDivElement.append('Id pregunta: <span id="id">' + key + '</span><br/>');
-		$questionDivElement.append('Complejidad: <span id="complejidad">' + value['complejidad'] + '</span> | Tema: <span id="tema">' + value['tema'] + '</span> | Autor: <span id="email">' + value['email'] + '</span>');
+		$questionDivElement.append('Complejidad: <span id="complejidad">' + value['complejidad'] + '</span> | Tema: <span id="tema">' + value['tema'] + '</span> | Autor: <span id="email">' + value['email'] + '</span></br>');
 		$questionDivElement.append('Enunciado: <span id="enunciado">' + value['enunciado'] + '</span><br/>');
 		
 		var $listElement = $('<ul></ul>').addClass("answerList");

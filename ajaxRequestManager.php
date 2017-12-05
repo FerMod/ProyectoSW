@@ -548,15 +548,15 @@ function editQuestion() {
 		"operationSuccess" => $uploadOk,
 		"operationMessage" => $operationMessage,
 		"question" => array(
-			"id" => $id ?? '',
-			"email" => $email ?? '',
-			"enunciado" => $enunciado ?? '',
-			"respuestaCorrecta" => $respuestaCorrecta ?? '',
-			"respuestaIncorrecta1" => $respuestaIncorrecta1 ?? '',
-			"respuestaIncorrecta2" => $respuestaIncorrecta2 ?? '',
-			"respuestaIncorrecta3" => $respuestaIncorrecta3 ?? '',
-			"complejidad" => $complejidad ?? '',
-			"tema" => $tema ?? ''
+			"id" => $id,
+			"email" => $email,
+			"enunciado" => $enunciado,
+			"respuestaCorrecta" => $respuestaCorrecta,
+			"respuestaIncorrecta1" => $respuestaIncorrecta1,
+			"respuestaIncorrecta2" => $respuestaIncorrecta2,
+			"respuestaIncorrecta3" => $respuestaIncorrecta3,
+			"complejidad" => $complejidad,
+			"tema" => $tema
 		)
 	);
 

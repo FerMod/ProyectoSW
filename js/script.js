@@ -524,6 +524,8 @@ function editarPregunta(id) {
 
 function createQuestionList(result, status, xhr) {
 
+	$(".loading").find("img").hide();
+
 	$.each(result.query, function (key, value) {
 
 		var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
@@ -541,6 +543,10 @@ function createQuestionList(result, status, xhr) {
 		$("#listaPreguntas").append($questionDivElement);
 
 	});
+
+	
+	$("#listaPreguntas").show("slow").fadeIn("slow");
+
 }
 
 function refreshSessionTimeout() {

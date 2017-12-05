@@ -637,6 +637,17 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	animation: highlight 3s;
 }
 
+.loading {	
+	text-align: center;
+	clear: both;
+	width: 100%;
+}
+
+.loading img {
+	max-width: 100%;
+	width: 20%;
+}
+
 /* mobile layout */
 @media only screen and (max-width: 412px) {
 

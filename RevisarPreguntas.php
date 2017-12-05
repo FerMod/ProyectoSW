@@ -70,7 +70,11 @@ if(!isValidSession()) {
 		</nav>
 		<article class="content">
 			<label>Editar pregunta</label>
-			<div id="listaPreguntas" style="border-style: groove;">
+			<div class="loading">
+				<img src="img/loading.gif">
+			</div>
+			<div id="listaPreguntas" style="display: none; border-style: groove;">
+				
 			</div>
 			<script type="text/javascript">
 				$(document).ready(getQuestions(createQuestionList));

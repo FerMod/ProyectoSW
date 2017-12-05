@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 - phpMyAdmin XML Dump
-- version 4.6.4
+- version 4.7.4
 - https://www.phpmyadmin.net
 -
-- Host: 127.0.0.1
-- Generation Time: Nov 02, 2017 at 10:22 PM
-- Server version: 5.7.14
-- PHP Version: 7.0.10
+- Host: 127.0.0.1:3306
+- Generation Time: Dec 05, 2017 at 02:02 PM
+- Server version: 5.7.19
+- PHP Version: 7.1.9
 -->
 
 <pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
@@ -29,7 +29,7 @@
                   `tema` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tema de la pregunta',
                   `imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen opcional de la pregunta',
                   PRIMARY KEY (`id`)
-                ) ENGINE=MyISAM AUTO_INCREMENT=145 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+                ) ENGINE=MyISAM AUTO_INCREMENT=292 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             </pma:table>
             <pma:table name="usuarios">
                 CREATE TABLE `usuarios` (
@@ -41,16 +41,8 @@
                   `imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen de perfil del usuario',
                   PRIMARY KEY (`id`),
                   UNIQUE KEY `UNIQUE` (`email`) USING BTREE
-                ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+                ) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             </pma:table>
         </pma:database>
     </pma:structure_schemas>
-
-    <!--
-    - Database: 'quiz'
-    -->
-    <database name="quiz">
-        <!-- Table preguntas -->
-        <!-- Table usuarios -->
-    </database>
 </pma_xml_export>

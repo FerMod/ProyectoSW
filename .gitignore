@@ -59,8 +59,10 @@ local.properties
 img/uploads/*
 img/users/*
 
-# Ignore zip files
+# Ignore compressed files
 *.zip
+*.rar
+*.7zip
 
 # Ignore sensible information file
 *.hidden

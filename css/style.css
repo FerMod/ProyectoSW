@@ -638,7 +638,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 /* mobile layout */
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 412px) {
 
 	.container {
 		display: -webkit-box;
@@ -661,7 +661,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 		-moz-box-ordinal-group: 1;
 		-ms-flex-order: 1;
 		-webkit-order: 1;
-		order: 1;
+		order: 2;
 	}
 
 	.navbar {
@@ -669,7 +669,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 		-moz-box-ordinal-group: 2;
 		-ms-flex-order: 2;
 		-webkit-order: 2;
-		order: 2;	
+		order: 1;
 	}
 
 	.sidebar {

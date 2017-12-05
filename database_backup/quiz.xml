@@ -18,7 +18,7 @@
         <pma:database name="quiz" collation="utf8_unicode_ci" charset="utf8">
             <pma:table name="preguntas">
                 CREATE TABLE `preguntas` (
-                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id de la pregunta',
+                  `id` int(255) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id de la pregunta',
                   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Correo del autor de la pregunta',
                   `enunciado` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Enunciado de la pregunta',
                   `respuesta_correcta` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta correcta a la pregunta',

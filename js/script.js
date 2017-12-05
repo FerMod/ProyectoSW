@@ -542,8 +542,9 @@ function createQuestionList(result, status, xhr) {
 
 	});
 
-	$("#listaPreguntas").show("slow").fadeIn("slow");
-	$(".loading").hide();
+	$(".loading").fadeOut("slow").hide("slow", function() {
+		$("#listaPreguntas").fadeIn("slow").show("slow");
+	});
 
 }
 

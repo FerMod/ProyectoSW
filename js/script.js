@@ -392,11 +392,13 @@ $(document).ready(function() {
 
 	}
 	
-	// Dont allow any context menu and the cut, copy and paste actions in the password field
-	$("input[type=password]").on("contextmenu cut copy paste", function(event) {
-		event.preventDefault();
-		refreshSessionTimeout();
-	});
+	// Is worse and more insecure to dont allow to paste password.
+	// Allowing the copy and paste, allows to password managers to paste passwords.
+	// // Dont allow any context menu and the cut, copy and paste actions in the password field
+	// $("input[type=password]").on("contextmenu cut copy paste", function(event) {
+	// 	event.preventDefault();
+	// 	refreshSessionTimeout();
+	// });
 
 	var count = 1;
 	$(".sidebar").find("span").on("click", function(event) {

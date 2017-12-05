@@ -8,7 +8,8 @@
 			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
 		</head>
 		<body>
-			<div class="page-body">			
+			<div class="page-body">			
+
 <h2 class="class-name"><img src="../media/images/Class_logo.png"
 														alt=" Class"
 														title=" Class"
@@ -555,7 +556,12 @@
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$namespaces</span>
-			 = <span class="var-default">array(<br />		'SOAP-ENV' =&gt; 'http://schemas.xmlsoap.org/soap/envelope/',<br />		'xsd' =&gt; 'http://www.w3.org/2001/XMLSchema',<br />		'xsi' =&gt; 'http://www.w3.org/2001/XMLSchema-instance',<br />		'SOAP-ENC' =&gt; 'http://schemas.xmlsoap.org/soap/encoding/'<br />		)</span>			(line <span class="line-number"><a href="..//__filesource/fsource_nusoap__nusoap.php.html#a162">162</a></span>)
+			 = <span class="var-default">array(
+<br />		'SOAP-ENV' =&gt; 'http://schemas.xmlsoap.org/soap/envelope/',
+<br />		'xsd' =&gt; 'http://www.w3.org/2001/XMLSchema',
+<br />		'xsi' =&gt; 'http://www.w3.org/2001/XMLSchema-instance',
+<br />		'SOAP-ENC' =&gt; 'http://schemas.xmlsoap.org/soap/encoding/'
+<br />		)</span>			(line <span class="line-number"><a href="..//__filesource/fsource_nusoap__nusoap.php.html#a162">162</a></span>)
 		</span>
 	</div>
 
@@ -655,7 +661,18 @@
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$typemap</span>
-			 = <span class="var-default">array(<br />	'http://www.w3.org/2001/XMLSchema' =&gt; array(<br />		'string'=&gt;'string','boolean'=&gt;'boolean','float'=&gt;'double','double'=&gt;'double','decimal'=&gt;'double',<br />		'duration'=&gt;'','dateTime'=&gt;'string','time'=&gt;'string','date'=&gt;'string','gYearMonth'=&gt;'',<br />		'gYear'=&gt;'','gMonthDay'=&gt;'','gDay'=&gt;'','gMonth'=&gt;'','hexBinary'=&gt;'string','base64Binary'=&gt;'string',<br />		// abstract &quot;any&quot; types<br />		'anyType'=&gt;'string','anySimpleType'=&gt;'string',<br />		// derived datatypes<br />		'normalizedString'=&gt;'string','token'=&gt;'string','language'=&gt;'','NMTOKEN'=&gt;'','NMTOKENS'=&gt;'','Name'=&gt;'','NCName'=&gt;'','ID'=&gt;'',<br />		'IDREF'=&gt;'','IDREFS'=&gt;'','ENTITY'=&gt;'','ENTITIES'=&gt;'','integer'=&gt;'integer','nonPositiveInteger'=&gt;'integer',<br />		'negativeInteger'=&gt;'integer','long'=&gt;'integer','int'=&gt;'integer','short'=&gt;'integer','byte'=&gt;'integer','nonNegativeInteger'=&gt;'integer',<br />		'unsignedLong'=&gt;'','unsignedInt'=&gt;'','unsignedShort'=&gt;'','unsignedByte'=&gt;'','positiveInteger'=&gt;''),'http://www.w3.org/2000/10/XMLSchema'=&gt;array('i4'=&gt;'','int'=&gt;'integer','boolean'=&gt;'boolean','string'=&gt;'string','double'=&gt;'double','float'=&gt;'double','dateTime'=&gt;'string','timeInstant'=&gt;'string','base64Binary'=&gt;'string','base64'=&gt;'string','ur-type'=&gt;'array'),'http://www.w3.org/1999/XMLSchema'=&gt;array('i4'=&gt;'','int'=&gt;'integer','boolean'=&gt;'boolean','string'=&gt;'string','double'=&gt;'double','float'=&gt;'double','dateTime'=&gt;'string','timeInstant'=&gt;'string','base64Binary'=&gt;'string','base64'=&gt;'string','ur-type'=&gt;'array'),'http://soapinterop.org/xsd'=&gt;array('SOAPStruct'=&gt;'struct'),'http://schemas.xmlsoap.org/soap/encoding/'=&gt;array('base64'=&gt;'string','array'=&gt;'array','Array'=&gt;'array'),'http://xml.apache.org/xml-soap'=&gt;array('Map'))</span>			(line <span class="line-number"><a href="..//__filesource/fsource_nusoap__nusoap.php.html#a184">184</a></span>)
+			 = <span class="var-default">array(
+<br />	'http://www.w3.org/2001/XMLSchema' =&gt; array(
+<br />		'string'=&gt;'string','boolean'=&gt;'boolean','float'=&gt;'double','double'=&gt;'double','decimal'=&gt;'double',
+<br />		'duration'=&gt;'','dateTime'=&gt;'string','time'=&gt;'string','date'=&gt;'string','gYearMonth'=&gt;'',
+<br />		'gYear'=&gt;'','gMonthDay'=&gt;'','gDay'=&gt;'','gMonth'=&gt;'','hexBinary'=&gt;'string','base64Binary'=&gt;'string',
+<br />		// abstract &quot;any&quot; types
+<br />		'anyType'=&gt;'string','anySimpleType'=&gt;'string',
+<br />		// derived datatypes
+<br />		'normalizedString'=&gt;'string','token'=&gt;'string','language'=&gt;'','NMTOKEN'=&gt;'','NMTOKENS'=&gt;'','Name'=&gt;'','NCName'=&gt;'','ID'=&gt;'',
+<br />		'IDREF'=&gt;'','IDREFS'=&gt;'','ENTITY'=&gt;'','ENTITIES'=&gt;'','integer'=&gt;'integer','nonPositiveInteger'=&gt;'integer',
+<br />		'negativeInteger'=&gt;'integer','long'=&gt;'integer','int'=&gt;'integer','short'=&gt;'integer','byte'=&gt;'integer','nonNegativeInteger'=&gt;'integer',
+<br />		'unsignedLong'=&gt;'','unsignedInt'=&gt;'','unsignedShort'=&gt;'','unsignedByte'=&gt;'','positiveInteger'=&gt;''),'http://www.w3.org/2000/10/XMLSchema'=&gt;array('i4'=&gt;'','int'=&gt;'integer','boolean'=&gt;'boolean','string'=&gt;'string','double'=&gt;'double','float'=&gt;'double','dateTime'=&gt;'string','timeInstant'=&gt;'string','base64Binary'=&gt;'string','base64'=&gt;'string','ur-type'=&gt;'array'),'http://www.w3.org/1999/XMLSchema'=&gt;array('i4'=&gt;'','int'=&gt;'integer','boolean'=&gt;'boolean','string'=&gt;'string','double'=&gt;'double','float'=&gt;'double','dateTime'=&gt;'string','timeInstant'=&gt;'string','base64Binary'=&gt;'string','base64'=&gt;'string','ur-type'=&gt;'array'),'http://soapinterop.org/xsd'=&gt;array('SOAPStruct'=&gt;'struct'),'http://schemas.xmlsoap.org/soap/encoding/'=&gt;array('base64'=&gt;'string','array'=&gt;'array','Array'=&gt;'array'),'http://xml.apache.org/xml-soap'=&gt;array('Map'))</span>			(line <span class="line-number"><a href="..//__filesource/fsource_nusoap__nusoap.php.html#a184">184</a></span>)
 		</span>
 	</div>
 
@@ -724,7 +741,8 @@
 		<span class="var-title">
 			<span class="var-type">array</span>
 			<span class="var-name">$xmlEntities</span>
-			 = <span class="var-default">array('quot' =&gt; '&quot;','amp' =&gt; '&amp;',<br />		'lt' =&gt; '&lt;','gt' =&gt; '&gt;','apos' =&gt; &quot;'&quot;)</span>			(line <span class="line-number"><a href="..//__filesource/fsource_nusoap__nusoap.php.html#a217">217</a></span>)
+			 = <span class="var-default">array('quot' =&gt; '&quot;','amp' =&gt; '&amp;',
+<br />		'lt' =&gt; '&lt;','gt' =&gt; '&gt;','apos' =&gt; &quot;'&quot;)</span>			(line <span class="line-number"><a href="..//__filesource/fsource_nusoap__nusoap.php.html#a217">217</a></span>)
 		</span>
 	</div>
 
@@ -764,7 +782,8 @@
 		
 
 </div>
-						
+
+						
 		</div>
 	</div>
 	
@@ -1571,7 +1590,7 @@
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Mon, 26 Apr 2010 16:17:01 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.3.0RC3</a>
+		Documentation generated on Mon, 26 Apr 2010 16:17:01 -0400 by <a href="http://www.phpdoc.org" target="_blank" rel="noopener">phpDocumentor 1.3.0RC3</a>
 	</p>
 	</div></body>
-</html>
+</html>

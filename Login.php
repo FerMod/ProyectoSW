@@ -135,8 +135,8 @@ $config = include("config.php");
 					<div>
 						<label>Contraseña</label>
 						<!-- <input type="password" name="password"/>
-						<input type="password" name="password" autofocus value="admin"/> -->
-						<input type="password" name="password" autofocus value="web000"/>
+						<input type="password" name="password" value="admin"/> -->
+						<input type="password" name="password" value="web000"/>
 					</div>
 
 					<div>
@@ -157,7 +157,7 @@ $config = include("config.php");
 	</div>
 
 	<footer>
-		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
+		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank" rel="noopener">¿Qué es un Quiz?</a></p>
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 	</footer>
 

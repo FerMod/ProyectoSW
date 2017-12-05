@@ -11,7 +11,7 @@ if(isValidSession()) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
 	<!-- Uncomment the following line to auto refresh the page -->

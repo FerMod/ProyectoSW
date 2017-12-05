@@ -16,7 +16,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
 	

@@ -15,7 +15,7 @@ $config = include("config.php");
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
 	
@@ -126,14 +126,14 @@ $config = include("config.php");
 					<legend>LOGIN</legend>
 
 					<div>
-						<label>Email</label>
+						<label for="email">Email</label>
 						<!-- <input type="text" name="email" autofocus/>
 						<input type="text" name="email" autofocus value="admin"/> -->
 						<input type="text" name="email" autofocus value="web000@ehu.es"/>
 					</div>
 
 					<div>
-						<label>Contraseña</label>
+						<label for="password">Contraseña</label>
 						<!-- <input type="password" name="password"/>
 						<input type="password" name="password" value="admin"/> -->
 						<input type="password" name="password" value="web000"/>

@@ -73,7 +73,7 @@ if(!isValidSession()) {
 			<div id="listaPreguntas" style="border-style: groove;">
 			</div>
 			<script type="text/javascript">
-				getQuestions(createQuestionList);
+				$(document).ready(getQuestions(createQuestionList));
 			</script>
 			<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">
 				<fieldset>

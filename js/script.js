@@ -1,5 +1,5 @@
 $(document).ready(function() {
-"use strict";
+
 	/* --- COMENTED TO TEST THE SERVER VALIDATION ---
 	$("#fpreguntas").on("submit", function() {
 		
@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 	});
 	*/
-
+	"use strict";
 	$("#registro").on("submit", function(event) {
 		refreshSessionTimeout();
 
@@ -426,7 +426,7 @@ $(document).ready(function() {
 });
 
 function getQuestions(callbackFunciton) {
-
+	"use strict";
 	$.ajax({
 		url: "ajaxRequestManager.php",
 		data: {action: "getQuestions"},
@@ -440,7 +440,7 @@ function getQuestions(callbackFunciton) {
 }
 
 function createQuestionList(result, status, xhr) {
-
+	"use strict";
 	$.each(result.query, function (key, value) {
 
 		var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
@@ -466,7 +466,7 @@ function createQuestionList(result, status, xhr) {
 }
 
 function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2, respuestaIncorrecta3, complejidad, tema) {
-	
+	"use strict";
 	var $idElement = $("#" + id).find("#id");
 	var $emailElement = $("#" + id).find("#email");
 	var $enunciadoElement = $("#" + id).find("#enunciado");
@@ -527,7 +527,7 @@ function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIn
 }
 
 function editarPregunta(id) {
-
+	"use strict";
 	var email = $("#" + id).find("#email").text();
 	var enunciado = $("#" + id).find("#enunciado").text();
 	var respuestaCorrecta = $("#" + id).find("#respuestaCorrecta").text();
@@ -549,6 +549,7 @@ function editarPregunta(id) {
 }
 
 function refreshSessionTimeout() {
+	"use strict";
 	$.ajax({
 		url: "ajaxRequestManager.php",
 		method: "post"
@@ -556,6 +557,7 @@ function refreshSessionTimeout() {
 }
 
 $(document).ajaxSuccess(function(event, request, settings, data) {
+	"use strict";
 	if($.trim(data.sessionTimeout)) {
 		if(data.sessionTimeout) {
 			redirecTo("layout.php");
@@ -564,12 +566,14 @@ $(document).ajaxSuccess(function(event, request, settings, data) {
 });
 
 function redirecTo(url) {
+	"use strict";
 	if(url.length) {
 		window.location.replace(url);
 	}
 }
 
 function highlight($element) {
+	"use strict";
 	$element.addClass("highlight");
 	$element.delay(2200).queue(function() { // Wait the defined seconds
 		$(this).removeClass("highlight").dequeue();
@@ -577,6 +581,7 @@ function highlight($element) {
 }
 
 function scrollTo($container, $element) {
+	"use strict";
 	$container.animate({
 		scrollTop: $element.offset().top - $container.offset().top + $container.scrollTop()
 	});

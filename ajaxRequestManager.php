@@ -601,8 +601,9 @@ function getQuestions() {
 			while ($row = $result->fetch_assoc()) {
 				// Shift one value, and returns the value (the id), then assign the rest of the row
 				$queryArray[array_shift($row)] = $row;
+				ChromePhp::table($row);
 			}
-
+			
 			ChromePhp::log("Finished iterating");	
 
 		} else {

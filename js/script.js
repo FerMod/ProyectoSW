@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+"use strict";
 	/* --- COMENTED TO TEST THE SERVER VALIDATION ---
 	$("#fpreguntas").on("submit", function() {
 		
@@ -103,7 +103,7 @@ $(document).ready(function() {
 
 			reader.onload = function(e) {
 				imgElement.attr("src", e.target.result);
-			}
+			};
 
 			reader.readAsDataURL(input.files[0]);
 
@@ -183,7 +183,7 @@ $(document).ready(function() {
 				$("#respuesta").html(result.operationMessage);
 
 				if(result.operationSuccess) {
-					actualizarPregunta(result.question["id"], result.question["email"], result.question["enunciado"], result.question["respuestaCorrecta"], result.question["respuestaIncorrecta1"], result.question["respuestaIncorrecta2"], result.question["respuestaIncorrecta3"], result.question["complejidad"], result.question["tema"]);
+					actualizarPregunta(result.questionid, result.questionemail, result.questionenunciado, result.questionrespuestaCorrecta, result.questionrespuestaIncorrecta1, result.questionrespuestaIncorrecta2, result.questionrespuestaIncorrecta3, result.questioncomplejidad, result.questiontema);
 				}
 				
 			},
@@ -234,7 +234,7 @@ $(document).ready(function() {
 	function getUrlParameter(param) {
 
 		var pageURL = decodeURIComponent(window.location.search.substring(1));
-		var	urlVariables = pageURL.split('&');
+		var urlVariables = pageURL.split('&');
 
 		for (var i = 0; i < urlVariables.length; i++) {
 			var parameterName = urlVariables[i].split('=');
@@ -243,7 +243,7 @@ $(document).ready(function() {
 				return parameterName[1] === undefined ? true : parameterName[1];
 			}
 		}
-	};
+	}
 
 	function mostrarDatos(filePath) {
 
@@ -258,11 +258,11 @@ $(document).ready(function() {
 					readOnly: "true"
 				});
 			}
-		}
+		};
 
 		// Bypass the cache.
 		// Since the local cache is indexed by URL, this causes every request to be unique.
-		filePath += (filePath.match(/\?/) == null ? "?" : "&") + new Date().getTime();
+		filePath += (filePath.match(/\?/) === null ? "?" : "&") + new Date().getTime();
 		XMLHttpRequestObject.open("GET", filePath);
 		XMLHttpRequestObject.send(null);
 	}
@@ -309,7 +309,7 @@ $(document).ready(function() {
 				var strength = -1;
 
 				if ($("#password").val()) {				
-					$("#password").get(0).validity =true// result.isValid;
+					$("#password").get(0).validity = result.isValid;
 					if(result.isValid) {
 						$("#password").addClass("validData");
 						strength = getPasswordStrength($("#password").val());
@@ -445,14 +445,14 @@ function createQuestionList(result, status, xhr) {
 
 		var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
 		$questionDivElement.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
-		$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value['complejidad'] + '</span><strong> | Tema: </strong><span id="tema">' + value['tema'] + '</span><strong> | Autor: </strong><span id="email">' + value['email'] + '</span></br>');
-		$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value['enunciado'] + '</span><br/>');
+		$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value.complejidad + '</span><strong> | Tema: </strong><span id="tema">' + value.tema + '</span><strong> | Autor: </strong><span id="email">' + value.email + '</span></br>');
+		$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value.enunciado + '</span><br/>');
 		
 		var $listElement = $('<ul></ul>').addClass("answerList");
-		$listElement.append('<li id="respuestaCorrecta" class="tick">' + value['respuesta_correcta'] + '</li>');
-		$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value['respuesta_incorrecta_1'] + '</li>');
-		$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value['respuesta_incorrecta_2'] + '</li>');
-		$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value['respuesta_incorrecta_3'] + '</li>');
+		$listElement.append('<li id="respuestaCorrecta" class="tick">' + value.respuesta_correcta + '</li>');
+		$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value.respuesta_incorrecta_1 + '</li>');
+		$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value.respuesta_incorrecta_2 + '</li>');
+		$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value.respuesta_incorrecta_3 + '</li>');
 
 		$questionDivElement.append($listElement);
 		$("#listaPreguntas").append($questionDivElement);

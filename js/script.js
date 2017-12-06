@@ -434,6 +434,7 @@ function getQuestions(callbackFunciton) {
 		dataType: "json",
 		success: callbackFunciton,
 		error: function (xhr, status, error) {
+			console.log(error);
 		}
 	});
 

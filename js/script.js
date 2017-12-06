@@ -183,7 +183,7 @@ $(document).ready(function() {
 				$("#respuesta").html(result.operationMessage);
 
 				if(result.operationSuccess) {
-					actualizarPregunta(result.questionid, result.questionemail, result.questionenunciado, result.questionrespuestaCorrecta, result.questionrespuestaIncorrecta1, result.questionrespuestaIncorrecta2, result.questionrespuestaIncorrecta3, result.questioncomplejidad, result.questiontema);
+					actualizarPregunta(result.question.id, result.question.email, result.question.enunciado, result.question.respuestaCorrecta, result.question.respuestaIncorrecta1, result.question.respuestaIncorrecta2, result.question.respuestaIncorrecta3, result.question.complejidad, result.question.tema);
 				}
 				
 			},

@@ -575,7 +575,7 @@ function getQuestions() {
 	}
 
 	// Perform an SQL query
-	$sql = "SELECT *
+	$sql = "SELECT * 
 	FROM preguntas";
 
 	$array = array();
@@ -588,7 +588,8 @@ function getQuestions() {
 
 			$queryArray = array();
 			while ($row = $result->fetch_assoc()) {
-				$queryArray[$row["id"]] = $row;
+				// Shift one value, and returns the value (the id), then assign the rest of the row
+				$queryArray[array_shift($row)] = $row;
 			}
 
 			$array = array(

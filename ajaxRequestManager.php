@@ -596,13 +596,14 @@ function getQuestions() {
 
 		if($result->num_rows != 0) {
 
-			ChromePhp::log("Iterating query");
+			ChromePhp::log("Iterating query of " . $result->num_rows . " rows");
 
 			while ($row = $result->fetch_assoc()) {
 				// Shift one value, and returns the value (the id), then assign the rest of the row
 				$queryArray[array_shift($row)] = $row;
-				ChromePhp::log($row);
-			}			
+			}
+
+			ChromePhp::log("Finished iterating");	
 
 		} else {
 			$operationSuccess = false;

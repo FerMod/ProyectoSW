@@ -71,13 +71,13 @@ if(!isValidSession()) {
 		<article class="content">
 			<label>Editar pregunta</label>
 			<div class="loading">
-				<img src="img/loading.gif">
+				<a href="https://goo.gl/VfrdBN"><img src="img/loading.gif"></a>
 			</div>
 			<div id="listaPreguntas" style="display: none; border-style: groove;">
 				
 			</div>
 			<script type="text/javascript">
-				$(document).ready(getQuestions(createQuestionList));
+				$(window).on('load', getQuestions(createQuestionList));
 			</script>
 			<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">
 				<fieldset>

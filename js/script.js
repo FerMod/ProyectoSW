@@ -441,27 +441,31 @@ function getQuestions(callbackFunciton) {
 
 function createQuestionList(result, status, xhr) {
 	"use strict";
-	$.each(result.query, function (key, value) {
+	if(result.operationSuccess) {
+		$.each(result.query, function (key, value) {
 
-		var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
-		$questionDivElement.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
-		$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value.complejidad + '</span><strong> | Tema: </strong><span id="tema">' + value.tema + '</span><strong> | Autor: </strong><span id="email">' + value.email + '</span></br>');
-		$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value.enunciado + '</span><br/>');
-		
-		var $listElement = $('<ul></ul>').addClass("answerList");
-		$listElement.append('<li id="respuestaCorrecta" class="tick">' + value.respuesta_correcta + '</li>');
-		$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value.respuesta_incorrecta_1 + '</li>');
-		$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value.respuesta_incorrecta_2 + '</li>');
-		$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value.respuesta_incorrecta_3 + '</li>');
+			var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
+			$questionDivElement.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
+			$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value.complejidad + '</span><strong> | Tema: </strong><span id="tema">' + value.tema + '</span><strong> | Autor: </strong><span id="email">' + value.email + '</span></br>');
+			$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value.enunciado + '</span><br/>');
 
-		$questionDivElement.append($listElement);
-		$("#listaPreguntas").append($questionDivElement);
+			var $listElement = $('<ul></ul>').addClass("answerList");
+			$listElement.append('<li id="respuestaCorrecta" class="tick">' + value.respuesta_correcta + '</li>');
+			$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value.respuesta_incorrecta_1 + '</li>');
+			$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value.respuesta_incorrecta_2 + '</li>');
+			$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value.respuesta_incorrecta_3 + '</li>');
 
-	});
+			$questionDivElement.append($listElement);
+			$("#listaPreguntas").append($questionDivElement);
 
-	$(".loading").fadeOut("slow").hide("slow", function() {
-		$("#listaPreguntas").fadeIn("slow").show("slow");
-	});
+		});
+
+		$(".loading").fadeOut("slow").hide("slow", function() {
+			$("#listaPreguntas").fadeIn("slow").show("slow");
+		});
+	} else if(result.operationMessage) {
+		$("#listaPreguntas").html(result.operationMessage);
+	}
 
 }
 

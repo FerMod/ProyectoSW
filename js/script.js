@@ -409,7 +409,7 @@ $(document).ready(function() {
 	}).css("cursor", "pointer");
 
 
-	$("[data-scroll-to]").click(function() {
+	$("[data-scroll-to]").on("click", function() {
 		var $this = $(this),
 		$toElement      = $this.attr('data-scroll-to'),
 		$focusElement   = $this.attr('data-scroll-focus'),
@@ -420,16 +420,30 @@ $(document).ready(function() {
 			scrollTop: $($toElement).offset().top + $offset
 		}, $speed);
 
-		if ($focusElement) $($focusElement).focus();
+		if ($focusElement) {
+			$($focusElement).focus();
+		}
+	});
+
+	$(document).ajaxSuccess(function(event, request, settings, data) {
+		"use strict";
+		if($.trim(data.sessionTimeout)) {
+			if(data.sessionTimeout) {
+				redirecTo("layout.php");
+			}
+		}
 	});
 
 });
 
 function getQuestions(callbackFunciton) {
 	"use strict";
+
+	var ajaxData = {action: "getQuestions"};
+
 	$.ajax({
 		url: "ajaxRequestManager.php",
-		data: {action: "getQuestions"},
+		data: ajaxData,
 		method: "post",
 		dataType: "json",
 		success: callbackFunciton,
@@ -446,9 +460,9 @@ function createQuestionList(result, status, xhr) {
 		$.each(result.query, function (key, value) {
 
 			var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
-			$questionDivElement.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
-			$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value.complejidad + '</span><strong> | Tema: </strong><span id="tema">' + value.tema + '</span><strong> | Autor: </strong><span id="email">' + value.email + '</span></br>');
-			$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value.enunciado + '</span><br/>');
+			$questionDivElement.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span>\n');
+			$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value.complejidad + '</span><strong> | Tema: </strong><span id="tema">' + value.tema + '</span><strong> | Autor: </strong><span id="email">' + value.email + '</span>\n');
+			$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value.enunciado + '</span>\n');
 
 			var $listElement = $('<ul></ul>').addClass("answerList");
 			$listElement.append('<li id="respuestaCorrecta" class="tick">' + value.respuesta_correcta + '</li>');
@@ -560,15 +574,6 @@ function refreshSessionTimeout() {
 		method: "post"
 	});
 }
-
-$(document).ajaxSuccess(function(event, request, settings, data) {
-	"use strict";
-	if($.trim(data.sessionTimeout)) {
-		if(data.sessionTimeout) {
-			redirecTo("layout.php");
-		}
-	}
-});
 
 function redirecTo(url) {
 	"use strict";

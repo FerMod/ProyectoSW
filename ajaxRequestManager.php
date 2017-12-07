@@ -588,6 +588,7 @@ function getQuestions() {
 	$operationMessage = "";
 
 	if (!$result = $conn->query($sql)) {
+		$operationSuccess = false;
 		$operationMessage .= "<div class=\"serverErrorMessage\">Sorry, the website is experiencing problems.</div>";
 		ChromePhp::log("Query error");
 	} else {

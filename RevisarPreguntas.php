@@ -77,7 +77,9 @@ if(!isValidSession()) {
 				
 			</div>
 			<script type="text/javascript">
-				$(window).on('load', getQuestions(createQuestionList));
+				$(window).on('load', function() {
+					getQuestions(createQuestionList);
+				});
 			</script>
 			<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">
 				<fieldset>

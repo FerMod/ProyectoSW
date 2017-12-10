@@ -310,7 +310,7 @@ footer {
 }
 
 .infoTable td:last-child {
-	border-right: 0px;
+	border-right: 0;
 	text-align: center;
 }
 
@@ -377,38 +377,38 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	border-radius: 5px;
 	word-spacing: 2px;
 	border-radius: 5px;
-	box-shadow: 3px 3px 0px #969696;
+	box-shadow: 3px 3px 0 #969696;
 }
 
 .serverMessage {
 	background-color: #FFFFFF;
 	border: 4px solid #6D6D6D;
-	box-shadow: 3px 3px 0px #969696;
+	box-shadow: 3px 3px 0 #969696;
 }
 
 .serverInfoMessage {
 	background-color: #D9DEFF;
 	border: 4px solid #607DCC;
-	box-shadow: 3px 3px 0px #575796;
+	box-shadow: 3px 3px 0 #575796;
 }
 
 .serverErrorMessage {
 	background-color: #FFB3B3;
 	border: 4px solid #CC473D;
-	box-shadow: 3px 3px 0px #962A2A;
+	box-shadow: 3px 3px 0 #962A2A;
 }
 
 .invalidData {
-	-webkit-box-shadow: 3px 3px 10px 0px red;
-	-moz-box-shadow: 3px 3px 10px 0px red;
-	box-shadow: 3px 3px 10px 0px red;
+	-webkit-box-shadow: 3px 3px 10px 0 red;
+	-moz-box-shadow: 3px 3px 10px 0 red;
+	box-shadow: 3px 3px 10px 0 red;
 	border-color: red;
 }
 
 .validData {
-	-webkit-box-shadow: 3px 3px 10px 0px green;
-	-moz-box-shadow: 3px 3px 10px 0px green;
-	box-shadow: 3px 3px 10px 0px green;
+	-webkit-box-shadow: 3px 3px 10px 0 green;
+	-moz-box-shadow: 3px 3px 10px 0 green;
+	box-shadow: 3px 3px 10px 0 green;
 	border-color: green;
 }
 
@@ -417,28 +417,31 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 .veryWeak{
-	-webkit-box-shadow: 3px 3px 10px 0px red;
-	-moz-box-shadow: 3px 3px 10px 0px red;
-	box-shadow: 3px 3px 10px 0px red;
-	border-color: red !important
+	-webkit-box-shadow: 3px 3px 10px 0 red;
+	-moz-box-shadow: 3px 3px 10px 0 red;
+	box-shadow: 3px 3px 10px 0 red;
+	border-color: red
 }
+
 .weak{
-	-webkit-box-shadow: 3px 3px 10px 0px orange;
-	-moz-box-shadow: 3px 3px 10px 0px orange;
-	box-shadow: 3px 3px 10px 0px orange;
-	border-color: orange !important;
+	-webkit-box-shadow: 3px 3px 10px 0 orange;
+	-moz-box-shadow: 3px 3px 10px 0 orange;
+	box-shadow: 3px 3px 10px 0 orange;
+	border-color: orange;
 }
+
 .medium{
-	-webkit-box-shadow: 3px 3px 10px 0px YellowGreen ;
-	-moz-box-shadow: 3px 3px 10px 0px YellowGreen ;
-	box-shadow: 3px 3px 10px 0px YellowGreen ;
-	border-color: YellowGreen  !important;
+	-webkit-box-shadow: 3px 3px 10px 0 YellowGreen ;
+	-moz-box-shadow: 3px 3px 10px 0 YellowGreen ;
+	box-shadow: 3px 3px 10px 0 YellowGreen ;
+	border-color: YellowGreen;
 }
+
 .strong{
-	-webkit-box-shadow: 3px 3px 10px 0px #13c113;
-	-moz-box-shadow: 3px 3px 10px 0px #13c113;
-	box-shadow: 3px 3px 10px 0px #13c113;
-	border-color: #13c113 !important;
+	-webkit-box-shadow: 3px 3px 10px 0 #13c113;
+	-moz-box-shadow: 3px 3px 10px 0 #13c113;
+	box-shadow: 3px 3px 10px 0 #13c113;
+	border-color: #13c113;
 }
 
 #tooltip-content{
@@ -486,7 +489,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
-	padding-top: 100px; /* Location of the box */
+	/*padding-top: 100px;*/ /* Location of the box */
 	left: 0;
 	top: 0;
 	width: 100%; /* Full width */
@@ -513,13 +516,15 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	text-align: center;
 	color: #ccc;
 	padding: 10px 0;
-	height: 150px;
+	/*height: 150px;*/
 }
 
 /* Add Animation - Zoom in the Modal */
 .modal-content, #caption { 
 	-webkit-animation-name: zoom;
 	-webkit-animation-duration: 0.6s;
+	-moz-animation-name: zoom;
+	-moz-animation-duration: 0.6s;
 	animation-name: zoom;
 	animation-duration: 0.6s;
 }
@@ -567,7 +572,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 #listaPreguntas {
-	height: 2%;
+	height: 25%;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
@@ -578,7 +583,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	background-color: #ffffff;
 	padding: 5px 5px 5px 5px;
 	text-align: left;
-	width: 100%;
+	/*width: 100%;*/
 	cursor: pointer;
 }
 
@@ -614,12 +619,12 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	font-weight: bold;
 }
 
-.answerList li.tick:before {
+.answerList .tick:before {
 	content: "\2713";
 	color: darkgreen;
 }
 
-.answerList li.cross:before {
+.answerList .cross:before {
 	content: "\2717";
 	color: crimson;
 }
@@ -661,14 +666,16 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 		width: 100%;
 
 		-webkit-box-orient: vertical;
+		-ms-box-orient: vertical;
 		-moz-box-orient: vertical;
 		-ms-flex-orient: vertical;
 		-webkit-orient: vertical;
-		orient: vertical;
+		/*orient: vertical;*/
 	}
 
 	.content {
 		-webkit-box-ordinal-group: 1;
+		-ms-box-ordinal-group: 1;
 		-moz-box-ordinal-group: 1;
 		-ms-flex-order: 1;
 		-webkit-order: 1;
@@ -677,6 +684,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 
 	.navbar {
 		-webkit-box-ordinal-group: 2;
+		-ms-box-ordinal-group: 2;
 		-moz-box-ordinal-group: 2;
 		-ms-flex-order: 2;
 		-webkit-order: 2;
@@ -685,6 +693,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 
 	.sidebar {
 		-webkit-box-ordinal-group: 3;
+		-ms-box-ordinal-group: 3;
 		-moz-box-ordinal-group: 3;
 		-ms-flex-order: 3;
 		-webkit-order: 3;

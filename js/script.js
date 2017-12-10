@@ -251,7 +251,7 @@ $(document).ready(function() {
 		XMLHttpRequestObject.onreadystatechange = function() {
 			if (XMLHttpRequestObject.readyState==4) {
 				document.getElementById('visualizarDatos').innerHTML = '';
-				var myCodeMirror = CodeMirror(document.getElementById('visualizarDatos'), {
+				var myCodeMirror = new CodeMirror(document.getElementById('visualizarDatos'), {
 					value: XMLHttpRequestObject.responseText,
 					mode:  "xml",
 					lineNumbers: "true",
@@ -426,7 +426,6 @@ $(document).ready(function() {
 	});
 
 	$(document).ajaxSuccess(function(event, request, settings, data) {
-		"use strict";
 		if($.trim(data.sessionTimeout)) {
 			if(data.sessionTimeout) {
 				redirecTo("layout.php");

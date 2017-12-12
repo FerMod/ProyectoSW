@@ -1,19 +1,3 @@
-
-<?php
-
-include_once('login_session.php'); // Includes login script
-include_once('session_timeout.php');
-
-if(isValidSession()) {
-	// What is doing here a logged user??
-	refreshSessionTimeout();
-	header("location: layout.php");
-}
-
-$config = include("config.php");
-
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,7 +5,7 @@ $config = include("config.php");
 	
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
-	<title>Preguntas - Login</title>
+	<title>Preguntas - Recuperar contraseña</title>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 	<script src="js/script.js"></script>	
@@ -32,44 +16,51 @@ $config = include("config.php");
 
 	<!-- In case to use sessions, coment the code below -->
 	<?php 
-	function logIn() {
+
+	$config = include("config.php");
+
+	function checkEmail() {
 
 		global $config;
-		
-		// Create connection
+
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
-		// Check connection
 		if ($conn->connect_error) {
 			trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
 		}
 
-		try {
+		$emailOk = true;
+		$dataCheckMessage = "";
+		$email = $_POST['email'];
 
-			if(!isset($_POST['email']) || empty($_POST['email']) || !isset($_POST['password']) && empty($_POST['password'])) { 
-				throw new RuntimeException("<div class=\"serverInfoMessage\">Tanto el email como la contraseña deben ser introducidas para poder continuar.</div>");
+		if(isset($_POST['email']) && !empty($_POST['email'])) {
+			if(existsEmail($_POST['email'], $conn)) {
+				$email = formatInput($_POST['email']);
 			} else {
-				$email = formatInput($_POST['email']) ?? '';
-				$password = $_POST['password'] ?? '';
+				$emailOk = false;
+				$dataCheckMessage .= "<div class=\"serverMessage\">El \"Email\" introducido no existe en la base de datos.</div>";			
 			}
-
-			$result = $conn->query("SELECT * FROM usuarios WHERE email = \"$email\"");
-			$passwordHash = $result->fetch_assoc(); // Para comprobar que la contraseña que se escribe es correcta.
-			if(password_verify(hash("sha256", $password), $passwordHash["password"]) && existsEmail($email, $conn)) {
-				echo '<script>location.href="layout.php"</script>'; // Redirecciona a la página de Inicio.
-			} else {
-				throw new RuntimeException("<div class=\"serverErrorMessage\">El email o la contraseña introducida es incorrecta.</div>");
-			}
-
-		} catch (RuntimeException $e) {
-			$operationMessage = $e->getMessage();
+		} else {
+			$emailOk = false;
+			$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Email\" no puede ser vacío.</div>";
 		}
 
-		return $operationMessage;
+		if($emailOk) {
+			$to      = $email;
+			$title    = 'Restablecer su contraseña.';
+			$message   = 'Hola, tenemos su contraseña, ha sido hackeado XDXD';
+			$headers = 'From: administradorxD@example.com';
 
+			if(mail($to, $title, $message, $headers)) {
+				$dataCheckMessage .= "<div class=\"serverInfoMessage\">Se le ha enviado un correo para que pueda reestablecer su contraseña.</div>";
+			} else {
+				$dataCheckMessage .= "<div class=\"serverMessage\">El email no se ha enviado correctamente por un error interno.</div>";
+			}
+		}
+
+		echo $dataCheckMessage;
 	}
 
-	// Format the input for security reasons
 	function formatInput($data) {
 		$data = trim($data);
 		$data = stripslashes($data);
@@ -121,36 +112,27 @@ $config = include("config.php");
 			?>
 		</nav>
 		<article class="content">
-			<form id="login" enctype="multipart/form-data" method="post">	
+			<form method="post">	
 				<fieldset>
-					<legend>LOGIN</legend>
+					<legend>Recuperar contraseña</legend>
 
 					<div>
-						<label for="email">Email</label>
-						<!-- <input type="text" name="email" autofocus/>
-						<input type="text" name="email" autofocus value="admin"/> -->
-						<input type="text" name="email" autofocus value="web000@ehu.es"/>
+						<label for="email">Escriba su email para restablecer su contraseña.</label>
+						<input type="text" name="email" autofocus/>
 					</div>
-
 					<div>
-						<label for="password">Contraseña</label>
-						<!-- <input type="password" name="password"/>
-						<input type="password" name="password" value="admin"/> -->
-						<input type="password" name="password" value="web000"/>
-					</div>
-
-					<div>
-						<input type="submit" value="Acceder" name="submit"/>
+						<input type="submit" value="Enviar correo" name="submit"/>
 					</div>
 
 				</fieldset>
 
 				<?php
-				echo $errorMessage;
+					if(isset($_POST['submit']) && !empty($_POST['submit'])) {
+						checkEmail();
+					}
 				?>
 
 			</form>
-			<a href="resetPasswordEmail.php" align="center">¿Olvidaste la contraseña?</a>
 		</article>		
 		<aside class="sidebar">
 			<span>Sidebar contents<br/>(sidebar)</span>

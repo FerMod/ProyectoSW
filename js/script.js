@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 	});
 	*/
-
+	"use strict";
 	$("#registro").on("submit", function(event) {
 		refreshSessionTimeout();
 
@@ -103,7 +103,7 @@ $(document).ready(function() {
 
 			reader.onload = function(e) {
 				imgElement.attr("src", e.target.result);
-			}
+			};
 
 			reader.readAsDataURL(input.files[0]);
 
@@ -183,7 +183,7 @@ $(document).ready(function() {
 				$("#respuesta").html(result.operationMessage);
 
 				if(result.operationSuccess) {
-					actualizarPregunta(result.question["id"], result.question["email"], result.question["enunciado"], result.question["respuestaCorrecta"], result.question["respuestaIncorrecta1"], result.question["respuestaIncorrecta2"], result.question["respuestaIncorrecta3"], result.question["complejidad"], result.question["tema"]);
+					actualizarPregunta(result.question.id, result.question.email, result.question.enunciado, result.question.respuestaCorrecta, result.question.respuestaIncorrecta1, result.question.respuestaIncorrecta2, result.question.respuestaIncorrecta3, result.question.complejidad, result.question.tema);
 				}
 				
 			},
@@ -234,7 +234,7 @@ $(document).ready(function() {
 	function getUrlParameter(param) {
 
 		var pageURL = decodeURIComponent(window.location.search.substring(1));
-		var	urlVariables = pageURL.split('&');
+		var urlVariables = pageURL.split('&');
 
 		for (var i = 0; i < urlVariables.length; i++) {
 			var parameterName = urlVariables[i].split('=');
@@ -243,7 +243,7 @@ $(document).ready(function() {
 				return parameterName[1] === undefined ? true : parameterName[1];
 			}
 		}
-	};
+	}
 
 	function mostrarDatos(filePath) {
 
@@ -251,18 +251,18 @@ $(document).ready(function() {
 		XMLHttpRequestObject.onreadystatechange = function() {
 			if (XMLHttpRequestObject.readyState==4) {
 				document.getElementById('visualizarDatos').innerHTML = '';
-				var myCodeMirror = CodeMirror(document.getElementById('visualizarDatos'), {
+				var myCodeMirror = new CodeMirror(document.getElementById('visualizarDatos'), {
 					value: XMLHttpRequestObject.responseText,
 					mode:  "xml",
 					lineNumbers: "true",
 					readOnly: "true"
 				});
 			}
-		}
+		};
 
 		// Bypass the cache.
 		// Since the local cache is indexed by URL, this causes every request to be unique.
-		filePath += (filePath.match(/\?/) == null ? "?" : "&") + new Date().getTime();
+		filePath += (filePath.match(/\?/) === null ? "?" : "&") + new Date().getTime();
 		XMLHttpRequestObject.open("GET", filePath);
 		XMLHttpRequestObject.send(null);
 	}
@@ -309,7 +309,7 @@ $(document).ready(function() {
 				var strength = -1;
 
 				if ($("#password").val()) {				
-					$("#password").get(0).validity =true// result.isValid;
+					$("#password").get(0).validity = result.isValid;
 					if(result.isValid) {
 						$("#password").addClass("validData");
 						strength = getPasswordStrength($("#password").val());
@@ -409,7 +409,7 @@ $(document).ready(function() {
 	}).css("cursor", "pointer");
 
 
-	$("[data-scroll-to]").click(function() {
+	$("[data-scroll-to]").on("click", function() {
 		var $this = $(this),
 		$toElement      = $this.attr('data-scroll-to'),
 		$focusElement   = $this.attr('data-scroll-focus'),
@@ -420,7 +420,17 @@ $(document).ready(function() {
 			scrollTop: $($toElement).offset().top + $offset
 		}, $speed);
 
-		if ($focusElement) $($focusElement).focus();
+		if ($focusElement) {
+			$($focusElement).focus();
+		}
+	});
+
+	$(document).ajaxSuccess(function(event, request, settings, data) {
+		if($.trim(data.sessionTimeout)) {
+			if(data.sessionTimeout) {
+				redirecTo("layout.php");
+			}
+		}
 	});
 
 });
@@ -430,21 +440,55 @@ if($("#listaPreguntas").length && $("#listaPreguntas").length) {
 }
 
 function getQuestions(callbackFunciton) {
+	"use strict";
+
+	var ajaxData = {action: "getQuestions"};
 
 	$.ajax({
 		url: "ajaxRequestManager.php",
-		data: {action: "getQuestions"},
+		data: ajaxData,
 		method: "post",
 		dataType: "json",
 		success: callbackFunciton,
 		error: function (xhr, status, error) {
+			console.log(error);
 		}
 	});
 
 }
 
+function createQuestionList(result, status, xhr) {
+	"use strict";
+	if(result.operationSuccess) {
+		$.each(result.query, function (key, value) {
+
+			var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
+			$questionDivElement.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
+			$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value.complejidad + '</span><strong> | Tema: </strong><span id="tema">' + value.tema + '</span><strong> | Autor: </strong><span id="email">' + value.email + '</span><br/>');
+			$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value.enunciado + '</span><br/>');
+
+			var $listElement = $('<ul></ul>').addClass("answerList");
+			$listElement.append('<li id="respuestaCorrecta" class="tick">' + value.respuesta_correcta + '</li>');
+			$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value.respuesta_incorrecta_1 + '</li>');
+			$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value.respuesta_incorrecta_2 + '</li>');
+			$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value.respuesta_incorrecta_3 + '</li>');
+
+			$questionDivElement.append($listElement);
+			$("#listaPreguntas").append($questionDivElement);
+
+		});
+
+		$(".loading").fadeOut("slow").hide("slow", function() {
+			$("#listaPreguntas").fadeIn("slow").show("slow");
+		});
+	} else if(result.operationMessage) {
+		$("#listaPreguntas").html(result.operationMessage);
+	}
+
+}
+
 function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2, respuestaIncorrecta3, complejidad, tema) {
-	
+	"use strict";
 	var $idElement = $("#" + id).find("#id");
 	var $emailElement = $("#" + id).find("#email");
 	var $enunciadoElement = $("#" + id).find("#enunciado");
@@ -505,7 +549,7 @@ function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIn
 }
 
 function editarPregunta(id) {
-
+	"use strict";
 	var email = $("#" + id).find("#email").text();
 	var enunciado = $("#" + id).find("#enunciado").text();
 	var respuestaCorrecta = $("#" + id).find("#respuestaCorrecta").text();
@@ -526,49 +570,23 @@ function editarPregunta(id) {
 	$("#tema-edit").val(tema);
 }
 
-function createQuestionList(result, status, xhr) {
-
-	$.each(result.query, function (key, value) {
-
-		var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
-		$questionDivElement.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
-		$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value['complejidad'] + '</span><strong> | Tema: </strong><span id="tema">' + value['tema'] + '</span><strong> | Autor: </strong><span id="email">' + value['email'] + '</span></br>');
-		$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value['enunciado'] + '</span><br/>');
-		
-		var $listElement = $('<ul></ul>').addClass("answerList");
-		$listElement.append('<li id="respuestaCorrecta" class="tick">' + value['respuesta_correcta'] + '</li>');
-		$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value['respuesta_incorrecta_1'] + '</li>');
-		$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value['respuesta_incorrecta_2'] + '</li>');
-		$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value['respuesta_incorrecta_3'] + '</li>');
-
-		$questionDivElement.append($listElement);
-		$("#listaPreguntas").append($questionDivElement);
-
-	});
-}
-
 function refreshSessionTimeout() {
+	"use strict";
 	$.ajax({
 		url: "ajaxRequestManager.php",
 		method: "post"
 	});
 }
 
-$(document).ajaxSuccess(function(event, request, settings, data) {
-	if($.trim(data.sessionTimeout)) {
-		if(data.sessionTimeout) {
-			redirecTo("layout.php");
-		}
-	}
-});
-
 function redirecTo(url) {
+	"use strict";
 	if(url.length) {
 		window.location.replace(url);
 	}
 }
 
 function highlight($element) {
+	"use strict";
 	$element.addClass("highlight");
 	$element.delay(2200).queue(function() { // Wait the defined seconds
 		$(this).removeClass("highlight").dequeue();
@@ -576,6 +594,7 @@ function highlight($element) {
 }
 
 function scrollTo($container, $element) {
+	"use strict";
 	$container.animate({
 		scrollTop: $element.offset().top - $container.offset().top + $container.scrollTop()
 	});

@@ -566,44 +566,66 @@ function getQuestions() {
 
 	global $config;
 
+	ChromePhp::log("getQuestions");
+
 	// Create connection
 	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+	ChromePhp::log("connection created");
 
 	// Check connection
 	if ($conn->connect_error) {
 		trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
 	}
 
-	// Perform an SQL query
-	$sql = "SELECT *
-	FROM preguntas";
+	ChromePhp::log("connected to db");
 
-	$array = array();
+	// Perform an SQL query
+	$sql = "SELECT * FROM `preguntas`";
+
+	$queryArray = array();
+	$operationSuccess = true;
+	$operationMessage = "";
 
 	if (!$result = $conn->query($sql)) {
-		echo "<div class=\"serverErrorMessage\">Sorry, the website is experiencing problems.</div>";
+		$operationSuccess = false;
+		$operationMessage .= "<div class=\"serverErrorMessage\">Sorry, the website is experiencing problems.</div>";
+		ChromePhp::log("Query error");
 	} else {
+
+		ChromePhp::log("Query done");
 
 		if($result->num_rows != 0) {
 
-			$queryArray = array();
+			ChromePhp::log("Iterating query of " . $result->num_rows . " rows");
+
 			while ($row = $result->fetch_assoc()) {
-				$queryArray[$row["id"]] = $row;
+				// Shift one value, and returns the value (the id), then assign the rest of the row
+				$queryArray[array_shift($row)] = $row;
+				ChromePhp::table($row);
 			}
+			
+			ChromePhp::log("Finished iterating");	
 
-			$array = array(
-				"query" => $queryArray
-			);			
-
+		} else {
+			$operationSuccess = false;
+			$operationMessage .= "<div class=\"serverErrorMessage\">No question found</div>";
+			ChromePhp::log("No results");
 		}
 
 		$result->free();
+		ChromePhp::log("Free result");
 
 	}
 
 	$conn->close();
+	ChromePhp::log("close connection");
 
-	return $array;
+	return array(
+		"query" => $queryArray,
+		"operationSuccess" => $operationSuccess,
+		"operationMessage" => $operationMessage
+	);
 }
 
 ?>

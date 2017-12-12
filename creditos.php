@@ -2,11 +2,15 @@
 <?php
 include_once('login_session.php'); // Includes login script
 include('session_timeout.php');
-refreshSessionTimeout();
+
+if(isValidSession()) {
+	refreshSessionTimeout();
+}
+
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
 	
@@ -19,6 +23,8 @@ refreshSessionTimeout();
 	<script src="js/script.js"></script>	
 
 	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+
 
 </head>
 
@@ -26,93 +32,85 @@ refreshSessionTimeout();
 	<header>
 
 		<?php
-			if((isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) || (isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher']))) {
-				echo '<span><a href="logout.php">Logout</a></span>';
-			} else {
-				echo '<span><a href="Registrar.php">Registrarse</a></span>';
+		if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+			echo '<span><a href="logout.php">Logout</a></span>';
+		} else {
+			echo '<span><a href="Registrar.php">Registrarse</a></span>';
 				echo '&nbsp'; // Add non-breaking space
 				echo '<span><a href="Login.php">Login</a></span>';
 			}
-		?>
-
-		<h2>Quiz: el juego de las preguntas</h2>
-		<?php
-			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-				echo '<label>¡Bienvenido alumno '.$_SESSION['logged_user'].'! </label>';
-			} else if(isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher'])) {
-				echo '<label>¡Bienvenido profesor '.$_SESSION['logged_teacher'].'! </label>';
-			}
-		?>
-	</header>
-	<div class="container">
-		<nav class="navbar" role="navigation">
-			<?php 
-				if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-					echo '<span><a href="layout.php">Inicio</a></span>';
-					echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
-					echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-					echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
-					echo '<span><a href="creditos.php">Creditos</a></span>';
-				} else if(isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher'])) {
-					echo '<span><a href="layout.php">Inicio</a></span>';
-					echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
-					echo '<span><a href="RevisarPreguntas.php">Revisar preguntas</a></span>';
-					echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-					echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
-					echo '<span><a href="creditos.php">Creditos</a></span>';
-				} else {
-					echo '<span><a href="layout.php">Inicio</a></span>';
-					echo '<span><a href="creditos.php">Creditos</a></span>';
-				}
 			?>
-		</nav>
-		<article class="content">
-			<table id="tablaAutores">
-				<thead>
-					<tr>
-						<!-- <td><img src="img/loading.gif" class="modalImage lazyload" data-original="https://github.com/FerMod.png" width="640" heigh="480"></td> -->
-						<td><img src="img/loading.gif" data-src="https://github.com/FerMod.png" class="modalImage lazy"></td>
-						<td><img src="img/loading.gif" data-src="https://github.com/FosterGun.png" class="modalImage lazy"></td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Ferran Tudela</td>
-						<td>Miguel Ángel Blanco</td>
-					</tr>
-					<tr>
-						<td>Estudiante</td>
-						<td>Estudiante</td>
-					</tr>
-				</tbody>
-			</table>
-			<!-- The Modal -->
-			<div id="modalElement" class="modal">
 
-				<!-- The Close Button -->
-				<span class="close">&times;</span>
+			<h2>Quiz: el juego de las preguntas</h2>
+			<?php
+			if((isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) && (isset($_SESSION['user_type']) && !empty($_SESSION['user_type']))) {		
 
-				<!-- Modal Content (The Image) -->
-				<img class="modal-content" id="img01">
+				$userType = '';
+				switch ($_SESSION['user_type']) {
+					case 'teacher':
+					$userType = 'profesor';
+					break;
 
-				<!-- Modal Caption (Image Text) -->
-				<div id="caption"></div>
-			</div>
-		</article>		
-		<aside class="sidebar">
-			<span>Sidebar contents<br/>(sidebar)</span>
-		</aside>
-	</div>
-	<footer>
-		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
-		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
-	</footer>
+					case 'student':
+					$userType = 'alumno';
+					break;
+				}
 
-	<script>
-		$(function() {
-			$('.lazy').lazy();
-		});
-	</script>
+				echo '<span>¡Bienvenido ' . $userType . ' "' . $_SESSION['logged_user'] . '"! </span>';
 
-</body>
-</html>
+			}
+			?>
+		</header>
+		<div class="container">
+			<nav class="navbar" role="navigation">
+				<?php include('navbar_items.php'); ?>
+			</nav>
+			<article class="content">
+				<table id="tablaAutores">
+					<thead>
+						<tr>
+							<td><img src="img/loading.gif" data-src="https://github.com/FerMod.png" class="modalImage lazy"></td>
+							<td><img src="img/loading.gif" data-src="https://github.com/FosterGun.png" class="modalImage lazy"></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Ferran Tudela</td>
+							<td>Miguel Ángel Blanco</td>
+						</tr>
+						<tr>
+							<td>Estudiante</td>
+							<td>Estudiante</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- The Modal -->
+				<div id="modalElement" class="modal">
+
+					<!-- The Close Button -->
+					<span class="close">&times;</span>
+
+					<!-- Modal Content (The Image) -->
+					<img class="modal-content" id="img01">
+
+					<!-- Modal Caption (Image Text) -->
+					<div id="caption"></div>
+				</div>
+			</article>		
+			<aside class="sidebar">
+				<span>Sidebar contents<br/>(sidebar)</span>
+			</aside>
+		</div>
+		<footer>
+			<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank" rel="noopener">¿Qué es un Quiz?</a></p>
+			<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
+		</footer>
+
+		<script>
+			$(function() {
+				$('.lazy').lazy();
+			});
+		</script>
+
+	</body>
+	</html>

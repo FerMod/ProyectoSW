@@ -2,16 +2,10 @@
 <?php
 
 include_once('login_session.php'); // Includes login script
-include('session_timeout.php');
+include_once('session_timeout.php');
 
-if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+if(isValidSession()) {
 	// What is doing here a logged user??
-	refreshSessionTimeout();
-	header("location: layout.php");
-}
-
-if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_teacher'])) {
-	// What is doing here a logged teacher??
 	refreshSessionTimeout();
 	header("location: layout.php");
 }
@@ -21,7 +15,7 @@ $config = include("config.php");
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
 	
@@ -33,10 +27,15 @@ $config = include("config.php");
 	<script src="js/script.js"></script>	
 
 	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+
 
 	<!-- In case to use sessions, coment the code below -->
 	<?php 
 	function logIn() {
+
+		global $config;
+		
 		// Create connection
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
@@ -127,13 +126,17 @@ $config = include("config.php");
 					<legend>LOGIN</legend>
 
 					<div>
-						<label>Email</label>
-						<input type="text" name="email" autofocus/>
+						<label for="email">Email</label>
+						<!-- <input type="text" name="email" autofocus/>
+						<input type="text" name="email" autofocus value="admin"/> -->
+						<input type="text" name="email" autofocus value="web000@ehu.es"/>
 					</div>
 
 					<div>
-						<label>Contraseña</label>
-						<input type="password" name="password"/>
+						<label for="password">Contraseña</label>
+						<!-- <input type="password" name="password"/>
+						<input type="password" name="password" value="admin"/> -->
+						<input type="password" name="password" value="web000"/>
 					</div>
 
 					<div>
@@ -154,7 +157,7 @@ $config = include("config.php");
 	</div>
 
 	<footer>
-		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
+		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank" rel="noopener">¿Qué es un Quiz?</a></p>
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 	</footer>
 

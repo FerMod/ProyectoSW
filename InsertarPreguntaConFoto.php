@@ -2,9 +2,9 @@
 <?php
 
 include_once('login_session.php'); // Includes login script
-include('session_timeout.php');
+include_once('session_timeout.php');
 
-if(!isset($_SESSION['logged_user']) || empty($_SESSION['logged_user']) || !isset($_SESSION['logged_teacher']) || empty($_SESSION['logged_teacher'])) {
+if(!isValidSession()) {
 	header("location: layout.php");
 } else {
 	refreshSessionTimeout();
@@ -16,7 +16,7 @@ $config = include("config.php");
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
 	
@@ -27,11 +27,15 @@ $config = include("config.php");
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 	<script src="js/script.js"></script>	
 
-	<link rel="stylesheet" href="css/style.css">	
+	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+	
 
 	<?php
 
 	function uploadQuestion() {
+
+		global $config;
 
 		// Create connection
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
@@ -217,8 +221,8 @@ $config = include("config.php");
 				$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha insertado correctamente debido a un error con la base de datos.</div>Presione el botón de volver e inténtelo de nuevo.";
 			} else {
 				$filePath = sprintf("%s%s", $xmlFolder, "preguntas.xml");
-				insertElement($filePath, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
-				//$last_id = $conn->insert_id;
+				$question_id = $conn->insert_id;
+				insertElement($filePath, $question_id, $email, $enunciado, $respuestaCorrecta, $respuestaIncorrecta1, $respuestaIncorrecta2, $respuestaIncorrecta3, $complejidad, $tema, $imagenPregunta);
 				$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta se ha insertado correctamente. 
 				<br>Para verla haga click <a href='VerPreguntasConFoto.php?login=".$_GET['login']."' target='_self'>aquí</a>. 
 				<br><br>O si prefiere ver el archivo '.xml' generado haga click <a href='$filePath' target='_blank'>aquí</a>.</div>";
@@ -300,34 +304,27 @@ $config = include("config.php");
 
 		<h2>Quiz: el juego de las preguntas</h2>
 		<?php
-			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-				echo '<label>¡Bienvenido alumno '.$_SESSION['logged_user'].'! </label>';
-			} else if(isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher'])) {
-				echo '<label>¡Bienvenido profesor '.$_SESSION['logged_teacher'].'! </label>';
+		if((isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) && (isset($_SESSION['user_type']) && !empty($_SESSION['user_type']))) {		
+
+			$userType = '';
+			switch ($_SESSION['user_type']) {
+				case 'teacher':
+				$userType = 'profesor';
+				break;
+
+				case 'student':
+				$userType = 'alumno';
+				break;
 			}
+
+			echo '<span>¡Bienvenido ' . $userType . ' "' . $_SESSION['logged_user'] . '"! </span>';
+
+		}
 		?>
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
-			<?php 
-				if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-					echo '<span><a href="layout.php">Inicio</a></span>';
-					echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
-					echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-					echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
-					echo '<span><a href="creditos.php">Creditos</a></span>';
-				} else if(isset($_SESSION['logged_teacher']) && !empty($_SESSION['logged_teacher'])) {
-					echo '<span><a href="layout.php">Inicio</a></span>';
-					echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
-					echo '<span><a href="RevisarPreguntas.php">Revisar preguntas</a></span>';
-					echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-					echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
-					echo '<span><a href="creditos.php">Creditos</a></span>';
-				} else {
-					echo '<span><a href="layout.php">Inicio</a></span>';
-					echo '<span><a href="creditos.php">Creditos</a></span>';
-				}
-			?>
+			<?php include('navbar_items.php'); ?>
 		</nav>
 		<article class="content">
 			<label>
@@ -344,7 +341,7 @@ $config = include("config.php");
 		</aside>
 	</div>
 	<footer>
-		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
+		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank" rel="noopener">¿Qué es un Quiz?</a></p>
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 	</footer>
 

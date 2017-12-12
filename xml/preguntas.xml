@@ -26,4 +26,46 @@
       <value>Ninguna es correcta</value>
     </incorrectResponses>
   </assessmentItem>
+  <assessmentItem id="4" complexity="2" subject="asdasd" author="Correo123@ikasle.ehu.eus">
+    <itemBody>
+      <p>asdas</p>
+    </itemBody>
+    <correctResponse>
+      <value>asdasd</value>
+    </correctResponse>
+    <incorrectResponses>
+      <value>asdas</value>
+      <value>asdads</value>
+      <value>asdas</value>
+    </incorrectResponses>
+    <image/>
+  </assessmentItem>
+  <assessmentItem id="290" complexity="2" subject="s" author="Correo123@ikasle.ehu.eus">
+    <itemBody>
+      <p>s</p>
+    </itemBody>
+    <correctResponse>
+      <value>s</value>
+    </correctResponse>
+    <incorrectResponses>
+      <value>s</value>
+      <value>s</value>
+      <value>s</value>
+    </incorrectResponses>
+    <image/>
+  </assessmentItem>
+  <assessmentItem id="291" complexity="2" subject="asd" author="Correo123@ikasle.ehu.eus">
+    <itemBody>
+      <p>s</p>
+    </itemBody>
+    <correctResponse>
+      <value>sa</value>
+    </correctResponse>
+    <incorrectResponses>
+      <value>adsa</value>
+      <value>asd</value>
+      <value>sda</value>
+    </incorrectResponses>
+    <image/>
+  </assessmentItem>
 </assessmentItems>

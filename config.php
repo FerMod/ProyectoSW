@@ -1,6 +1,6 @@
 <?php
 
-$local = true;
+include_once('DebugTools/ChromePhp.php');
 
 // Parse .ini file with sections
 $iniConfig = parse_ini_file("config.ini", true);

@@ -38,8 +38,9 @@ $(document).ready(function() {
 
 	});
 	*/
-
+	"use strict";
 	$("#registro").on("submit", function(event) {
+		refreshSessionTimeout();
 
 		if(!$("#email").get(0).checkValidity() || !$("#password").get(0).checkValidity()) {
 			return false;
@@ -63,6 +64,7 @@ $(document).ready(function() {
 	});
 
 	$("#imagen").on("change", function() {
+		refreshSessionTimeout();
 
 		if($("#imagen").val()) {
 
@@ -86,6 +88,7 @@ $(document).ready(function() {
 	});
 
 	$("#quitarImagen").on("click", function() {
+		refreshSessionTimeout();
 
 		$("#imagen").val("");
 		$("#imagen").trigger("change");
@@ -100,7 +103,7 @@ $(document).ready(function() {
 
 			reader.onload = function(e) {
 				imgElement.attr("src", e.target.result);
-			}
+			};
 
 			reader.readAsDataURL(input.files[0]);
 
@@ -111,15 +114,18 @@ $(document).ready(function() {
 	// When the user clicks on <span> (x), close the modal
 	$(".close").on("click", function(event) { 
 		event.stopPropagation();
+		refreshSessionTimeout();
 		$("#modalElement").css("display", "none");
 	});
 
 	// When the user clicks away, close the modal
 	$("#modalElement").on("click", function(event) {
 		$(this).css("display", "none");
+		refreshSessionTimeout();
 	});
 
 	$(".modalImage").on("click", function() {
+		refreshSessionTimeout();
 		$("#modalElement").css("display", "block");
 		$("#img01").attr("src", $(this).attr("src"));
 		$("#caption").html($(".modalImage").attr("alt"));
@@ -127,9 +133,11 @@ $(document).ready(function() {
 
 	$("#formGestionPreguntas").on("submit", function(event) {
 		event.preventDefault();
+		refreshSessionTimeout();
 
 		var formData = new FormData(this);
 		formData.append("action", "uploadQuestion");
+
 		$.ajax({
 			url: "ajaxRequestManager.php",
 			method: "post",								// Type of request to be send, called as method
@@ -155,6 +163,38 @@ $(document).ready(function() {
 
 	});
 	
+	$("#formRevPreguntas").on("submit", function(event) {
+		event.preventDefault();
+		refreshSessionTimeout();
+
+		var formData = new FormData(this);
+		formData.append("action", "editQuestion");
+
+		$.ajax({
+			url: "ajaxRequestManager.php",
+			method: "post",
+			data: formData,
+			dataType: "json",
+			contentType: false,
+			cache: false,
+			processData: false,
+			success: function(result, status, xhr) {
+
+				$("#respuesta").html(result.operationMessage);
+
+				if(result.operationSuccess) {
+					actualizarPregunta(result.question.id, result.question.email, result.question.enunciado, result.question.respuestaCorrecta, result.question.respuestaIncorrecta1, result.question.respuestaIncorrecta2, result.question.respuestaIncorrecta3, result.question.complejidad, result.question.tema);
+				}
+				
+			},
+			error: function (xhr, status, error) {
+				console.log(xhr.statusText);
+				console.log(error);
+			}
+		});
+
+	});
+
 	if($("#preguntasUsuarios").length && $("#preguntasTotales").length) {
 		refreshStats(); // Execute the function
 		var timer = setInterval(refreshStats, 20000);
@@ -162,9 +202,9 @@ $(document).ready(function() {
 
 	function refreshStats() {
 
-		var xhr = $.ajax({
+		$.ajax({
 			url: "ajaxRequestManager.php",
-			data: {login: getUrlParameter("login"), action: "getQuestionsStats"},
+			data: {action: "getQuestionsStats"},
 			method: "post",								// Type of request to be send, called as method
 			dataType: "json",							// The type of data that you're expecting back from the server.
 			success: function(result, status, xhr) {	
@@ -173,7 +213,7 @@ $(document).ready(function() {
 			},
 			error: function (xhr, status, error) {				
 				clearInterval(timer);
-				$("header").append(xhr.responseText);
+				console.log(xhr.responseText);
 			}
 		});
 
@@ -194,7 +234,7 @@ $(document).ready(function() {
 	function getUrlParameter(param) {
 
 		var pageURL = decodeURIComponent(window.location.search.substring(1));
-		var	urlVariables = pageURL.split('&');
+		var urlVariables = pageURL.split('&');
 
 		for (var i = 0; i < urlVariables.length; i++) {
 			var parameterName = urlVariables[i].split('=');
@@ -203,7 +243,7 @@ $(document).ready(function() {
 				return parameterName[1] === undefined ? true : parameterName[1];
 			}
 		}
-	};
+	}
 
 	function mostrarDatos(filePath) {
 
@@ -211,24 +251,24 @@ $(document).ready(function() {
 		XMLHttpRequestObject.onreadystatechange = function() {
 			if (XMLHttpRequestObject.readyState==4) {
 				document.getElementById('visualizarDatos').innerHTML = '';
-				var myCodeMirror = CodeMirror(document.getElementById('visualizarDatos'), {
+				var myCodeMirror = new CodeMirror(document.getElementById('visualizarDatos'), {
 					value: XMLHttpRequestObject.responseText,
 					mode:  "xml",
 					lineNumbers: "true",
 					readOnly: "true"
 				});
 			}
-		}
+		};
 
 		// Bypass the cache.
 		// Since the local cache is indexed by URL, this causes every request to be unique.
-		filePath += (filePath.match(/\?/) == null ? "?" : "&") + new Date().getTime();
+		filePath += (filePath.match(/\?/) === null ? "?" : "&") + new Date().getTime();
 		XMLHttpRequestObject.open("GET", filePath);
 		XMLHttpRequestObject.send(null);
 	}
 	
-	/*$("#email").on("keyup", function(event) {
-		
+	$("#email").on("keyup", function(event) {
+
 		if (!$("#email").val()) {
 			$("#email").get(0).validity = false;
 			$("#email").removeClass("validData").removeClass("invalidData");
@@ -247,13 +287,13 @@ $(document).ready(function() {
 					}
 				},
 				error: function (xhr, status, error) {
-					$("header").append(xhr.responseText);
+					console.log(xhr.responseText);
 				}
 			});
 		}
 
-	}); */
-
+	});
+	
 	$("#password").on("keyup", function(event) {
 
 		// Prevent multiple event trigger, use the first that triggers
@@ -269,7 +309,7 @@ $(document).ready(function() {
 				var strength = -1;
 
 				if ($("#password").val()) {				
-					$("#password").get(0).validity =true// result.isValid;
+					$("#password").get(0).validity = result.isValid;
 					if(result.isValid) {
 						$("#password").addClass("validData");
 						strength = getPasswordStrength($("#password").val());
@@ -310,12 +350,11 @@ $(document).ready(function() {
 				console.log("Password strength: " + strength);
 			},
 			error: function (xhr, status, error) {
-				$("header").append(xhr.responseText);
+				console.log(xhr.responseText);
 			}
 		});
 
 	});
-
 
 	function getPasswordStrength(password) {
 
@@ -353,27 +392,206 @@ $(document).ready(function() {
 
 	}
 	
-	// Dont allow any context menu and the cut, copy and paste actions in the password field
-	$("input[type=password]").on("contextmenu cut copy paste", function(event) {
-		event.preventDefault();
-	});
+	// Is worse and more insecure to dont allow to paste password.
+	// Allowing the copy and paste, allows to password managers to paste passwords.
+	// // Dont allow any context menu and the cut, copy and paste actions in the password field
+	// $("input[type=password]").on("contextmenu cut copy paste", function(event) {
+	// 	event.preventDefault();
+	// 	refreshSessionTimeout();
+	// });
 
 	var count = 1;
 	$(".sidebar").find("span").on("click", function(event) {
 		console.log(count);
 		if(count++ == 3) {
-			window.location.replace("https://www.youtube.com/embed/hHULSRCNPE0?rel=0&autoplay=1");
+			window.location.replace("https://goo.gl/NHLufA");
 		}
 	}).css("cursor", "pointer");
 
-});
 
-$(document).ajaxSuccess(function(event, request, settings, data) {
-	console.log(data);
-	if($.trim(data.sessionTimeout)) {
-		if(data.sessionTimeout) {
-			window.location.replace("layout.php");
+	$("[data-scroll-to]").on("click", function() {
+		var $this = $(this),
+		$toElement      = $this.attr('data-scroll-to'),
+		$focusElement   = $this.attr('data-scroll-focus'),
+		$offset         = $this.attr('data-scroll-offset') * 1 || 0,
+		$speed          = $this.attr('data-scroll-speed') * 1 || 500;
+
+		$('html, body').animate({
+			scrollTop: $($toElement).offset().top + $offset
+		}, $speed);
+
+		if ($focusElement) {
+			$($focusElement).focus();
 		}
-	}
+	});
+
+	$(document).ajaxSuccess(function(event, request, settings, data) {
+		if($.trim(data.sessionTimeout)) {
+			if(data.sessionTimeout) {
+				redirecTo("layout.php");
+			}
+		}
+	});
+
 });
 
+function getQuestions(callbackFunciton) {
+	"use strict";
+
+	var ajaxData = {action: "getQuestions"};
+
+	$.ajax({
+		url: "ajaxRequestManager.php",
+		data: ajaxData,
+		method: "post",
+		dataType: "json",
+		success: callbackFunciton,
+		error: function (xhr, status, error) {
+			console.log(error);
+		}
+	});
+
+}
+
+function createQuestionList(result, status, xhr) {
+	"use strict";
+	if(result.operationSuccess) {
+		$.each(result.query, function (key, value) {
+
+			var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
+			$questionDivElement.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
+			$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value.complejidad + '</span><strong> | Tema: </strong><span id="tema">' + value.tema + '</span><strong> | Autor: </strong><span id="email">' + value.email + '</span><br/>');
+			$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value.enunciado + '</span><br/>');
+
+			var $listElement = $('<ul></ul>').addClass("answerList");
+			$listElement.append('<li id="respuestaCorrecta" class="tick">' + value.respuesta_correcta + '</li>');
+			$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value.respuesta_incorrecta_1 + '</li>');
+			$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value.respuesta_incorrecta_2 + '</li>');
+			$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value.respuesta_incorrecta_3 + '</li>');
+
+			$questionDivElement.append($listElement);
+			$("#listaPreguntas").append($questionDivElement);
+
+		});
+
+		$(".loading").fadeOut("slow").hide("slow", function() {
+			$("#listaPreguntas").fadeIn("slow").show("slow");
+		});
+	} else if(result.operationMessage) {
+		$("#listaPreguntas").html(result.operationMessage);
+	}
+
+}
+
+function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2, respuestaIncorrecta3, complejidad, tema) {
+	"use strict";
+	var $idElement = $("#" + id).find("#id");
+	var $emailElement = $("#" + id).find("#email");
+	var $enunciadoElement = $("#" + id).find("#enunciado");
+	var $respuestaCorrectaElement = $("#" + id).find("#respuestaCorrecta");
+	var $respuestaIncorrecta1Element = $("#" + id).find("#respuestaIncorrecta1");
+	var $respuestaIncorrecta2Element = $("#" + id).find("#respuestaIncorrecta2");
+	var $respuestaIncorrecta3Element = $("#" + id).find("#respuestaIncorrecta3");
+	var $complejidadElement =$("#" + id).find("#complejidad");
+	var $temaElement = $("#" + id).find("#tema");
+
+	if($idElement.text() != id) {
+		$idElement.text(id);
+		highlight($idElement);
+	}
+
+	if($emailElement.text() != email) {
+		$emailElement.text(email);
+		highlight($emailElement);
+	}
+
+	if($enunciadoElement.text() != enunciado) {
+		$enunciadoElement.text(enunciado);
+		highlight($enunciadoElement);
+	}
+
+	if($respuestaCorrectaElement.text() != respuestaCorrecta) {
+		$respuestaCorrectaElement.text(respuestaCorrecta);
+		highlight($respuestaCorrectaElement);
+	}
+
+	if($respuestaIncorrecta1Element.text() != respuestaIncorrecta1) {
+		$respuestaIncorrecta1Element.text(respuestaIncorrecta1);
+		highlight($respuestaIncorrecta1Element);
+	}
+
+	if($respuestaIncorrecta2Element.text() != respuestaIncorrecta2) {
+		$respuestaIncorrecta2Element.text(respuestaIncorrecta2);
+		highlight($respuestaIncorrecta2Element);
+	}
+
+	if($respuestaIncorrecta3Element.text() != respuestaIncorrecta3) {
+		$respuestaIncorrecta3Element.text(respuestaIncorrecta3);
+		highlight($respuestaIncorrecta3Element);
+	}
+
+	if($complejidadElement.text() != complejidad) {
+		$complejidadElement.text(complejidad);
+		highlight($complejidadElement);
+	}
+
+	if($temaElement.text() != tema) {
+		$temaElement.text(tema);
+		highlight($temaElement);
+	}
+
+	scrollTo($("#listaPreguntas"), $("#" + id));
+
+}
+
+function editarPregunta(id) {
+	"use strict";
+	var email = $("#" + id).find("#email").text();
+	var enunciado = $("#" + id).find("#enunciado").text();
+	var respuestaCorrecta = $("#" + id).find("#respuestaCorrecta").text();
+	var respuestaIncorrecta1 = $("#" + id).find("#respuestaIncorrecta1").text();
+	var respuestaIncorrecta2 = $("#" + id).find("#respuestaIncorrecta2").text();
+	var respuestaIncorrecta3 = $("#" + id).find("#respuestaIncorrecta3").text();
+	var complejidad = $("#" + id).find("#complejidad").text();
+	var tema = $("#" + id).find("#tema").text();
+
+	$("#id-edit").val(id);
+	$("#email-edit").val(email);
+	$("#enunciado-edit").val(enunciado);
+	$("#respuestaCorrecta-edit").val(respuestaCorrecta);
+	$("#respuestaIncorrecta1-edit").val(respuestaIncorrecta1);
+	$("#respuestaIncorrecta2-edit").val(respuestaIncorrecta2);
+	$("#respuestaIncorrecta3-edit").val(respuestaIncorrecta3);
+	$("#complejidad-edit").val(complejidad);
+	$("#tema-edit").val(tema);
+}
+
+function refreshSessionTimeout() {
+	"use strict";
+	$.ajax({
+		url: "ajaxRequestManager.php",
+		method: "post"
+	});
+}
+
+function redirecTo(url) {
+	"use strict";
+	if(url.length) {
+		window.location.replace(url);
+	}
+}
+
+function highlight($element) {
+	"use strict";
+	$element.addClass("highlight");
+	$element.delay(2200).queue(function() { // Wait the defined seconds
+		$(this).removeClass("highlight").dequeue();
+	});	
+}
+
+function scrollTo($container, $element) {
+	"use strict";
+	$container.animate({
+		scrollTop: $element.offset().top - $container.offset().top + $container.scrollTop()
+	});
+}

@@ -1,56 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 - phpMyAdmin XML Dump
-- version 4.6.4
+- version 4.7.4
 - https://www.phpmyadmin.net
 -
-- Host: 127.0.0.1
-- Generation Time: Nov 02, 2017 at 10:22 PM
-- Server version: 5.7.14
-- PHP Version: 7.0.10
+- Host: 127.0.0.1:3306
+- Generation Time: Dec 05, 2017 at 02:02 PM
+- Server version: 5.7.19
+- PHP Version: 7.1.9
 -->
 
 <pma_xml_export version="1.0" xmlns:pma="https://www.phpmyadmin.net/some_doc_url/">
     <!--
     - Structure schemas
-    -->
-    <pma:structure_schemas>
-        <pma:database name="quiz" collation="utf8_unicode_ci" charset="utf8">
-            <pma:table name="preguntas">
-                CREATE TABLE `preguntas` (
-                  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id de la pregunta',
-                  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Correo del autor de la pregunta',
-                  `enunciado` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Enunciado de la pregunta',
-                  `respuesta_correcta` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta correcta a la pregunta',
-                  `respuesta_incorrecta_1` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
-                  `respuesta_incorrecta_2` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
-                  `respuesta_incorrecta_3` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
-                  `complejidad` int(1) NOT NULL COMMENT 'Complejidad de la pregunta (1-5)',
-                  `tema` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tema de la pregunta',
-                  `imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen opcional de la pregunta',
-                  PRIMARY KEY (`id`)
-                ) ENGINE=MyISAM AUTO_INCREMENT=145 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-            </pma:table>
-            <pma:table name="usuarios">
-                CREATE TABLE `usuarios` (
-                  `id` int(255) NOT NULL AUTO_INCREMENT,
-                  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Email del usuario',
-                  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Contraseña encriptada del usuario',
-                  `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Nombre real del usuario',
-                  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Nombre de usuario del propietario',
-                  `imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen de perfil del usuario',
-                  PRIMARY KEY (`id`),
-                  UNIQUE KEY `UNIQUE` (`email`) USING BTREE
-                ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-            </pma:table>
-        </pma:database>
-    </pma:structure_schemas>
+  -->
+  <pma:structure_schemas>
+    <pma:database name="quiz" collation="utf8_unicode_ci" charset="utf8">
+      <pma:table name="preguntas">
+        CREATE TABLE `preguntas` (
+        `id` int(255) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id de la pregunta',
+        `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Correo del autor de la pregunta',
+        `enunciado` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Enunciado de la pregunta',
+        `respuesta_correcta` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta correcta a la pregunta',
+        `respuesta_incorrecta_1` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
+        `respuesta_incorrecta_2` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
+        `respuesta_incorrecta_3` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Respuesta incorrecta a la pregunta',
+        `complejidad` int(1) NOT NULL COMMENT 'Complejidad de la pregunta (1-5)',
+        `tema` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tema de la pregunta',
+        `imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen opcional de la pregunta',
+        PRIMARY KEY (`id`)
+        ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+      </pma:table>
+      <pma:table name="usuarios">
+        CREATE TABLE `usuarios` (
+        `id` int(255) NOT NULL AUTO_INCREMENT,
+        `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Email del usuario',
+        `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Contraseña encriptada del usuario',
+        `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Nombre real del usuario',
+        `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Nombre de usuario del propietario',
+        `imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen de perfil del usuario',
+        PRIMARY KEY (`id`),
+        UNIQUE KEY `UNIQUE` (`email`) USING BTREE
+        ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+      </pma:table>
+    </pma:database>
+  </pma:structure_schemas>
 
     <!--
     - Database: 'quiz'
-    -->
-    <database name="quiz">
-        <!-- Table preguntas -->
-        <!-- Table usuarios -->
-    </database>
+  -->
+  <database name="quiz">
+    <!-- Table preguntas -->
+    <table name="preguntas">
+      <column name="id">1</column>
+      <column name="email">jvadillo001@ikasle.ehu.es</column>
+      <column name="enunciado">Tag HTML para añadir un formulario</column>
+      <column name="respuesta_correcta">FORM</column>
+      <column name="respuesta_incorrecta_1">OBJECT</column>
+      <column name="respuesta_incorrecta_2">TABLE</column>
+      <column name="respuesta_incorrecta_3">DIV</column>
+      <column name="complejidad">2</column>
+      <column name="tema">Web</column>
+      <column name="imagen">NULL</column>
+    </table>
+    <table name="preguntas">
+      <column name="id">2</column>
+      <column name="email">rarruabarrena001@ikasle.ehu.eus</column>
+      <column name="enunciado">Este protocolo acabará funcionando incluso entre dos latas unidas por un cordón</column>
+      <column name="respuesta_correcta">TCP/IP</column>
+      <column name="respuesta_incorrecta_1">HTTP</column>
+      <column name="respuesta_incorrecta_2">SMTP</column>
+      <column name="respuesta_incorrecta_3">Ninguna es correcta</column>
+      <column name="complejidad">4</column>
+      <column name="tema">Internet</column>
+      <column name="imagen">NULL</column>
+    </table>
+    <table name="preguntas">
+      <column name="id">3</column>
+      <column name="email">Correo123@ikasle.ehu.eus</column>
+      <column name="enunciado">Esta pregunta es de prueba</column>
+      <column name="respuesta_correcta">Respuesta correcta</column>
+      <column name="respuesta_incorrecta_1">Respuesta incorrecta 1</column>
+      <column name="respuesta_incorrecta_2">Respuesta incorrecta 2</column>
+      <column name="respuesta_incorrecta_3">Respuesta incorrecta 3</column>
+      <column name="complejidad">1</column>
+      <column name="tema">Test</column>
+      <column name="imagen">NULL</column>
+    </table>
+    <!-- Table usuarios -->
+    <table name="usuarios">
+      <column name="id">0</column>
+      <column name="email">web000@ehu.es</column>
+      <column name="password">$2y$10$ea5eCZgrdvi39BhjZjoLnew8S10dQzrfW.oith9FM1himFFKp8xBm</column>
+      <column name="nombre">Mr.Web000</column>
+      <column name="username">Super Web000</column>
+      <column name="imagen">NULL</column>
+    </table>
+    <table name="usuarios">
+      <column name="id">1</column>
+      <column name="email">admin</column>
+      <column name="password">$2y$10$m8zJqipiwYL7LuHJUzLxr.93vFf5m0y7U6wkApk5uSkztIEJdE7eO</column>
+      <column name="nombre">Mr.Admin</column>
+      <column name="username">Super Admin</column>
+      <column name="imagen">NULL</column>
+    </table>
+  </database>
 </pma_xml_export>

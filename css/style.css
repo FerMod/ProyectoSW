@@ -1,6 +1,4 @@
 
-@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
-
 * {
 	margin: 0;
 	padding: 0;
@@ -72,8 +70,8 @@ footer {
 	-ms-flex: 3;
 	flex: 3;
 
-	min-width: 0;
-	min-height: 0;
+	min-width: auto;
+	min-height: auto;
 	overflow: auto;
 }
 
@@ -312,7 +310,7 @@ footer {
 }
 
 .infoTable td:last-child {
-	border-right: 0px;
+	border-right: 0;
 	text-align: center;
 }
 
@@ -379,38 +377,38 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	border-radius: 5px;
 	word-spacing: 2px;
 	border-radius: 5px;
-	box-shadow: 3px 3px 0px #969696;
+	box-shadow: 3px 3px 0 #969696;
 }
 
 .serverMessage {
 	background-color: #FFFFFF;
 	border: 4px solid #6D6D6D;
-	box-shadow: 3px 3px 0px #969696;
+	box-shadow: 3px 3px 0 #969696;
 }
 
 .serverInfoMessage {
 	background-color: #D9DEFF;
 	border: 4px solid #607DCC;
-	box-shadow: 3px 3px 0px #575796;
+	box-shadow: 3px 3px 0 #575796;
 }
 
 .serverErrorMessage {
 	background-color: #FFB3B3;
 	border: 4px solid #CC473D;
-	box-shadow: 3px 3px 0px #962A2A;
+	box-shadow: 3px 3px 0 #962A2A;
 }
 
 .invalidData {
-	-webkit-box-shadow: 3px 3px 10px 0px red;
-	-moz-box-shadow: 3px 3px 10px 0px red;
-	box-shadow: 3px 3px 10px 0px red;
+	-webkit-box-shadow: 3px 3px 10px 0 red;
+	-moz-box-shadow: 3px 3px 10px 0 red;
+	box-shadow: 3px 3px 10px 0 red;
 	border-color: red;
 }
 
 .validData {
-	-webkit-box-shadow: 3px 3px 10px 0px green;
-	-moz-box-shadow: 3px 3px 10px 0px green;
-	box-shadow: 3px 3px 10px 0px green;
+	-webkit-box-shadow: 3px 3px 10px 0 green;
+	-moz-box-shadow: 3px 3px 10px 0 green;
+	box-shadow: 3px 3px 10px 0 green;
 	border-color: green;
 }
 
@@ -419,28 +417,31 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 .veryWeak{
-	-webkit-box-shadow: 3px 3px 10px 0px red;
-	-moz-box-shadow: 3px 3px 10px 0px red;
-	box-shadow: 3px 3px 10px 0px red;
-	border-color: red !important
+	-webkit-box-shadow: 3px 3px 10px 0 red;
+	-moz-box-shadow: 3px 3px 10px 0 red;
+	box-shadow: 3px 3px 10px 0 red;
+	border-color: red
 }
+
 .weak{
-	-webkit-box-shadow: 3px 3px 10px 0px orange;
-	-moz-box-shadow: 3px 3px 10px 0px orange;
-	box-shadow: 3px 3px 10px 0px orange;
-	border-color: orange !important;
+	-webkit-box-shadow: 3px 3px 10px 0 orange;
+	-moz-box-shadow: 3px 3px 10px 0 orange;
+	box-shadow: 3px 3px 10px 0 orange;
+	border-color: orange;
 }
+
 .medium{
-	-webkit-box-shadow: 3px 3px 10px 0px YellowGreen ;
-	-moz-box-shadow: 3px 3px 10px 0px YellowGreen ;
-	box-shadow: 3px 3px 10px 0px YellowGreen ;
-	border-color: YellowGreen  !important;
+	-webkit-box-shadow: 3px 3px 10px 0 YellowGreen ;
+	-moz-box-shadow: 3px 3px 10px 0 YellowGreen ;
+	box-shadow: 3px 3px 10px 0 YellowGreen ;
+	border-color: YellowGreen;
 }
+
 .strong{
-	-webkit-box-shadow: 3px 3px 10px 0px #13c113;
-	-moz-box-shadow: 3px 3px 10px 0px #13c113;
-	box-shadow: 3px 3px 10px 0px #13c113;
-	border-color: #13c113 !important;
+	-webkit-box-shadow: 3px 3px 10px 0 #13c113;
+	-moz-box-shadow: 3px 3px 10px 0 #13c113;
+	box-shadow: 3px 3px 10px 0 #13c113;
+	border-color: #13c113;
 }
 
 #tooltip-content{
@@ -488,7 +489,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	display: none; /* Hidden by default */
 	position: fixed; /* Stay in place */
 	z-index: 1; /* Sit on top */
-	padding-top: 100px; /* Location of the box */
+	/*padding-top: 100px;*/ /* Location of the box */
 	left: 0;
 	top: 0;
 	width: 100%; /* Full width */
@@ -515,13 +516,15 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	text-align: center;
 	color: #ccc;
 	padding: 10px 0;
-	height: 150px;
+	/*height: 150px;*/
 }
 
 /* Add Animation - Zoom in the Modal */
 .modal-content, #caption { 
 	-webkit-animation-name: zoom;
 	-webkit-animation-duration: 0.6s;
+	-moz-animation-name: zoom;
+	-moz-animation-duration: 0.6s;
 	animation-name: zoom;
 	animation-duration: 0.6s;
 }
@@ -561,15 +564,97 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	height:auto;
 }
 
-#quitarImagen { 	
+#quitarImagen {
 	display: none;
 	width: auto;
 	margin-left: 5%;
 	margin-right: auto;
 }
 
+#listaPreguntas {
+	height: 25%;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.pregunta {
+	border-left: 6px solid green;
+	border-top: 2px solid darkgrey;
+	background-color: #ffffff;
+	padding: 5px 5px 5px 5px;
+	text-align: left;
+	width: 100%;
+	cursor: pointer;
+}
+
+.pregunta:hover {
+	border-top: 2px solid lightgrey;
+	background-color: #d3d3d3;
+}
+
+.pregunta:active {
+	border-left: 7px solid green;
+	border-top: 2px solid lightgrey;
+	background-color: #d3d3d3;
+}
+
+
+.disable-select {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+/* List styling */
+.answerList, .answerList ul {
+	margin-top: 0;
+	padding-left: 2em;
+	list-style-type: none;
+	position: relative;
+}
+.answerList li:before {
+	position: absolute;
+	margin-left: -1.3em;
+	font-weight: bold;
+}
+
+.answerList .tick:before {
+	content: "\2713";
+	color: darkgreen;
+}
+
+.answerList .cross:before {
+	content: "\2717";
+	color: crimson;
+}
+
+@keyframes highlight {
+	from {
+		background: yellow;
+	}
+	to {
+		background: none;
+	}
+}
+
+.highlight {
+	animation: highlight 3s;
+}
+
+.loading {	
+	text-align: center;
+	clear: both;
+	width: 100%;
+}
+
+.loading img {
+	max-width: 100%;
+	width: 20%;
+}
+
 /* mobile layout */
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 412px) {
 
 	.container {
 		display: -webkit-box;
@@ -581,30 +666,34 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 		width: 100%;
 
 		-webkit-box-orient: vertical;
+		-ms-box-orient: vertical;
 		-moz-box-orient: vertical;
 		-ms-flex-orient: vertical;
 		-webkit-orient: vertical;
-		orient: vertical;
+		/*orient: vertical;*/
 	}
 
 	.content {
 		-webkit-box-ordinal-group: 1;
+		-ms-box-ordinal-group: 1;
 		-moz-box-ordinal-group: 1;
 		-ms-flex-order: 1;
 		-webkit-order: 1;
-		order: 1;
+		order: 2;
 	}
 
 	.navbar {
 		-webkit-box-ordinal-group: 2;
+		-ms-box-ordinal-group: 2;
 		-moz-box-ordinal-group: 2;
 		-ms-flex-order: 2;
 		-webkit-order: 2;
-		order: 2;	
+		order: 1;
 	}
 
 	.sidebar {
 		-webkit-box-ordinal-group: 3;
+		-ms-box-ordinal-group: 3;
 		-moz-box-ordinal-group: 3;
 		-ms-flex-order: 3;
 		-webkit-order: 3;

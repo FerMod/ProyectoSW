@@ -11,6 +11,8 @@ $config = include("config.php");
 	<script src="js/script.js"></script>	
 
 	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+
 
 </head>
 
@@ -209,7 +211,7 @@ $config = include("config.php");
 			} 
 			?>
 			<footer>
-				<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
+				<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank" rel="noopener">¿Qué es un Quiz?</a></p>
 				<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 			</footer>
 		</body>

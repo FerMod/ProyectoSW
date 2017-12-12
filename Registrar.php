@@ -4,22 +4,18 @@
 include_once('login_session.php'); // Includes login script
 include_once('session_timeout.php');
 
-if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-	// Another account? how many do you need??
+if(isValidSession()) {
+	// What is doing here a logged user??
 	refreshSessionTimeout();
 	header("location: layout.php");
 }
 
-if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_teacher'])) {
-	// Another account? how many do you need??
-	refreshSessionTimeout();
-	header("location: layout.php");
-}
+$config = include("config.php");
 
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
 	
@@ -31,11 +27,14 @@ if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_teacher'])) {
 	<script src="js/script.js"></script>	
 
 	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+
 
 	<?php
 
-	function createUser() {		
-		$config = include("config.php");
+	function createUser() {	
+		
+		global $config;
 
 		// Create connection
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
@@ -335,7 +334,7 @@ if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_teacher'])) {
 		</aside>
 	</div>
 	<footer>
-		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank">¿Qué es un Quiz?</a></p>
+		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank" rel="noopener">¿Qué es un Quiz?</a></p>
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 	</footer>
 </body>

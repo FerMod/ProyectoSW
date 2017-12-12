@@ -425,6 +425,10 @@ $(document).ready(function() {
 
 });
 
+if($("#listaPreguntas").length && $("#listaPreguntas").length) {
+    getQuestions(createQuestionList);
+}
+
 function getQuestions(callbackFunciton) {
 
 	$.ajax({

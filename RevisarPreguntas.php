@@ -72,9 +72,11 @@ if(!isValidSession()) {
 			<label>Editar pregunta</label>
 			<div id="listaPreguntas" style="border-style: groove;">
 			</div>
+			<!--
 			<script type="text/javascript">
 				$(document).ready(getQuestions(createQuestionList));
 			</script>
+			-->
 			<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">
 				<fieldset>
 					<legend>Datos de la pregunta</legend>

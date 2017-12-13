@@ -435,28 +435,6 @@ $(document).ready(function() {
 
 });
 
-if($("#listaPreguntas").length && $("#listaPreguntas").length) {
-    getQuestions(createQuestionList);
-}
-
-function getQuestions(callbackFunciton) {
-	"use strict";
-
-	var ajaxData = {action: "getQuestions"};
-
-	$.ajax({
-		url: "ajaxRequestManager.php",
-		data: ajaxData,
-		method: "post",
-		dataType: "json",
-		success: callbackFunciton,
-		error: function (xhr, status, error) {
-			console.log(error);
-		}
-	});
-
-}
-
 function createQuestionList(result, status, xhr) {
 	"use strict";
 	if(result.operationSuccess) {
@@ -483,6 +461,28 @@ function createQuestionList(result, status, xhr) {
 		});
 	} else if(result.operationMessage) {
 		$("#listaPreguntas").html(result.operationMessage);
+	}
+
+}
+
+function getQuestions(callbackFunction) {
+	"use strict";
+
+	if (typeof callbackFunction === "function") { 
+		
+		var ajaxData = {action: "getQuestions"};
+
+		$.ajax({
+			url: "ajaxRequestManager.php",
+			type: "post",
+			data: ajaxData,
+			dataType: "json",
+			success: callbackFunction,
+			error: function (xhr, status, error) {
+				console.log(error);
+				console.log(xhr);
+			}
+		});
 	}
 
 }

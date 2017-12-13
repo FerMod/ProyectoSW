@@ -48,8 +48,10 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		refreshSessionTimeout();
 	}
 
-	$ajaxResult["sessionTimeout"] = $_SESSION['obsolete'];
-
+	if(isset($_SESSION['obsolete']) && !empty($_SESSION['obsolete'])) {
+		$ajaxResult["sessionTimeout"] = $_SESSION['obsolete'];
+	}
+	
 	// Encode array to JSON format
 	echo json_encode($ajaxResult);
 

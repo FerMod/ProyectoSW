@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 	});
 	*/
-	"use strict";
+	
 	$("#registro").on("submit", function(event) {
 		refreshSessionTimeout();
 
@@ -435,19 +435,11 @@ $(document).ready(function() {
 
 });
 
-function getAjaxQuestions() {
-	return $.ajax({
-		url: "ajaxRequestManager.php",
-		type: "POST",
-		data: {"action": "getQuestions"},
-		dataType: "json"
-	});
-}
 
-function getQuestions() {
+function defCall(functionCall) {
 
 	var def = $.Deferred();
-	$.when(getAjaxQuestions())
+	$.when(functionCall)
 	.done(function(result, status, xhr) {
 		def.resolve(result, status, xhr);
 	})
@@ -458,9 +450,18 @@ function getQuestions() {
 	return def.promise();
 }
 
+function getAjaxQuestions() {
+	return $.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {"action": "getQuestions"},
+		dataType: "json"
+	});
+}
+
 function createQuestionList() {
 
-	getQuestions().done(function(result, status, xhr) {
+	defCall(getAjaxQuestions()).done(function(result, status, xhr) {
 		if(result.operationSuccess) {
 			$.each(result.query, function (key, value) {
 
@@ -494,7 +495,6 @@ function createQuestionList() {
 }
 
 function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2, respuestaIncorrecta3, complejidad, tema) {
-	"use strict";
 	var $idElement = $("#" + id).find("#id");
 	var $emailElement = $("#" + id).find("#email");
 	var $enunciadoElement = $("#" + id).find("#enunciado");
@@ -555,7 +555,6 @@ function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIn
 }
 
 function editarPregunta(id) {
-	"use strict";
 	var email = $("#" + id).find("#email").text();
 	var enunciado = $("#" + id).find("#enunciado").text();
 	var respuestaCorrecta = $("#" + id).find("#respuestaCorrecta").text();
@@ -577,7 +576,6 @@ function editarPregunta(id) {
 }
 
 function refreshSessionTimeout() {
-	"use strict";
 	$.ajax({
 		url: "ajaxRequestManager.php",
 		method: "post"
@@ -585,22 +583,19 @@ function refreshSessionTimeout() {
 }
 
 function redirecTo(url) {
-	"use strict";
 	if(url.length) {
 		window.location.replace(url);
 	}
 }
 
 function highlight($element) {
-	"use strict";
 	$element.addClass("highlight");
 	$element.delay(2200).queue(function() { // Wait the defined seconds
 		$(this).removeClass("highlight").dequeue();
-	});	
+	});
 }
 
 function scrollTo($container, $element) {
-	"use strict";
 	$container.animate({
 		scrollTop: $element.offset().top - $container.offset().top + $container.scrollTop()
 	});

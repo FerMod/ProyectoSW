@@ -436,6 +436,7 @@ $(document).ready(function() {
 });
 
 function editarPregunta(id) {
+
 	var email = $("#" + id).find("#email").text();
 	var enunciado = $("#" + id).find("#enunciado").text();
 	var respuestaCorrecta = $("#" + id).find("#respuestaCorrecta").text();
@@ -457,7 +458,11 @@ function editarPregunta(id) {
 }
 
 function borrarPregunta(id) {
-	console.log("Borrar pregunta con id: " + id);
+	if (confirm("Está seguro de que desea borrar la pregunta?")) {
+		alert("[TODO]: Borrar Pregunta\n(Se borra la pregunta con id: " + id + ")");
+	} else {
+		alert("Operación cancelada");
+	}
 }
 
 
@@ -490,19 +495,26 @@ function createQuestionList() {
 		if(result.operationSuccess) {
 			$.each(result.query, function (key, value) {
 
-				var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
-				$questionDivElement.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
-				$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value.complejidad + '</span><strong> | Tema: </strong><span id="tema">' + value.tema + '</span><strong> | Autor: </strong><span id="email">' + value.email + '</span><br/>');
-				$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value.enunciado + '</span><br/>');
+				var $questionDivElement = $('<div id="' + key + '" onclick="editarPregunta(' +  key + ')"></div>').addClass("pregunta");
+				var $dataContainer = $('<div></div>').addClass("dataContainer");
+				// var $rightContainer = $('<div></div>').addClass("rightContainer");
+
+				$dataContainer.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
+				$dataContainer.append('<strong>Complejidad: </strong><span id="complejidad">' + value.complejidad + '</span><strong> | Tema: </strong><span id="tema">' + value.tema + '</span><strong> | Autor: </strong><span id="email">' + value.email + '</span><br/>');
+				$dataContainer.append('<strong>Enunciado: </strong><span id="enunciado">' + value.enunciado + '</span><br/>');
 
 				var $listElement = $('<ul></ul>').addClass("answerList");
 				$listElement.append('<li id="respuestaCorrecta" class="tick">' + value.respuesta_correcta + '</li>');
 				$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value.respuesta_incorrecta_1 + '</li>');
 				$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value.respuesta_incorrecta_2 + '</li>');
 				$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value.respuesta_incorrecta_3 + '</li>');
+				$dataContainer.append($listElement);
 
-				$questionDivElement.append($listElement);
-				$('<button onclick="borrarPregunta(' +  key + ')"></button>').addClass("deleteButton");
+				$questionDivElement.append($dataContainer);
+
+				var $deleteButton = $('<button onclick="borrarPregunta(' +  key + ')"><img src="./img/icons/deleteIcon.png"></button>').addClass("deleteButton");
+				$questionDivElement.append($deleteButton);
+
 				$("#listaPreguntas").append($questionDivElement);
 
 			});
@@ -521,6 +533,7 @@ function createQuestionList() {
 }
 
 function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2, respuestaIncorrecta3, complejidad, tema) {
+	
 	var $idElement = $("#" + id).find("#id");
 	var $emailElement = $("#" + id).find("#email");
 	var $enunciadoElement = $("#" + id).find("#enunciado");

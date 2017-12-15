@@ -574,16 +574,17 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 #listaPreguntas {
 	height: 25%;
 	overflow-x: hidden;
-	overflow-y: auto;
+	overflow-y: scroll;
 }
 
 .pregunta {
+	display: grid;
+	grid-template-columns: 95% 5%;
+	position: relative;
 	border-left: 6px solid green;
 	border-top: 2px solid darkgrey;
 	background-color: #ffffff;
-	padding: 5px 5px 5px 5px;
 	text-align: left;
-	width: 100%;
 	cursor: pointer;
 }
 
@@ -598,6 +599,31 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	background-color: #d3d3d3;
 }
 
+.dataContainer {
+	margin: 5px;
+}
+
+.deleteButton {
+	background-color: #da0000;
+	cursor: pointer;
+}
+
+.deleteButton:hover {
+	background-color: red;
+}
+
+.deleteButton:active {
+	background-color: darkred;
+}
+
+.pregunta:active > .deleteButton {	
+	border-left: 3px outset;
+}
+
+.deleteButton img {
+	width: 100%;
+	height: auto;
+}
 
 .disable-select {
 	-webkit-user-select: none;
@@ -651,18 +677,6 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 .loading img {
 	max-width: 100%;
 	width: 20%;
-}
-
-.deleteButton {
-	line-height: 12px;
-	width: 18px;
-	font-size: 8pt;
-	font-family: tahoma;
-	margin-top: 1px;
-	margin-right: 2px;
-	position:absolute;
-	top:0;
-	right:0;
 }
 
 /* mobile layout */

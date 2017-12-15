@@ -328,9 +328,7 @@ $config = include("config.php");
 				?>
 
 			</form>
-		<a href="resetPasswordEmail.php" align="center">¿Olvidaste la contraseña?</a>
 		</article>
-
 		<aside class="sidebar">
 			<span>Sidebar contents<br/>(sidebar)</span>
 		</aside>

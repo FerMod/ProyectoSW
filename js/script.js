@@ -435,6 +435,31 @@ $(document).ready(function() {
 
 });
 
+function editarPregunta(id) {
+	var email = $("#" + id).find("#email").text();
+	var enunciado = $("#" + id).find("#enunciado").text();
+	var respuestaCorrecta = $("#" + id).find("#respuestaCorrecta").text();
+	var respuestaIncorrecta1 = $("#" + id).find("#respuestaIncorrecta1").text();
+	var respuestaIncorrecta2 = $("#" + id).find("#respuestaIncorrecta2").text();
+	var respuestaIncorrecta3 = $("#" + id).find("#respuestaIncorrecta3").text();
+	var complejidad = $("#" + id).find("#complejidad").text();
+	var tema = $("#" + id).find("#tema").text();
+
+	$("#id-edit").val(id);
+	$("#email-edit").val(email);
+	$("#enunciado-edit").val(enunciado);
+	$("#respuestaCorrecta-edit").val(respuestaCorrecta);
+	$("#respuestaIncorrecta1-edit").val(respuestaIncorrecta1);
+	$("#respuestaIncorrecta2-edit").val(respuestaIncorrecta2);
+	$("#respuestaIncorrecta3-edit").val(respuestaIncorrecta3);
+	$("#complejidad-edit").val(complejidad);
+	$("#tema-edit").val(tema);
+}
+
+function borrarPregunta(id) {
+	console.log("Borrar pregunta con id: " + id);
+}
+
 
 function defCall(functionCall) {
 
@@ -477,6 +502,7 @@ function createQuestionList() {
 				$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value.respuesta_incorrecta_3 + '</li>');
 
 				$questionDivElement.append($listElement);
+				$('<button onclick="borrarPregunta(' +  key + ')"></button>').addClass("deleteButton");
 				$("#listaPreguntas").append($questionDivElement);
 
 			});
@@ -552,27 +578,6 @@ function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIn
 
 	scrollTo($("#listaPreguntas"), $("#" + id));
 
-}
-
-function editarPregunta(id) {
-	var email = $("#" + id).find("#email").text();
-	var enunciado = $("#" + id).find("#enunciado").text();
-	var respuestaCorrecta = $("#" + id).find("#respuestaCorrecta").text();
-	var respuestaIncorrecta1 = $("#" + id).find("#respuestaIncorrecta1").text();
-	var respuestaIncorrecta2 = $("#" + id).find("#respuestaIncorrecta2").text();
-	var respuestaIncorrecta3 = $("#" + id).find("#respuestaIncorrecta3").text();
-	var complejidad = $("#" + id).find("#complejidad").text();
-	var tema = $("#" + id).find("#tema").text();
-
-	$("#id-edit").val(id);
-	$("#email-edit").val(email);
-	$("#enunciado-edit").val(enunciado);
-	$("#respuestaCorrecta-edit").val(respuestaCorrecta);
-	$("#respuestaIncorrecta1-edit").val(respuestaIncorrecta1);
-	$("#respuestaIncorrecta2-edit").val(respuestaIncorrecta2);
-	$("#respuestaIncorrecta3-edit").val(respuestaIncorrecta3);
-	$("#complejidad-edit").val(complejidad);
-	$("#tema-edit").val(tema);
 }
 
 function refreshSessionTimeout() {

@@ -10,7 +10,7 @@ if(!isValidSession()) {
 	refreshSessionTimeout();
 }
 
-//$config = include("config.php");
+$config = include("config.php");
 
 ?>
 
@@ -73,16 +73,13 @@ if(!isValidSession()) {
 			<div class="loading">
 				<a href="https://goo.gl/VfrdBN"><img src="img/loading.gif"></a>
 			</div>
-			<div id="listaPreguntas" style="display: none; border-style: groove;">
-				
-			</div>
-			<!--
+			<div id="listaPreguntas" style="display: none; border-style: groove;">				
+			</div>			
 			<script type="text/javascript">
-				$(window).on('load', function() {
+				$(document).ready(function() {
 					createQuestionList();
 				});
-			</script>
-			-->
+			</script>			
 			<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">
 				<fieldset>
 					<legend>Datos de la pregunta</legend>

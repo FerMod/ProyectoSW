@@ -309,29 +309,29 @@ function insertElement($filePath, $id, $author, $question, $correctResponse, $in
 	formatFileStyle($filePath);
 }
 
-function editElement($filePath, $id, $author, $question, $correctResponse, $incorrectResponse1, $incorrectResponse2, $incorrectResponse3, $complexity, $subject) {//, $image) {
+// function editElement($filePath, $id, $author, $question, $correctResponse, $incorrectResponse1, $incorrectResponse2, $incorrectResponse3, $complexity, $subject) {//, $image) {
 
-	$xml = new SimpleXMLElement($filePath, 0, true);
+// 	$xml = new SimpleXMLElement($filePath, 0, true);
 
-	$assessmentItemElement = $xml->xpath("/assessmentItems/assessmentItem[@id=\"" . $id . "\"]");
+// 	$assessmentItemElement = $xml->xpath("/assessmentItems/assessmentItem[@id=\"" . $id . "\"]");
 
-	$assessmentItemElement['complexity'] = $complexity;
-	$assessmentItemElement['subject'] = $subject;
-	$assessmentItemElement['author'] = $author;
+// 	$assessmentItemElement['complexity'] = $complexity;
+// 	$assessmentItemElement['subject'] = $subject;
+// 	$assessmentItemElement['author'] = $author;
 
-	$assessmentItemElement->itemBody->p = $question;
-	$assessmentItemElement->correctResponse->value = $correctResponse;
-	$incorrect = $assessmentItemElement->incorrectResponses;
-	$incorrect->value[0] = $incorrectResponse1;
-	$incorrect->value[1] = $incorrectResponse2;
-	$incorrect->value[2] = $incorrectResponse3;
+// 	$assessmentItemElement->itemBody->p = $question;
+// 	$assessmentItemElement->correctResponse->value = $correctResponse;
+// 	$incorrect = $assessmentItemElement->incorrectResponses;
+// 	$incorrect->value[0] = $incorrectResponse1;
+// 	$incorrect->value[1] = $incorrectResponse2;
+// 	$incorrect->value[2] = $incorrectResponse3;
 
-	// $assessmentItemElement["image"] = $image;
+// 	// $assessmentItemElement["image"] = $image;
 
-	$xml->asXML($filePath);
+// 	$xml->asXML($filePath);
 
-	formatFileStyle($filePath);
-}
+// 	formatFileStyle($filePath);
+// }
 
 function formatFileStyle($filePath) {
 	$dom = new DOMDocument("1.0", "UTF-8");
@@ -566,68 +566,76 @@ function editQuestion() {
 
 function getQuestions() {
 
-	global $config;
+	if(!$_SESSION['obsolete']) {
 
-	ChromePhp::log("getQuestions");
+		global $config;
 
-	// Create connection
-	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+		ChromePhp::log("getQuestions");
 
-	ChromePhp::log("connection created");
+		// Create connection
+		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
-	// Check connection
-	if ($conn->connect_error) {
-		trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
-	}
+		ChromePhp::log("connection created");
 
-	ChromePhp::log("connected to db");
-
-	// Perform an SQL query
-	$sql = "SELECT * FROM `preguntas`";
-
-	$queryArray = array();
-	$operationSuccess = true;
-	$operationMessage = "";
-
-	if (!$result = $conn->query($sql)) {
-		$operationSuccess = false;
-		$operationMessage .= "<div class=\"serverErrorMessage\">Sorry, the website is experiencing problems.</div>";
-		ChromePhp::log("Query error");
-	} else {
-
-		ChromePhp::log("Query done");
-
-		if($result->num_rows != 0) {
-
-			ChromePhp::log("Iterating query of " . $result->num_rows . " rows");
-
-			while ($row = $result->fetch_assoc()) {
-				// Shift one value, and returns the value (the id), then assign the rest of the row
-				$queryArray[array_shift($row)] = $row;
-				//ChromePhp::table($row);
-			}
-			
-			ChromePhp::log("Finished iterating");	
-
-		} else {
-			$operationSuccess = false;
-			$operationMessage .= "<div class=\"serverErrorMessage\">No question found</div>";
-			ChromePhp::log("No results");
+		// Check connection
+		if ($conn->connect_error) {
+			trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
 		}
 
-		$result->free();
-		ChromePhp::log("Free result");
+		ChromePhp::log("connected to db");
 
+		// Perform an SQL query
+		$sql = "SELECT `id`, `email`, `enunciado`, `respuesta_correcta`, `respuesta_incorrecta_1`, `respuesta_incorrecta_2`, `respuesta_incorrecta_3`, `complejidad`, `tema`, `imagen` FROM `preguntas`
+		ORDER BY `id` ASC";
+
+		$queryArray = array();
+		$operationSuccess = true;
+		$operationMessage = "";
+
+		if (!$conn->set_charset("utf8")) {
+			$operationSuccess = false;
+			$operationMessage .= "<div class=\"serverErrorMessage\">Error loading utf8 encoding.</div>";
+		} else if (!$result = $conn->query($sql)) {
+			$operationSuccess = false;
+			$operationMessage .= "<div class=\"serverErrorMessage\">Sorry, the website is experiencing problems.</div>";
+			ChromePhp::log("Query error");
+		} else {
+
+			ChromePhp::log("Query done");
+
+			if($result->num_rows != 0) {
+
+				ChromePhp::log("Iterating query of " . $result->num_rows . " rows");
+
+				while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+					// Shift one value, and returns the value (the id), then assign the rest of the row
+					$queryArray[array_shift($row)] = $row;
+					//ChromePhp::table($row);
+					ChromePhp::log($queryArray);
+				}
+
+				ChromePhp::log("Finished iterating");	
+
+			} else {
+				$operationSuccess = false;
+				$operationMessage .= "<div class=\"serverErrorMessage\">No question found</div>";
+				ChromePhp::log("No results");
+			}
+
+			$result->free();
+			ChromePhp::log("Free result");
+
+		}
+
+		$conn->close();
+		ChromePhp::log("close connection");
+
+		return array(
+			"operationSuccess" => $operationSuccess,
+			"operationMessage" => $operationMessage,
+			"query" => $queryArray
+		);
 	}
-
-	$conn->close();
-	ChromePhp::log("close connection");
-
-	return array(
-		"operationSuccess" => $operationSuccess,
-		"operationMessage" => $operationMessage,
-		"query" => $queryArray
-	);
 }
 
 ?>

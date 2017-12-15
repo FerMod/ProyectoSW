@@ -29,8 +29,6 @@ $config = include("config.php");
 	<link rel="stylesheet" href="css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 
-
-	<!-- In case to use sessions, coment the code below -->
 	<?php 
 	function logIn() {
 
@@ -107,18 +105,7 @@ $config = include("config.php");
 	</header>
 	<div class="container">
 		<nav class="navbar" role="navigation">
-			<?php 
-			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-				echo '<span><a href="layout.php">Inicio</a></span>';
-				echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
-				echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-				echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
-				echo '<span><a href="creditos.php">Creditos</a></span>';
-			} else {
-				echo '<span><a href="layout.php">Inicio</a></span>';
-				echo '<span><a href="creditos.php">Creditos</a></span>';
-			}
-			?>
+			<?php include('navbar_items.php'); ?>
 		</nav>
 		<article class="content">
 			<form id="login" enctype="multipart/form-data" method="post">	
@@ -128,39 +115,39 @@ $config = include("config.php");
 					<div>
 						<label for="email">Email</label>
 						<!-- <input type="text" name="email" autofocus/>
-						<input type="text" name="email" autofocus value="admin"/> -->
-						<input type="text" name="email" autofocus value="web000@ehu.es"/>
-					</div>
+							<input type="text" name="email" autofocus value="admin"/> -->
+							<input type="text" name="email" autofocus value="web000@ehu.es"/>
+						</div>
 
-					<div>
-						<label for="password">Contraseña</label>
+						<div>
+							<label for="password">Contraseña</label>
 						<!-- <input type="password" name="password"/>
-						<input type="password" name="password" value="admin"/> -->
-						<input type="password" name="password" value="web000"/>
-					</div>
+							<input type="password" name="password" value="admin"/> -->
+							<input type="password" name="password" value="web000"/>
+						</div>
 
-					<div>
-						<input type="submit" value="Acceder" name="submit"/>
-					</div>
+						<div>
+							<input type="submit" value="Acceder" name="submit"/>
+						</div>
 
-				</fieldset>
+					</fieldset>
 
-				<?php
-				echo $errorMessage;
-				?>
+					<?php
+					echo $errorMessage;
+					?>
 
-			</form>
-			<a href="resetPasswordEmail.php" align="center">¿Olvidaste la contraseña?</a>
-		</article>		
-		<aside class="sidebar">
-			<span>Sidebar contents<br/>(sidebar)</span>
-		</aside>
-	</div>
+				</form>
+				<a href="resetPasswordEmail.php" align="center">¿Olvidaste la contraseña?</a>
+			</article>		
+			<aside class="sidebar">
+				<span>Sidebar contents<br/>(sidebar)</span>
+			</aside>
+		</div>
 
-	<footer>
-		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank" rel="noopener">¿Qué es un Quiz?</a></p>
-		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
-	</footer>
+		<footer>
+			<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank" rel="noopener">¿Qué es un Quiz?</a></p>
+			<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
+		</footer>
 
-</body>
-</html>
+	</body>
+	</html>

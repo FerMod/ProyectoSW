@@ -318,6 +318,7 @@ $config = include("config.php");
 						<input type="submit" value="Registrarse" name="submit"/>
 						<input type="reset" value="Restaurar campos"/>	
 					</div>
+					<a href="Login.php">¿Ya tiene cuenta?</a>
 
 				</fieldset>
 
@@ -329,6 +330,7 @@ $config = include("config.php");
 
 			</form>
 		</article>
+
 		<aside class="sidebar">
 			<span>Sidebar contents<br/>(sidebar)</span>
 		</aside>

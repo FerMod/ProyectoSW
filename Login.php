@@ -124,6 +124,7 @@ echo '<span><a href="Login.php">Login</a></span>';
 					<!-- <input type="password" name="password"/> -->
 					<!-- <input type="password" name="password" value="admin"/> -->
 					<input type="password" name="password" value="web000"/>
+					<a href="resetPasswordEmail.php">¿Olvidaste la contraseña?</a>
 				</div>
 
 				<div>
@@ -137,9 +138,7 @@ echo '<span><a href="Login.php">Login</a></span>';
 			?>
 
 		</form>
-		<div>
-			<a href="resetPasswordEmail.php">¿Olvidaste la contraseña?</a>
-		</div>
+
 	</article>		
 	<aside class="sidebar">
 		<span>Sidebar contents<br/>(sidebar)</span>

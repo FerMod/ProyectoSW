@@ -81,7 +81,7 @@ $config = include("config.php");
 				});
 			</script>
 
-			<div id="respuesta" class="">
+			<div id="respuesta">
 			</div>
 
 			<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">

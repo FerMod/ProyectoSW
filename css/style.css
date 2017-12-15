@@ -572,7 +572,7 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 #listaPreguntas {
-	height: 25%;
+	height: 500px;
 	overflow-x: hidden;
 	overflow-y: scroll;
 }

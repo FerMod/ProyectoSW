@@ -79,7 +79,11 @@ $config = include("config.php");
 				$(document).ready(function() {
 					createQuestionList();
 				});
-			</script>			
+			</script>
+
+			<div id="respuesta" class="">
+			</div>
+
 			<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">
 				<fieldset>
 					<legend>Datos de la pregunta</legend>
@@ -124,8 +128,6 @@ $config = include("config.php");
 					</div>
 				</fieldset>
 			</form>
-			<div id="respuesta">
-			</div>
 		</article>		
 		<aside class="sidebar">
 			<span>Sidebar contents<br/>(sidebar)</span>

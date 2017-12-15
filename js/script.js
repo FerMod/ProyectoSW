@@ -459,7 +459,19 @@ function editarPregunta(id) {
 
 function borrarPregunta(id) {
 	if (confirm("Está seguro de que desea borrar la pregunta?")) {
-		alert("[TODO]: Borrar Pregunta\n(Se borra la pregunta con id: " + id + ")");
+		defCall(removeAjaxQuestion(id)).done(function(result, status, xhr) {
+			if(result.operationSuccess) {
+				$("#respuesta").html(result.operationMessage).delay(2500).fadeOut(2000);
+				$("#" + id).fadeOut(5000, function() {
+					$("#" + id).remove();
+				});				
+			} else {
+				$("#respuesta").html(result.operationMessage);
+			}
+		}).fail(function(xhr, status, error) {
+			console.log(xhr);
+			console.log(xhr.responseText);
+		});
 	} else {
 		alert("Operación cancelada");
 	}
@@ -485,6 +497,15 @@ function getAjaxQuestions() {
 		url: "ajaxRequestManager.php",
 		type: "POST",
 		data: {"action": "getQuestions"},
+		dataType: "json"
+	});
+}
+
+function removeAjaxQuestion(questionID) {
+	return $.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {id: questionID, action: "removeQuestion"},
 		dataType: "json"
 	});
 }
@@ -523,7 +544,7 @@ function createQuestionList() {
 				$("#listaPreguntas").fadeIn("slow").show("slow");
 			});
 		} else if(result.operationMessage) {
-			$("#listaPreguntas").html(result.operationMessage);
+			$("#respuesta").html(result.operationMessage);
 		}
 	}).fail(function(xhr, status, error) {
 		console.log(xhr);

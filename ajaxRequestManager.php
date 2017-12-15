@@ -40,6 +40,10 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		case 'getQuestions':
 		$ajaxResult = getQuestions();
 		break;
+
+		case 'removeQuestion':
+		$ajaxResult = removeQuestion();
+		break;
 	}
 
 	if($action == "getQuestionsStats" || $action == "getOnlineUsers") {
@@ -618,6 +622,61 @@ function getQuestions() {
 			"operationSuccess" => $operationSuccess,
 			"operationMessage" => $operationMessage,
 			"query" => $queryArray
+		);
+	}
+}
+
+function removeQuestion() {
+
+	if(!$_SESSION['obsolete']) {
+
+		global $config;
+
+		// Create connection
+		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+		// Check connection
+		if ($conn->connect_error) {
+			trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
+		}
+
+		$queryArray = array();
+		$operationSuccess = true;
+		$operationMessage = "";
+		
+		if(!isset($_POST['id']) || empty($_POST['id'])) {
+			$operationSuccess = false;
+			$operationMessage .= "<div class=\"serverErrorMessage\">Error getting the question id.</div>";
+			ChromePhp::error("Error getting the question id");
+			ChromePhp::error("Error getting the loged user");
+		} else if (!$conn->set_charset("utf8")) {
+			$operationSuccess = false;
+			$operationMessage .= "<div class=\"serverErrorMessage\">Error loading utf8 encoding.</div>";
+			ChromePhp::error("Error loading utf8 encoding");
+		}
+
+		if($operationSuccess) {
+
+			// Build an SQL query
+			$sql = "DELETE FROM `preguntas` WHERE `preguntas`.`id` = " . $_POST['id'];
+
+			if (!$result = $conn->query($sql)) {
+				$operationSuccess = false;
+				$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha podido borrar correctamente debido a un error con la base de datos.</div>";
+				ChromePhp::error("The website is experiencing problems");
+			} else {
+				$operationSuccess = true;
+				$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta(id = ".  $_POST['id'] . ") se ha borrado correctamente.</div>";
+				ChromePhp::info("La pregunta(id = " . $_POST['id'] . ") se ha borrado correctamente.");
+			}
+
+			$conn->close();
+
+		}
+
+		return array(
+			"operationSuccess" => $operationSuccess,
+			"operationMessage" => $operationMessage
 		);
 	}
 }

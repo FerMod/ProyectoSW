@@ -68,4 +68,18 @@
     </incorrectResponses>
     <image/>
   </assessmentItem>
+  <assessmentItem id="169" complexity="3" subject="A ver" author="prueba025@ikasle.ehu.eus">
+    <itemBody>
+      <p>¿Funciona esto?</p>
+    </itemBody>
+    <correctResponse>
+      <value>Sí</value>
+    </correctResponse>
+    <incorrectResponses>
+      <value>No</value>
+      <value>No</value>
+      <value>No</value>
+    </incorrectResponses>
+    <image/>
+  </assessmentItem>
 </assessmentItems>

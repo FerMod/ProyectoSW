@@ -76,11 +76,13 @@ if(!isValidSession()) {
 			<div id="listaPreguntas" style="display: none; border-style: groove;">
 				
 			</div>
+			<!--
 			<script type="text/javascript">
 				$(window).on('load', function() {
 					createQuestionList();
 				});
 			</script>
+			-->
 			<form id="formRevPreguntas" name="formRevPreguntas" method="post" action="" enctype="multipart/form-data">
 				<fieldset>
 					<legend>Datos de la pregunta</legend>

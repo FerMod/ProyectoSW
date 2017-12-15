@@ -570,19 +570,13 @@ function getQuestions() {
 
 		global $config;
 
-		ChromePhp::log("getQuestions");
-
 		// Create connection
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
-
-		ChromePhp::log("connection created");
 
 		// Check connection
 		if ($conn->connect_error) {
 			trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
 		}
-
-		ChromePhp::log("connected to db");
 
 		// Perform an SQL query
 		$sql = "SELECT `id`, `email`, `enunciado`, `respuesta_correcta`, `respuesta_incorrecta_1`, `respuesta_incorrecta_2`, `respuesta_incorrecta_3`, `complejidad`, `tema`, `imagen` FROM `preguntas`
@@ -595,40 +589,30 @@ function getQuestions() {
 		if (!$conn->set_charset("utf8")) {
 			$operationSuccess = false;
 			$operationMessage .= "<div class=\"serverErrorMessage\">Error loading utf8 encoding.</div>";
+			ChromePhp::error("Error loading utf8 encoding");
 		} else if (!$result = $conn->query($sql)) {
 			$operationSuccess = false;
 			$operationMessage .= "<div class=\"serverErrorMessage\">Sorry, the website is experiencing problems.</div>";
-			ChromePhp::log("Query error");
+			ChromePhp::error("The website is experiencing problems");
 		} else {
 
-			ChromePhp::log("Query done");
-
 			if($result->num_rows != 0) {
-
-				ChromePhp::log("Iterating query of " . $result->num_rows . " rows");
 
 				while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
 					// Shift one value, and returns the value (the id), then assign the rest of the row
 					$queryArray[array_shift($row)] = $row;
-					//ChromePhp::table($row);
-					ChromePhp::log($queryArray);
 				}
-
-				ChromePhp::log("Finished iterating");	
 
 			} else {
 				$operationSuccess = false;
 				$operationMessage .= "<div class=\"serverErrorMessage\">No question found</div>";
-				ChromePhp::log("No results");
 			}
 
 			$result->free();
-			ChromePhp::log("Free result");
 
 		}
 
 		$conn->close();
-		ChromePhp::log("close connection");
 
 		return array(
 			"operationSuccess" => $operationSuccess,

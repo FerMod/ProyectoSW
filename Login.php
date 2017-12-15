@@ -96,58 +96,60 @@ $config = include("config.php");
 			echo '<span><a href="logout.php">Logout</a></span>';
 		} else {
 			echo '<span><a href="Registrar.php">Registrarse</a></span>';
-			echo '&nbsp'; // Add non-breaking space
-			echo '<span><a href="Login.php">Login</a></span>';
-		}
-		?>
+echo '&nbsp'; // Add non-breaking space
+echo '<span><a href="Login.php">Login</a></span>';
+}
+?>
 
-		<h2>Quiz: el juego de las preguntas</h2>
-	</header>
-	<div class="container">
-		<nav class="navbar" role="navigation">
-			<?php include('navbar_items.php'); ?>
-		</nav>
-		<article class="content">
-			<form id="login" enctype="multipart/form-data" method="post">	
-				<fieldset>
-					<legend>LOGIN</legend>
+<h2>Quiz: el juego de las preguntas</h2>
+</header>
+<div class="container">
+	<nav class="navbar" role="navigation">
+		<?php include('navbar_items.php'); ?>
+	</nav>
+	<article class="content">
+		<form id="login" enctype="multipart/form-data" method="post">	
+			<fieldset>
+				<legend>LOGIN</legend>
 
-					<div>
-						<label for="email">Email</label>
-						<!-- <input type="text" name="email" autofocus/>
-							<input type="text" name="email" autofocus value="admin"/> -->
-							<input type="text" name="email" autofocus value="web000@ehu.es"/>
-						</div>
+				<div>
+					<label for="email">Email</label>
+					<!-- <input type="text" name="email" autofocus/> -->
+					<!-- <input type="text" name="email" autofocus value="admin"/> -->
+					<input type="text" name="email" autofocus value="web000@ehu.es"/>
+				</div>
 
-						<div>
-							<label for="password">Contraseña</label>
-						<!-- <input type="password" name="password"/>
-							<input type="password" name="password" value="admin"/> -->
-							<input type="password" name="password" value="web000"/>
-						</div>
+				<div>
+					<label for="password">Contraseña</label>
+					<!-- <input type="password" name="password"/> -->
+					<!-- <input type="password" name="password" value="admin"/> -->
+					<input type="password" name="password" value="web000"/>
+				</div>
 
-						<div>
-							<input type="submit" value="Acceder" name="submit"/>
-						</div>
+				<div>
+					<input type="submit" value="Acceder" name="submit"/>
+				</div>
 
-					</fieldset>
+			</fieldset>
 
-					<?php
-					echo $errorMessage;
-					?>
+			<?php
+			echo $errorMessage;
+			?>
 
-				</form>
-				<a href="resetPasswordEmail.php" align="center">¿Olvidaste la contraseña?</a>
-			</article>		
-			<aside class="sidebar">
-				<span>Sidebar contents<br/>(sidebar)</span>
-			</aside>
+		</form>
+		<div>
+			<a href="resetPasswordEmail.php">¿Olvidaste la contraseña?</a>
 		</div>
+	</article>		
+	<aside class="sidebar">
+		<span>Sidebar contents<br/>(sidebar)</span>
+	</aside>
+</div>
 
-		<footer>
-			<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank" rel="noopener">¿Qué es un Quiz?</a></p>
-			<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
-		</footer>
+<footer>
+	<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank" rel="noopener">¿Qué es un Quiz?</a></p>
+	<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
+</footer>
 
-	</body>
-	</html>
+</body>
+</html>

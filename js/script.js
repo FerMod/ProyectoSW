@@ -461,10 +461,12 @@ function borrarPregunta(id) {
 	if (confirm("Está seguro de que desea borrar la pregunta?")) {
 		defCall(removeAjaxQuestion(id)).done(function(result, status, xhr) {
 			if(result.operationSuccess) {
-				$("#respuesta").html(result.operationMessage).delay(2500).fadeOut(2000);
-				$("#" + id).fadeOut(5000, function() {
+				$("#" + id).css("background", "lightgrey");
+				$("#" + id).css("opacity", 0.8);
+				$("#" + id).fadeOut(2000, function() {
 					$("#" + id).remove();
-				});				
+				});		
+				$("#respuesta").html(result.operationMessage).delay(5000).fadeOut(2000);	
 			} else {
 				$("#respuesta").html(result.operationMessage);
 			}

@@ -31,30 +31,30 @@
 
 		$emailOk = true;
 		$dataCheckMessage = "";
-		$email = $_POST['email'];
 
 		if(isset($_POST['email']) && !empty($_POST['email'])) {
+			$email = formatInput($_POST['email']);
 			if(existsEmail($_POST['email'], $conn)) {
 				$email = formatInput($_POST['email']);
 			} else {
 				$emailOk = false;
-				$dataCheckMessage .= "<div class=\"serverMessage\">El \"Email\" introducido no existe en la base de datos.</div>";			
+				$dataCheckMessage .= "<div class=\"serverErrorMessage\">El \"Email\" introducido no existe en la base de datos.</div>";			
 			}
 		} else {
 			$emailOk = false;
-			$dataCheckMessage .= "<div class=\"serverMessage\">El campo de \"Email\" no puede ser vacío.</div>";
+			$dataCheckMessage .= "<div class=\"serverErrorMessage\">El campo de \"Email\" no puede ser vacío.</div>";
 		}
 
 		if($emailOk) {
 			$to      = $email;
-			$title    = 'Restablecer su contraseña.';
-			$message   = 'Hola, tenemos su contraseña, ha sido hackeado XDXD';
-			$headers = 'From: administradorxD@example.com';
+			$title    = 'Restablecer su contraseña del juego de las preguntas.';
+			$message   = 'Dirijase al siguiente enlace para cambiar su contraseña';
+			$headers = 'From: mblanco040@ikasle.ehu.eus';
 
 			if(mail($to, $title, $message, $headers)) {
 				$dataCheckMessage .= "<div class=\"serverInfoMessage\">Se le ha enviado un correo para que pueda reestablecer su contraseña.</div>";
 			} else {
-				$dataCheckMessage .= "<div class=\"serverMessage\">El email no se ha enviado correctamente por un error interno.</div>";
+				$dataCheckMessage .= "<div class=\"serverErrorMessage\">El email no se ha enviado correctamente por un error interno.</div>";
 			}
 		}
 

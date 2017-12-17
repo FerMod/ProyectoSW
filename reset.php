@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<!-- <?php
-		//if(!isset($_GET['email']) && empty($_GET['email']) && password_verify(hash("sha256", $_GET['id'])) {
-			//echo '<script>alert("No está permitido cambiar de contraseña sin id."); location.href="layout.php"; </script>';
-		//}
-	?> -->
+	<?php
+		if(!isset($_GET['email']) && empty($_GET['email']) && password_verify(hash("sha256", $_GET['id']))) {
+			echo '<script>alert("No está permitido cambiar de contraseña sin id."); location.href="layout.php"; </script>';
+		}
+	?>
+
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
 	
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -22,15 +23,10 @@
 
 	$config = include("config.php");
 
-	function resetPassword($email, $id) {
+	function resetPassword($email) {
 
 		global $config;
-
-		/*
-		if(!password_verify(hash("sha256", $id)) {
-			echo '<script> alert("No está permitido cambiar de contraseña sin id."); location.href="layout.php"; </script>';
-		}
-		*/
+		
 
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
@@ -84,7 +80,7 @@
 			<span><a href="creditos.php">Creditos</a></span>
 		</nav>
 		<article class="content">
-			<form method="post" action=<?php echo '"reset.php?email="'.$_GET['email'].'&id='.$_GET['id'].'"'; ?>>	
+			<form method="post" action=<?php echo '"reset.php?email='.$_GET['email'].'&id='.$_GET['id'].'"'; ?>>	
 				<fieldset>
 					<legend>Recuperar contraseña</legend>
 
@@ -102,7 +98,7 @@
 
 				<?php
 					if(isset($_POST['submit']) && !empty($_POST['submit'])) {
-						resetPassword($_GET['email'], $_GET['id']);
+						resetPassword($_GET['email']);
 					}
 				?>
 

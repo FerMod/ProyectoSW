@@ -48,7 +48,9 @@
 		if($emailOk) {
 			$to      = $email;
 			$title    = 'Restablecer su contraseña del juego de las preguntas.';
-			$message   = 'Dirijase al siguiente enlace para cambiar su contraseña';
+			$message   = 'Dirijase al siguiente enlace para cambiar su contraseña:
+
+			http://mb11c.000webhostapp.com/ProyectoSW/reset.php?email='.$email.'&id='.password_hash(hash("sha256", $email), PASSWORD_DEFAULT);
 			$headers = 'From: mblanco040@ikasle.ehu.eus';
 
 			if(mail($to, $title, $message, $headers)) {

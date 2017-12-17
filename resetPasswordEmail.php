@@ -114,7 +114,7 @@
 			?>
 		</nav>
 		<article class="content">
-			<form method="post">	
+			<form id="resetpass" method="post">	
 				<fieldset>
 					<legend>Recuperar contraseña</legend>
 

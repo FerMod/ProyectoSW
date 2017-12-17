@@ -80,7 +80,7 @@
 			<span><a href="creditos.php">Creditos</a></span>
 		</nav>
 		<article class="content">
-			<form method="post" action=<?php echo '"reset.php?email='.$_GET['email'].'&id='.$_GET['id'].'"'; ?>>	
+			<form id="resetpass" method="post" action=<?php echo '"reset.php?email='.$_GET['email'].'&id='.$_GET['id'].'"'; ?>>	
 				<fieldset>
 					<legend>Recuperar contraseña</legend>
 

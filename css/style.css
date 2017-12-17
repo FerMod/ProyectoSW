@@ -370,6 +370,20 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	display: inline-block;
 }
 
+#resetpass {
+	text-align: center;
+}
+
+#resetpass legend {
+	background: #999;
+}
+
+#resetpass fieldset {
+	background: #139ca7;
+	width: 50%;
+	display: inline-block;
+}
+
 .serverMessage, .serverInfoMessage, .serverErrorMessage {
 	border: 4px solid #6D6D6D;
 	padding: 15px;

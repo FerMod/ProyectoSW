@@ -652,7 +652,6 @@ function removeQuestion() {
 			$operationSuccess = false;
 			$operationMessage .= "<div class=\"serverErrorMessage\">Error getting the question id.</div>";
 			ChromePhp::error("Error getting the question id");
-			ChromePhp::error("Error getting the loged user");
 		} else if (!$conn->set_charset("utf8")) {
 			$operationSuccess = false;
 			$operationMessage .= "<div class=\"serverErrorMessage\">Error loading utf8 encoding.</div>";

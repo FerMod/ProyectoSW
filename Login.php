@@ -1,4 +1,3 @@
-
 <?php
 
 include_once('login_session.php'); // Includes login script

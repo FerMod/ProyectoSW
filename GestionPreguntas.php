@@ -93,11 +93,11 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 					<legend>DATOS DE LA PREGUNTA</legend>
 					<div>
 						<label for="email">Email*:</label>
-						<input type="text" id="email" name="email" autofocus/>
+						<input type="text" id="email" name="email"/>
 					</div>
 					<div>
 						<label for="enunciado">Enunciado de la pregunta*:</label>
-						<input type="text" id="enunciado" name="enunciado" size="35" />
+						<input type="text" id="enunciado" name="enunciado" size="35" autofocus/>
 					</div>
 					<div>
 						<label for="respuestacorrecta">Respuesta correcta*:</label>
@@ -160,6 +160,8 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 		<p><a href="http://es.wikipedia.org/wiki/Quiz" target="_blank" rel="noopener">¿Qué es un Quiz?</a></p>
 		<a href='https://github.com/FerMod/ProyectoSW'>Link GITHUB</a>
 	</footer>
-
+	<?php
+		echo '<script type="text/javascript"> $("#email").val("'.$_SESSION['logged_user'].'"); $("#email").prop("disabled", true); </script>';
+	?>
 </body>
 </html>

@@ -1,3 +1,11 @@
+<?php
+	include_once('login_session.php'); // Includes login script
+	include_once("session_timeout.php");
+
+	if(isValidSession()) {
+		header("location: layout.php");
+	}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

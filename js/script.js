@@ -523,7 +523,42 @@ function randomAjaxQuestion() {
 
 function createRandomQuestion() {
 	var question = randomAjaxQuestion();
-	//Structure for the win
+
+	var enunciado = question[0].enunciado;
+	var complejidad = question[0].complejidad;
+	var tema = question[0].tema;
+	var imagen = question[0].imagen;
+	var valor = question[0].valoracion;
+
+	var respuestacor = question[0].respuesta_correcta;
+
+	var respuestas = [];
+	respuestas.push(question[0].respuesta_correcta);
+	respuestas.push(question[0].respuesta_incorrecta_1);
+	respuestas.push(question[0].respuesta_incorrecta_2);
+	respuestas.push(question[0].respuesta_incorrecta_3);
+
+	shuffle(respuestas);
+}
+
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }
 
 function createQuestionList() {

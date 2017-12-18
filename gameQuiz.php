@@ -44,7 +44,7 @@ $config = include("config.php");
 			<form id="login" enctype="multipart/form-data" method="post">	
 				<fieldset>
 					<legend>Juego de las preguntas</legend>
-					<!-- Aquí se generan en aleatorio. -->
+					<!-- Aquí iría la pregunta wey. -->
 				</fieldset>
 
 			</form>

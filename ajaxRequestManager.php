@@ -44,6 +44,10 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		case 'removeQuestion':
 		$ajaxResult = removeQuestion();
 		break;
+
+		case 'randomQuestion':
+		$ajaxResult = randomQuestion();
+		break;
 	}
 
 	if($action == "getQuestionsStats" || $action == "getOnlineUsers") {
@@ -680,5 +684,22 @@ function removeQuestion() {
 		);
 	}
 }
+
+function randomQuestion() {
+	global $config;
+		
+	// Create connection
+	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+	// Check connection
+	if ($conn->connect_error) {
+		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
+	}
+
+	$result = $conn->query("SELECT * FROM preguntas ORDER BY RAND() LIMIT 1");
+
+	return json_encode($result);	
+}
+
 
 ?>

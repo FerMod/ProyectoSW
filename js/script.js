@@ -512,6 +512,20 @@ function removeAjaxQuestion(questionID) {
 	});
 }
 
+function randomAjaxQuestion() {
+	return $.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {"action": "randomQuestion"},
+		dataType: "json"
+	});
+}
+
+function createRandomQuestion() {
+	var question = randomAjaxQuestion();
+	//Structure for the win
+}
+
 function createQuestionList() {
 
 	defCall(getAjaxQuestions()).done(function(result, status, xhr) {

@@ -522,23 +522,25 @@ function randomAjaxQuestion() {
 }
 
 function createRandomQuestion() {
-	var question = randomAjaxQuestion();
+	defCall(randomAjaxQuestion()).done(function(result, status, xhr) {
 
-	var enunciado = question[0].enunciado;
-	var complejidad = question[0].complejidad;
-	var tema = question[0].tema;
-	var imagen = question[0].imagen;
-	var valor = question[0].valoracion;
+		var enunciado = result.question.enunciado;
+		var complejidad = result.question.complejidad;
+		var tema = result.question.tema;
+		var imagen = result.question.imagen;
+		var valor = result.question.valoracion;
 
-	var respuestacor = question[0].respuesta_correcta;
+		var respuestacor = result.question.respuesta_correcta;
 
-	var respuestas = [];
-	respuestas.push(question[0].respuesta_correcta);
-	respuestas.push(question[0].respuesta_incorrecta_1);
-	respuestas.push(question[0].respuesta_incorrecta_2);
-	respuestas.push(question[0].respuesta_incorrecta_3);
+		var respuestas = [];
+		respuestas.push(result.question.respuesta_correcta);
+		respuestas.push(result.question.respuesta_incorrecta_1);
+		respuestas.push(result.question.respuesta_incorrecta_2);
+		respuestas.push(result.question.respuesta_incorrecta_3);
 
-	shuffle(respuestas);
+		shuffle(respuestas);
+
+	});
 }
 
 

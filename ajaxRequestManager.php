@@ -697,7 +697,11 @@ function randomQuestion() {
 
 	$result = $conn->query("SELECT * FROM preguntas ORDER BY RAND() LIMIT 1");
 
-	return json_encode($result);	
+	return array(
+ 		"operationSuccess" => $operationSuccess,
+ 		"operationMessage" => $operationMessage,
+ 		"question" => $result
+	);
 }
 
 

@@ -685,8 +685,9 @@ function removeQuestion() {
 }
 
 function randomQuestion() {
+	
 	global $config;
-		
+	
 	// Create connection
 	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
@@ -698,9 +699,9 @@ function randomQuestion() {
 	$result = $conn->query("SELECT * FROM preguntas ORDER BY RAND() LIMIT 1");
 
 	return array(
- 		"operationSuccess" => $operationSuccess,
- 		"operationMessage" => $operationMessage,
- 		"question" => $result
+		"operationSuccess" => $operationSuccess,
+		"operationMessage" => $operationMessage,
+		"question" => $result
 	);
 }
 

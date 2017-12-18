@@ -1,3 +1,11 @@
+<?php
+	include_once('login_session.php'); // Includes login script
+	include_once("session_timeout.php");
+
+	if(isValidSession()) {
+		header("location: layout.php");
+	}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -52,7 +60,6 @@
 
 			http://mb11c.000webhostapp.com/ProyectoSW/reset.php?email='.$email.'&id='.password_hash(hash("sha256", $email), PASSWORD_DEFAULT);
 			$headers = 'From: mblanco040@ikasle.ehu.eus';
-
 			if(mail($to, $title, $message, $headers)) {
 				$dataCheckMessage .= "<div class=\"serverInfoMessage\">Se le ha enviado un correo para que pueda reestablecer su contraseña.</div>";
 			} else {

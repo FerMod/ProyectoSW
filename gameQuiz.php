@@ -41,10 +41,12 @@ $config = include("config.php");
 			<?php include('navbar_items.php'); ?>
 		</nav>
 		<article class="content">
-			<form id="login" enctype="multipart/form-data" method="post">	
+			<form id="random" enctype="multipart/form-data" method="post">	
 				<fieldset>
 					<legend>Juego de las preguntas</legend>
 					<div id="Quizer">
+						<label>Clique en pregunta aleatoria para empezar.</label>
+						<input type="button" value="Pregunta aleatoria" onclick="createRandomQuestion()">
 					</div>
 				</fieldset>
 

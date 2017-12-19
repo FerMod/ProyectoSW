@@ -697,11 +697,15 @@ function randomQuestion() {
 	}
 
 	$result = $conn->query("SELECT * FROM preguntas ORDER BY RAND() LIMIT 1");
+	$pregunta = $result->fetch_assoc();
+
+	$operationSuccess = "Yeah!";
+	$operationMessage = "Aw yeah!";
 
 	return array(
 		"operationSuccess" => $operationSuccess,
 		"operationMessage" => $operationMessage,
-		"question" => $result
+		"question" => $pregunta
 	);
 }
 

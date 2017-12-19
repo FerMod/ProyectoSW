@@ -38,6 +38,20 @@ $(document).ready(function() {
 
 	});
 	*/
+
+	$("#like").on("click", function(event) {
+		$("#dislike").prop('disabled', false);
+		$("#like").prop('disabled', true);
+		var valor = parseInt($("#val").text()) + 1;
+		$("#val").text(valor);
+	});
+
+	$("#dislike").on("click", function(event) {
+		$("#dislike").prop('disabled', true);
+		$("#like").prop('disabled', false);
+		var valor = parseInt($("#val").text()) - 1;
+		$("#val").text(valor);
+	});
 	
 	$("#registro").on("submit", function(event) {
 		refreshSessionTimeout();
@@ -528,10 +542,7 @@ function createRandomQuestion() {
 		var complejidad = result.question.complejidad;
 		var tema = result.question.tema;
 		var imagen = result.question.imagen;
-		var valor = result.question.valoracion;
-
-		console.log(enunciado);
-		var respuestacor = result.question.respuesta_correcta;
+		var numeropreg = result.question.id;
 
 		var respuestas = [];
 		respuestas.push(result.question.respuesta_correcta);
@@ -544,7 +555,9 @@ function createRandomQuestion() {
 		if(imagen) {
 			$("#Quizer").
 				html("<div><img src='" + imagen + "'></div>"
+				+ "<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>"
 				+ "<div><label>" + enunciado + "</label></div>" +
+				"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
 				"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
 				"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
 				"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
@@ -553,7 +566,9 @@ function createRandomQuestion() {
 				"<input type='submit' name='contestar' value='Contestar pregunta'>");
 		} else {
 			$("#Quizer").
-				html("<div><label>" + enunciado + "</label></div>" +
+				html("<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>" +
+				"<div><label>" + enunciado + "</label></div>" +
+				"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
 				"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
 				"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
 				"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +

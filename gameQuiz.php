@@ -2,6 +2,44 @@
 
 $config = include("config.php");
 
+function contesta() {
+
+	global $config;
+
+	// Create connection
+	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+	// Check connection
+	if ($conn->connect_error) {
+		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
+	}
+
+	$idpreg = $_POST['numeropregunta'];
+
+	if(isset($_POST['respuesta']) && !empty($_POST['respuesta'])) {
+		$respuesta = $_POST['respuesta'];
+	} else {
+		$respuesta = "";
+		echo '<strong><label style="color:#cd0000;">¡Has dejado la pregunta sin contestar!</label></strong>';
+	}
+	
+	$result = $conn->query("SELECT * FROM preguntas WHERE id='$idpreg'")->fetch_assoc();
+
+	if($result['respuesta_correcta'] == $respuesta) {
+		echo '<strong><label style="color:#008000;">¡Has acertado!</label></strong>';
+	} else {
+		echo '<strong><label style="color:#cd0000;">¡Has fallado!</label></strong>';
+	}
+
+
+	echo '<div style="text-align:center">';
+	echo '<label>¿Te ha gustado la pregunta?</label>';
+	echo '<label id="val">'.$result['valoracion'].'</label>';
+	echo '<input type="button" id="like" value="Like">';
+	echo '<input type="button" id="dislike" value="Dislike">';
+	echo '</div>';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -45,11 +83,16 @@ $config = include("config.php");
 				<fieldset>
 					<legend>Juego de las preguntas</legend>
 					<div id="Quizer">
-						<label>Clique en pregunta aleatoria para empezar.</label>
+						<?php
+							if(isset($_POST['contestar']) && !empty($_POST['contestar'])) {
+								contesta();
+							} else {
+								echo '<label>Clique en pregunta aleatoria para empezar.</label>';
+							}
+						?>
 						<input type="button" value="Pregunta aleatoria" onclick="createRandomQuestion()">
 					</div>
 				</fieldset>
-
 			</form>
 
 		</article>		

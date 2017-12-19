@@ -530,6 +530,7 @@ function createRandomQuestion() {
 		var imagen = result.question.imagen;
 		var valor = result.question.valoracion;
 
+		console.log(enunciado);
 		var respuestacor = result.question.respuesta_correcta;
 
 		var respuestas = [];
@@ -538,10 +539,18 @@ function createRandomQuestion() {
 		respuestas.push(result.question.respuesta_incorrecta_2);
 		respuestas.push(result.question.respuesta_incorrecta_3);
 
-		shuffle(respuestas);
+		respuestas = shuffle(respuestas);
 
+		$("#Quizer").
+		html("<div><label>" + enunciado + "</label></div>" +
+			"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+			"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+			"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+			"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+			"<input type='radio' name='contestar' value='Contestar pregunta'>");
 	});
 }
+
 
 
 function shuffle(array) {

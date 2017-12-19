@@ -44,7 +44,8 @@ $config = include("config.php");
 			<form id="login" enctype="multipart/form-data" method="post">	
 				<fieldset>
 					<legend>Juego de las preguntas</legend>
-					<!-- Aquí iría la pregunta wey. -->
+					<div id="Quizer">
+					</div>
 				</fieldset>
 
 			</form>

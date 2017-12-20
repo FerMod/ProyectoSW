@@ -5,7 +5,7 @@
 - https://www.phpmyadmin.net
 -
 - Host: 127.0.0.1:3306
-- Generation Time: Dec 05, 2017 at 02:02 PM
+- Generation Time: Dec 20, 2017 at 12:49 PM
 - Server version: 5.7.19
 - PHP Version: 7.1.9
 -->
@@ -16,6 +16,18 @@
     -->
     <pma:structure_schemas>
         <pma:database name="quiz" collation="utf8_unicode_ci" charset="utf8">
+            <pma:table name="jugadores">
+                CREATE TABLE `jugadores` (
+                  `id` int(255) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID del jugador',
+                  `nick` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Nick del usuario',
+                  `puntuacion` int(255) unsigned NOT NULL DEFAULT '0' COMMENT 'Puntuacion del jugador',
+                  `preguntas_respondidas` int(255) unsigned NOT NULL DEFAULT '0' COMMENT 'Preguntas respondidas por el jugador',
+                  `preguntas_acertadas` int(255) unsigned NOT NULL DEFAULT '0' COMMENT 'Preguntas acertadas por el jugador',
+                  `preguntas_falladas` int(255) unsigned GENERATED ALWAYS AS ((`preguntas_respondidas` - `preguntas_acertadas`)) STORED COMMENT 'Preguntas falladas por el jugador',
+                  PRIMARY KEY (`id`),
+                  UNIQUE KEY `UNIQUE` (`nick`) USING BTREE
+                ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+            </pma:table>
             <pma:table name="preguntas">
                 CREATE TABLE `preguntas` (
                   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Id de la pregunta',
@@ -30,7 +42,7 @@
                   `imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen opcional de la pregunta',
                   `valoracion` int(255) NOT NULL DEFAULT '0' COMMENT 'Valoracion dada por otros usuarios',
                   PRIMARY KEY (`id`)
-                ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+                ) ENGINE=MyISAM AUTO_INCREMENT=292 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             </pma:table>
             <pma:table name="usuarios">
                 CREATE TABLE `usuarios` (
@@ -40,18 +52,13 @@
                   `nombre` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Nombre real del usuario',
                   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Nombre de usuario del propietario',
                   `imagen` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Imagen de perfil del usuario',
-                  `puntuacion` int(255) unsigned NOT NULL DEFAULT '0' COMMENT 'Puntuacion del usuario',
-                  `preguntas_respondidas` int(255) unsigned NOT NULL DEFAULT '0' COMMENT 'Preguntas respondidas por el usuario',
-                  `preguntas_acertadas` int(255) unsigned NOT NULL DEFAULT '0' COMMENT 'Preguntas acertadas por el usuario',
-                  `preguntas_falladas` int(255) unsigned GENERATED ALWAYS AS ((`preguntas_respondidas` - `preguntas_acertadas`)) STORED COMMENT 'Preguntas falladas por el usuario',
                   PRIMARY KEY (`id`),
                   UNIQUE KEY `UNIQUE` (`email`) USING BTREE
-                ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+                ) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
             </pma:table>
         </pma:database>
     </pma:structure_schemas>
-
-    <!--
+	<!--
     - Database: 'quiz'
 	-->
 	<database name="quiz">
@@ -103,9 +110,6 @@
 			<column name="nombre">Mr.Web000</column>
 			<column name="username">Super Web000</column>
 			<column name="imagen"></column>
-			<column name="puntuacion">0</column>
-			<column name="preguntas_respondidas">0</column>
-			<column name="preguntas_acertadas">0</column>
 		</table>
 		<table name="usuarios">
 			<column name="id">1</column>
@@ -114,6 +118,11 @@
 			<column name="nombre">Mr.Admin</column>
 			<column name="username">Super Admin</column>
 			<column name="imagen"></column>
+		</table>
+		<!-- Table jugadores -->
+		<table name="usuarios">
+			<column name="id">0</column>
+			<column name="nick">Anonymous_Test</column>
 			<column name="puntuacion">0</column>
 			<column name="preguntas_respondidas">0</column>
 			<column name="preguntas_acertadas">0</column>

@@ -1,43 +1,18 @@
 <?php
 
-$config = include("config.php");
+// include_once('login_session.php');
+// include_once('session_timeout.php');
 
-function contesta() {
+// if(isValidSession()) {
+// 	refreshSessionTimeout();
+// }
 
-	global $config;
-
-	// Create connection
-	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
-
-	// Check connection
-	if ($conn->connect_error) {
-		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
-	}
-
-	$idpreg = $_POST['numeropregunta'];
-
-	if(isset($_POST['respuesta']) && !empty($_POST['respuesta'])) {
-		$respuesta = $_POST['respuesta'];
-	} else {
-		$respuesta = "";
-		echo '<strong><label style="color:#cd0000;">¡Has dejado la pregunta sin contestar!</label></strong>';
-	}
-	
-	$result = $conn->query("SELECT * FROM preguntas WHERE id='$idpreg'")->fetch_assoc();
-
-	if($result['respuesta_correcta'] == $respuesta) {
-		echo '<strong><label style="color:#008000;">¡Has acertado!</label></strong>';
-	} else {
-		echo '<strong><label style="color:#cd0000;">¡Has fallado!</label></strong>';
-	}
-
-
-	echo '<div style="text-align:center">';
-	echo '<label>¿Te ha gustado la pregunta?</label>';
-	echo '<label id="val">'.$result['valoracion'].'</label>';
-	echo '<input type="button" id="like" value="Like" onclick="actualizarLike('.$idpreg.')">';
-	echo '<input type="button" id="dislike" value="Dislike" onclick="actualizarDislike('.$idpreg.')">';
-	echo '</div>';
+	// echo '<div style="text-align:center">';
+	// echo '<label>¿Te ha gustado la pregunta?</label>';
+	// echo '<label id="val">'.$result['valoracion'].'</label>';
+	// echo '<input type="button" id="like" value="Like" onclick="actualizarLike('.$idpreg.')">';
+	// echo '<input type="button" id="dislike" value="Dislike" onclick="actualizarDislike('.$idpreg.')">';
+	// echo '</div>';
 }
 
 ?>
@@ -82,16 +57,12 @@ function contesta() {
 			<form id="random" enctype="multipart/form-data" method="post">	
 				<fieldset>
 					<legend>Juego de las preguntas</legend>
-					<div id="Quizer">
-						<?php
-							if(isset($_POST['contestar']) && !empty($_POST['contestar'])) {
-								contesta();
-							} else {
-								echo '<label>Clique en pregunta aleatoria para empezar.</label>';
-							}
-						?>
-						<input type="button" value="Pregunta aleatoria" onclick="createRandomQuestion()">
+					<div id="startQuiz">
+						<label for="startQuizButton">Se elegiran de forma aleatoria preguntas. Pulse el boton de abajo para comenzar el quiz.</label>
+						<input type="button" id="startQuizButton" value="Empezar Quiz!">
 					</div>
+					<div id="question-container"></div>
+					<div id="response"></div>
 				</fieldset>
 			</form>
 

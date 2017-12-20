@@ -433,6 +433,11 @@ $(document).ready(function() {
 		}
 	});
 
+	$("#startQuizButton").on("click", function() {
+		$("#startQuiz").remove();
+		createRandomQuestion();
+	});
+
 });
 
 function editarPregunta(id) {
@@ -459,7 +464,8 @@ function editarPregunta(id) {
 
 function borrarPregunta(id) {
 	if (confirm("Está seguro de que desea borrar la pregunta?")) {
-		defCall(removeAjaxQuestion(id)).done(function(result, status, xhr) {
+		defCall(removeAjaxQuestion(id))
+		.done(function(result, status, xhr) {
 			if(result.operationSuccess) {
 				$("#" + id).css("background", "lightgrey");
 				$("#" + id).css("opacity", 0.8);
@@ -507,7 +513,7 @@ function removeAjaxQuestion(questionID) {
 	return $.ajax({
 		url: "ajaxRequestManager.php",
 		type: "POST",
-		data: {id: questionID, action: "removeQuestion"},
+		data: {action: "removeQuestion", id: questionID},
 		dataType: "json"
 	});
 }
@@ -521,45 +527,14 @@ function randomAjaxQuestion() {
 	});
 }
 
-function createRandomQuestion() {
-	defCall(randomAjaxQuestion()).done(function(result, status, xhr) {
-
-		var enunciado = result.question.enunciado;
-		var complejidad = result.question.complejidad;
-		var tema = result.question.tema;
-		var imagen = result.question.imagen;
-		var numeropreg = result.question.id;
-
-		var respuestas = shuffle(result.question.respuesta_correcta, result.question.respuesta_incorrecta_1, result.question.respuesta_incorrecta_2, result.question.respuesta_incorrecta_3);
-
-		if(imagen) {
-			$("#Quizer").
-			html("<div><img src='" + imagen + "'></div>"
-				+ "<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>"
-				+ "<div><label>" + enunciado + "</label></div>" +
-				"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
-				"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
-				"<input type='submit' name='contestar' value='Contestar pregunta'>");
-		} else {
-			$("#Quizer").
-			html("<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>" +
-				"<div><label>" + enunciado + "</label></div>" +
-				"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
-				"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
-				"<input type='submit' name='contestar' value='Contestar pregunta'>");
-		}
-
+function getQuestionAjax(questionID) {
+	return $.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {action: "getQuestion", id: questionID},
+		dataType: "json"
 	});
 }
-
 
 function shuffle() {
 	
@@ -582,6 +557,78 @@ function shuffle() {
 	}
 
 	return args;
+}
+
+function answerQestion(id) {
+
+	var answer =  $("input[name=answers]:checked", "#random").val();
+
+	defCall(getQuestionAjax(id))
+	.done(function(result, status, xhr) {
+		if(result.operationSuccess) {
+			$("#question-container").html('');
+			$divElement = $('<div style="text-align:center"></div>');
+
+			if(result.question.respuesta_correcta == answer) {
+				$divElement.append('<strong style="color:#008000;">¡Has acertado!</strong>');
+			} else {
+				$divElement.append('<strong style="color:#cd0000;">¡Has fallado!</strong>');
+			}
+
+			$divElement.append('¿Te ha gustado la pregunta?<br/>');
+			$divElement.append('<label id="val">' + result.question.valoracion + '</label>');
+			$divElement.append('<button type="button" id="like" onclick="actualizarLike(' + result.question.id + ')">Like</button>');
+			$divElement.append('<button type="button" id="dislike" onclick="actualizarDislike(' + result.question.id + ')">Dislike</button>');
+			$("#response").html($divElement);
+			console.log(result.operationSuccess);
+		} else {
+			console.log(result.operationMessage);
+		}
+	})
+	.fail(function(xhr, status, error) {
+		console.log(xhr);
+		console.log(xhr.responseText);
+	});
+
+}
+
+function createRandomQuestion() {
+	defCall(randomAjaxQuestion())
+	.done(function(result, status, xhr) {
+
+		if(result.operationSuccess) {
+			var id = result.question.id;
+			var enunciado = result.question.enunciado;
+			var complejidad = result.question.complejidad;
+			var tema = result.question.tema;
+			var imagen = result.question.imagen;
+
+
+			var respuestas = shuffle(result.question.respuesta_correcta, result.question.respuesta_incorrecta_1, result.question.respuesta_incorrecta_2, result.question.respuesta_incorrecta_3);
+
+			var $questionData = $('<div></div>').addClass("question-data");
+			var $questionImage = $('<div></div>').addClass("question-image");
+
+			$questionData.append('<strong>Pregunta nº ' + id + '</strong><br/>');
+			if(imagen) {				
+				$questionImage.append('<img src="' + imagen + '">');
+			}
+			$questionData.append('<div> ' + enunciado + '</div>');
+			$.each(respuestas, function(index, value){
+				$questionData.append('<input type="radio" name="answers" value="' + value + '"/>' + value + '<br/>');
+			});
+			$questionData.append('<button type="button" onclick="answerQestion(' +  id + ')">Contestar pregunta</button>');
+
+			$("#question-container").append($questionData);
+			$("#question-container").append($questionImage);
+		} else {
+			console.log(result.operationMessage);
+		}
+	})
+	.fail(function(xhr, status, error) {
+		console.log(xhr);
+		console.log(xhr.responseText);
+	});
 }
 
 function createQuestionList() {
@@ -628,7 +675,7 @@ function createQuestionList() {
 }
 
 function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2, respuestaIncorrecta3, complejidad, tema) {
-	
+
 	var $idElement = $("#" + id).find("#id");
 	var $emailElement = $("#" + id).find("#email");
 	var $enunciadoElement = $("#" + id).find("#enunciado");

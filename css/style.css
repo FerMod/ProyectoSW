@@ -724,15 +724,13 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 }
 
 .question-data {
-	/* width: auto; */
+	margin: 5px;
 }
 
 .question-image img {
-	width: 50%;
+	width: 100%;
 	height: auto;
-	content: "";
     clear: both;
-    display: table;
 }
 
 /* mobile layout */

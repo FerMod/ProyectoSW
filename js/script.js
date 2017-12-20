@@ -573,7 +573,7 @@ function answerQestion(id) {
 					$divElement.append('<strong style="color:#cd0000;">¡Has fallado!</strong><br/>');
 				}
 			} else {
-				$divElement.append('<strong style="color:#cd0000;">¡Has dejado la pregunta sin contestar!</strong>');
+				$divElement.append('<strong style="color:#cd0000;">¡Has dejado la pregunta sin contestar!</strong><br/>');
 			}
 			$divElement.append('¿Te ha gustado la pregunta?<br/>');
 			$divElement.append('<div id="val">' + result.question.valoracion + '</span>');

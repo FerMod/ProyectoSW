@@ -63,6 +63,7 @@ function contesta() {
 
 <body>
 		<?php
+			session_start();
 			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 				echo '<script language=\"javascript\">window.location.replace(\"layout.php\");</script>';
 			}

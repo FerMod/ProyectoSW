@@ -42,6 +42,7 @@ function nuevoJugador() {
 		} else {
 			session_start();
 			$_SESSION['player'] = $jugador;
+			$_SESSION['questions-ids'] = [];
 			$operationMessage .= "<script language=\"javascript\">alert(\"¡Se ha registrado con éxito el jugador!\"); window.location.replace(\"gameQuiz.php\");</script>";
 		}
 
@@ -83,6 +84,7 @@ function nuevoJugador() {
 
 	<body>
 		<?php
+			session_start();
 			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
 				echo '<script language=\"javascript\">window.location.replace(\"layout.php\");</script>';
 			}

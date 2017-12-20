@@ -562,24 +562,25 @@ function shuffle() {
 function answerQestion(id) {
 
 	var answer =  $("input[name=answers]:checked", "#random").val();
-
 	defCall(getQuestionAjax(id))
 	.done(function(result, status, xhr) {
 		if(result.operationSuccess) {
-			$("#question-container").html('');
 			$divElement = $('<div style="text-align:center"></div>');
-
-			if(result.question.respuesta_correcta == answer) {
-				$divElement.append('<strong style="color:#008000;">¡Has acertado!</strong>');
+			if(answer) {
+				if(result.question.respuesta_correcta == answer) {
+					$divElement.append('<strong style="color:#008000;">¡Has acertado!</strong><br/>');
+				} else {
+					$divElement.append('<strong style="color:#cd0000;">¡Has fallado!</strong><br/>');
+				}
 			} else {
-				$divElement.append('<strong style="color:#cd0000;">¡Has fallado!</strong>');
+				$divElement.append('<strong style="color:#cd0000;">¡Has dejado la pregunta sin contestar!</strong>');
 			}
-
 			$divElement.append('¿Te ha gustado la pregunta?<br/>');
-			$divElement.append('<label id="val">' + result.question.valoracion + '</label>');
+			$divElement.append('<div id="val">' + result.question.valoracion + '</span>');
 			$divElement.append('<button type="button" id="like" onclick="actualizarLike(' + result.question.id + ')">Like</button>');
-			$divElement.append('<button type="button" id="dislike" onclick="actualizarDislike(' + result.question.id + ')">Dislike</button>');
-			$("#response").html($divElement);
+			$divElement.append('<button type="button" id="dislike" onclick="actualizarDislike(' + result.question.id + ')">Dislike</button><br/>');
+			$divElement.append('<button type="button" id="newQuestion" onclick="createRandomQuestion()">Nueva Pregunta</button>');
+			$("#question-container").html($divElement);
 			console.log(result.operationSuccess);
 		} else {
 			console.log(result.operationMessage);
@@ -588,8 +589,7 @@ function answerQestion(id) {
 	.fail(function(xhr, status, error) {
 		console.log(xhr);
 		console.log(xhr.responseText);
-	});
-
+	});	
 }
 
 function createRandomQuestion() {
@@ -619,8 +619,7 @@ function createRandomQuestion() {
 			});
 			$questionData.append('<button type="button" onclick="answerQestion(' +  id + ')">Contestar pregunta</button>');
 
-			$("#question-container").append($questionData);
-			$("#question-container").append($questionImage);
+			$("#question-container").html($questionData).append($questionImage);
 		} else {
 			console.log(result.operationMessage);
 		}

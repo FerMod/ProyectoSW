@@ -512,6 +512,81 @@ function removeAjaxQuestion(questionID) {
 	});
 }
 
+function randomAjaxQuestion() {
+	return $.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {"action": "randomQuestion"},
+		dataType: "json"
+	});
+}
+
+function createRandomQuestion() {
+	defCall(randomAjaxQuestion()).done(function(result, status, xhr) {
+
+		var enunciado = result.question.enunciado;
+		var complejidad = result.question.complejidad;
+		var tema = result.question.tema;
+		var imagen = result.question.imagen;
+		var numeropreg = result.question.id;
+
+		var respuestas = [];
+		respuestas.push(result.question.respuesta_correcta);
+		respuestas.push(result.question.respuesta_incorrecta_1);
+		respuestas.push(result.question.respuesta_incorrecta_2);
+		respuestas.push(result.question.respuesta_incorrecta_3);
+
+		respuestas = shuffle(respuestas);
+
+		if(imagen) {
+			$("#Quizer").
+				html("<div><img src='" + imagen + "'></div>"
+				+ "<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>"
+				+ "<div><label>" + enunciado + "</label></div>" +
+				"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
+				"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
+				"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+				"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+				"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+				"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+				"<input type='submit' name='contestar' value='Contestar pregunta'>");
+		} else {
+			$("#Quizer").
+				html("<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>" +
+				"<div><label>" + enunciado + "</label></div>" +
+				"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
+				"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
+				"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+				"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+				"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+				"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+				"<input type='submit' name='contestar' value='Contestar pregunta'>");
+		}
+
+	});
+}
+
+
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 function createQuestionList() {
 
 	defCall(getAjaxQuestions()).done(function(result, status, xhr) {
@@ -639,5 +714,31 @@ function highlight($element) {
 function scrollTo($container, $element) {
 	$container.animate({
 		scrollTop: $element.offset().top - $container.offset().top + $container.scrollTop()
+	});
+}
+
+function actualizarLike(id) {
+	$("#dislike").prop('disabled', false);
+	$("#like").prop('disabled', true);
+	var valor = parseInt($("#val").text()) + 1;
+	$("#val").text(valor);
+	$.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {idpregquiz: id, action: "updateValQuiz", valor: valor},
+		dataType: "json"
+	});
+}
+
+function actualizarDislike(id) {
+	$("#dislike").prop('disabled', true);
+	$("#like").prop('disabled', false);
+	var valor = parseInt($("#val").text()) - 1;
+	$("#val").text(valor);
+	$.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {idpregquiz: id, action: "updateValQuiz", valor: valor},
+		dataType: "json"
 	});
 }

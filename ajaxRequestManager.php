@@ -44,6 +44,14 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		case 'removeQuestion':
 		$ajaxResult = removeQuestion();
 		break;
+
+		case 'randomQuestion':
+		$ajaxResult = randomQuestion();
+		break;
+
+		case 'updateValQuiz':
+		$ajaxResult = updateValQuiz();
+		break;
 	}
 
 	if($action == "getQuestionsStats" || $action == "getOnlineUsers") {
@@ -679,5 +687,73 @@ function removeQuestion() {
 		);
 	}
 }
+
+function randomQuestion() {
+	
+	global $config;
+	
+	// Create connection
+	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+	// Check connection
+	if ($conn->connect_error) {
+		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
+	}
+
+	$result = $conn->query("SELECT * FROM preguntas ORDER BY RAND() LIMIT 1");
+	$pregunta = $result->fetch_assoc();
+
+	if($pregunta) {
+		$operationSuccess = "Operation sucessful!";
+		$operationMessage = "OK";
+	} else {
+		$operationSuccess = "Operation failed!";
+		$operationMessage = "FA";
+	}
+
+	
+	
+	return array(
+		"operationSuccess" => $operationSuccess,
+		"operationMessage" => $operationMessage,
+		"question" => $pregunta
+	);
+}
+
+function updateValQuiz() {
+	
+	global $config;
+	
+	// Create connection
+	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+	// Check connection
+	if ($conn->connect_error) {
+		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
+	}
+
+	$idpreg = $_POST['idpregquiz'];
+	$valor = $_POST['valor'];
+
+	$result = $conn->query("UPDATE preguntas SET valoracion = '$valor' WHERE id = '$idpreg'");
+
+	if($result) {
+		$operationSuccess = "Operation sucessful!";
+		$operationMessage = "OK";
+	} else {
+		$operationSuccess = "Operation failed!";
+		$operationMessage = "FA";
+	}
+
+	
+	
+	return array(
+		"operationSuccess" => $operationSuccess,
+		"operationMessage" => $operationMessage,
+		"valor" => $valor
+	);
+
+}
+
 
 ?>

@@ -530,17 +530,11 @@ function createRandomQuestion() {
 		var imagen = result.question.imagen;
 		var numeropreg = result.question.id;
 
-		var respuestas = [];
-		respuestas.push(result.question.respuesta_correcta);
-		respuestas.push(result.question.respuesta_incorrecta_1);
-		respuestas.push(result.question.respuesta_incorrecta_2);
-		respuestas.push(result.question.respuesta_incorrecta_3);
-
-		respuestas = shuffle(respuestas);
+		var respuestas = shuffle(result.question.respuesta_correcta, result.question.respuesta_incorrecta_1, result.question.respuesta_incorrecta_2, result.question.respuesta_incorrecta_3);
 
 		if(imagen) {
 			$("#Quizer").
-				html("<div><img src='" + imagen + "'></div>"
+			html("<div><img src='" + imagen + "'></div>"
 				+ "<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>"
 				+ "<div><label>" + enunciado + "</label></div>" +
 				"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
@@ -552,7 +546,7 @@ function createRandomQuestion() {
 				"<input type='submit' name='contestar' value='Contestar pregunta'>");
 		} else {
 			$("#Quizer").
-				html("<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>" +
+			html("<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>" +
 				"<div><label>" + enunciado + "</label></div>" +
 				"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
 				"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
@@ -567,24 +561,27 @@ function createRandomQuestion() {
 }
 
 
+function shuffle() {
+	
+	var args = Array.prototype.slice.call(arguments, 0);
+	var currentIndex, temporaryValue, randomIndex;
 
-function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
+	currentIndex = args.length;
 
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
 
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
 
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
+		// And swap it with the current element.
+		temporaryValue = args[currentIndex];
+		args[currentIndex] = args[randomIndex];
+		args[randomIndex] = temporaryValue;
+	}
 
-  return array;
+	return args;
 }
 
 function createQuestionList() {

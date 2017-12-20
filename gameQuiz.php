@@ -35,8 +35,8 @@ function contesta() {
 	echo '<div style="text-align:center">';
 	echo '<label>¿Te ha gustado la pregunta?</label>';
 	echo '<label id="val">'.$result['valoracion'].'</label>';
-	echo '<input type="button" id="like" value="Like">';
-	echo '<input type="button" id="dislike" value="Dislike">';
+	echo '<input type="button" id="like" value="Like" onclick="actualizarLike('.$idpreg.')">';
+	echo '<input type="button" id="dislike" value="Dislike" onclick="actualizarDislike('.$idpreg.')">';
 	echo '</div>';
 }
 

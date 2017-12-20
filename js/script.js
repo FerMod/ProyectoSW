@@ -38,20 +38,6 @@ $(document).ready(function() {
 
 	});
 	*/
-
-	$("#like").on("click", function(event) {
-		$("#dislike").prop('disabled', false);
-		$("#like").prop('disabled', true);
-		var valor = parseInt($("#val").text()) + 1;
-		$("#val").text(valor);
-	});
-
-	$("#dislike").on("click", function(event) {
-		$("#dislike").prop('disabled', true);
-		$("#like").prop('disabled', false);
-		var valor = parseInt($("#val").text()) - 1;
-		$("#val").text(valor);
-	});
 	
 	$("#registro").on("submit", function(event) {
 		refreshSessionTimeout();
@@ -728,5 +714,31 @@ function highlight($element) {
 function scrollTo($container, $element) {
 	$container.animate({
 		scrollTop: $element.offset().top - $container.offset().top + $container.scrollTop()
+	});
+}
+
+function actualizarLike(id) {
+	$("#dislike").prop('disabled', false);
+	$("#like").prop('disabled', true);
+	var valor = parseInt($("#val").text()) + 1;
+	$("#val").text(valor);
+	$.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {idpregquiz: id, action: "updateValQuiz", valor: valor},
+		dataType: "json"
+	});
+}
+
+function actualizarDislike(id) {
+	$("#dislike").prop('disabled', true);
+	$("#like").prop('disabled', false);
+	var valor = parseInt($("#val").text()) - 1;
+	$("#val").text(valor);
+	$.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {idpregquiz: id, action: "updateValQuiz", valor: valor},
+		dataType: "json"
 	});
 }

@@ -27,17 +27,18 @@
 </head>
 
 <body>
-	<header>
-
 		<?php
-		if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-			echo '<span><a href="logout.php">Logout</a></span>';
-		} else {
-			echo '<span><a href="Registrar.php">Registrarse</a></span>';
-			echo '&nbsp'; // Add non-breaking space
-			echo '<span><a href="Login.php">Login</a></span>';
-		}
+			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+				echo '<script language=\"javascript\">window.location.replace(\"layout.php\");</script>';
+			}
+
+			if(!isset($_SESSION['player']) && empty($_SESSION['player'])) {
+				echo '<script language=\"javascript\">window.location.replace(\"layout.php\");</script>';
+			}
 		?>
+		<header>
+			<span><a href="Registrar.php">Registrarse</a></span>
+			<span><a href="Login.php">Login</a></span>
 
 		<h2>Quiz: el juego de las preguntas</h2>
 		</header>
@@ -52,6 +53,8 @@
 					<div id="startQuiz">
 						<label for="startQuizButton">Se elegiran de forma aleatoria preguntas. Pulse el boton de abajo para comenzar el quiz.</label>
 						<input type="button" id="startQuizButton" value="Empezar Quiz!">
+						<input type="button" value="Preguntas por temas" onclick="">
+						<input type="button" value="Ranking de jugadores" onclick="">
 					</div>
 					<div id="question-container"></div>
 				</fieldset>

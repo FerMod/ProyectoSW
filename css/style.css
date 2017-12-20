@@ -707,6 +707,34 @@ form input[type="submit"], input[type="button"], input[type="reset"] {
 	width: 20%;
 }
 
+#random fieldset {
+	text-align: left;
+}
+
+#random input {
+	width: auto;
+	text-align: left;
+}
+
+.question-container {
+	display: grid;
+	grid-template-columns: 75% 25%;
+	position: relative;
+	text-align: left;
+}
+
+.question-data {
+	/* width: auto; */
+}
+
+.question-image img {
+	width: 50%;
+	height: auto;
+	content: "";
+    clear: both;
+    display: table;
+}
+
 /* mobile layout */
 @media only screen and (max-width: 412px) {
 

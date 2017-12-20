@@ -52,6 +52,10 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		case 'updateValQuiz':
 		$ajaxResult = updateValQuiz();
 		break;
+
+		case 'getQuestion':
+		$ajaxResult = getQuestion();
+		break;
 	}
 
 	if($action == "getQuestionsStats" || $action == "getOnlineUsers") {
@@ -745,12 +749,68 @@ function updateValQuiz() {
 		$operationMessage = "FA";
 	}
 
-	
-	
 	return array(
 		"operationSuccess" => $operationSuccess,
 		"operationMessage" => $operationMessage,
 		"valor" => $valor
+	);
+
+}
+
+function getQuestion() {
+
+	global $config;
+
+	// Create connection
+	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+	// Check connection
+	if ($conn->connect_error) {
+		trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
+	}
+
+	$correctAnswer = false;
+	$operationSuccess = true;
+	$operationMessage = "";
+
+	if(!isset($_POST['id']) || empty($_POST['id'])) {
+		$operationSuccess = false;
+		$operationMessage .= "<div class=\"serverErrorMessage\">Error getting the question id.</div>";
+		ChromePhp::error("Error getting the question id");
+	} else if (!$conn->set_charset("utf8")) {
+		$operationSuccess = false;
+		$operationMessage .= "<div class=\"serverErrorMessage\">Error loading utf8 encoding.</div>";
+		ChromePhp::error("Error loading utf8 encoding");
+	}else {
+
+		// Build an SQL query
+		$sql = "SELECT *
+		FROM `preguntas`
+		WHERE `id` = " . $_POST['id'] . " LIMIT 1";
+
+		if (!$result = $conn->query($sql)) {
+			$operationSuccess = false;
+			$operationMessage .= "<div class=\"serverErrorMessage\">Sorry, the website is experiencing problems.</div>";
+			ChromePhp::error("The website is experiencing problems");
+		} else {
+
+			if($result->num_rows != 0) {
+				$question = $result->fetch_assoc();
+			} else {
+				$operationSuccess = false;
+				$operationMessage .= "<div class=\"serverErrorMessage\">No question found</div>";
+			}
+
+		}
+
+		$conn->close();
+
+	}
+
+	return array(
+		"operationSuccess" => $operationSuccess,
+		"operationMessage" => $operationMessage,
+		"question" => $question
 	);
 
 }

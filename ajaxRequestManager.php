@@ -700,9 +700,14 @@ function randomQuestion() {
 		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
 	}
 
-	$questionsids = $_SESSION['questions-ids'];
+	if(empty($_SESSION['questions-ids'])) {
+		$result = $conn->query("SELECT * FROM preguntas ORDER BY RAND() LIMIT 1");	
+	} else {
+		$questionsids = $_SESSION['questions-ids'];
+		$result = $conn->query("SELECT * FROM preguntas WHERE id NOT IN ('$questionsids') ORDER BY RAND() LIMIT 1");		
+	}
 
-	$result = $conn->query("SELECT * FROM preguntas WHERE id NOT IN '$questionsids' ORDER BY RAND() LIMIT 1");
+
 	$pregunta = $result->fetch_assoc();
 
 	if($pregunta) {

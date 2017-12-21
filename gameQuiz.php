@@ -14,7 +14,7 @@ function contesta() {
 		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
 	}
 
-	if(isset($_POST['numeropregunta']) && !empty($_POST['numeropregunta'])) {
+	if(!empty($_POST['numeropregunta'])) {
 
 		$idpreg = $_POST['numeropregunta'];
 
@@ -30,10 +30,11 @@ function contesta() {
 
 		if($result['respuesta_correcta'] == $respuesta) {
 			echo '<strong><label style="color:#008000;">¡Has acertado!</label></strong>';
-			$conn->query("UPDATE jugadores SET preguntas_respondidas = preguntas_respondidas + 1, puntuacion = puntuacion + 1, preguntas_acertadas = preguntas_acertadas + 1 WHERE nick = '$_SESSION['player']'");
+			$player = $_SESSION['logged_user'];
+			$conn->query("UPDATE jugadores SET preguntas_respondidas = preguntas_respondidas + 1, puntuacion = puntuacion + 1, preguntas_acertadas = preguntas_acertadas + 1 WHERE nick = '$player'");
 		} else {
 			echo '<strong><label style="color:#cd0000;">¡Has fallado!</label></strong>';
-			$conn->query("UPDATE jugadores SET preguntas_respondidas = preguntas_respondidas + 1, preguntas_falladas = preguntas_falladas + 1 WHERE nick = '$_SESSION['player']'");
+			$conn->query("UPDATE jugadores SET preguntas_respondidas = preguntas_respondidas + 1, preguntas_falladas = preguntas_falladas + 1 WHERE nick = '$player'");
 		}
 
 
@@ -72,10 +73,12 @@ function contesta() {
 <body>
 		<?php
 			session_start();
-			if (isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) && (isset($_SESSION['user_type']) && !empty($_SESSION['user_type']))) {
+			if (isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user']) && isset($_SESSION['user_type']) && !empty($_SESSION['user_type'])) {
    				if($_SESSION['user_type'] != 'player') {
         			echo "<script language=\"javascript\">window.location.replace(\"layout.php\");</script>";
    				}
+			} else {
+				//echo "<script language=\"javascript\">window.location.replace(\"layout.php\");</script>";
 			}
 		?>
 		<header>

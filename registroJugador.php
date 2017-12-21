@@ -21,8 +21,14 @@ function nuevoJugador() {
 
 		$dataCheckMessage = "";
 
-		if(isset($_POST['nickjugador']) && !empty($_POST['nickjugador'])) { 
-			$jugador = formatInput($_POST['nickjugador']);
+		if(isset($_POST['nickjugador']) && !empty($_POST['nickjugador'])) {
+			if(existsJugador($_POST['nickjugador'], $conn)) {
+				$dataCorrect = false;
+				$operationMessage .= "<div class=\"serverMessage\">Ya existe un jugador con el mismo nombre.</div>";				
+			} else {
+				$jugador = formatInput($_POST['nickjugador']);				
+			}
+
 		} else {
 			$dataCorrect = false;
 			$operationMessage .= "<div class=\"serverMessage\">El campo \"Jugador\" no puede ser vacío.</div>";
@@ -34,7 +40,7 @@ function nuevoJugador() {
 	}
 
 	if($dataCorrect) {
-		$sql = "INSERT INTO jugadores (nick, puntuacion, preguntas_respondidas, preguntas_acertadas, preguntas_falladas) VALUES ('$jugador', 0, 0, 0, 0)";
+		$sql = "INSERT INTO jugadores (nick, puntuacion, preguntas_respondidas, preguntas_acertadas) VALUES ('$jugador', 0, 0, 0)";
 
 
 		if(!$result = $conn->query($sql)) {
@@ -43,7 +49,7 @@ function nuevoJugador() {
 			session_start();
 			$_SESSION['user_type'] = 'player';
 			$_SESSION['logged_user'] = $jugador;
-			$_SESSION['questions-ids'] = array();
+			$_SESSION['questions-ids'] = array(0);
 			$operationMessage .= "<script language=\"javascript\">alert(\"¡Se ha registrado con éxito el jugador!\"); window.location.replace(\"gameQuiz.php\");</script>";
 		}
 
@@ -62,6 +68,16 @@ function nuevoJugador() {
 		$data = stripslashes($data);
 		$data = htmlspecialchars($data);
 		return $data;
+	}
+
+	function existsJugador($nick, $conn) {
+		$query = mysqli_query($conn, "SELECT * FROM jugadores WHERE nick = \"$nick\"");
+
+		if (!$query) {
+			echo "Error: " . mysqli_error($conn);
+		}
+
+		return mysqli_num_rows($query) > 0;
 	}
 
 	?>
@@ -86,7 +102,7 @@ function nuevoJugador() {
 	<body>
 		<?php
 			session_start();
-			if (isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) && (isset($_SESSION['user_type']) && !empty($_SESSION['user_type']))) {
+			if (isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user']) && isset($_SESSION['user_type']) && !empty($_SESSION['user_type'])) {
    				if($_SESSION['user_type'] != 'player') {
         			echo "<script language=\"javascript\">window.location.replace(\"layout.php\");</script>";
    				} else {
@@ -115,7 +131,7 @@ function nuevoJugador() {
 					</div>
 					<?php
 					if(isset($_POST['registrojug'])) {
-						nuevoJugador();
+						echo nuevoJugador();
 					}
 					?>
 				</fieldset>

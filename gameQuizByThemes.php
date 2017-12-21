@@ -118,7 +118,7 @@ function questionsThemes() {
 			<?php include('navbar_items.php'); ?>
 		</nav>
 		<article class="content">
-			<form id="random" enctype="multipart/form-data" method="post" <?php echo 'action="gameQuizByThemes.php?tema='.$_GET['tema'].'"';?>>	
+			<form id="random" enctype="multipart/form-data" method="post" <?php if(isset($_GET['tema']) && !empty($_GET['tema'])) {echo 'action="gameQuizByThemes.php?tema='.$_GET['tema'].'"';}?>>	
 				<fieldset>
 					<legend>Juego de las preguntas</legend>
 					<div id="Quizer">
@@ -128,7 +128,7 @@ function questionsThemes() {
 							}
 
 							if(isset($_GET['tema']) && !empty($_GET['tema'])) {
-								echo '<input type="button" value="Solicitar pregunta" onclick="questionByTheme('.$_GET['tema'].')">';
+								echo '<input type="button" value="Solicitar pregunta" onclick="questionByTheme(\''.$_GET['tema'].'\')">';
 							} else {
 								questionsThemes();
 							}

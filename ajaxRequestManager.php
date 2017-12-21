@@ -700,14 +700,16 @@ function randomQuestion() {
 		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
 	}
 
-	$result = $conn->query("SELECT * FROM preguntas ORDER BY RAND() LIMIT 1");
+	$questionsids = $_SESSION['questions-ids'];
+
+	$result = $conn->query("SELECT * FROM preguntas WHERE id NOT IN '$questionsids' ORDER BY RAND() LIMIT 1");
 	$pregunta = $result->fetch_assoc();
 
 	if($pregunta) {
-		$operationSuccess = "Operation sucessful!";
+		$operationSuccess = true;
 		$operationMessage = "OK";
 	} else {
-		$operationSuccess = "Operation failed!";
+		$operationSuccess = false;
 		$operationMessage = "FA";
 	}
 
@@ -738,10 +740,10 @@ function updateValQuiz() {
 	$result = $conn->query("UPDATE preguntas SET valoracion = '$valor' WHERE id = '$idpreg'");
 
 	if($result) {
-		$operationSuccess = "Operation sucessful!";
+		$operationSuccess = true;
 		$operationMessage = "OK";
 	} else {
-		$operationSuccess = "Operation failed!";
+		$operationSuccess = false;
 		$operationMessage = "FA";
 	}
 

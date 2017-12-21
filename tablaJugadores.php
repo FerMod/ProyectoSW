@@ -1,41 +1,30 @@
 <?php
-include_once('login_session.php'); // Includes login script
-include_once('session_timeout.php');
 
-if(isValidSession()) {
-	refreshSessionTimeout();
-}
+$config = include("config.php");
 
-//$config = include("config.php");
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
 	<meta name="tipo_contenido" content="text/html;" http-equiv="content-type" charset="utf-8">
-	<!-- Uncomment the following line to auto refresh the page -->
-	<!-- <meta http-equiv="refresh" content="<?php echo $config["session"]["expiration_time"]; ?>"> -->
-
+	
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
-	<title>Preguntas - Layout</title>
+	<title>Preguntas - Ver Jugadores</title>
 
 	<script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-	<script src="js/script.js"></script>	
+	<script src="js/script.js"/></script>	
+	<script src="js/sortElements.js"/></script>
 
 	<link rel="stylesheet" href="css/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
 
-	<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+	<?php
 
-</head>
-
-<?php
-
-	function createPlayersTable() {
+	function createQuestionTable() {
 
 		global $config;
-		$i = 0;
 
 		// Create connection
 		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
@@ -46,7 +35,8 @@ if(isValidSession()) {
 		}
 
 		// Perform an SQL query
-		$sql = "SELECT * FROM jugadores ORDER BY puntuacion ASC limit 0, 10";
+		$sql = "SELECT *
+		FROM jugadores";
 
 		if (!$result = $conn->query($sql)) {
 			echo "Sorry, the website is experiencing problems.";
@@ -57,23 +47,37 @@ if(isValidSession()) {
 				echo "<table class=\"infoTable\" readonly>";
 				echo "<thead>";
 				echo "<tr>";
-				echo "<th>Puesto</th>";	
-				echo "<th class=\"sortable\">Jugador</th>";			
+				echo "<th class=\"sortable\">Id</th>";
+				echo "<th class=\"sortable\">Jugador</th>";
 				echo "<th>Puntuacion</th>";
 				echo "<th>Preguntas respondidas</th>";
 				echo "<th>Preguntas acertadas</th>";
 				echo "<th>Preguntas falladas</th>";
+				echo "<th>Respuesta Incorrecta 3</th>";
+				echo "<th class=\"sortable\">Complejidad</th>";
+				echo "<th class=\"sortable\">Tema</th>";
+				echo "<th>Imagen</th>";
 				echo "</tr>";
 				echo "</thead>";
 				echo "<tbody>";
-				while ($player = $result->fetch_assoc()) {
+				while ($question = $result->fetch_assoc()) {
 					echo "<tr>";
-					echo "<td>".++$i."</td>";
-					echo "<td>$player[nick]</td>";
-					echo "<td>$player[puntuacion]</td>";
-					echo "<td>$player[preguntas_respondidas]</td>";
-					echo "<td>$player[preguntas_acertadas]</td>";
-					echo "<td>$player[preguntas_falladas]</td>";
+					echo "<td>$question[id]</td>";
+					echo "<td>$question[email]</td>";
+					echo "<td>$question[enunciado]</td>";
+					echo "<td>$question[respuesta_correcta]</td>";
+					echo "<td>$question[respuesta_incorrecta_1]</td>";
+					echo "<td>$question[respuesta_incorrecta_2]</td>";
+					echo "<td>$question[respuesta_incorrecta_3]</td>";
+					echo "<td>$question[complejidad]</td>";
+					echo "<td>$question[tema]</td>";
+
+					$image = "img/no_image_available.gif";
+					if (file_exists($question["imagen"])) {
+						$image = $question["imagen"];
+					}
+
+					echo "<td><img class=\"modalImage\" src='$image' style=\"max-width: 50%; height: auto; object-fit: contain;\"></td>";
 					echo "</tr>";
 				}				
 				echo "</tbody>";
@@ -90,19 +94,21 @@ if(isValidSession()) {
 
 	}
 
-?>
+	?>
+
+</head>
 
 <body>
 	<header>
-
+		
 		<?php
-		if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-			echo '<span><a href="logout.php">Logout</a></span>';
-		} else {
-			echo '<span><a href="Registrar.php">Registrarse</a></span>';
-			echo '&nbsp'; // Add non-breaking space
-			echo '<span><a href="Login.php">Login</a></span>';
-		}
+			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
+				echo '<span><a href="logout.php">Logout</a></span>';
+			} else {
+				echo '<span><a href="Registrar.php">Registrarse</a></span>';
+				echo '&nbsp'; // Add non-breaking space
+				echo '<span><a href="Login.php">Login</a></span>';
+			}
 		?>
 
 		<h2>Quiz: el juego de las preguntas</h2>
@@ -130,6 +136,7 @@ if(isValidSession()) {
 			<?php include('navbar_items.php'); ?>
 		</nav>
 		<article class="content">
+
 			<div class="scrollContent">
 				<?php createPlayersTable()?>
 			</div>

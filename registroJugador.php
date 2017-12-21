@@ -41,8 +41,9 @@ function nuevoJugador() {
 			$operationMessage .= "<script language=\"javascript\">alert(\"Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.\");</script>"; 
 		} else {
 			session_start();
-			$_SESSION['player'] = $jugador;
-			$_SESSION['questions-ids'] = [];
+			$_SESSION['user_type'] = 'player';
+			$_SESSION['logged_user'] = $jugador;
+			$_SESSION['questions-ids'] = array();
 			$operationMessage .= "<script language=\"javascript\">alert(\"¡Se ha registrado con éxito el jugador!\"); window.location.replace(\"gameQuiz.php\");</script>";
 		}
 
@@ -85,12 +86,12 @@ function nuevoJugador() {
 	<body>
 		<?php
 			session_start();
-			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-				echo '<script language=\"javascript\">window.location.replace(\"layout.php\");</script>';
-			}
-
-			if(isset($_SESSION['player']) && !empty($_SESSION['player'])) {
-				echo '<script language=\"javascript\">window.location.replace(\"gameQuiz.php\");</script>';
+			if (isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) && (isset($_SESSION['user_type']) && !empty($_SESSION['user_type']))) {
+   				if($_SESSION['user_type'] != 'player') {
+        			echo "<script language=\"javascript\">window.location.replace(\"layout.php\");</script>";
+   				} else {
+   					echo "<script language=\"javascript\">window.location.replace(\"gameQuiz.php\");</script>";
+   				}
 			}
 		?>
 

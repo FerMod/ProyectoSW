@@ -14,32 +14,40 @@ function contesta() {
 		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
 	}
 
-	$idpreg = $_POST['numeropregunta'];
+	if(isset($_POST['numeropregunta']) && !empty($_POST['numeropregunta'])) {
 
-	if(isset($_POST['respuesta']) && !empty($_POST['respuesta'])) {
-		$respuesta = $_POST['respuesta'];
-	} else {
-		$respuesta = "";
-		echo '<strong><label style="color:#cd0000;">¡Has dejado la pregunta sin contestar!</label></strong>';
-	}
+		$idpreg = $_POST['numeropregunta'];
+
+		if(isset($_POST['respuesta']) && !empty($_POST['respuesta'])) {
+			$respuesta = $_POST['respuesta'];
+		} else {
+			$respuesta = "";
+			echo '<strong><label style="color:#cd0000;">¡Has dejado la pregunta sin contestar!</label></strong>';
+		}
 	
-	$result = $conn->query("SELECT * FROM preguntas WHERE id='$idpreg'")->fetch_assoc();
+		$result = $conn->query("SELECT * FROM preguntas WHERE id='$idpreg'")->fetch_assoc();
+		array_push($_POST['questions-ids'], $idpreg);
 
-	if($result['respuesta_correcta'] == $respuesta) {
-		echo '<strong><label style="color:#008000;">¡Has acertado!</label></strong>';
-		$conn->query("UPDATE jugadores SET preguntas_respondidas = preguntas_respondidas + 1, puntuacion = puntuacion + 1, preguntas_acertadas = preguntas_acertadas + 1 WHERE nick = '$_SESSION['player']'");
+		if($result['respuesta_correcta'] == $respuesta) {
+			echo '<strong><label style="color:#008000;">¡Has acertado!</label></strong>';
+			$conn->query("UPDATE jugadores SET preguntas_respondidas = preguntas_respondidas + 1, puntuacion = puntuacion + 1, preguntas_acertadas = preguntas_acertadas + 1 WHERE nick = '$_SESSION['player']'");
+		} else {
+			echo '<strong><label style="color:#cd0000;">¡Has fallado!</label></strong>';
+			$conn->query("UPDATE jugadores SET preguntas_respondidas = preguntas_respondidas + 1, preguntas_falladas = preguntas_falladas + 1 WHERE nick = '$_SESSION['player']'");
+		}
+
+
+		echo '<div style="text-align:center">';
+		echo '<label>¿Te ha gustado la pregunta?</label>';
+		echo '<label id="val">'.$result['valoracion'].'</label>';
+		echo '<input type="button" id="like" value="Like" onclick="actualizarLike('.$idpreg.')">';
+		echo '<input type="button" id="dislike" value="Dislike" onclick="actualizarDislike('.$idpreg.')">';
+		echo '</div>';
 	} else {
-		echo '<strong><label style="color:#cd0000;">¡Has fallado!</label></strong>';
-		$conn->query("UPDATE jugadores SET preguntas_respondidas = preguntas_respondidas + 1, preguntas_falladas = preguntas_falladas + 1 WHERE nick = '$_SESSION['player']'");
+		$conn->close();
+		echo "<script language=\"javascript\">alert(\"¡No hay más preguntas!\"); window.location.replace(\"logout.php\");</script>";
 	}
 
-
-	echo '<div style="text-align:center">';
-	echo '<label>¿Te ha gustado la pregunta?</label>';
-	echo '<label id="val">'.$result['valoracion'].'</label>';
-	echo '<input type="button" id="like" value="Like" onclick="actualizarLike('.$idpreg.')">';
-	echo '<input type="button" id="dislike" value="Dislike" onclick="actualizarDislike('.$idpreg.')">';
-	echo '</div>';
 }
 
 ?>
@@ -64,12 +72,10 @@ function contesta() {
 <body>
 		<?php
 			session_start();
-			if(isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) {
-				echo '<script language=\"javascript\">window.location.replace(\"layout.php\");</script>';
-			}
-
-			if(!isset($_SESSION['player']) && empty($_SESSION['player'])) {
-				echo '<script language=\"javascript\">window.location.replace(\"layout.php\");</script>';
+			if (isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) && (isset($_SESSION['user_type']) && !empty($_SESSION['user_type']))) {
+   				if($_SESSION['user_type'] != 'player') {
+        			echo "<script language=\"javascript\">window.location.replace(\"layout.php\");</script>";
+   				}
 			}
 		?>
 		<header>
@@ -95,7 +101,6 @@ function contesta() {
 							}
 						?>
 						<input type="button" value="Preguntas por temas" onclick="">
-						<input type="button" value="Ranking de jugadores" onclick="">
 						<input type="button" value="Pregunta aleatoria" onclick="createRandomQuestion()">
 					</div>
 				</fieldset>

@@ -49,7 +49,9 @@ function nuevoJugador() {
 			session_start();
 			$_SESSION['user_type'] = 'player';
 			$_SESSION['logged_user'] = $jugador;
-			$_SESSION['questions-ids'] = array(0);
+			$_SESSION['questions-answer'] = 0;
+			$_SESSION['num-complejidad'] = [];
+			$_SESSION['questions-ids'] = [];
 			$operationMessage .= "<script language=\"javascript\">alert(\"¡Se ha registrado con éxito el jugador!\"); window.location.replace(\"gameQuiz.php\");</script>";
 		}
 

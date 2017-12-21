@@ -52,6 +52,10 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		case 'updateValQuiz':
 		$ajaxResult = updateValQuiz();
 		break;
+
+		case 'questionByTheme':
+		$ajaxResult = questionByTheme();
+		break;
 	}
 
 	if($action == "getQuestionsStats" || $action == "getOnlineUsers") {
@@ -760,6 +764,46 @@ function updateValQuiz() {
 		"valor" => $valor
 	);
 
+}
+
+function questionByTheme() {
+	global $config;
+	
+	// Create connection
+	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+	// Check connection
+	if ($conn->connect_error) {
+		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
+	}
+
+	$tema = $_POST['tema'];
+
+	if(empty($_SESSION['questions-ids'])) {
+		$result = $conn->query("SELECT * FROM preguntas WHERE tema = $tema ORDER BY RAND() LIMIT 1");	
+	} else {
+		$questionsids = $_SESSION['questions-ids'];
+		$result = $conn->query("SELECT * FROM preguntas WHERE tema = $tema AND id NOT IN ('$questionsids') ORDER BY RAND() LIMIT 1");		
+	}
+
+
+	$pregunta = $result->fetch_assoc();
+
+	if($pregunta) {
+		$operationSuccess = true;
+		$operationMessage = "OK";
+	} else {
+		$operationSuccess = false;
+		$operationMessage = "FA";
+	}
+
+	
+	
+	return array(
+		"operationSuccess" => $operationSuccess,
+		"operationMessage" => $operationMessage,
+		"question" => $pregunta
+	);
 }
 
 

@@ -559,10 +559,10 @@ function createRandomQuestion() {
 						"<div><label>" + enunciado + "</label></div>" +
 						"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
 						"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
-						"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
-						"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
-						"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
-						"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+						"<input type='radio' class='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+						"<input type='radio' class='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+						"<input type='radio' class='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+						"<input type='radio' class='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
 						"<input type='submit' name='contestar' value='Contestar pregunta'>");
 			}
 		}

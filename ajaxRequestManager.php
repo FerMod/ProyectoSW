@@ -780,10 +780,10 @@ function questionByTheme() {
 	$tema = $_POST['tema'];
 
 	if(empty($_SESSION['questions-ids'])) {
-		$result = $conn->query("SELECT * FROM preguntas WHERE tema = $tema ORDER BY RAND() LIMIT 1");	
+		$result = $conn->query("SELECT * FROM preguntas WHERE tema = '$tema' LIMIT 1");	
 	} else {
 		$questionsids = $_SESSION['questions-ids'];
-		$result = $conn->query("SELECT * FROM preguntas WHERE tema = $tema AND id NOT IN ('$questionsids') ORDER BY RAND() LIMIT 1");		
+		$result = $conn->query("SELECT * FROM preguntas WHERE tema = '$tema' AND id NOT IN ('$questionsids') ORDER BY RAND() LIMIT 1");		
 	}
 
 

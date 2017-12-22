@@ -94,9 +94,9 @@
 
 					<div>
 						<label for="pass">Escriba su nueva contraseña.</label>
-						<input type="text" name="password" autofocus/>
+						<input type="password" name="password" autofocus/>
 						<label for="passrep">Repita su nueva contraseña.</label>
-						<input type="text" name="passwordrep"/>
+						<input type="password" name="passwordrep"/>
 					</div>
 					<div>
 						<input type="submit" value="Cambiar contraseña" name="submit"/>

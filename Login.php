@@ -115,14 +115,14 @@ $config = include("config.php");
 						<label for="email">Email</label>
 						<!-- <input type="text" name="email" autofocus/> -->
 						<!-- <input type="text" name="email" autofocus value="admin"/> -->
-						<input type="text" name="email" autofocus value="web000@ehu.es"/>
+						<input type="text" name="email" autofocus/>
 					</div>
 
 					<div>
 						<label for="password">Contraseña</label>
 						<!-- <input type="password" name="password"/> -->
 						<!-- <input type="password" name="password" value="admin"/> -->
-						<input type="password" name="password" value="web000"/>
+						<input type="password" name="password"/>
 						<a href="resetPasswordEmail.php">¿Olvidaste la contraseña?</a>
 					</div>
 

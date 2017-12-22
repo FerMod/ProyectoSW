@@ -23,5 +23,6 @@ if((isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) && (iss
 }
 
 echo '<span><a href="creditos.php">Creditos</a></span>';
+echo '<span><a href="registroJugador.php">¿Cuánto sabes? pruébame</a></span>';
 
 ?>

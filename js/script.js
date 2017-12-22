@@ -521,40 +521,90 @@ function randomAjaxQuestion() {
 	});
 }
 
+function themeAjaxQuestion($tema) {
+		return $.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {action: "questionByTheme", tema: $tema},
+		dataType: "json"
+	});
+}
+
 function createRandomQuestion() {
 	defCall(randomAjaxQuestion()).done(function(result, status, xhr) {
+		if(result.operationSuccess) {
+			var enunciado = result.question.enunciado;
+			var complejidad = result.question.complejidad;
+			var tema = result.question.tema;
+			var imagen = result.question.imagen;
+			var numeropreg = result.question.id;
 
-		var enunciado = result.question.enunciado;
-		var complejidad = result.question.complejidad;
-		var tema = result.question.tema;
-		var imagen = result.question.imagen;
-		var numeropreg = result.question.id;
+			var respuestas = shuffle(result.question.respuesta_correcta, result.question.respuesta_incorrecta_1, result.question.respuesta_incorrecta_2, result.question.respuesta_incorrecta_3);
 
-		var respuestas = shuffle(result.question.respuesta_correcta, result.question.respuesta_incorrecta_1, result.question.respuesta_incorrecta_2, result.question.respuesta_incorrecta_3);
+			if(imagen) {
+				$("#Quizer").
+				html("<div><img src='" + imagen + "'></div>"
+					+ "<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>"
+					+ "<div><label>" + enunciado + "</label></div>" +
+					"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
+					"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+					"<input type='submit' name='contestar' value='Contestar pregunta'>");
+			} else {
+				$("#Quizer").
+					html("<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>" +
+						"<div><label>" + enunciado + "</label></div>" +
+						"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
+						"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+						"<input type='submit' name='contestar' value='Contestar pregunta'>");
+			}
+		}
 
-		if(imagen) {
-			$("#Quizer").
-			html("<div><img src='" + imagen + "'></div>"
-				+ "<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>"
-				+ "<div><label>" + enunciado + "</label></div>" +
-				"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
-				"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
-				"<input type='submit' name='contestar' value='Contestar pregunta'>");
-		} else {
-			$("#Quizer").
-			html("<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>" +
-				"<div><label>" + enunciado + "</label></div>" +
-				"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
-				"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
-				"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
-				"<input type='submit' name='contestar' value='Contestar pregunta'>");
+	});
+}
+
+function questionByTheme($tema) {
+	defCall(themeAjaxQuestion($tema)).done(function(result, status, xhr) {
+		if(result.operationSuccess) {
+			var enunciado = result.question.enunciado;
+			var complejidad = result.question.complejidad;
+			var tema = result.question.tema;
+			var imagen = result.question.imagen;
+			var numeropreg = result.question.id;
+
+			var respuestas = shuffle(result.question.respuesta_correcta, result.question.respuesta_incorrecta_1, result.question.respuesta_incorrecta_2, result.question.respuesta_incorrecta_3);
+
+			if(imagen) {
+				$("#Quizer").
+				html("<div><img src='" + imagen + "'></div>"
+					+ "<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>"
+					+ "<div><label>" + enunciado + "</label></div>" +
+					"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
+					"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+					"<input type='submit' name='contestar' value='Contestar pregunta'>");
+			} else {
+				$("#Quizer").
+					html("<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>" +
+						"<div><label>" + enunciado + "</label></div>" +
+						"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
+						"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+						"<input type='submit' name='contestar' value='Contestar pregunta'>");
+			}
 		}
 
 	});

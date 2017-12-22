@@ -266,7 +266,7 @@ $(document).ready(function() {
 		XMLHttpRequestObject.open("GET", filePath);
 		XMLHttpRequestObject.send(null);
 	}
-	/*
+	
 	$("#email").on("keyup", function(event) {
 
 		if (!$("#email").val()) {
@@ -355,7 +355,7 @@ $(document).ready(function() {
 		});
 
 	});
-	*/
+
 	function getPasswordStrength(password) {
 
 		var strength = 0;

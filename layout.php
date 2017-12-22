@@ -46,7 +46,7 @@ if(isValidSession()) {
 		}
 
 		// Perform an SQL query
-		$sql = "SELECT * FROM jugadores ORDER BY puntuacion ASC limit 0, 10";
+		$sql = "SELECT * FROM jugadores ORDER BY puntuacion DESC limit 0, 10";
 
 		if (!$result = $conn->query($sql)) {
 			echo "Sorry, the website is experiencing problems.";
@@ -130,6 +130,9 @@ if(isValidSession()) {
 			<?php include('navbar_items.php'); ?>
 		</nav>
 		<article class="content">
+			<div>
+				<h2 style="text-align: center; padding-bottom: 5px;">Ranking quizers</h2>
+			</div>
 			<div class="scrollContent">
 				<?php createPlayersTable()?>
 			</div>

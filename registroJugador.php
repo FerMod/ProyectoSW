@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $config = include("config.php");
 
 function nuevoJugador() {
@@ -46,7 +46,6 @@ function nuevoJugador() {
 		if(!$result = $conn->query($sql)) {
 			$operationMessage .= "<script language=\"javascript\">alert(\"Ha ocurrido un error con la base de datos, por favor, inténtelo de nuevo.\");</script>"; 
 		} else {
-			session_start();
 			$_SESSION['user_type'] = 'player';
 			$_SESSION['logged_user'] = $jugador;
 			$_SESSION['questions-answer'] = 0;
@@ -103,7 +102,6 @@ function nuevoJugador() {
 
 	<body>
 		<?php
-			session_start();
 			if (isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user']) && isset($_SESSION['user_type']) && !empty($_SESSION['user_type'])) {
    				if($_SESSION['user_type'] != 'player') {
         			echo "<script language=\"javascript\">window.location.replace(\"layout.php\");</script>";

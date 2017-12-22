@@ -1,9 +1,12 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+$jugador = $_SESSION['logged_user'];
+echo '<script>alert("'.$jugador.'");</script>';
 $config = include("config.php");
 
 function contesta() {
-
 	global $config;
 
 	// Create connection

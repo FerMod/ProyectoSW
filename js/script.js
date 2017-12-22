@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 	});
 	*/
-	"use strict";
+	
 	$("#registro").on("submit", function(event) {
 		refreshSessionTimeout();
 
@@ -435,56 +435,250 @@ $(document).ready(function() {
 
 });
 
-function getQuestions(callbackFunciton) {
-	"use strict";
+function editarPregunta(id) {
 
-	var ajaxData = {action: "getQuestions"};
+	var email = $("#" + id).find("#email").text();
+	var enunciado = $("#" + id).find("#enunciado").text();
+	var respuestaCorrecta = $("#" + id).find("#respuestaCorrecta").text();
+	var respuestaIncorrecta1 = $("#" + id).find("#respuestaIncorrecta1").text();
+	var respuestaIncorrecta2 = $("#" + id).find("#respuestaIncorrecta2").text();
+	var respuestaIncorrecta3 = $("#" + id).find("#respuestaIncorrecta3").text();
+	var complejidad = $("#" + id).find("#complejidad").text();
+	var tema = $("#" + id).find("#tema").text();
 
-	$.ajax({
+	$("#id-edit").val(id);
+	$("#email-edit").val(email);
+	$("#enunciado-edit").val(enunciado);
+	$("#respuestaCorrecta-edit").val(respuestaCorrecta);
+	$("#respuestaIncorrecta1-edit").val(respuestaIncorrecta1);
+	$("#respuestaIncorrecta2-edit").val(respuestaIncorrecta2);
+	$("#respuestaIncorrecta3-edit").val(respuestaIncorrecta3);
+	$("#complejidad-edit").val(complejidad);
+	$("#tema-edit").val(tema);
+}
+
+function borrarPregunta(id) {
+	if (confirm("Está seguro de que desea borrar la pregunta?")) {
+		defCall(removeAjaxQuestion(id)).done(function(result, status, xhr) {
+			if(result.operationSuccess) {
+				$("#" + id).css("background", "lightgrey");
+				$("#" + id).css("opacity", 0.8);
+				$("#" + id).fadeOut(2000, function() {
+					$("#" + id).remove();
+				});		
+				$("#respuesta").html(result.operationMessage).delay(5000).fadeOut(2000);	
+			} else {
+				$("#respuesta").html(result.operationMessage);
+			}
+		}).fail(function(xhr, status, error) {
+			console.log(xhr);
+			console.log(xhr.responseText);
+		});
+	} else {
+		alert("Operación cancelada");
+	}
+}
+
+
+function defCall(functionCall) {
+
+	var def = $.Deferred();
+	$.when(functionCall)
+	.done(function(result, status, xhr) {
+		def.resolve(result, status, xhr);
+	})
+	.fail(function(xhr, status, error) {
+		def.reject(xhr, status, error);
+	});
+
+	return def.promise();
+}
+
+function getAjaxQuestions() {
+	return $.ajax({
 		url: "ajaxRequestManager.php",
-		data: ajaxData,
-		method: "post",
-		dataType: "json",
-		success: callbackFunciton,
-		error: function (xhr, status, error) {
-			console.log(error);
+		type: "POST",
+		data: {"action": "getQuestions"},
+		dataType: "json"
+	});
+}
+
+function removeAjaxQuestion(questionID) {
+	return $.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {id: questionID, action: "removeQuestion"},
+		dataType: "json"
+	});
+}
+
+function randomAjaxQuestion() {
+	return $.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {"action": "randomQuestion"},
+		dataType: "json"
+	});
+}
+
+function themeAjaxQuestion($tema) {
+		return $.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {action: "questionByTheme", tema: $tema},
+		dataType: "json"
+	});
+}
+
+function createRandomQuestion() {
+	defCall(randomAjaxQuestion()).done(function(result, status, xhr) {
+		if(result.operationSuccess) {
+			var enunciado = result.question.enunciado;
+			var complejidad = result.question.complejidad;
+			var tema = result.question.tema;
+			var imagen = result.question.imagen;
+			var numeropreg = result.question.id;
+
+			var respuestas = shuffle(result.question.respuesta_correcta, result.question.respuesta_incorrecta_1, result.question.respuesta_incorrecta_2, result.question.respuesta_incorrecta_3);
+
+			if(imagen) {
+				$("#Quizer").
+				html("<div><img src='" + imagen + "'></div>"
+					+ "<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>"
+					+ "<div><label>" + enunciado + "</label></div>" +
+					"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
+					"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+					"<input type='submit' name='contestar' value='Contestar pregunta'>");
+			} else {
+				$("#Quizer").
+					html("<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>" +
+						"<div><label>" + enunciado + "</label></div>" +
+						"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
+						"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
+						"<input type='radio' class='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+						"<input type='radio' class='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+						"<input type='radio' class='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+						"<input type='radio' class='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+						"<input type='submit' name='contestar' value='Contestar pregunta'>");
+			}
 		}
+
+	});
+}
+
+function questionByTheme($tema) {
+	defCall(themeAjaxQuestion($tema)).done(function(result, status, xhr) {
+		if(result.operationSuccess) {
+			var enunciado = result.question.enunciado;
+			var complejidad = result.question.complejidad;
+			var tema = result.question.tema;
+			var imagen = result.question.imagen;
+			var numeropreg = result.question.id;
+
+			var respuestas = shuffle(result.question.respuesta_correcta, result.question.respuesta_incorrecta_1, result.question.respuesta_incorrecta_2, result.question.respuesta_incorrecta_3);
+
+			if(imagen) {
+				$("#Quizer").
+				html("<div><img src='" + imagen + "'></div>"
+					+ "<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>"
+					+ "<div><label>" + enunciado + "</label></div>" +
+					"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
+					"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+					"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+					"<input type='submit' name='contestar' value='Contestar pregunta'>");
+			} else {
+				$("#Quizer").
+					html("<div><strong><label>Pregunta nº " + numeropreg + "</label></strong></div>" +
+						"<div><label>" + enunciado + "</label></div>" +
+						"<input type='hidden' name='numeropregunta' value='" + numeropreg + "'>" +
+						"<div><label>Tema: " + tema + " | Complejidad: " + complejidad + "</label></div>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[0] + "'>" + respuestas[0] + " <br>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[1] + "'>" + respuestas[1] + " <br>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[2] + "'>" + respuestas[2] + " <br>" +
+						"<input type='radio' name='respuesta' value='" + respuestas[3] + "'>" + respuestas[3] +
+						"<input type='submit' name='contestar' value='Contestar pregunta'>");
+			}
+		}
+
+	});
+}
+
+
+function shuffle() {
+	
+	var args = Array.prototype.slice.call(arguments, 0);
+	var currentIndex, temporaryValue, randomIndex;
+
+	currentIndex = args.length;
+
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
+
+		// And swap it with the current element.
+		temporaryValue = args[currentIndex];
+		args[currentIndex] = args[randomIndex];
+		args[randomIndex] = temporaryValue;
+	}
+
+	return args;
+}
+
+function createQuestionList() {
+
+	defCall(getAjaxQuestions()).done(function(result, status, xhr) {
+		if(result.operationSuccess) {
+			$.each(result.query, function (key, value) {
+
+				var $questionDivElement = $('<div id="' + key + '" onclick="editarPregunta(' +  key + ')"></div>').addClass("pregunta");
+				var $dataContainer = $('<div></div>').addClass("dataContainer");
+				// var $rightContainer = $('<div></div>').addClass("rightContainer");
+
+				$dataContainer.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
+				$dataContainer.append('<strong>Complejidad: </strong><span id="complejidad">' + value.complejidad + '</span><strong> | Tema: </strong><span id="tema">' + value.tema + '</span><strong> | Autor: </strong><span id="email">' + value.email + '</span><br/>');
+				$dataContainer.append('<strong>Enunciado: </strong><span id="enunciado">' + value.enunciado + '</span><br/>');
+
+				var $listElement = $('<ul></ul>').addClass("answerList");
+				$listElement.append('<li id="respuestaCorrecta" class="tick">' + value.respuesta_correcta + '</li>');
+				$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value.respuesta_incorrecta_1 + '</li>');
+				$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value.respuesta_incorrecta_2 + '</li>');
+				$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value.respuesta_incorrecta_3 + '</li>');
+				$dataContainer.append($listElement);
+
+				$questionDivElement.append($dataContainer);
+
+				var $deleteButton = $('<button onclick="borrarPregunta(' +  key + ')"><img src="./img/icons/deleteIcon.png"></button>').addClass("deleteButton");
+				$questionDivElement.append($deleteButton);
+
+				$("#listaPreguntas").append($questionDivElement);
+
+			});
+
+			$(".loading").fadeOut("slow").hide("slow", function() {
+				$("#listaPreguntas").fadeIn("slow").show("slow");
+			});
+		} else if(result.operationMessage) {
+			$("#respuesta").html(result.operationMessage);
+		}
+	}).fail(function(xhr, status, error) {
+		console.log(xhr);
+		console.log(xhr.responseText);
 	});
 
 }
 
-function createQuestionList(result, status, xhr) {
-	"use strict";
-	if(result.operationSuccess) {
-		$.each(result.query, function (key, value) {
-
-			var $questionDivElement = $('<button id="' + key + '" onclick="editarPregunta(' +  key + ')"></button>').addClass("pregunta");
-			$questionDivElement.append('<strong>Id pregunta: </strong><span id="id">' + key + '</span><br/>');
-			$questionDivElement.append('<strong>Complejidad: </strong><span id="complejidad">' + value.complejidad + '</span><strong> | Tema: </strong><span id="tema">' + value.tema + '</span><strong> | Autor: </strong><span id="email">' + value.email + '</span><br/>');
-			$questionDivElement.append('<strong>Enunciado: </strong><span id="enunciado">' + value.enunciado + '</span><br/>');
-
-			var $listElement = $('<ul></ul>').addClass("answerList");
-			$listElement.append('<li id="respuestaCorrecta" class="tick">' + value.respuesta_correcta + '</li>');
-			$listElement.append('<li id="respuestaIncorrecta1" class="cross">' + value.respuesta_incorrecta_1 + '</li>');
-			$listElement.append('<li id="respuestaIncorrecta2" class="cross">' + value.respuesta_incorrecta_2 + '</li>');
-			$listElement.append('<li id="respuestaIncorrecta3" class="cross">' + value.respuesta_incorrecta_3 + '</li>');
-
-			$questionDivElement.append($listElement);
-			$("#listaPreguntas").append($questionDivElement);
-
-		});
-
-		$(".loading").fadeOut("slow").hide("slow", function() {
-			$("#listaPreguntas").fadeIn("slow").show("slow");
-		});
-	} else if(result.operationMessage) {
-		$("#listaPreguntas").html(result.operationMessage);
-	}
-
-}
-
 function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2, respuestaIncorrecta3, complejidad, tema) {
-	"use strict";
+	
 	var $idElement = $("#" + id).find("#id");
 	var $emailElement = $("#" + id).find("#email");
 	var $enunciadoElement = $("#" + id).find("#enunciado");
@@ -544,30 +738,7 @@ function actualizarPregunta(id, email, enunciado, respuestaCorrecta, respuestaIn
 
 }
 
-function editarPregunta(id) {
-	"use strict";
-	var email = $("#" + id).find("#email").text();
-	var enunciado = $("#" + id).find("#enunciado").text();
-	var respuestaCorrecta = $("#" + id).find("#respuestaCorrecta").text();
-	var respuestaIncorrecta1 = $("#" + id).find("#respuestaIncorrecta1").text();
-	var respuestaIncorrecta2 = $("#" + id).find("#respuestaIncorrecta2").text();
-	var respuestaIncorrecta3 = $("#" + id).find("#respuestaIncorrecta3").text();
-	var complejidad = $("#" + id).find("#complejidad").text();
-	var tema = $("#" + id).find("#tema").text();
-
-	$("#id-edit").val(id);
-	$("#email-edit").val(email);
-	$("#enunciado-edit").val(enunciado);
-	$("#respuestaCorrecta-edit").val(respuestaCorrecta);
-	$("#respuestaIncorrecta1-edit").val(respuestaIncorrecta1);
-	$("#respuestaIncorrecta2-edit").val(respuestaIncorrecta2);
-	$("#respuestaIncorrecta3-edit").val(respuestaIncorrecta3);
-	$("#complejidad-edit").val(complejidad);
-	$("#tema-edit").val(tema);
-}
-
 function refreshSessionTimeout() {
-	"use strict";
 	$.ajax({
 		url: "ajaxRequestManager.php",
 		method: "post"
@@ -575,23 +746,46 @@ function refreshSessionTimeout() {
 }
 
 function redirecTo(url) {
-	"use strict";
 	if(url.length) {
 		window.location.replace(url);
 	}
 }
 
 function highlight($element) {
-	"use strict";
 	$element.addClass("highlight");
 	$element.delay(2200).queue(function() { // Wait the defined seconds
 		$(this).removeClass("highlight").dequeue();
-	});	
+	});
 }
 
 function scrollTo($container, $element) {
-	"use strict";
 	$container.animate({
 		scrollTop: $element.offset().top - $container.offset().top + $container.scrollTop()
+	});
+}
+
+function actualizarLike(id) {
+	$("#dislike").prop('disabled', false);
+	$("#like").prop('disabled', true);
+	var valor = parseInt($("#val").text()) + 1;
+	$("#val").text(valor);
+	$.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {idpregquiz: id, action: "updateValQuiz", valor: valor},
+		dataType: "json"
+	});
+}
+
+function actualizarDislike(id) {
+	$("#dislike").prop('disabled', true);
+	$("#like").prop('disabled', false);
+	var valor = parseInt($("#val").text()) - 1;
+	$("#val").text(valor);
+	$.ajax({
+		url: "ajaxRequestManager.php",
+		type: "POST",
+		data: {idpregquiz: id, action: "updateValQuiz", valor: valor},
+		dataType: "json"
 	});
 }

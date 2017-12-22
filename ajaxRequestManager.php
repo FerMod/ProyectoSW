@@ -40,6 +40,22 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		case 'getQuestions':
 		$ajaxResult = getQuestions();
 		break;
+
+		case 'removeQuestion':
+		$ajaxResult = removeQuestion();
+		break;
+
+		case 'randomQuestion':
+		$ajaxResult = randomQuestion();
+		break;
+
+		case 'updateValQuiz':
+		$ajaxResult = updateValQuiz();
+		break;
+
+		case 'questionByTheme':
+		$ajaxResult = questionByTheme();
+		break;
 	}
 
 	if($action == "getQuestionsStats" || $action == "getOnlineUsers") {
@@ -48,8 +64,10 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
 		refreshSessionTimeout();
 	}
 
-	$ajaxResult["sessionTimeout"] = $_SESSION['obsolete'];
-
+	if(isset($_SESSION['obsolete']) && !empty($_SESSION['obsolete'])) {
+		$ajaxResult["sessionTimeout"] = $_SESSION['obsolete'];
+	}
+	
 	// Encode array to JSON format
 	echo json_encode($ajaxResult);
 
@@ -307,29 +325,29 @@ function insertElement($filePath, $id, $author, $question, $correctResponse, $in
 	formatFileStyle($filePath);
 }
 
-function editElement($filePath, $id, $author, $question, $correctResponse, $incorrectResponse1, $incorrectResponse2, $incorrectResponse3, $complexity, $subject) {//, $image) {
+// function editElement($filePath, $id, $author, $question, $correctResponse, $incorrectResponse1, $incorrectResponse2, $incorrectResponse3, $complexity, $subject) {//, $image) {
 
-	$xml = new SimpleXMLElement($filePath, 0, true);
+// 	$xml = new SimpleXMLElement($filePath, 0, true);
 
-	$assessmentItemElement = $xml->xpath("/assessmentItems/assessmentItem[@id=\"" . $id . "\"]");
+// 	$assessmentItemElement = $xml->xpath("/assessmentItems/assessmentItem[@id=\"" . $id . "\"]");
 
-	$assessmentItemElement['complexity'] = $complexity;
-	$assessmentItemElement['subject'] = $subject;
-	$assessmentItemElement['author'] = $author;
+// 	$assessmentItemElement['complexity'] = $complexity;
+// 	$assessmentItemElement['subject'] = $subject;
+// 	$assessmentItemElement['author'] = $author;
 
-	$assessmentItemElement->itemBody->p = $question;
-	$assessmentItemElement->correctResponse->value = $correctResponse;
-	$incorrect = $assessmentItemElement->incorrectResponses;
-	$incorrect->value[0] = $incorrectResponse1;
-	$incorrect->value[1] = $incorrectResponse2;
-	$incorrect->value[2] = $incorrectResponse3;
+// 	$assessmentItemElement->itemBody->p = $question;
+// 	$assessmentItemElement->correctResponse->value = $correctResponse;
+// 	$incorrect = $assessmentItemElement->incorrectResponses;
+// 	$incorrect->value[0] = $incorrectResponse1;
+// 	$incorrect->value[1] = $incorrectResponse2;
+// 	$incorrect->value[2] = $incorrectResponse3;
 
-	// $assessmentItemElement["image"] = $image;
+// 	// $assessmentItemElement["image"] = $image;
 
-	$xml->asXML($filePath);
+// 	$xml->asXML($filePath);
 
-	formatFileStyle($filePath);
-}
+// 	formatFileStyle($filePath);
+// }
 
 function formatFileStyle($filePath) {
 	$dom = new DOMDocument("1.0", "UTF-8");
@@ -564,68 +582,229 @@ function editQuestion() {
 
 function getQuestions() {
 
+	if(!$_SESSION['obsolete']) {
+
+		global $config;
+
+		// Create connection
+		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+		// Check connection
+		if ($conn->connect_error) {
+			trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
+		}
+
+		// Perform an SQL query
+		$sql = "SELECT `id`, `email`, `enunciado`, `respuesta_correcta`, `respuesta_incorrecta_1`, `respuesta_incorrecta_2`, `respuesta_incorrecta_3`, `complejidad`, `tema`, `imagen` FROM `preguntas`
+		ORDER BY `id` ASC";
+
+		$queryArray = array();
+		$operationSuccess = true;
+		$operationMessage = "";
+
+		if (!$conn->set_charset("utf8")) {
+			$operationSuccess = false;
+			$operationMessage .= "<div class=\"serverErrorMessage\">Error loading utf8 encoding.</div>";
+			ChromePhp::error("Error loading utf8 encoding");
+		} else if (!$result = $conn->query($sql)) {
+			$operationSuccess = false;
+			$operationMessage .= "<div class=\"serverErrorMessage\">Sorry, the website is experiencing problems.</div>";
+			ChromePhp::error("The website is experiencing problems");
+		} else {
+
+			if($result->num_rows != 0) {
+
+				while ($row = $result->fetch_array(MYSQLI_ASSOC)) {
+					// Shift one value, and returns the value (the id), then assign the rest of the row
+					$queryArray[array_shift($row)] = $row;
+				}
+
+			} else {
+				$operationSuccess = false;
+				$operationMessage .= "<div class=\"serverErrorMessage\">No question found</div>";
+			}
+
+			$result->free();
+
+		}
+
+		$conn->close();
+
+		return array(
+			"operationSuccess" => $operationSuccess,
+			"operationMessage" => $operationMessage,
+			"query" => $queryArray
+		);
+	}
+}
+
+function removeQuestion() {
+
+	if(!$_SESSION['obsolete']) {
+
+		global $config;
+
+		// Create connection
+		$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+		// Check connection
+		if ($conn->connect_error) {
+			trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
+		}
+
+		$queryArray = array();
+		$operationSuccess = true;
+		$operationMessage = "";
+		
+		if(!isset($_POST['id']) || empty($_POST['id'])) {
+			$operationSuccess = false;
+			$operationMessage .= "<div class=\"serverErrorMessage\">Error getting the question id.</div>";
+			ChromePhp::error("Error getting the question id");
+		} else if (!$conn->set_charset("utf8")) {
+			$operationSuccess = false;
+			$operationMessage .= "<div class=\"serverErrorMessage\">Error loading utf8 encoding.</div>";
+			ChromePhp::error("Error loading utf8 encoding");
+		}
+
+		if($operationSuccess) {
+
+			// Build an SQL query
+			$sql = "DELETE FROM `preguntas` WHERE `preguntas`.`id` = " . $_POST['id'];
+
+			if (!$result = $conn->query($sql)) {
+				$operationSuccess = false;
+				$operationMessage .= "<div class=\"serverErrorMessage\">La pregunta no se ha podido borrar correctamente debido a un error con la base de datos.</div>";
+				ChromePhp::error("The website is experiencing problems");
+			} else {
+				$operationSuccess = true;
+				$operationMessage .= "<div class=\"serverInfoMessage\">La pregunta(id = ".  $_POST['id'] . ") se ha borrado correctamente.</div>";
+				ChromePhp::info("La pregunta(id = " . $_POST['id'] . ") se ha borrado correctamente.");
+			}
+
+			$conn->close();
+
+		}
+
+		return array(
+			"operationSuccess" => $operationSuccess,
+			"operationMessage" => $operationMessage
+		);
+	}
+}
+
+function randomQuestion() {
+	
 	global $config;
-
-	ChromePhp::log("getQuestions");
-
+	
 	// Create connection
 	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
-	ChromePhp::log("connection created");
+	// Check connection
+	if ($conn->connect_error) {
+		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
+	}
+
+	if(empty($_SESSION['questions-ids'])) {
+		$result = $conn->query("SELECT * FROM preguntas ORDER BY RAND() LIMIT 1");	
+	} else {
+		$questionsids = $_SESSION['questions-ids'];
+		$result = $conn->query("SELECT * FROM preguntas WHERE id NOT IN ('$questionsids') ORDER BY RAND() LIMIT 1");		
+	}
+
+
+	$pregunta = $result->fetch_assoc();
+
+	if($pregunta) {
+		$operationSuccess = true;
+		$operationMessage = "OK";
+	} else {
+		$operationSuccess = false;
+		$operationMessage = "FA";
+	}
+
+	
+	
+	return array(
+		"operationSuccess" => $operationSuccess,
+		"operationMessage" => $operationMessage,
+		"question" => $pregunta
+	);
+}
+
+function updateValQuiz() {
+	
+	global $config;
+	
+	// Create connection
+	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
 
 	// Check connection
 	if ($conn->connect_error) {
-		trigger_error("Database connection failed: "  . $conn->connect_error, E_USER_ERROR);
+		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
 	}
 
-	ChromePhp::log("connected to db");
+	$idpreg = $_POST['idpregquiz'];
+	$valor = $_POST['valor'];
 
-	// Perform an SQL query
-	$sql = "SELECT * FROM `preguntas`";
+	$result = $conn->query("UPDATE preguntas SET valoracion = '$valor' WHERE id = '$idpreg'");
 
-	$queryArray = array();
-	$operationSuccess = true;
-	$operationMessage = "";
-
-	if (!$result = $conn->query($sql)) {
-		$operationSuccess = false;
-		$operationMessage .= "<div class=\"serverErrorMessage\">Sorry, the website is experiencing problems.</div>";
-		ChromePhp::log("Query error");
+	if($result) {
+		$operationSuccess = true;
+		$operationMessage = "OK";
 	} else {
-
-		ChromePhp::log("Query done");
-
-		if($result->num_rows != 0) {
-
-			ChromePhp::log("Iterating query of " . $result->num_rows . " rows");
-
-			while ($row = $result->fetch_assoc()) {
-				// Shift one value, and returns the value (the id), then assign the rest of the row
-				$queryArray[array_shift($row)] = $row;
-				ChromePhp::table($row);
-			}
-			
-			ChromePhp::log("Finished iterating");	
-
-		} else {
-			$operationSuccess = false;
-			$operationMessage .= "<div class=\"serverErrorMessage\">No question found</div>";
-			ChromePhp::log("No results");
-		}
-
-		$result->free();
-		ChromePhp::log("Free result");
-
+		$operationSuccess = false;
+		$operationMessage = "FA";
 	}
 
-	$conn->close();
-	ChromePhp::log("close connection");
-
+	
+	
 	return array(
-		"query" => $queryArray,
 		"operationSuccess" => $operationSuccess,
-		"operationMessage" => $operationMessage
+		"operationMessage" => $operationMessage,
+		"valor" => $valor
+	);
+
+}
+
+function questionByTheme() {
+	global $config;
+	
+	// Create connection
+	$conn = new mysqli($config["db"]["servername"], $config["db"]["username"], $config["db"]["password"], $config["db"]["database"]);
+
+	// Check connection
+	if ($conn->connect_error) {
+		trigger_error("Database connection failed: " . $conn->connect_error, E_USER_ERROR);
+	}
+
+	$tema = $_POST['tema'];
+
+	if(empty($_SESSION['questions-ids'])) {
+		$result = $conn->query("SELECT * FROM preguntas WHERE tema = '$tema' LIMIT 1");	
+	} else {
+		$questionsids = $_SESSION['questions-ids'];
+		$result = $conn->query("SELECT * FROM preguntas WHERE tema = '$tema' AND id NOT IN ('$questionsids') ORDER BY RAND() LIMIT 1");		
+	}
+
+
+	$pregunta = $result->fetch_assoc();
+
+	if($pregunta) {
+		$operationSuccess = true;
+		$operationMessage = "OK";
+	} else {
+		$operationSuccess = false;
+		$operationMessage = "FA";
+	}
+
+	
+	
+	return array(
+		"operationSuccess" => $operationSuccess,
+		"operationMessage" => $operationMessage,
+		"question" => $pregunta
 	);
 }
+
 
 ?>

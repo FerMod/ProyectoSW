@@ -12,16 +12,18 @@ if((isset($_SESSION['logged_user']) && !empty($_SESSION['logged_user'])) && (iss
 		break;
 
 		case 'student':
-		echo '<span><a href="quizes.php">Hacer pregunta</a></span>';
+		echo '<span><a href="GestionPreguntas.php">Hacer pregunta</a></span>';
 		break;
 	}
 
 
-	echo '<span><a href="VerPreguntasConFoto.php">Ver preguntas</a></span>';
-	echo '<span><a href="GestionPreguntas.php">Gestionar preguntas</a></span>';
+	
+	
 
 }
 
 echo '<span><a href="creditos.php">Creditos</a></span>';
-
+if((!isset($_SESSION['logged_user']) && empty($_SESSION['logged_user'])) || ($_SESSION['user_type'] == 'player')) {
+	echo '<span><a href="registroJugador.php">¿Cuánto sabes? pruébame</a></span>';
+}
 ?>

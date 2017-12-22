@@ -82,4 +82,46 @@
     </incorrectResponses>
     <image/>
   </assessmentItem>
+  <assessmentItem id="292" complexity="3" subject="asfaz" author="prueba025@ikasle.ehu.eus">
+    <itemBody>
+      <p>aaaaaaaaaaaaaaaaaaa</p>
+    </itemBody>
+    <correctResponse>
+      <value>aaaaaaaaaaaaaaaa</value>
+    </correctResponse>
+    <incorrectResponses>
+      <value>aaaaaaaaaaaaaaaaaaaaa</value>
+      <value>aaaaaaaaaaaaaaaaaaaaaa</value>
+      <value>aaaaaaaaaaaaaaaaaaaaaaaa</value>
+    </incorrectResponses>
+    <image/>
+  </assessmentItem>
+  <assessmentItem id="293" complexity="2" subject="hey" author="prueba025@ikasle.ehu.eus">
+    <itemBody>
+      <p>hey</p>
+    </itemBody>
+    <correctResponse>
+      <value>hey</value>
+    </correctResponse>
+    <incorrectResponses>
+      <value>hey</value>
+      <value>hey</value>
+      <value>hey</value>
+    </incorrectResponses>
+    <image>7cff3c67339173959e98266a1b405ebb85fcd944.png</image>
+  </assessmentItem>
+  <assessmentItem id="294" complexity="3" subject="asaf" author="prueba025@ikasle.ehu.eus">
+    <itemBody>
+      <p>aaaa</p>
+    </itemBody>
+    <correctResponse>
+      <value>aaaaa</value>
+    </correctResponse>
+    <incorrectResponses>
+      <value>aaaaaa</value>
+      <value>aaaaaaa</value>
+      <value>aaaaaa</value>
+    </incorrectResponses>
+    <image/>
+  </assessmentItem>
 </assessmentItems>
